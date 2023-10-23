@@ -1,5 +1,5 @@
 {
-  "name": "dashboard",
+  "name": "ecomsai-dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,16 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/firebase-adapter": "^1.0.2",
+    "axios": "^1.5.1",
+    "firebase": "^10.5.0",
+    "firebase-admin": "^11.11.0",
+    "next": "13.5.6",
+    "next-auth": "^4.24.3",
     "react": "^18",
     "react-dom": "^18",
-    "next": "13.5.6"
+    "sass": "^1.69.4"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "13.5.6"
+    "eslint-config-next": "13.5.6",
+    "typescript": "^5"
   }
 }
