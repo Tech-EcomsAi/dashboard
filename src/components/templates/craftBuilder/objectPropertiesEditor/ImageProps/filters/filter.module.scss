@@ -1,0 +1,56 @@
+@import "@styles/abstracts/mixins";
+
+.filterItemWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  .imageWrap {
+    min-width: 47%;
+    height: 100px;
+    cursor: pointer;
+    margin-bottom: 13px;
+    outline: 1px solid var(--slate);
+    overflow: unset;
+    outline-offset: 0;
+    .selected {
+      position: absolute;
+      height: 24px;
+      width: 24px;
+      z-index: 2;
+      top: -6px;
+      right: -6px;
+      border-radius: 14px;
+      color: white;
+      @include transition;
+      @include flexCenter;
+    }
+  }
+}
+
+.complexFiltersWrap {
+  margin-top: 10px;
+  width: 100%;
+  .elementWrap {
+    // justify-content: space-between;
+    // align-items: center;
+    // flex-direction: row;
+    background: unset;
+    .elementLabel {
+      margin: unset;
+      width: 110px;
+    }
+    .element {
+      @include transition;
+      &.hideValue {
+        height: 0;
+        overflow: hidden;
+        @include transition;
+      }
+      &.showValue {
+        height: auto;
+        @include transition;
+      }
+    }
+  }
+}

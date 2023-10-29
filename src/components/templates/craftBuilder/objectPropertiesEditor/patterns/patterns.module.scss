@@ -1,0 +1,73 @@
+@import "@styles/abstracts/mixins";
+
+.patternsWrap {
+  width: 100%;
+  .tabContent {
+    margin-top: 10px;
+  }
+  .fillTypes {
+    margin: 10px 0 20px;
+
+    button {
+      width: 100%;
+    }
+    .typeWrap {
+      @include flexCenter;
+      border-radius: 4px;
+      width: 100%;
+      padding: 6px;
+      gap: 4px;
+    }
+  }
+  .patternFillColor {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .fillReapeatType {
+    padding: 10px;
+    padding-left: 0;
+    width: 100%;
+    .checkboxElement {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex-direction: row-reverse;
+      width: 100%;
+    }
+  }
+  .currentFill {
+    // width: 100%;
+    // height: auto;
+    // padding: 10px 0;
+    // border-radius: 4px;
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px auto;
+    width: auto;
+
+    img {
+      border-radius: 4px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .imageBlurWrap {
+    width: 97%;
+    padding: 4px 10px;
+    background: unset;
+    .imageBlurLabel {
+      margin-bottom: 0;
+    }
+    .imageBlurContent {
+      // width: calc(100% - 60px);
+    }
+  }
+  &.workspaceStyles {
+    width: 100%;
+    height: calc(100vh - 176px);
+    overflow: auto;
+  }
+}

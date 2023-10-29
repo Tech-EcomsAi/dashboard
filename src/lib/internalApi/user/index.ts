@@ -1,4 +1,4 @@
-import { axiosClient } from "@/lib/axios/axiosClient";
+import { axiosClient } from "@axiosClient/axiosClient";
 
 export const getUserByCredentials = (userDetails: any) => {
     return new Promise((res, rej) => {

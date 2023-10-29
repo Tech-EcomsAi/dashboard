@@ -1,0 +1,67 @@
+@import "@styles/abstracts/mixins";
+
+.composerWrap {
+  &.hoverOutline {
+    :hover {
+      @include transition;
+      outline: 1px solid var(--outlineColor);
+      outline-offset: 4px;
+    }
+  }
+  position: relative;
+  width: 100%;
+  color: black;
+  z-index: 1;
+  @include transition;
+  .actionsWrap {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    z-index: 3;
+    gap: 0;
+    @include transition;
+    .iconWrap {
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+      border-radius: 4px;
+      background-color: var(--outlineColor);
+      color: white;
+      z-index: 2;
+      box-shadow: 0 2px 10px #dee1ec;
+      border: 1px solid var(--outlineColor);
+      padding: 5px;
+      letter-spacing: 0.4px;
+      @include transition;
+      &:hover {
+        border-color: white;
+        color: white;
+        transform: scale(1.2);
+        background-color: var(--secondary-color);
+        @include transition;
+      }
+    }
+  }
+  &.active {
+    outline: 1px solid var(--outlineColor);
+    outline-offset: 4px;
+    z-index: 2;
+    @include transition;
+    .actionsWrap {
+      height: auto;
+      gap: 3px;
+      width: auto;
+      overflow: auto;
+      opacity: 1;
+      @include transition;
+    }
+  }
+}

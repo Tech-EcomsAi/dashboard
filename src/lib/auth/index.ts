@@ -5,7 +5,7 @@ import { cert } from "firebase-admin/app";
 import { Adapter } from "next-auth/adapters";
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { useSession } from "next-auth/react";
-import { getUserByEmail } from "@/database/user";
+import { getUserByEmail } from "@database/user";
 
 declare module "next-auth" {
     interface Session extends DefaultSession {

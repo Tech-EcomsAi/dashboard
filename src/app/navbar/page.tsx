@@ -1,5 +1,5 @@
-import Navbar from '@/components/navbar'
 import React from 'react'
+import Navbar from 'src/components/navbar'
 
 function page() {
     return (

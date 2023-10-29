@@ -1,6 +1,6 @@
 
-import { firebaseClient } from "@/lib/firebase/firebaseClient";
 import { collection, getDocs, query, where } from "@firebase/firestore";
+import { firebaseClient } from "@lib/firebase/firebaseClient";
 
 export const getUserByEmail = (email: string) => {
     return new Promise(async (res, rej) => {

@@ -1,0 +1,142 @@
+@import "@styles/abstracts/mixins";
+.quickActionsMenuWrap {
+  width: auto;
+  position: absolute;
+  z-index: 999;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  @include transition;
+
+  // .before,
+  .after {
+    content: "";
+    position: absolute;
+    height: 31px;
+    width: 20px;
+    bottom: -10px;
+    background-color: white;
+    box-shadow: 0 -20px 0 0 #f2709b00;
+    z-index: -1;
+    clip-path: polygon(
+      0% 0%,
+      // Top left point
+      100% 0%,
+      // Top right point
+      100% calc(100% - 10px),
+      // Bottom right point
+      calc(50% + 10px) calc(100% - 10px),
+      // Center right of the triangle
+      50% 100%,
+      // Tip of the triangle
+      calc(50% - 10px) calc(100% - 10px),
+      // Center left of the triangle
+      0% calc(100% - 10px) // Bottom left point
+    );
+  }
+
+  // .before {
+  //   border-top-right-radius: 13px;
+  //   left: 30px;
+  // }
+
+  .after {
+    border-top-left-radius: 13px;
+    left: 50px;
+  }
+  &.textActionsMenuWrap {
+    gap: 4px;
+    .action {
+      .iconWrap {
+        width: 26px;
+        // height: 26px;
+        padding: 4px;
+      }
+    }
+  }
+}
+
+.action {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .iconWrap {
+    @include iconWrap;
+    padding: 6px;
+    border: 1px solid;
+    border-radius: 4px;
+    @include transition;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 2px 10px #dee1ec1a;
+      @include transition;
+      transform: scale(1.07);
+      padding: 4px;
+    }
+  }
+  span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+    .title {
+      min-width: max-content;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+    }
+  }
+}
+
+.contextMenuWrap {
+  flex-direction: column;
+  width: auto;
+  position: absolute;
+  z-index: 999;
+  border-radius: 6px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  @include transition;
+
+  .action {
+    width: 100%;
+    border: 1px solid;
+    padding: 4px;
+    padding-right: 9px;
+    border-radius: 4px;
+    cursor: pointer;
+    .iconWrap {
+      padding: 6px;
+      border: unset;
+    }
+  }
+
+  .before,
+  .after {
+    content: "";
+    position: absolute;
+    height: 40px;
+    width: 20px;
+    top: 0px;
+    background-color: transparent;
+    box-shadow: 0 -20px 0 0 #f2709b00;
+    z-index: -1;
+    transform: rotate(90deg);
+  }
+
+  .before {
+    border-top-right-radius: 13px;
+    left: -30px;
+  }
+
+  .after {
+    top: 20px;
+    border-top-left-radius: 13px;
+    left: -30px;
+  }
+}

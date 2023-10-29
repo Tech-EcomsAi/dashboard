@@ -1,0 +1,107 @@
+@import "@styles/abstracts/mixins";
+.layersWrap {
+  width: 100%;
+  position: relative;
+  .layersList {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    padding: 4px;
+    margin-top: 5px;
+    height: calc(100vh - 125px);
+    overflow: auto;
+
+    .layerItemWrap {
+      width: 100%;
+      cursor: grab;
+      border-radius: 4px;
+      height: 50px;
+      .layerDetails {
+        border: 1px solid;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        .handler {
+          width: 30px;
+          height: 30px;
+          padding: 4px;
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .layerImg {
+          padding: 5px;
+          width: calc(100% - 50px);
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+          }
+        }
+      }
+      // @include transition;
+      &:hover {
+        @include transition;
+        // outline: 1px solid var(--outlineColor);
+      }
+      &.sortingInProgress {
+        // @include transition;
+        background: var(--secondary-color-alpha);
+        border: 1px dashed #4099ff;
+      }
+    }
+    &.isDraggingOver {
+      @include transition;
+      background: var(--secondary-color);
+    }
+  }
+  .notFound {
+    padding: 16px 0;
+    text-align: center;
+  }
+}
+.layerActionsWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-direction: column;
+  max-width: 35px;
+  min-width: 35px;
+  width: 35px;
+  margin: unset;
+  padding: unset;
+  background: unset;
+  .iconWrap {
+    border-radius: 20px;
+    @include iconWrap;
+    padding: 9px;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+    @include transition;
+    cursor: pointer;
+    &:hover {
+      @include transition;
+      transform: scale(1.07);
+      padding: 5px;
+    }
+  }
+}

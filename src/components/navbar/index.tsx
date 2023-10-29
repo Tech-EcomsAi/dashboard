@@ -4,10 +4,20 @@ import styles from './navbar.module.scss'
 import Link from 'next/link'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import { useAppSelector } from '@hook/useAppSelector';
+import { getDarkModeState, toggleDarkMode } from '@reduxSlices/darkMode';
+import { Button, theme } from 'antd';
+import { showSuccessAlert } from '@reduxSlices/alert';
+import { showSuccessToast } from '@reduxSlices/toast';
 
 function Navbar() {
     const session = useSession();
+    const dispatch = useAppDispatch();
+    const isDark = useAppSelector(getDarkModeState);
     const [usetData, setUsetData] = useState<any>(session?.data?.user)
+    const { token } = theme.useToken();
+
     useEffect(() => {
         setUsetData(session?.data?.user)
     }, [session])
@@ -16,15 +26,24 @@ function Navbar() {
     return (
         <div className={styles.navbarWrap}>
             <Link href="/pricing">
-                <div className={styles.loginAction}>
+                <div className={styles.loginAction} style={{ background: token.colorPrimary }}>
                     Pricing
                 </div>
             </Link>
             <Link href="/dashboard">
-                <div className={styles.loginAction}>
+                <div className={styles.loginAction} style={{ background: token.colorPrimary }}>
                     Dashboard
                 </div>
             </Link>
+
+            <Button onClick={() => dispatch(toggleDarkMode(!isDark))}>
+                {isDark ? "Light" : "Dark"}
+            </Button>
+
+            <Button onClick={() => dispatch(showSuccessToast('Template saved successfuly'))}>
+                Show toast
+            </Button>
+
             <div className={styles.loginAction}>
                 {usetData?.email}
                 <div >{usetData?.name}</div>

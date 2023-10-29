@@ -1,4 +1,4 @@
-import { USER_COOKIE_KEY } from '@/constants/user';
+import { USER_COOKIE_KEY } from '@constant/user';
 import { NextApiRequest, NextApiResponse } from 'next'
 // import { serialize } from "cookie";
 

@@ -1,0 +1,122 @@
+@import "@styles/abstracts/mixins";
+
+.websiteBuilderWrap {
+  height: 100vh;
+  .builderLeftWrap {
+    height: auto;
+    // gap: 5px;
+    // padding: 5px;
+    // background: var(--primary-color-beta);
+    .headerWrap {
+      height: unset;
+      line-height: unset;
+      padding: 7px;
+      border-radius: 5px;
+      backdrop-filter: blur(20px);
+      box-shadow: rgba(76, 78, 100, 0.068) 0px 2px 10px 0px;
+      .headingWrap {
+        padding: 0 10px;
+        @include flexStartAlC;
+        justify-content: flex-start;
+        span {
+          color: var(--primary-color);
+          margin: unset;
+          font-family: var(--f-SemiBold);
+          letter-spacing: 0.3px;
+        }
+      }
+      .actionsWrap {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        .iconWrap {
+          background: var(--lightest-slate);
+          color: #000000;
+          border-radius: 15px;
+          padding: 6px;
+          min-width: 32px;
+          box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 10px 0px;
+          @include transition;
+          &.active,
+          &:hover {
+            color: white !important;
+            background: var(--secondary-color) !important;
+          }
+        }
+      }
+    }
+    .editorContent {
+      width: 100%;
+      box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
+      @include flexCenter;
+    }
+  }
+  .builderRightWrap {
+    height: 100vh;
+    overflow: auto;
+    flex: 0 0 350px !important;
+    max-width: 350px !important;
+    min-width: 350px !important;
+    width: 350px !important;
+    .sidebarWrap {
+      width: 100%;
+
+      .segmentWrap {
+        position: sticky;
+        top: 0;
+        left: 0;
+        background: white;
+        background: var(--primary-color-beta);
+        backdrop-filter: blur(20px);
+        padding-left: 0;
+        .segmentItem {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+          padding: 2px;
+          color: var(--secondary-color-beta);
+          .iconWrap {
+            width: 27px;
+            height: 27px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px;
+            background-color: #dee1ec46;
+            border-radius: 16px;
+            box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
+            @include transition;
+          }
+          .title {
+            font-size: 12px;
+            letter-spacing: 0.3px;
+            font-family: var(--f-SemiBold);
+          }
+          &.active {
+            color: var(--secondary-color) !important;
+            .iconWrap {
+              background-color: var(--secondary-color) !important;
+              color: white;
+              @include transition;
+            }
+            @include transition;
+          }
+        }
+      }
+      .sidebarContentWrap {
+        height: calc(100vh - 45px);
+        overflow: auto;
+        padding: 5px;
+
+        .note {
+          font-size: var(--fz-xs);
+          letter-spacing: 0.2px;
+          margin: 5px 0;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

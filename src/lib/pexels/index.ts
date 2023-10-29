@@ -1,4 +1,4 @@
-import { BACKGROUND_IMAGES_ORIENTATIONS, SEARCHED_IMAGES_COUNT_PER_REQUEST_PEXELS } from "@/constants/common";
+import { BACKGROUND_IMAGES_ORIENTATIONS, SEARCHED_IMAGES_COUNT_PER_REQUEST_PEXELS } from "@constant/common";
 import { axiosClient } from "../axios/axiosClient";
 
 const SEARCH_API_URL = `https://api.pexels.com/v1/search?`;

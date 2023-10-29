@@ -1,24 +1,46 @@
-## Staging 
-created branch staging for dev
+## Folder Structure
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+##### App Directory
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyD2MxoESWL0R0wv_uh-84jUu_JBtkm4dyI",
-  authDomain: "ecomsai.firebaseapp.com",
-  projectId: "ecomsai",
-  storageBucket: "ecomsai.appspot.com",
-  messagingSenderId: "461236130629",
-  appId: "1:461236130629:web:b3fab28090856c05c7a42c",
-  measurementId: "G-8QJNFHDGNL"
-};
+Contains all business logic
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+1. **Components**
+
+   - Atoms - Single html elements ex-lables, headings, button, input
+   - Molecules - Group of atoms ex- search input (Input element with search icon element)
+   - Organisms - Group of molecules ex- form component
+   - Templates - Group of Organisms ex- dashboard component or components parents
+   - Pages - Routing base components & templates wrapper
+
+2. **Cconstants**
+3. **APIS**
+4. **Hooks**
+5. **Redux**
+
+   - Action
+   - Reducers
+   - Store
+
+6. **Utils**
+
+##### Pages Directory - _Nextjs Routing_
+
+- Api - Backend dirctory
+- \_app - default nextjs \_app
+- index - default route - [www.growmedigitally.com]()
+- login - Login page routing
+
+##### next.config.js - default next js config file
+
+##### tsconfig.json - ts config file
+# boilerplate
+# dashboard
+
+
+## Folder Structure
+
+## Images
+1. 3:2   = small banner/Blog Image
+2. 1:1   = square banner/Website Banner
+3. 16:9  = large banner/Hero Image
+4. 24:24 = Icons

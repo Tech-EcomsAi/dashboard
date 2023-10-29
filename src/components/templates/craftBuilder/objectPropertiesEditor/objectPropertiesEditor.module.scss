@@ -1,0 +1,279 @@
+@import "@styles/abstracts/mixins";
+
+.objectPropertiesEditorWrap {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  .headingWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    .iconWrap {
+      @include iconWrap;
+      border-radius: 16px;
+      box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
+      @include iconHover;
+    }
+    .title {
+      padding: 5px;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      padding: 5px;
+      width: calc(100% - 30px);
+      height: 40px;
+      overflow: hidden;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      img {
+        max-width: 80%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+
+  .groupLockWrap {
+    @include flexCenter;
+    gap: 10px;
+    width: 100%;
+    padding: 4px;
+  }
+  .buttonElement {
+    @include flexCenter;
+    width: 100%;
+    height: auto;
+    padding: 7px 15px;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  .segmentWrap {
+    // background: var(--primary-color-beta);
+    backdrop-filter: blur(20px);
+    padding-left: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    .segmentItem {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      padding: 6px;
+      color: var(--secondary-color-beta);
+      font-size: 12px;
+      .iconWrap {
+        min-width: 28px;
+        min-height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px;
+        border-radius: 16px;
+        box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
+        @include transition;
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &.active {
+        div {
+          @include transition;
+          font-weight: 700;
+          border-radius: 16px;
+        }
+        .iconWrap {
+          color: white;
+          @include transition;
+        }
+        @include transition;
+      }
+    }
+  }
+  .alignmentWrap {
+    background: unset;
+  }
+  .alignmentWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+    margin: 8px 0;
+    margin-top: unset;
+    .iconWrap {
+      min-width: 32px;
+      min-height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      border-radius: 16px;
+      // box-shadow: rgb(0 0 0 / 10%) 0px 2px 10px 0px;
+      @include transition;
+      cursor: pointer;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+      &:hover {
+        background: var(--styleElementBg);
+      }
+    }
+  }
+  .imagePropsWrapper {
+    margin-bottom: 10px;
+    @include flexCenterCol;
+    .filtersWrap {
+      margin-top: 10px;
+      width: 100%;
+    }
+    .filtersContainer {
+      .panelWrap {
+        width: 100%;
+      }
+    }
+    .currentImage {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+      margin: 10px auto;
+      text-align: center;
+      img {
+        height: auto;
+        margin: 0 auto;
+        width: 100px;
+      }
+    }
+    .imageActions {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .textPropsWrapper {
+    margin-bottom: 10px;
+    @include flexCenterCol;
+    .textStylesWrap {
+      width: 100%;
+      margin: unset;
+      background: unset;
+      .fontStyleWrapper {
+        @include flexStartAlC;
+        gap: 5px;
+      }
+      .propertyWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 5px;
+        margin: 8px 0;
+        margin-top: unset;
+        .fontFamilyWrap {
+        }
+        .iconWrap {
+          width: 32px;
+          height: 32px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 6px;
+          background-color: var(--styleElementBg);
+          border-radius: 18px;
+          // box-shadow: rgba(0, 0, 0, 0.044) 0px 2px 10px 0px;
+          transition: all ease-out 0.3s;
+          cursor: pointer;
+          @include transition;
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .textPatterns {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+
+  .imageBlurWrap {
+    margin: 0;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 10px;
+    background: unset;
+    .imageBlurLabel {
+      margin-bottom: 0;
+      min-width: 50px;
+    }
+    .imageBlurContent {
+      width: calc(100% - 60px);
+    }
+  }
+
+  .borderWrap {
+    width: 100%;
+    background: unset;
+    .elementWrap {
+      width: 100%;
+      @include flexStartAlC;
+      gap: 5px;
+      .borderItemWrap {
+        padding: unset;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+        background: unset;
+        &.resetValuesWrap {
+          .label {
+            content: "";
+            height: 20px;
+            padding: 10px 30px;
+          }
+          .resetValues {
+            @include flexCenter;
+            width: 90px;
+            border: 1px solid red;
+            min-width: auto;
+            height: 32px;
+            padding: 0;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            letter-spacing: 0.4px;
+            @include transition;
+            &.active {
+              @include transition;
+              background-color: var(--secondary-color);
+              color: white;
+              cursor: auto;
+            }
+          }
+        }
+      }
+      .radiusElement {
+        @include flexStartAlC;
+        gap: 5px;
+      }
+    }
+  }
+}
+.devider {
+  margin: 15px 0;
+}

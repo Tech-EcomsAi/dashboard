@@ -1,0 +1,52 @@
+@import "@styles/abstracts/mixins";
+
+.textStylesWrap {
+  width: 100%;
+  .fontStyleWrapper {
+    @include flexStartAlC;
+    gap: 5px;
+  }
+  .propertyWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+    margin: 8px 0;
+    margin-top: unset;
+    .iconWrap {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      background-color: var(--styleElementBg);
+      border-radius: 6px;
+      // box-shadow: rgb(76 78 100 / 20%) 0px 2px 10px 0px;
+      transition: all ease-out 0.3s;
+      cursor: pointer;
+      @include transition;
+    }
+  }
+}
+
+.borderWrap {
+  width: 100%;
+  .elementWrap {
+    width: 100%;
+    @include flexStartAlC;
+    gap: 5px;
+    .borderItemWrap {
+      padding: unset;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 100%;
+    }
+    .radiusElement {
+      @include flexStartAlC;
+      gap: 5px;
+    }
+  }
+}

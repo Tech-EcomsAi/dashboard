@@ -1,0 +1,118 @@
+@import "@styles/abstracts/mixins";
+.sideBar {
+  // display: flex;
+  // justify-content: flex-start;
+  // align-items: flex-start;
+  // flex-direction: column;
+  // gap: 10px;
+  // box-shadow: 0px 0px 5px 2px #939ca36b !important;
+  // border-radius: 10px;
+  width: 100%;
+  :before,
+  ::after {
+    display: none;
+  }
+}
+.navLabel {
+  margin: unset !important;
+  line-height: unset !important;
+  display: flex;
+  font-size: 11px;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 0.3px;
+  font-family: var(--f-Regular);
+}
+.navMenu {
+  display: flex !important;
+  justify-content: center;
+  align-items: center !important;
+  border: 1px solid rgba(222, 225, 236, 0.1607843137);
+  box-shadow: rgba(114, 106, 132, 0.2862745098) 0px 1px 6px -2px;
+  width: 100%;
+  // filter: drop-shadow(1px 1px 2px rgba(39, 39, 39, 0.4));
+  gap: 5px;
+  flex-direction: column !important;
+  cursor: pointer !important;
+  height: auto !important;
+  padding: 7px 0 !important;
+  margin: unset !important;
+  line-height: normal !important;
+  min-height: 70px;
+  &.activeMenu {
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.095));
+    // .iconWrap {
+    //   filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
+    // }
+    .navLabel {
+      // filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+    }
+  }
+  > span {
+    margin: unset !important;
+    line-height: normal !important;
+    display: flex;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+  }
+  .iconWrap {
+    width: auto;
+    @include iconWrap;
+    padding: 4px;
+  }
+
+  &:not(:last-child) {
+    // margin-bottom: 10px !important;
+  }
+  > div {
+    @include flexStartAlC;
+  }
+  .navIcon {
+    width: 27px;
+    height: 27px;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &.hasSubMenu {
+    padding: unset;
+    margin-inline: 4px;
+    margin-block: 4px;
+    width: calc(100% - 8px);
+    > div {
+      height: 48px !important;
+      width: 100% !important;
+      margin: unset !important;
+      gap: 7px;
+    }
+  }
+  &.navSubMenu {
+    @include flexStartAlC;
+
+    .navIcon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+.siderNavWrap {
+  &.collapsedMenu {
+    .navMenu {
+      padding-inline: calc(50% - 20px);
+      transition: border-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+        background 0.3s cubic-bezier(0.645, 0.045, 0.355, 1),
+        padding 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      .navIcon {
+        min-width: 20px;
+      }
+    }
+    .hasSubMenu {
+      > div {
+        min-width: 20px !important;
+      }
+    }
+  }
+}

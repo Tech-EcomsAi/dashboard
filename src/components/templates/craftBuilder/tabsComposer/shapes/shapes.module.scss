@@ -1,0 +1,40 @@
+@import "@styles/abstracts/mixins";
+.shapesWrap {
+  width: 100%;
+  padding: 5px;
+  .shapesList {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 10px;
+    flex-wrap: wrap;
+    .shapeWrap {
+      @include flexCenter;
+      flex-direction: column;
+      padding: 10px;
+      border-radius: 4px;
+      width: 30%;
+      cursor: pointer;
+      .iconWrap {
+        border-radius: 14px;
+        @include iconWrap;
+        padding: 4px;
+        @include transition;
+      }
+      .title {
+        font-size: 10px;
+        // letter-spacing: 0.3x;
+      }
+      &:active {
+        color: var(--secondary-color);
+      }
+      &:hover {
+        .iconWrap {
+          @include transition;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,226 @@
+@import "@styles/abstracts/mixins";
+.backgroundWrap {
+  width: 100%;
+  .toggleWrap {
+    padding: 10px;
+  }
+  .segmentWrap {
+    margin-bottom: 10px;
+  }
+  .bgColorWrap {
+    width: 100%;
+    height: calc(100vh - 175px);
+    overflow: auto;
+    .segmentWrap {
+      margin-bottom: unset;
+    }
+    .tabContent {
+      &.solidColorWrap {
+        .colorPickerWrap {
+          padding: 10px;
+        }
+        .colorsCategoryList {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          flex-direction: column;
+          .colorDetails {
+            padding: 10px;
+            width: 100%;
+            .category {
+              padding-bottom: 10px;
+            }
+            .colorsList {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              flex-wrap: wrap;
+              gap: 10px;
+              width: 100%;
+              .colorWrap {
+                width: 35px;
+                height: 35px;
+                border-radius: 4px;
+                background: white;
+                outline: 2px solid transparent;
+                position: relative;
+                @include iconHover;
+                &.active {
+                  outline-offset: 2px;
+                  outline-color: var(--secondary-color-beta);
+                  @include transition;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .gradientWrap {
+    width: 100%;
+    .currentGradient {
+      .colorPicker {
+        width: 100%;
+        gap: 16px;
+        transition: all ease-out 0.3s;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px 5px;
+        margin-top: 10px;
+
+        .colorItemWrap {
+          width: 100%;
+          border-radius: 4px;
+          padding: 2px;
+          position: relative;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 10px;
+          //  filter: drop-shadow(2px 0px 1px rgba(0, 0, 0, .1));
+          // box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),0 3px 6px -4px rgb(0 0 0 / 0%), 0 9px 28px 8px rgb(0 0 0 / 0%);
+          .iconWrap {
+            min-width: 30px;
+            min-height: 30px;
+            color: white;
+            padding: 4px;
+            border-radius: 15px;
+            z-index: 1;
+            background: #dee1ec40;
+            cursor: pointer;
+            @include flexCenter;
+            @include transition;
+            &:hover {
+              padding: 0px;
+              box-shadow: 0 2px 10px #dee1ec;
+              transform: scale(1.1);
+              @include transition;
+            }
+            svg {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          &.addColor {
+            border: 1px solid var(--slate);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30px;
+            width: 30px;
+            color: var(--slate);
+            padding: 6px;
+            @include transition;
+            margin-left: 7px;
+            cursor: pointer;
+            svg {
+              width: 100%;
+              height: 100%;
+            }
+            &:hover {
+              padding: 0px;
+              box-shadow: 0 2px 10px #dee1ec;
+              transform: scale(1.1);
+              @include transition;
+            }
+          }
+        }
+      }
+    }
+    .gradientListWrap {
+      flex-wrap: wrap;
+      gap: 10px;
+      width: 100%;
+      overflow: auto;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      .gradientWrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: unset;
+        border: unset;
+        padding: 0;
+        border-radius: 4px;
+        box-shadow: 0px 10px 40px -10px rgba(0, 64, 128, 0.2);
+        width: calc(100% / 4 - 9px);
+        height: 60px;
+        flex-direction: column;
+        gap: 5px;
+        transition: all ease-out 0.3s;
+        cursor: pointer;
+        position: relative;
+        .gradientItem {
+          width: 100%;
+          height: 100%;
+          border-radius: 5px;
+          @include transition;
+        }
+        .gradientNameColorWrap {
+          @include flexStart;
+          justify-content: space-between !important;
+          width: 100%;
+          flex-direction: column;
+          gap: 5px;
+          position: absolute;
+          bottom: 5px;
+          left: 5px;
+          @include transition;
+          .name {
+            font-size: 12px;
+            font-family: var(--f-Regular);
+            color: white;
+            letter-spacing: 0.2px;
+            font-weight: 800;
+            @include transition;
+            text-transform: capitalize;
+          }
+          .colors {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 5px;
+            .color {
+              width: 15px;
+              height: 15px;
+              border-radius: 15px;
+            }
+          }
+        }
+        &:hover {
+          padding: 0;
+          @include transition;
+          .gradientItem {
+            width: 100%;
+            box-shadow: 0px 10px 40px -10px rgba(0, 64, 128, 0.2);
+            transform: scale(1.07);
+            @include transition;
+          }
+          // .gradientNameColorWrap {
+          //   width: 0;
+          //   height: 0;
+          //   overflow: hidden;
+          //   display: none !important;
+          //   @include transition;
+          // }
+        }
+      }
+    }
+  }
+  .bgPatternWrap {
+    width: 100%;
+    height: calc(100vh - 176px);
+    overflow: auto;
+  }
+  .title {
+    padding: 10px 0;
+  }
+  .bgColorWrap {
+  }
+}

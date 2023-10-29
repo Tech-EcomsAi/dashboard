@@ -1,4 +1,4 @@
-import { BACKGROUND_IMAGES_ORIENTATIONS, SEARCHED_IMAGES_COUNT_PER_REQUEST_PIXABAY } from "@/constants/common";
+import { BACKGROUND_IMAGES_ORIENTATIONS, SEARCHED_IMAGES_COUNT_PER_REQUEST_PIXABAY } from "@constant/common";
 import { axiosClient } from "../axios/axiosClient";
 
 const SEARCH_API_URL = `https://pixabay.com/api?key=${process.env.NEXT_PUBLIC_PIXABAY_API_CLIENTID}&`;

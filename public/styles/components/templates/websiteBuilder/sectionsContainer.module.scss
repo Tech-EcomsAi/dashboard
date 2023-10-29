@@ -1,0 +1,29 @@
+@import "@styles/abstracts/mixins";
+
+.sectionsContainer {
+  .sectionConatiner {
+    margin-bottom: 5px;
+    .sectionList {
+      font-family: var(--f-SemiBold);
+    }
+    .componentWrap {
+      user-select: none;
+      margin-bottom: 10px;
+      transition: all ease-out 0.3s;
+      border: 1px solid var(--secondary-color-beta);
+      border-radius: 4px;
+      background: white;
+      @include transition;
+      &.draggingInProgress {
+        border: 1px dashed #4099ff;
+        background: var(--secondary-color-alpha);
+        @include transition;
+      }
+      &.draggingItem {
+        background: var(--secondary-color-beta);
+        border: 1px solid var(--common-color);
+        @include transition;
+      }
+    }
+  }
+}

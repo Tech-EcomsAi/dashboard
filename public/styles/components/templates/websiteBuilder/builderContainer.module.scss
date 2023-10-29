@@ -1,0 +1,59 @@
+@import "@styles/abstracts/mixins";
+
+.builderDroppableList {
+  @include transition;
+  width: 100%;
+  &.Mobile {
+    @include transition;
+    width: 460px;
+  }
+  &.Tablet {
+    @include transition;
+    width: 768px;
+  }
+  .bodyFrame {
+    background: #fff;
+    border-radius: 3px;
+    flex: 0 0 150px;
+    font-family: sans-serif;
+    border: 1px solid #ddd;
+    height: calc(100vh - 45px);
+    background: #f8f9fe;
+    overflow: auto;
+    border: 1px dashed var(--lightest-slate);
+    padding: 3px;
+    @include transition;
+    &.isDraggingOver {
+      // @include transition;
+      background: var(--secondary-color);
+    }
+    .draggComponentWrap {
+      display: flex;
+      user-select: none;
+      // @include transition;
+      cursor: pointer;
+      &:hover {
+        @include transition;
+        outline: 1px solid var(--outlineColor);
+        box-shadow: 0 2px 10px #dee1ec;
+      }
+      &.sortingInProgress {
+        // @include transition;
+        background: var(--secondary-color-alpha);
+        border: 1px dashed #4099ff;
+      }
+    }
+  }
+  .emptyEditorWrap {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    padding: 0;
+    color: var(--primary-color-alpha);
+    height: -webkit-fill-available;
+    border: 1px dashed var(--primary-heading-color);
+    margin: 10px;
+    font-size: 14px;
+  }
+}

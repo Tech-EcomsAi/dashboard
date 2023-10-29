@@ -1,4 +1,4 @@
-import { BACKGROUND_IMAGES_ORIENTATIONS, SEARCHED_IMAGES_COUNT_PER_REQUEST_UNSPLASH } from "@/constants/common";
+import { BACKGROUND_IMAGES_ORIENTATIONS, SEARCHED_IMAGES_COUNT_PER_REQUEST_UNSPLASH } from "@constant/common";
 import { axiosClient } from "../axios/axiosClient";
 
 const SEARCH_API_URL = `https://api.unsplash.com/search/photos?client_id=${process.env.NEXT_PUBLIC_UNSPLASH_API_CLIENTID}`;

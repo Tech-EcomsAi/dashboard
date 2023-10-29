@@ -1,0 +1,97 @@
+@import "@styles/abstracts/mixins";
+
+.myStuffWrap {
+  width: 100%;
+  .tabsContent {
+    margin-top: 10px;
+    .contentWrap {
+      width: 100%;
+
+      .subHeading {
+        text-align: center;
+        @include heading;
+      }
+      .typesWrap {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+        flex-direction: column;
+        overflow-y: auto;
+        height: calc(100vh - 130px);
+        .typesItemsWrap {
+          width: 100%;
+          .subHeading {
+            text-align: left;
+            font-size: medium;
+            margin-bottom: 10px;
+          }
+          .itemWrap {
+            position: relative;
+            .deleteIcon {
+              position: absolute;
+              width: 25px;
+              height: 25px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              color: var(--dark-navy);
+              padding: 5px;
+              cursor: pointer;
+              z-index: 1;
+              top: -10px;
+              right: -10px;
+              background-color: #dee1ecaa;
+              border-radius: 15px;
+              @include iconHover;
+              img,
+              svg {
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+          .imagesListWrap {
+            display: flex;
+            justify-content: flex-start;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 100%;
+            padding: 2px;
+            .imageWrap {
+              outline: 1px solid #dee1ec;
+              border-radius: 4px;
+              min-height: 100%;
+              width: calc(100% / 3 - 10px);
+              height: auto;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              @include iconHover;
+              img {
+                width: 100px;
+                height: auto;
+                vertical-align: middle;
+                max-height: 100px;
+              }
+            }
+          }
+          .colorsWrap {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            .color {
+              width: calc(100% / 5);
+              height: 50px;
+              @include iconHover;
+              border-radius: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

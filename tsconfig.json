@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -18,8 +18,38 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@antdComponent/*": ["src/components/antdComponent/*"],
+      "@molecules/*": ["src/components/molecules/*"],
+      "@atoms/*": ["src/components/atoms/*"],
+      "@organisms/*": ["src/components/organisms/*"],
+      "@sections/*": ["src/components/organisms/sections/*"],
+      "@template/*": ["src/components/templates/*"],
+      "@svgs/*": ["src/components/molecules/svgElements/*"],
+      "@atomsCSS/*": ["public/styles/components/atoms/*"],
+      "@moleculesCSS/*": ["public/styles/components/molecules/*"],
+      "@organismsCSS/*": ["public/styles/components/organisms/*"],
+      "@templatesCSS/*": ["public/styles/components/templates/*"],
+
+      "@styles/*": ["public/styles/*"],
+      "@constant/*": ["src/constants/*"],
+      "@type/*": ["src/types/*"],
+      "@hook/*": ["src/hooks/*"],
+      "@reduxStore/*": ["src/redux/store/*"],
+      "@reduxSlices/*": ["src/redux/slices/*"],
+      "@axiosClient/*": ["src/lib/axios/*"],
+      "@database/*": ["src/database/*"],
+      "@lib/*": ["src/lib/*"],
+      "@providers/*": ["src/providers/*"],
+      "@util/*": ["src/utils/*"],
+      "@apiService/*": ["src/apiService/*"],
+      "@assets/*": ["public/assets/*"],
+      "@objectPropertiesEditor/*": [
+        "src/components/templates/craftBuilder/objectPropertiesEditor/*"
+      ],
+      "@craftBuilder/*": ["src/components/templates/craftBuilder/*"],
+      "@tabsComposer/*": ["src/components/templates/craftBuilder/tabsComposer*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
