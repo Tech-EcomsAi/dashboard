@@ -13,14 +13,12 @@
   }
   .bodyFrame {
     background: #fff;
-    border-radius: 3px;
+    border-radius: 5px;
     flex: 0 0 150px;
     font-family: sans-serif;
-    border: 1px solid #ddd;
     height: calc(100vh - 45px);
     background: #f8f9fe;
     overflow: auto;
-    border: 1px dashed var(--lightest-slate);
     padding: 3px;
     @include transition;
     &.isDraggingOver {

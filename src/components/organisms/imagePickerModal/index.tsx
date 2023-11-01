@@ -85,9 +85,10 @@ function ImagePickerModal({ component, open = false, value, onSave, onCancel }) 
                 maskStyle={{
                     background: 'unset'
                 }}
-                bodyStyle={{
-                    padding: '10px 15px 0px'
-                }}
+
+                // bodyStyle={{
+                //     padding: '10px 15px 0px'
+                // }}
                 footer={
                     <Space>
                         <Button onClick={handleCancel}>Cancel</Button>

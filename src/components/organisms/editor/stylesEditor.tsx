@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from '@organismsCSS/editor/stylesEditor.module.scss';
-import BackgroundElement from '@molecules/styleElement/backgroundElement';
 import TextStyles from '@molecules/styleElement/textStyles';
 import Border from '@molecules/styleElement/border';
 import BoxShadow from '@molecules/styleElement/boxShadow';

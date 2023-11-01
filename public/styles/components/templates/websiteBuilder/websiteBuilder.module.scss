@@ -11,18 +11,34 @@
       height: unset;
       line-height: unset;
       padding: 7px;
-      border-radius: 5px;
+      border-radius: 0px;
       backdrop-filter: blur(20px);
       box-shadow: rgba(76, 78, 100, 0.068) 0px 2px 10px 0px;
       .headingWrap {
         padding: 0 10px;
         @include flexStartAlC;
         justify-content: flex-start;
+        gap: 10px;
+        .iconWrap {
+          border-radius: 5px;
+          padding: 6px;
+          min-width: 27px;
+          height: 27px;
+          @include transition;
+          @include flexCenter;
+          border: 1px solid;
+          cursor: pointer;
+          // &.active,
+          // &:hover {
+          //   color: white !important;
+          //   background: var(--secondary-color) !important;
+          // }
+        }
         span {
-          color: var(--primary-color);
           margin: unset;
-          font-family: var(--f-SemiBold);
-          letter-spacing: 0.3px;
+          font-family: var(--f-Regular);
+          letter-spacing: 0.2px;
+          font-weight: 600;
         }
       }
       .actionsWrap {
@@ -31,18 +47,18 @@
         align-items: center;
         gap: 10px;
         .iconWrap {
-          background: var(--lightest-slate);
-          color: #000000;
+          // background: var(--lightest-slate);
+          // color: #000000;
           border-radius: 15px;
           padding: 6px;
           min-width: 32px;
           box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 10px 0px;
           @include transition;
-          &.active,
-          &:hover {
-            color: white !important;
-            background: var(--secondary-color) !important;
-          }
+          // &.active,
+          // &:hover {
+          //   color: white !important;
+          //   background: var(--secondary-color) !important;
+          // }
         }
       }
     }
@@ -66,10 +82,9 @@
         position: sticky;
         top: 0;
         left: 0;
-        background: white;
-        background: var(--primary-color-beta);
         backdrop-filter: blur(20px);
         padding-left: 0;
+        padding: 4px;
         .segmentItem {
           display: flex;
           justify-content: center;

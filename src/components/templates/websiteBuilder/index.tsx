@@ -1,10 +1,10 @@
 'use client'
 import styles from '@templatesCSS/websiteBuilder/websiteBuilder.module.scss'
 import React, { useEffect, useState } from 'react'
-import { Col, Layout, Popconfirm, Row, Segmented, theme, Tooltip, Typography } from 'antd';
+import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, theme, Tooltip, Typography } from 'antd';
 import { useAppSelector } from '@hook/useAppSelector';
 import { getDarkModeState } from '@reduxSlices/darkMode';
-import { BsFillPencilFill, BsLaptop, BsPhone, BsTabletLandscape, BsFillLayersFill, BsArrowCounterclockwise, BsFillPhoneFill, BsFillTabletLandscapeFill, BsLaptopFill, BsMagic } from 'react-icons/bs';
+import { BsFillPencilFill, BsLaptop, BsPhone, BsFillLayersFill, BsArrowCounterclockwise } from 'react-icons/bs';
 import { v4 as uuid } from 'uuid';
 import SectionsContainer from './sectionsContainer';
 import BuilderContainer from './builderContainer';
@@ -20,6 +20,15 @@ import GlobalContainer from './globalContainer';
 import { LOGO_TEXT } from '@constant/common';
 
 import dynamic from 'next/dynamic';
+import { BiDownArrow, BiHome } from 'react-icons/bi';
+import IconButton from '@antdComponent/iconButton';
+import TextElement from '@antdComponent/textElement';
+import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
+import { LuSettings } from 'react-icons/lu';
+import { MdArrowDropDown } from 'react-icons/md';
+import { RiArrowDropDownLine } from 'react-icons/ri';
+import { IoIosArrowDropdown } from 'react-icons/io';
+import { TbChevronDown, TbComponents, TbEdit, TbLayersIntersect, TbPencilCog } from 'react-icons/tb';
 
 const DragDropContext = dynamic(
     () =>
@@ -49,18 +58,33 @@ const { Text } = Typography;
 
 const DEVICE_TYPES = [
     { title: 'Mobile', icon: <BsPhone /> },
-    { title: 'Tablet', icon: <BsTabletLandscape /> },
-    { title: 'Laptop', icon: <BsLaptop /> },
+    // { title: 'Tablet', icon: <BsTabletLandscape /> },
+    { title: 'Desktop', icon: <BsLaptop /> },
     // { title: 'Mobile', icon: <BsFillPhoneFill /> },
     // { title: 'Tablet', icon: <BsFillTabletLandscapeFill /> },
     // { title: 'Laptop', icon: <BsLaptopFill /> },
 ]
 
 const SEGMENT_OPTIONS = [
-    { title: 'Sections', icon: <BsFillLayersFill /> },
-    { title: 'Editor', icon: <BsFillPencilFill /> },
-    { title: 'Global', icon: <BsMagic /> },
+    { key: 'Sections', value: 'Sections', icon: <TbComponents /> },
+    { key: 'Editor', value: 'Editor', icon: <TbEdit /> },
+    { key: 'Site', value: 'Global', icon: <LuSettings /> },
 ]
+
+const items: any = [
+    {
+        key: '1',
+        label: 'Home Page',
+    },
+    {
+        key: '2',
+        label: 'About Us',
+    },
+    {
+        key: '3',
+        label: 'Contact Us',
+    },
+];
 
 function WebsiteBuilder() {
     const { token } = theme.useToken();
@@ -71,25 +95,11 @@ function WebsiteBuilder() {
     const builderState = useAppSelector(getBuilderState) || { [uuid()]: [] };
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
+    const [activePage, setActivePage] = useState(items[0])
 
     useEffect(() => {
         if (Boolean(activeComponent.uid)) setActiveOptionTab('Editor');
     }, [activeComponent])
-
-    const getSegmentOptions = () => {
-        return SEGMENT_OPTIONS.map((option) => {
-            return {
-                label: <div style={{ color: activeOptionTab == option.title ? token.colorPrimary : 'inherit' }}
-                    className={`${styles.segmentItem} ${activeOptionTab == option.title ? styles.active : ''}`}>
-                    <div className={styles.iconWrap} >
-                        {option.icon}
-                    </div>
-                    <div className={styles.title}>{option.title}</div>
-                </div>,
-                value: option.title
-            }
-        })
-    }
 
     const onClickOptionsTab = (tab: any) => {
         setActiveOptionTab(tab);
@@ -131,40 +141,75 @@ function WebsiteBuilder() {
     const onOutsideEditorClick = () => {
         dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
     }
+
+    const handleMenuClick: any = (e) => {
+        console.log('click', e);
+        setActivePage(items.find((page: any) => page.key === e.key))
+    };
+
+    const menuProps = {
+        items,
+        onClick: handleMenuClick,
+    };
+
     return (
         <Layout className={styles.websiteBuilderWrap}>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Layout className={styles.builderLeftWrap}>
-                    <Header className={`${styles.headerWrap}`} style={{ background: token.colorBgLayout }}>
+                    <Header className={`${styles.headerWrap}`} style={{ background: token.colorBgBase }}>
                         <Row>
-                            <Col className={styles.headingWrap} span={18}>
-                                <Text style={{ color: token.colorPrimary }}>{LOGO_TEXT} Website Builder</Text>
+                            <Col className={`${styles.headingWrap}`} span={6}>
+                                <Space>
+                                    <IconButton
+                                        icon={<BiHome />}
+                                        active={false}
+                                        onClickButton={() => { }}
+                                        type={'circle'}
+                                        tooltip="Back to dashboard"
+                                    />
+                                    <TextElement color={token.colorPrimary} text={`${LOGO_TEXT} Website Builder`} />
+                                </Space>
+                            </Col>
+                            <Col className={`${styles.headingWrap}`} span={12}>
+                                <Space>
+                                    <Space>
+                                        <TextElement color={token.colorText} text={`Current page :`} />
+                                        <Dropdown menu={menuProps}>
+                                            <Button type='default'>
+                                                <Space>
+                                                    {activePage.label}
+                                                    <TbChevronDown />
+                                                </Space>
+                                            </Button>
+                                        </Dropdown>
+                                        <IconButton tooltip='Page Settings' icon={<LuSettings />} active={false} onClickButton={() => { }} />
+                                    </Space>
+                                </Space>
                             </Col>
                             <Col className={styles.actionsWrap} span={6}>
-
-                                <Tooltip title="Revert Changes" color={'#8892b0'} key='3'>
-                                    <Popconfirm
-                                        title="Revert Changes"
-                                        description="Are you sure you want revert?"
-                                        onConfirm={onClickRevert}
-                                    >
-                                        <div style={{ color: isDarkMode ? 'white' : 'black', background: '#dee1ec46' }}
-                                            onClick={() => { }}
-                                            className={`iconWrap hover ${styles.iconWrap}`}>
-                                            <BsArrowCounterclockwise />
-                                        </div>
-                                    </Popconfirm>
-                                </Tooltip>
+                                <Popconfirm
+                                    title="Revert Changes"
+                                    description="Are you sure you want revert?"
+                                    onConfirm={onClickRevert}
+                                >
+                                    <IconButton
+                                        icon={<BsArrowCounterclockwise />}
+                                        active={false}
+                                        onClickButton={() => { }}
+                                        type={'circle'}
+                                        tooltip="Revert Changes"
+                                    />
+                                </Popconfirm>
 
                                 {DEVICE_TYPES.map((device: any, i: number) => {
                                     return <React.Fragment key={i}>
-                                        <Tooltip title={`${device.title} View`} color={'#8892b0'} key='3'>
-                                            <div style={{ color: isDarkMode ? 'white' : 'black', background: activeDeviceType == device.title ? token.colorPrimary : '#dee1ec46' }}
-                                                onClick={() => setActiveDeviceType(device.title)}
-                                                className={`iconWrap hover ${styles.iconWrap} ${activeDeviceType == device.title ? styles.active : ''}`}>
-                                                {device.icon}
-                                            </div>
-                                        </Tooltip>
+                                        <IconButton
+                                            icon={device.icon}
+                                            active={activeDeviceType == device.title}
+                                            onClickButton={() => setActiveDeviceType(device.title)}
+                                            type={'circle'}
+                                            tooltip={`${device.title} View`}
+                                        />
                                     </React.Fragment>
                                 })}
                             </Col>
@@ -180,27 +225,28 @@ function WebsiteBuilder() {
                     className={`${styles.builderRightWrap} ${isDarkMode ? "ant-layout-sider-dark" : "ant-layout-sider-light"} ${styles[activeDeviceType]}`}>
                     <div className={styles.sidebarWrap}>
                         <div className={styles.segmentWrap}>
-                            <Segmented
-                                size="large"
-                                block={true}
+                            <SegmentComponent
+                                label={``}
                                 value={activeOptionTab}
-                                onChange={(tab: any) => onClickOptionsTab(tab)}
-                                options={getSegmentOptions()}
+                                showIcon={true}
+                                onChange={(tab) => onClickOptionsTab(tab)}
+                                options={SEGMENT_OPTIONS}
+                                type={SEGMENT_OPTIONS_TYPES.ARRAY_OF_OBJECTS}
                             />
                         </div>
-                        {activeOptionTab == SEGMENT_OPTIONS[0].title && <div className={styles.sidebarContentWrap}>
+                        {activeOptionTab == SEGMENT_OPTIONS[0].key && <div className={styles.sidebarContentWrap}>
                             <div className={styles.note} style={{ color: token.colorPrimary }}>
                                 Drag and drop section to left builder area
                             </div>
                             <SectionsContainer ComponentConfigs={ComponentConfigs} />
                         </div>}
-                        {activeOptionTab == SEGMENT_OPTIONS[1].title && <div className={styles.sidebarContentWrap}>
+                        {activeOptionTab == SEGMENT_OPTIONS[1].key && <div className={styles.sidebarContentWrap}>
                             <div className={styles.note} style={{ color: token.colorPrimary }}>
                                 {Boolean(activeComponent.uid) ? 'Edit content of selected section' : 'You have no component selected'}
                             </div>
                             {Boolean(activeComponent.uid) && <ComponentEditor activeComponent={activeComponent} builderState={builderState} />}
                         </div>}
-                        {activeOptionTab == SEGMENT_OPTIONS[2].title && <div className={styles.sidebarContentWrap}>
+                        {activeOptionTab == SEGMENT_OPTIONS[2].key && <div className={styles.sidebarContentWrap}>
                             <div className={styles.note} style={{ color: token.colorPrimary }}>
                                 Edit global styles and elements
                             </div>

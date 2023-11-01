@@ -8,6 +8,8 @@ import { useAppSelector } from '@hook/useAppSelector';
 import { getBuilderState } from '@reduxSlices/builderState';
 import { getActiveEditorComponent, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import getBackground from '@util/getBackgroundStyle';
+import { theme } from 'antd';
+import { getColourValue } from '@util/getColorsValue';
 
 type pageProps = {
     config: any,
@@ -23,6 +25,7 @@ function ComposerComponent({ config, currentPage, parentId }: pageProps) {
     const dispatch = useAppDispatch();
     const builderState = useAppSelector(getBuilderState);
     const activeComponent = useAppSelector(getActiveEditorComponent);
+    const { token } = theme.useToken();
     const onClickAction = (event: any, action: string) => {
         if ((Boolean(currentPage == BUILDER_PAGE) && !isContainerElement(componentConfig))) {
             switch (action) {
@@ -59,7 +62,7 @@ function ComposerComponent({ config, currentPage, parentId }: pageProps) {
                     }`
             }}></style>}
             <ComponentType
-                style={{ ...componentConfig.style, ...getBackground(componentConfig.background) }}
+                style={{ ...componentConfig.style, color: getColourValue(componentConfig?.style?.color), ...getBackground(componentConfig.background) }}
                 id={componentConfig.uid}
                 className={`${styles.composerWrap}  ${(activeComponent.parentId === parentId && activeComponent.childId === componentConfig.uid) ? styles.active : ''} ${currentPage == BUILDER_PAGE ? styles.hoverOutline : ''}`}
                 onClick={(e) => onClickAction(e, 'EDIT')}

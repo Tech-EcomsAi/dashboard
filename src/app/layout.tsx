@@ -6,10 +6,8 @@ import { authOptions } from '@lib/auth'
 import SessionProvider from '@providers/sessionProvider'
 import { ReduxStoreProvider } from '@providers/reduxProvider'
 import ErrorBoundaryProvider from '@providers/errorBoundaryProvider'
-import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
-import HeadMetaTags from '@organisms/headMetaTags'
 import "@styles/app.scss";
-// import ReactQueryProvider from '@/components/provider'
+import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 

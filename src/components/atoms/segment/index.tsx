@@ -35,11 +35,12 @@ const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE
             return {
                 label:
                     <Tooltip title={`${option.key} ${entity}`}>
-                        <div style={{ color: value == option.value ? token.colorBgBase : token.colorTextBase }}
+                        <div
+                            style={{ color: value == option.value ? token.colorBgBase : token.colorTextBase }}
                             className={`${styles.segmentItem} ${value == option.value ? styles.active : ''}`}>
                             {showIcon && <div className={styles.iconWrap} style={{
-                                backgroundColor: value == option.key ? token.colorPrimaryBorderHover : token.colorBgBase,
-                                color: value == option.key ? token.colorBgBase : token.colorTextBase
+                                backgroundColor: token.colorBgBase,
+                                color: value == option.key ? token.colorPrimary : token.colorTextDescription
                             }}>
                                 {option.icon}
                             </div>}

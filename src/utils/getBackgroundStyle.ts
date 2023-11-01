@@ -1,13 +1,13 @@
 import { BACKGROUND_TYPES } from "@constant/common";
-import { getGradientValue } from "./utils";
+import { getColourValue, getGradientValue } from "./getColorsValue";
 
 
 const getBackgroundColor = (config) => {
-    return { background: config.colors[0].color };
+    return { background: getColourValue(config.colors[0].color) };
 }
 
 const getBackgroundGradient = (config) => {
-    return { background: getGradientValue(config.colors, config.direction) };
+    return { background: getGradientValue(config) };
 }
 
 const getBackgroundImage = (config) => {

@@ -42,7 +42,7 @@ export default function AntdLayoutWrapper(props: any) {
                         </Layout>
                     </Fragment>
                 </AntdThemeProvider>
-            </StyleProvider>;
+            </StyleProvider>
         </Layout>
     )
 }

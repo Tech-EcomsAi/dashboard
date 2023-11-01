@@ -275,7 +275,7 @@ export function formatTimeTo12Hr(time) {
     timeNewDate.setHours(parseInt(timeNewDateString[0]));
     timeNewDate.setMinutes(parseInt(timeNewDateString[1]));
     const hour24 = timeNewDate.getHours();
-    let minutes = (timeNewDate.getMinutes() === 0) ? '00' : timeNewDate.getMinutes();
+    let minutes: any = (timeNewDate.getMinutes() === 0) ? '00' : timeNewDate.getMinutes();
     minutes = (minutes > 0 && minutes < 10) ? `0${minutes}` : minutes;
     const ampm = (hour24 >= 12) ? 'PM' : 'AM';
     let hour: any = hour24 % 12 || 12;
@@ -414,14 +414,6 @@ export const uid = () => String(Date.now().toString(32) + Math.random().toString
 export const isContainerElement = (config) => config.section ? true : false;
 
 export const removeObjRef = (obj) => JSON.parse(JSON.stringify(obj || {}));
-
-export const getGradientValue = (colors, direction = 'to right') => {
-  let colorsString = '';
-  colors.map((c, i) => {
-    colorsString = `${colorsString}${c.color}${i != colors.length - 1 ? ', ' : ''}`
-  })
-  return (`linear-gradient(${direction}, ${colorsString})`);
-}
 
 export function isSameObjects(value, other) {
   // Get the value type

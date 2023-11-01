@@ -7,17 +7,39 @@ import getBackground from '@util/getBackgroundStyle';
 import Gradients from './gradients';
 import { MdOutlineClose, MdAdd } from 'react-icons/md'
 import { BACKGROUND_TYPES } from '@constant/common';
-import { getGradientValue } from '@util/utils';
+import { getGradientValue } from '@util/getColorsValue';
+import { removeObjRef } from '@util/utils';
 
-const gradientDirectionsList = [
-    { value: 'to right', label: 'Right' },
-    { value: 'to right bottom', label: 'Right Bottom' },
-    { value: 'to right top', label: 'Right Top' },
-    { value: 'to left', label: 'Left' },
-    { value: 'to left bottom', label: 'Left Bottom' },
-    { value: 'to left top', label: 'Left Top' },
-    { value: 'to bottom', label: 'Bottom' },
-    { value: 'to top', label: 'Top' },
+const GRADIENT_DIRECTIONS = {
+    linear: [
+        { value: 'to right', label: 'Right' },
+        { value: 'to right bottom', label: 'Right Bottom' },
+        { value: 'to right top', label: 'Right Top' },
+        { value: 'to left', label: 'Left' },
+        { value: 'to left bottom', label: 'Left Bottom' },
+        { value: 'to left top', label: 'Left Top' },
+        { value: 'to bottom', label: 'Bottom' },
+        { value: 'to top', label: 'Top' },
+    ],
+    radialCircle: [
+        { value: 'circle at center', label: 'Circle at center' },
+        { value: 'circle at left', label: 'Circle at left' },
+        { value: 'circle at right', label: 'Circle at right' },
+        { value: 'circle at top', label: 'Circle at top' },
+        { value: 'circle at bottom', label: 'Circle at bottom' },
+    ],
+    radialEllipse: [
+        { value: 'ellipse at center', label: 'Ellipse at center' },
+        { value: 'ellipse at left', label: 'Ellipse at left' },
+        { value: 'ellipse at right', label: 'Ellipse at right' },
+        { value: 'ellipse at top', label: 'Ellipse at top' },
+        { value: 'ellipse at bottom', label: 'Ellipse at bottom' },
+    ]
+}
+const GRADIENT_TYPES = [
+    { value: 'linear', label: 'Linear' },
+    { value: 'radialCircle', label: 'Radial Circle' },
+    { value: 'radialEllipse', label: 'Radial Ellipse' },
 ]
 
 const valueSample = {
@@ -41,11 +63,12 @@ function GradientColor({ value, onChange }) {
         !selectedConfig.doNotCloseDrawer && setShowGradientsList(false);
         const colors = selectedConfig.colors.map(c => { return { color: c, format: 'hex' } })
         const gradientObj = {
-            value: getGradientValue(colors),
+            value: '',
+            props: { direction: 'to right', type: "linear" },
             type: 'Gradient',
-            direction: 'to right',
             colors
         }
+        gradientObj.value = getGradientValue(gradientObj)
         onChange(gradientObj);
     }
 
@@ -54,16 +77,24 @@ function GradientColor({ value, onChange }) {
         const colorsCopy = [...valueCopy.colors];
         colorsCopy[index] = newColor;
         valueCopy.colors = colorsCopy;
-        valueCopy.value = getGradientValue(valueCopy.colors, valueCopy.direction);
+        valueCopy.value = getGradientValue(valueCopy);
         onChange(valueCopy);
     }
 
     const onChangeDirection = (direction) => {
-        const valueCopy = { ...value };
-        valueCopy.direction = direction;
-        const colorsCopy = [...valueCopy.colors];
-        valueCopy.colors = colorsCopy;
-        valueCopy.value = getGradientValue(valueCopy.colors, valueCopy.direction);
+        const valueCopy = removeObjRef(value);
+        if (!valueCopy.props) valueCopy.props = { direction: "", type: "" }
+        valueCopy.props.direction = direction;
+        valueCopy.value = getGradientValue(valueCopy);
+        onChange(valueCopy);
+    }
+
+    const onChangeType = (type) => {
+        const valueCopy = removeObjRef(value);
+        if (!valueCopy.props) valueCopy.props = { direction: "", type: "" }
+        valueCopy.props.type = type;
+        valueCopy.props.direction = GRADIENT_DIRECTIONS[type][0].value;
+        valueCopy.value = getGradientValue(valueCopy);
         onChange(valueCopy);
     }
 
@@ -72,7 +103,7 @@ function GradientColor({ value, onChange }) {
         const colorsCopy = [...valueCopy.colors];
         colorsCopy.splice(colorIndex, 1);
         valueCopy.colors = colorsCopy;
-        valueCopy.value = getGradientValue(valueCopy.colors, valueCopy.direction);
+        valueCopy.value = getGradientValue(valueCopy);
         onChange(valueCopy);
     }
 
@@ -81,7 +112,7 @@ function GradientColor({ value, onChange }) {
         const colorsCopy = [...valueCopy.colors];
         colorsCopy.push({ color: '#0a192f', format: 'hex' })
         valueCopy.colors = colorsCopy;
-        valueCopy.value = getGradientValue(valueCopy.colors, valueCopy.direction);
+        valueCopy.value = getGradientValue(valueCopy);
         onChange(valueCopy);
     }
 
@@ -127,10 +158,19 @@ function GradientColor({ value, onChange }) {
                     <div className={styles.positionWrap}>
                         <Select
                             showSearch
-                            defaultValue={gradientDirectionsList[0].value}
+                            defaultValue={GRADIENT_TYPES[0].value}
+                            style={{ width: 160 }}
+                            onChange={(value) => onChangeType(value)}
+                            options={GRADIENT_TYPES}
+                        />
+                    </div>
+                    <div className={styles.positionWrap}>
+                        <Select
+                            showSearch
+                            defaultValue={GRADIENT_DIRECTIONS[value?.props?.type || 'linear'][0]}
                             style={{ width: 160 }}
                             onChange={(value) => onChangeDirection(value)}
-                            options={gradientDirectionsList}
+                            options={GRADIENT_DIRECTIONS[value?.props?.type || 'linear']}
                         />
                     </div>
                     <div className={`${styles.exploreWrap} ${showGradientsList ? styles.active : ''}`} onClick={() => setShowGradientsList(true)}>Explore More</div>
@@ -143,14 +183,14 @@ function GradientColor({ value, onChange }) {
                         onClose={handleCancel}
                         className={styles.imagePickerModalWrap}
                         maskStyle={{ background: 'unset' }}
-                        bodyStyle={{ padding: '0px' }}
+                        // bodyStyle={{ padding: '0px' }}
                         footer={
                             <Space>
                                 <Button onClick={handleCancel}>Cancel</Button>
                                 <Button type="primary" onClick={() => setShowGradientsList(false)}>Update</Button>
                             </Space>
                         }
-                        footerStyle={{ display: 'flex', justifyContent: "flex-end", marginBottom: '5px' }}
+                    // footerStyle={{ display: 'flex', justifyContent: "flex-end", marginBottom: '5px' }}
                     >
                         <div className={styles.modalContentWrap}>
                             <Gradients onSelect={(value) => handleSave(value, true)} />

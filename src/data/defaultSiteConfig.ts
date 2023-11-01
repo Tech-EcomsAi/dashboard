@@ -28,6 +28,13 @@ export default {
     ],
     style: {
         padding: '0 0 0 0',
+    },
+    variables: {
+        colorBg: "#dee1ec",
+        colorTitle: "red",
+        colorParagraph: "green",
+        colorButton: "#0f3832",
+        colorOutlineButton: "#0f3832",
     }
     //site ref https://colorhunt.co/palettes/neon
 };
