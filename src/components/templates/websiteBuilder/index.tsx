@@ -1,6 +1,6 @@
 'use client'
 import styles from '@templatesCSS/websiteBuilder/websiteBuilder.module.scss'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, theme, Tooltip, Typography } from 'antd';
 import { useAppSelector } from '@hook/useAppSelector';
 import { getDarkModeState } from '@reduxSlices/darkMode';
@@ -20,7 +20,7 @@ import GlobalContainer from './globalContainer';
 import { LOGO_TEXT } from '@constant/common';
 
 import dynamic from 'next/dynamic';
-import { BiDownArrow, BiHome } from 'react-icons/bi';
+import { BiDownArrow, BiHome, BiMinusCircle, BiPlusCircle, BiReset } from 'react-icons/bi';
 import IconButton from '@antdComponent/iconButton';
 import TextElement from '@antdComponent/textElement';
 import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
@@ -29,29 +29,11 @@ import { MdArrowDropDown } from 'react-icons/md';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { TbChevronDown, TbComponents, TbEdit, TbLayersIntersect, TbPencilCog } from 'react-icons/tb';
+import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
 
-const DragDropContext = dynamic(
-    () =>
-        import('@hello-pangea/dnd').then(mod => {
-            return mod.DragDropContext;
-        }),
-    { ssr: false },
-);
-const Droppable = dynamic(
-    () =>
-        import('@hello-pangea/dnd').then(mod => {
-            return mod.Droppable;
-        }),
-    { ssr: false },
-);
-const Draggable = dynamic(
-    () =>
-        import('@hello-pangea/dnd').then(mod => {
-            return mod.Draggable;
-        }),
-    { ssr: false },
-);
-
+const DragDropContext = dynamic(() => import('@hello-pangea/dnd').then(mod => { return mod.DragDropContext; }), { ssr: false },);
+const Droppable = dynamic(() => import('@hello-pangea/dnd').then(mod => { return mod.Droppable; }), { ssr: false },);
+const Draggable = dynamic(() => import('@hello-pangea/dnd').then(mod => { return mod.Draggable; }), { ssr: false },);
 
 const { Header, Content, Sider } = Layout;
 const { Text } = Typography;
@@ -93,6 +75,20 @@ function WebsiteBuilder() {
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
     const [activePage, setActivePage] = useState(items[0])
+    const builderRef = useRef<HTMLElement>();
+    const builderPanZoomContainer = useRef<PanzoomObject>();
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (!builderPanZoomContainer.current && builderRef.current) {
+                builderPanZoomContainer.current = Panzoom(builderRef.current, {
+                    excludeClass: "builderDroppableList"
+                });
+                console.log("initialise panzoom")
+                // builderRef.current.parentElement.addEventListener('wheel', builderPanZoomContainer.current.zoomWithWheel())
+            }
+        }, 3000);
+    }, [builderRef])
 
     useEffect(() => {
         if (Boolean(activeComponent.uid)) setActiveOptionTab('Editor');
@@ -169,19 +165,29 @@ function WebsiteBuilder() {
                             </Col>
                             <Col className={`${styles.headingWrap}`} span={12}>
                                 <Space>
-                                    <Space>
-                                        <TextElement color={token.colorText} text={`Current page :`} />
-                                        <Dropdown menu={menuProps}>
-                                            <Button type='default'>
-                                                <Space>
-                                                    {activePage.label}
-                                                    <TbChevronDown />
-                                                </Space>
-                                            </Button>
-                                        </Dropdown>
-                                        <IconButton tooltip='Page Settings' icon={<LuSettings />} active={false} onClickButton={() => { }} />
-                                    </Space>
+                                    <TextElement color={token.colorText} text={`Current page :`} />
+                                    <Dropdown menu={menuProps}>
+                                        <Button type='default'>
+                                            <Space>
+                                                {activePage.label}
+                                                <TbChevronDown />
+                                            </Space>
+                                        </Button>
+                                    </Dropdown>
+                                    <IconButton tooltip='Page Settings' icon={<LuSettings />} active={false} onClickButton={() => { }} />
                                 </Space>
+                                <IconButton type={'circle'} icon={<BiPlusCircle />} active={false} onClickButton={() => {
+                                    builderPanZoomContainer.current.zoomIn({ step: 0.5 })
+                                }} />
+                                <IconButton type={'circle'} icon={<BiMinusCircle />} active={false} onClickButton={() => {
+                                    builderPanZoomContainer.current.zoomOut({ step: 0.5 })
+                                }} />
+                                <IconButton type={'circle'} icon={<BiReset />} active={false} onClickButton={() => {
+                                    builderPanZoomContainer.current.reset()
+                                }} />
+                                {/* <IconButton type={'circle'} icon={<BiCloset />} active={false} onClickButton={() => {
+                    builderPanZoomContainer.current.destroy()
+                }} /> */}
                             </Col>
                             <Col className={styles.actionsWrap} span={6}>
                                 <Popconfirm
@@ -213,7 +219,7 @@ function WebsiteBuilder() {
                         </Row>
                     </Header>
                     <Content className={`${isDarkMode ? "ant-layout-sider-dark" : "ant-layout-sider-light"}`} style={{ background: token.colorBgLayout }}>
-                        <div className={styles.editorContent} onClick={onOutsideEditorClick} >
+                        <div ref={builderRef} className={styles.editorContent} onClick={onOutsideEditorClick} >
                             <BuilderContainer builderState={builderState} activeDeviceType={activeDeviceType} />
                         </div>
                     </Content>

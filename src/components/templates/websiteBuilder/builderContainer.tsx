@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import styles from '@templatesCSS/websiteBuilder/builderContainer.module.scss'
 import ComponentRenderer from '@organisms/componentRenderer/index';
@@ -9,6 +9,9 @@ import SiteConfig from '@type/siteConfig';
 import { useAppSelector } from '@hook/useAppSelector';
 import { getSiteConfig } from '@reduxSlices/siteConfig';
 import getBackground from '@util/getBackgroundStyle';
+import Panzoom, { PanzoomObject } from '@panzoom/panzoom';
+import IconButton from '@antdComponent/iconButton';
+import { BiCloset, BiMinus, BiMinusCircle, BiPlusCircle, BiReset } from 'react-icons/bi';
 
 function BuilderContainer({ builderState, activeDeviceType }) {
     const dispatch = useAppDispatch();
@@ -41,7 +44,7 @@ function BuilderContainer({ builderState, activeDeviceType }) {
                         background-size: cover;
                     }`
             }}></style>}
-            <div className={`${styles.builderDroppableList} ${styles[activeDeviceType]}`} onClick={(e) => onClickComponent(e, null, null)}>
+            <div className={`builderDroppableList ${styles.builderDroppableList} ${styles[activeDeviceType]}`} onClick={(e) => onClickComponent(e, null, null)}>
                 {Object.keys(builderState).map((list, i) => {
                     return (
                         <Droppable key={list} droppableId={list} >
