@@ -22,7 +22,9 @@ export const getColourValue = (color: string) => {
 export const getGradientValue = (configObj: gradientConfigObj) => {
     const colors = configObj.colors;
     let { direction, type } = configObj.props;
-    if (type.includes("radial")) type = 'radial';
+    if (type.includes("radial")) {
+        type = 'radial'
+    };
     let colorsString = '';
     colors.map((c, i) => {
         colorsString = `${colorsString}${c.color}${i != colors.length - 1 ? ', ' : ''}`

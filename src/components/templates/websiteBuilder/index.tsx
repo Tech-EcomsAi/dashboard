@@ -59,10 +59,7 @@ const { Text } = Typography;
 const DEVICE_TYPES = [
     { title: 'Mobile', icon: <BsPhone /> },
     // { title: 'Tablet', icon: <BsTabletLandscape /> },
-    { title: 'Desktop', icon: <BsLaptop /> },
-    // { title: 'Mobile', icon: <BsFillPhoneFill /> },
-    // { title: 'Tablet', icon: <BsFillTabletLandscapeFill /> },
-    // { title: 'Laptop', icon: <BsLaptopFill /> },
+    { title: 'Desktop', icon: <BsLaptop /> }
 ]
 
 const SEGMENT_OPTIONS = [

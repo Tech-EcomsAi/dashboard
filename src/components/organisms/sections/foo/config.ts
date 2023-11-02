@@ -24,8 +24,8 @@ export default {
         value: SITE_COLOR_VARIABLE.COLOR_PARAGRAPH,
         type: BACKGROUND_TYPES.GRADIENT,
         props: {
-            type: "radialEllipse",
-            direction: "ellipse at right"
+            type: "radialCircle",
+            direction: "circle at center"
         },
         colors: [{ color: '#9400D3', format: 'hex' }, { color: '#4B0082', format: 'hex' }]
     },

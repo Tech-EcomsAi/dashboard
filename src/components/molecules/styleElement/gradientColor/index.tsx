@@ -158,7 +158,7 @@ function GradientColor({ value, onChange }) {
                     <div className={styles.positionWrap}>
                         <Select
                             showSearch
-                            defaultValue={GRADIENT_TYPES[0].value}
+                            defaultValue={value?.props?.type}
                             style={{ width: 160 }}
                             onChange={(value) => onChangeType(value)}
                             options={GRADIENT_TYPES}
@@ -167,7 +167,7 @@ function GradientColor({ value, onChange }) {
                     <div className={styles.positionWrap}>
                         <Select
                             showSearch
-                            defaultValue={GRADIENT_DIRECTIONS[value?.props?.type || 'linear'][0]}
+                            defaultValue={value?.props?.direction}
                             style={{ width: 160 }}
                             onChange={(value) => onChangeDirection(value)}
                             options={GRADIENT_DIRECTIONS[value?.props?.type || 'linear']}
