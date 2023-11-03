@@ -29,6 +29,7 @@ import { MdArrowDropDown } from 'react-icons/md';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { TbChevronDown, TbComponents, TbEdit, TbLayersIntersect, TbPencilCog } from 'react-icons/tb';
+import ReactFlowWrapper from './reactFlowWrapper';
 
 const DragDropContext = dynamic(
     () =>
@@ -214,7 +215,7 @@ function WebsiteBuilder() {
                     </Header>
                     <Content className={`${isDarkMode ? "ant-layout-sider-dark" : "ant-layout-sider-light"}`} style={{ background: token.colorBgLayout }}>
                         <div className={styles.editorContent} onClick={onOutsideEditorClick} >
-                            <BuilderContainer builderState={builderState} activeDeviceType={activeDeviceType} />
+                            <ReactFlowWrapper builderState={builderState} activeDeviceType={activeDeviceType} ></ReactFlowWrapper>
                         </div>
                     </Content>
                 </Layout>
