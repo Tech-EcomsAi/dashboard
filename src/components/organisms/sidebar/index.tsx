@@ -19,17 +19,22 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useAppSelector } from '@hook/useAppSelector';
 import { GiProgression } from 'react-icons/gi';
 import { PiChartLineUpBold } from 'react-icons/pi';
+import { Router } from 'next/router';
+import { useRouter } from 'next/navigation';
+import AppSettingsPanel from './appSettingsPanel';
 
 type NavItem = { label: string, key: string, icon: any, isChild?: boolean, subNav?: any, showSubNav?: boolean };
 
 const SidebarComponent = ({ isCollapsed, setIsCollapsed }) => {
     const dispatch = useAppDispatch();
     const { token } = theme.useToken();
+    const router = useRouter()
+    const isDarkMode = useAppSelector(getDarkModeState);
     const [hoverId, setHoverId] = useState(null);
     const [activeParentNav, setActiveParentNav] = useState<NavItem>({ label: '', key: '', icon: '', isChild: false })
     const [activeNav, setActiveNav] = useState<NavItem>({ label: 'Builder', key: 'builder', icon: 'builder', isChild: false });
     const [isHover, setIsHover] = useState(true);
-    const isDarkMode = useAppSelector(getDarkModeState);
+    const [showAppSettingsPanel, setShowAppSettingsPanel] = useState(false)
 
     const collapseNavItem = { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> };
     const settingsNavItem = { label: 'Settings', key: 'dashboard-settings', icon: <MdOutlineSettingsSuggest /> };
@@ -79,6 +84,12 @@ const SidebarComponent = ({ isCollapsed, setIsCollapsed }) => {
             case 'dashboard-settings':
                 setActiveNav(navItem);
                 break;
+            case 'reports':
+                router.push('/reports')
+                break;
+            case 'builder':
+                router.push('/builder')
+                break;
             default:
                 if (navItem.subNav) {
                     if (activeParentNav.key == navItem.key && activeParentNav.showSubNav) setActiveParentNav({ ...navItem, showSubNav: false })
@@ -121,6 +132,7 @@ const SidebarComponent = ({ isCollapsed, setIsCollapsed }) => {
                                 <div className={styles.navWrap}>
                                     <div className={styles.labelIconWrap}>
                                         <div className={styles.iconWrap} style={{
+                                            // backgroundImage: `radial-gradient( 100% 100% at 0 0, rgb(10 174 145 / 16%) 0, rgb(147 147 217 / 21%) 50%, #09aa8d26 100%)`,
                                             color: (nav.key == activeNav.key) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                         }}>
                                             {nav.icon}
@@ -143,7 +155,6 @@ const SidebarComponent = ({ isCollapsed, setIsCollapsed }) => {
                                             transition={{ duration: 0.1 }}
                                             animate={{
                                                 rotate: Boolean(activeParentNav.key == nav.key && activeParentNav.subNav && activeParentNav.showSubNav) ? 90 : 0,
-                                                // x: Boolean(activeParentNav.key == nav.key && activeParentNav.subNav && activeParentNav.showSubNav) ? -4 : 0
                                             }}>
                                             <MdOutlineNavigateNext />
                                         </motion.div>}
@@ -202,10 +213,10 @@ const SidebarComponent = ({ isCollapsed, setIsCollapsed }) => {
                         <div className={`${styles.menuItemWrap}`}
                             onMouseEnter={() => setHoverId(settingsNavItem.key)}
                             onMouseLeave={() => setHoverId('')}
-                            onClick={() => onClickNav(settingsNavItem)}
+                            onClick={() => setShowAppSettingsPanel(true)}
                             style={{
                                 background: token.colorBgBase,
-                                color: (settingsNavItem.key == hoverId || activeNav.key == settingsNavItem.key) ? token.colorPrimaryTextActive : token.colorText,
+                                color: (settingsNavItem.key == hoverId || showAppSettingsPanel) ? token.colorPrimaryTextActive : token.colorText,
                                 border: `1px solid ${token.colorBorder}`,
                             }}
                         >
@@ -306,6 +317,12 @@ const SidebarComponent = ({ isCollapsed, setIsCollapsed }) => {
 
                 </div>
             </motion.div>
+            <AppSettingsPanel
+                open={showAppSettingsPanel}
+                togglePannel={() => setShowAppSettingsPanel(!showAppSettingsPanel)}
+                toggleCollapsed={() => setIsCollapsed(!isCollapsed)}
+                isCollapsed={isCollapsed}
+            />
         </>
     )
 }

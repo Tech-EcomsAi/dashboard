@@ -10,7 +10,7 @@ import SectionsContainer from './sectionsContainer';
 import BuilderContainer from './builderContainer';
 // import { DragDropContext } from '@hello-pangea/dnd';
 import { useAppDispatch } from '@hook/useAppDispatch';
-import { getBuilderState, updateBuilderState } from '@reduxSlices/builderState';
+import { getBuilderState, updateBuilderState } from "@reduxSlices/siteBuilderState";
 import ComponentEditor from '@organisms/componentEditor';
 import { getActiveEditorComponent, initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import ComponentConfigs from '@organisms/sections/configsList';
@@ -26,9 +26,11 @@ import TextElement from '@antdComponent/textElement';
 import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
 import { LuSettings } from 'react-icons/lu';
 import { MdArrowDropDown } from 'react-icons/md';
-import { RiArrowDropDownLine } from 'react-icons/ri';
+import { RiArrowDropDownLine, RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 import { IoIosArrowDropdown } from 'react-icons/io';
-import { TbChevronDown, TbComponents, TbEdit, TbLayersIntersect, TbPencilCog } from 'react-icons/tb';
+import { TbChevronDown, TbComponents, TbDevices, TbEdit, TbLayersIntersect, TbPencilCog } from 'react-icons/tb';
+import BuilderWrapper from './builderWrapper';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const DragDropContext = dynamic(
     () =>
@@ -57,9 +59,10 @@ const { Header, Content, Sider } = Layout;
 const { Text } = Typography;
 
 const DEVICE_TYPES = [
+    { title: 'All', icon: <TbDevices /> },
     { title: 'Mobile', icon: <BsPhone /> },
+    { title: 'Desktop', icon: <BsLaptop /> },
     // { title: 'Tablet', icon: <BsTabletLandscape /> },
-    { title: 'Desktop', icon: <BsLaptop /> }
 ]
 
 const SEGMENT_OPTIONS = [
@@ -87,15 +90,19 @@ function WebsiteBuilder() {
     const { token } = theme.useToken();
     const isDarkMode = useAppSelector(getDarkModeState)
     const [activeOptionTab, setActiveOptionTab] = useState('Sections');
-    const [activeDeviceType, setActiveDeviceType] = useState(DEVICE_TYPES[0].title);
+    const [activeDeviceType, setActiveDeviceType] = useState(DEVICE_TYPES[1].title);
     const dispatch = useAppDispatch();
     const builderState = useAppSelector(getBuilderState) || { [uuid()]: [] };
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
     const [activePage, setActivePage] = useState(items[0])
+    const [collapsedSectionsContainer, setCollapsedSectionsContainer] = useState(false)
 
     useEffect(() => {
-        if (Boolean(activeComponent.uid)) setActiveOptionTab('Editor');
+        if (Boolean(activeComponent.uid)) {
+            setActiveOptionTab('Editor');
+            setCollapsedSectionsContainer(false)
+        };
     }, [activeComponent])
 
     const onClickOptionsTab = (tab: any) => {
@@ -153,9 +160,9 @@ function WebsiteBuilder() {
         <Layout className={styles.websiteBuilderWrap}>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Layout className={styles.builderLeftWrap}>
-                    <Header className={`${styles.headerWrap}`} style={{ background: token.colorBgBase }}>
+                    <Header className={`${styles.headerWrap}`} style={{ background: token.colorBgBase, boxShadow: `${token.colorBorder} 0px 4px 8px -4px` }}>
                         <Row>
-                            <Col className={`${styles.headingWrap}`} span={6}>
+                            {/* <Col className={`${styles.headingWrap}`} span={6}>
                                 <Space>
                                     <IconButton
                                         icon={<BiHome />}
@@ -166,8 +173,8 @@ function WebsiteBuilder() {
                                     />
                                     <TextElement color={token.colorPrimary} text={`${LOGO_TEXT} Website Builder`} />
                                 </Space>
-                            </Col>
-                            <Col className={`${styles.headingWrap}`} span={12}>
+                            </Col> */}
+                            <Col className={`${styles.headingWrap}`} span={18}>
                                 <Space>
                                     <Space>
                                         <TextElement color={token.colorText} text={`Current page :`} />
@@ -209,46 +216,66 @@ function WebsiteBuilder() {
                                         />
                                     </React.Fragment>
                                 })}
+                                <IconButton
+                                    icon={collapsedSectionsContainer ? <RiMenuFoldLine /> : <RiMenuUnfoldLine />}
+                                    active={false}
+                                    onClickButton={() => setCollapsedSectionsContainer(!collapsedSectionsContainer)}
+                                    type={'circle'}
+                                    tooltip={collapsedSectionsContainer ? "Expand Sections" : "Collapse Sections"}
+                                />
                             </Col>
                         </Row>
                     </Header>
                     <Content className={`${isDarkMode ? "ant-layout-sider-dark" : "ant-layout-sider-light"}`} style={{ background: token.colorBgLayout }}>
-                        <div className={styles.editorContent} onClick={onOutsideEditorClick} >
-                            <BuilderContainer builderState={builderState} activeDeviceType={activeDeviceType} />
+                        <div className={styles.editorContent} onClick={onOutsideEditorClick} style={{
+                            backgroundImage: `radial-gradient( 100% 100% at 0 0,  ${token.colorBgLayout} 50%, ${token.colorBgElevated} 100%)`
+                        }}>
+                            <BuilderWrapper builderState={builderState} activeDeviceType={activeDeviceType} />
+                            {/* <BuilderContainer builderState={builderState} activeDeviceType={activeDeviceType} /> */}
                         </div>
                     </Content>
                 </Layout>
+                {/* //components sections */}
                 <Sider
-                    className={`${styles.builderRightWrap} ${isDarkMode ? "ant-layout-sider-dark" : "ant-layout-sider-light"} ${styles[activeDeviceType]}`}>
-                    <div className={styles.sidebarWrap}>
-                        <div className={styles.segmentWrap}>
-                            <SegmentComponent
-                                label={``}
-                                value={activeOptionTab}
-                                showIcon={true}
-                                onChange={(tab) => onClickOptionsTab(tab)}
-                                options={SEGMENT_OPTIONS}
-                                type={SEGMENT_OPTIONS_TYPES.ARRAY_OF_OBJECTS}
-                            />
+                    collapsed={collapsedSectionsContainer}
+                    collapsedWidth={0}
+                    theme={isDarkMode ? "dark" : "light"}
+                    defaultCollapsed={false}
+                    width={350}
+                    style={{ background: token.colorBgLayout }}
+                >
+                    <div className={styles.builderRightWrap}
+                    >
+                        <div className={styles.sidebarWrap}>
+                            <div className={styles.segmentWrap}>
+                                <SegmentComponent
+                                    label={``}
+                                    value={activeOptionTab}
+                                    showIcon={true}
+                                    onChange={(tab) => onClickOptionsTab(tab)}
+                                    options={SEGMENT_OPTIONS}
+                                    type={SEGMENT_OPTIONS_TYPES.ARRAY_OF_OBJECTS}
+                                />
+                            </div>
+                            {activeOptionTab == SEGMENT_OPTIONS[0].key && <div className={styles.sidebarContentWrap}>
+                                <div className={styles.note} style={{ color: token.colorPrimary }}>
+                                    Drag and drop section to left builder area
+                                </div>
+                                <SectionsContainer ComponentConfigs={ComponentConfigs} />
+                            </div>}
+                            {activeOptionTab == SEGMENT_OPTIONS[1].key && <div className={styles.sidebarContentWrap}>
+                                <div className={styles.note} style={{ color: token.colorPrimary }}>
+                                    {Boolean(activeComponent.uid) ? 'Edit content of selected section' : 'You have no component selected'}
+                                </div>
+                                {Boolean(activeComponent.uid) && <ComponentEditor activeComponent={activeComponent} builderState={builderState} />}
+                            </div>}
+                            {activeOptionTab == SEGMENT_OPTIONS[2].key && <div className={styles.sidebarContentWrap}>
+                                <div className={styles.note} style={{ color: token.colorPrimary }}>
+                                    Edit global styles and elements
+                                </div>
+                                <GlobalContainer />
+                            </div>}
                         </div>
-                        {activeOptionTab == SEGMENT_OPTIONS[0].key && <div className={styles.sidebarContentWrap}>
-                            <div className={styles.note} style={{ color: token.colorPrimary }}>
-                                Drag and drop section to left builder area
-                            </div>
-                            <SectionsContainer ComponentConfigs={ComponentConfigs} />
-                        </div>}
-                        {activeOptionTab == SEGMENT_OPTIONS[1].key && <div className={styles.sidebarContentWrap}>
-                            <div className={styles.note} style={{ color: token.colorPrimary }}>
-                                {Boolean(activeComponent.uid) ? 'Edit content of selected section' : 'You have no component selected'}
-                            </div>
-                            {Boolean(activeComponent.uid) && <ComponentEditor activeComponent={activeComponent} builderState={builderState} />}
-                        </div>}
-                        {activeOptionTab == SEGMENT_OPTIONS[2].key && <div className={styles.sidebarContentWrap}>
-                            <div className={styles.note} style={{ color: token.colorPrimary }}>
-                                Edit global styles and elements
-                            </div>
-                            <GlobalContainer />
-                        </div>}
                     </div>
                 </Sider>
             </DragDropContext>

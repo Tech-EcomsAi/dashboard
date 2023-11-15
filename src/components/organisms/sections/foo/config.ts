@@ -15,10 +15,10 @@ export default {
     },
     "style": {
         "width": '100%',
-        "height": '100%',
+        "height": '300px',
         "boxShadow": 'unset',
         "padding": '20px 20px 20px 20px',
-        "color": 'black'
+        "color": 'black',
     },
     "background": {
         value: SITE_COLOR_VARIABLE.COLOR_PARAGRAPH,

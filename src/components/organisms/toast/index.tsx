@@ -8,9 +8,6 @@ import { clearToast, getToastState } from '@reduxSlices/toast';
 
 function Toast() {
 
-    const toast = useAppSelector(getToastState);
-    const dispatch = useAppDispatch();
-    const [messageApi, contextHolder] = message.useMessage();
     // message.config({
     //     top: 100,
     //     duration: 2,
@@ -18,6 +15,9 @@ function Toast() {
     //     rtl: true,
     //     prefixCls: 'my-message',
     // });
+    const toast = useAppSelector(getToastState);
+    const dispatch = useAppDispatch();
+    const [messageApi, contextHolder] = message.useMessage();
 
     useEffect(() => {
         if (toast?.type) {

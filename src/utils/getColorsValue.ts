@@ -6,11 +6,9 @@ type gradientConfigObj = {
     props: any,
     colors: any[]
 }
-const reduxStoreState = reduxStore;
-console.log(reduxStoreState)
 
 const getSiteVariables = () => {
-    const colorVariables = reduxStoreState.getState()?.siteConfig?.siteConfig?.variables
+    const colorVariables = reduxStore.getState()?.siteConfig?.siteConfig?.variables
     return colorVariables || defaultSiteConfig.variables;
 }
 
@@ -29,6 +27,6 @@ export const getGradientValue = (configObj: gradientConfigObj) => {
     colors.map((c, i) => {
         colorsString = `${colorsString}${c.color}${i != colors.length - 1 ? ', ' : ''}`
     })
-    console.log("configObj.props", configObj.props)
+    // console.log("configObj.props", configObj.props)
     return (`${type}-gradient(${direction}, ${colorsString})`);
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '@hook/useAppSelector';
-import { getBuilderState, updateBuilderState } from '@reduxSlices/builderState';
+import { getBuilderState, updateBuilderState } from "@reduxSlices/siteBuilderState";
 import { getActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import EditorComponent from './editorComponent';

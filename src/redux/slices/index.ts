@@ -4,9 +4,9 @@ import { loader } from "./loader";
 import { alert } from "./alert";
 import { toast } from "./toast";
 import { darkMode } from "./darkMode";
-import { builderState } from "./builderState";
 import { activeEditorComponent } from "./activeEditorComponent";
 import { siteConfig } from "./siteConfig";
+import { builderState } from "./siteBuilderState";
 
 const rootReducer = combineReducers({
   [auth.name]: auth.reducer,
@@ -16,6 +16,6 @@ const rootReducer = combineReducers({
   [darkMode.name]: darkMode.reducer,
   [builderState.name]: builderState.reducer,
   [activeEditorComponent.name]: activeEditorComponent.reducer,
-  [siteConfig.name]: siteConfig.reducer,
+  [siteConfig.name]: siteConfig.reducer
 });
 export default rootReducer;

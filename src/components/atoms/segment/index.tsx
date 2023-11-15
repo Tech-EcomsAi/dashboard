@@ -13,7 +13,7 @@ const MIDDLE_SIZE: SizeType = "middle";
 
 type props = {}
 
-const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE_SIZE, showIcon = false, entity = "" }: any) => {
+const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE_SIZE, showIcon = false, entity = "", parentClassname = "" }: any) => {
     const { token } = theme.useToken();
 
     const getSegmentOptions = () => {
@@ -52,9 +52,9 @@ const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE
         })
     }
     return (
-        <div className={`${styles.segmentComponentWrap}`} style={{ color: token.colorTextBase }}>
-            {label && <div className={`${styles.label}`}>{label}</div>}
-            <div className={`${styles.segmentWrap}`}>
+        <div className={`${styles.segmentComponentWrap} ${parentClassname}`} style={{ color: token.colorTextBase }}>
+            {label && <div className={`${styles.label} `}>{label}</div>}
+            <div className={`${styles.segmentWrap} `}>
                 <Segmented
                     value={value}
                     style={{ background: token.colorBorder }}

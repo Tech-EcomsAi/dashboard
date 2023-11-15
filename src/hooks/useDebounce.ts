@@ -36,11 +36,15 @@ import { useEffect, useMemo, useRef } from "react";
 //     };
 // };
 
-export function debounce(func, delay = 1000) {
+export function _debounce(func, delay = 1000) {
+    // Declare a variable called 'timer' to store the timer ID
     let timeout;
+    // Return an anonymous function that takes in any number of arguments
     return function (...args) {
-        const context = this;
+        // Clear the previous timer to prevent the execution of 'mainFunction'
         clearTimeout(timeout);
+        const context = this;
+        // Set a new timer that will execute 'mainFunction' after the specified delay
         timeout = setTimeout(() => func.apply(context, args), delay);
     };
 }
@@ -58,7 +62,7 @@ const useDebounce = (callback) => {
             ref.current?.();
         };
 
-        return debounce(func, 500);
+        return _debounce(func, 500);
     }, []);
 
     return debouncedCallback;

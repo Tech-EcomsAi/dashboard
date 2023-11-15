@@ -4,7 +4,7 @@
   &.hoverOutline {
     :hover {
       @include transition;
-      outline: 1px solid var(--outlineColor);
+      outline: 1px groove var(--outlineColor);
       outline-offset: 4px;
     }
   }
@@ -51,7 +51,7 @@
     }
   }
   &.active {
-    outline: 1px solid var(--outlineColor);
+    outline: 1px groove var(--outlineColor);
     outline-offset: 4px;
     z-index: 2;
     @include transition;

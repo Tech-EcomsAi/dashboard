@@ -47,7 +47,7 @@
     }
     &.active,
     &:hover {
-      outline: 1px solid var(--outlineColor);
+      outline: 1px groove var(--outlineColor);
       z-index: 2;
       @include transition;
       .actionsWrap {
@@ -61,7 +61,7 @@
     }
     &.firstChild {
       .actionsWrap {
-        .iconWrap {
+        button {
           &:first-child {
             display: none;
           }
@@ -70,7 +70,7 @@
     }
     &.lastChild {
       .actionsWrap {
-        .iconWrap {
+        button {
           &:nth-child(2) {
             display: none;
           }

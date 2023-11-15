@@ -17,7 +17,7 @@ function ComponentRenderer(props) {
     }, [])
 
     return (
-        <div className={styles.wrap}>
+        <div className={`componentRenderer ${styles.wrap}`}>
             <ComponentWrapper {...props}>
                 {getComponent(props.componentConfig)}
             </ComponentWrapper>

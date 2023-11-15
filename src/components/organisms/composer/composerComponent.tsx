@@ -1,11 +1,11 @@
 'use client'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@organismsCSS/composer/composer.module.scss'
 import { BACKGROUND_TYPES, BUILDER_PAGE } from '@constant/common';
 import { isContainerElement } from '@util/utils';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { useAppSelector } from '@hook/useAppSelector';
-import { getBuilderState } from '@reduxSlices/builderState';
+import { getBuilderState } from "@reduxSlices/siteBuilderState";
 import { getActiveEditorComponent, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import getBackground from '@util/getBackgroundStyle';
 import { theme } from 'antd';
@@ -26,6 +26,8 @@ function ComposerComponent({ config, currentPage, parentId }: pageProps) {
     const builderState = useAppSelector(getBuilderState);
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const { token } = theme.useToken();
+    const [hoverId, setHoverId] = useState(null)
+
     const onClickAction = (event: any, action: string) => {
         if ((Boolean(currentPage == BUILDER_PAGE) && !isContainerElement(componentConfig))) {
             switch (action) {
@@ -62,19 +64,19 @@ function ComposerComponent({ config, currentPage, parentId }: pageProps) {
                     }`
             }}></style>}
             <ComponentType
-                style={{ ...componentConfig.style, color: getColourValue(componentConfig?.style?.color), ...getBackground(componentConfig.background) }}
+                onMouseEnter={() => setHoverId(currentPage == BUILDER_PAGE && activeComponent.childId)}
+                onMouseLeave={() => setHoverId('')}
+                style={{
+                    ...componentConfig.style,
+                    color: getColourValue(componentConfig?.style?.color),
+                    ...getBackground(componentConfig.background),
+                    outline: (hoverId && activeComponent.childId == hoverId) ? `2px solid ${token.colorPrimary}` : ""
+                }}
                 id={componentConfig.uid}
-                className={`${styles.composerWrap}  ${(activeComponent.parentId === parentId && activeComponent.childId === componentConfig.uid) ? styles.active : ''} ${currentPage == BUILDER_PAGE ? styles.hoverOutline : ''}`}
+                className={`composerWrap ${styles.composerWrap}  ${(activeComponent.parentId === parentId && activeComponent.childId === componentConfig.uid) ? styles.active : ''} ${currentPage == BUILDER_PAGE ? styles.hoverOutline : ''}`}
                 onClick={(e) => onClickAction(e, 'EDIT')}
             >
                 {props?.text && props.text}
-                {/* {(Boolean(currentPage == BUILDER_PAGE) && !isContainerElement(componentConfig)) && <div className={`${styles.actionsWrap}`}>
-                    <Tooltip title="Edit Section" color={'#8892b0'} key='4'>
-                        <div className={`iconWrap hover ${styles.iconWrap}`} onClick={(e) => onClickAction(e, 'EDIT')}>
-                            <FiEdit2 />
-                        </div>
-                    </Tooltip>
-                </div>} */}
                 {children ? children?.map((childConfig, index) => {
                     return <React.Fragment key={index}>
                         <ComposerComponent config={childConfig} currentPage={currentPage} parentId={parentId} />

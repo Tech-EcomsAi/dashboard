@@ -4,10 +4,9 @@ import styles from './iconButton.module.scss'
 
 const circle = 'circle' // must be const, no annotation. let or var will not work
 const round = 'round'
-const square = 'square'
+const defaultButton = "defaultButton"
 
-type ButtonType = typeof circle | typeof round
-
+type ButtonType = typeof circle | typeof round | typeof defaultButton
 type IconButtonProps = {
     icon: ReactNode,
     active: Boolean,
@@ -17,7 +16,7 @@ type IconButtonProps = {
     text?: string,
     tooltip?: string
 }
-function IconButton({ icon, active, onClickButton, type, disabled = false, text = '', tooltip = '' }: IconButtonProps) {
+function IconButton({ icon, active, onClickButton, type = "defaultButton", disabled = false, text = '', tooltip = '' }: IconButtonProps) {
     return (
         <>
             {tooltip ? <>
@@ -26,7 +25,7 @@ function IconButton({ icon, active, onClickButton, type, disabled = false, text 
                         className={`${styles.iconButtonWrap} ${styles[type || "square"]}`}
                         type={active ? "primary" : "default"}
                         onClick={onClickButton}
-                        shape={type ? type : "default"}
+                        shape={type == "defaultButton" ? "default" : type}
                     >
                         <Space>{text}{icon}</Space>
                     </Button>
@@ -36,7 +35,7 @@ function IconButton({ icon, active, onClickButton, type, disabled = false, text 
                     className={`${styles.iconButtonWrap} ${styles[type]}`}
                     type={active ? "primary" : "default"}
                     onClick={onClickButton}
-                    shape={type ? type : "default"}
+                    shape={type == "defaultButton" ? "default" : type}
                 >
                     <Space>{text}{icon}</Space>
                 </Button>
