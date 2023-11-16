@@ -3,10 +3,12 @@ import React from "react";
 import { ConfigProvider } from "antd";
 import { theme } from 'antd';
 import { useAppSelector } from "@hook/useAppSelector";
-import { getDarkModeState } from "@reduxSlices/darkMode";
+import { getDarkColorState, getDarkModeState, getLightColorState } from '@reduxSlices/clientThemeConfig';
 
 const AntdClient = ({ children }: any) => {
     const isDarkMode = useAppSelector(getDarkModeState)
+    const lightThemeColor = useAppSelector(getLightColorState)
+    const darkThemeColor = useAppSelector(getDarkColorState)
     const { token } = theme.useToken();
     return (
         <>
@@ -15,7 +17,7 @@ const AntdClient = ({ children }: any) => {
                     algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                     token: {
                         // colorPrimary: '#3bceac',
-                        colorPrimary: isDarkMode ? '#00C9A7' : '#002864',
+                        colorPrimary: isDarkMode ? darkThemeColor : lightThemeColor,
                         borderRadius: 5,
                         wireframe: false
                     },

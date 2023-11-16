@@ -24,6 +24,7 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+        position: relative;
         @include hover;
         .skeletonWrap {
           width: 100%;
@@ -72,6 +73,7 @@
               flex-direction: column;
               align-items: flex-start;
               gap: 10px;
+              box-shadow: 0px 0px 10px rgba(54, 55, 56, 0.211);
             }
             &.default {
               .elementWrap {
@@ -105,16 +107,17 @@
             flex-wrap: wrap;
             gap: 20px;
             .element {
-              width: 80px;
-              height: 60px;
-              padding: 10px;
+              width: 57px;
+              height: 54px;
               border: 1px solid;
               border-radius: 5px;
+              padding: unset;
+              border: unset;
               @include flexCenter;
               @include hover;
               span {
-                width: 30px;
-                height: 30px;
+                width: 28px;
+                height: 28px;
                 border-radius: 20px;
                 @include transition;
               }

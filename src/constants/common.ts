@@ -27,3 +27,10 @@ export const BACKGROUND_IMAGES_TYPES = {
     LARGE: 'large',
     SQUARE: 'square',
 }
+
+export const DEFAULT_LIGHT_COLOR = '#002864';
+export const DEFAULT_DARK_COLOR = '#00C9A7';
+export const DARK_COLORS = ['#00C9A7', '#116D6E', '#D4ADFC', '#F4EEE0', '#B6EADA', '#E9A6A6'];
+export const LIGHT_COLORS = ['#0C134F', '#363062', '#610C9F', '#451952', '#E19898'];
+export const NEON_COLORS = ['#79E0EE', '#FFB84C', '#FF55BB', '#F6F1E9', '#F0FF42', '#060047'];
+export const PASTEL_COLORS = ['#C4DFDF', '#F5F0BB', '#ACB1D6', '#DDFFBB', '#B9F3E4'];

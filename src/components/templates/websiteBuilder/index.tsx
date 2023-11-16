@@ -1,36 +1,29 @@
 'use client'
 import styles from '@templatesCSS/websiteBuilder/websiteBuilder.module.scss'
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, theme, Tooltip, Typography } from 'antd';
+import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, theme, Typography } from 'antd';
+import { getDarkModeState } from '@reduxSlices/clientThemeConfig';
 import { useAppSelector } from '@hook/useAppSelector';
-import { getDarkModeState } from '@reduxSlices/darkMode';
-import { BsFillPencilFill, BsLaptop, BsPhone, BsFillLayersFill, BsArrowCounterclockwise } from 'react-icons/bs';
+import { BsLaptop, BsPhone, BsArrowCounterclockwise } from 'react-icons/bs';
 import { v4 as uuid } from 'uuid';
 import SectionsContainer from './sectionsContainer';
-import BuilderContainer from './builderContainer';
 // import { DragDropContext } from '@hello-pangea/dnd';
 import { useAppDispatch } from '@hook/useAppDispatch';
-import { getBuilderState, updateBuilderState } from "@reduxSlices/siteBuilderState";
+import { BuilderContextType, getBuilderContext, getBuilderState, updateBuilderContext, updateBuilderState } from "@reduxSlices/siteBuilderState";
 import ComponentEditor from '@organisms/componentEditor';
 import { getActiveEditorComponent, initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import ComponentConfigs from '@organisms/sections/configsList';
 import { copy, move, reorder } from '@util/dndHelpers';
 import { showSuccessToast } from '@reduxSlices/toast';
 import GlobalContainer from './globalContainer';
-import { LOGO_TEXT } from '@constant/common';
-
 import dynamic from 'next/dynamic';
-import { BiDownArrow, BiHome } from 'react-icons/bi';
 import IconButton from '@antdComponent/iconButton';
 import TextElement from '@antdComponent/textElement';
 import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
 import { LuSettings } from 'react-icons/lu';
-import { MdArrowDropDown } from 'react-icons/md';
-import { RiArrowDropDownLine, RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
-import { IoIosArrowDropdown } from 'react-icons/io';
-import { TbChevronDown, TbComponents, TbDevices, TbEdit, TbLayersIntersect, TbPencilCog } from 'react-icons/tb';
+import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
+import { TbChevronDown, TbComponents, TbDevices, TbEdit } from 'react-icons/tb';
 import BuilderWrapper from './builderWrapper';
-import { AnimatePresence, motion } from 'framer-motion';
 
 const DragDropContext = dynamic(
     () =>
@@ -90,7 +83,7 @@ function WebsiteBuilder() {
     const { token } = theme.useToken();
     const isDarkMode = useAppSelector(getDarkModeState)
     const [activeOptionTab, setActiveOptionTab] = useState('Sections');
-    const [activeDeviceType, setActiveDeviceType] = useState(DEVICE_TYPES[1].title);
+    const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
     const dispatch = useAppDispatch();
     const builderState = useAppSelector(getBuilderState) || { [uuid()]: [] };
     const activeComponent = useAppSelector(getActiveEditorComponent);
@@ -209,8 +202,8 @@ function WebsiteBuilder() {
                                     return <React.Fragment key={i}>
                                         <IconButton
                                             icon={device.icon}
-                                            active={activeDeviceType == device.title}
-                                            onClickButton={() => setActiveDeviceType(device.title)}
+                                            active={builderContext.deviceType == device.title}
+                                            onClickButton={() => dispatch(updateBuilderContext({ ...builderContext, deviceType: device.title }))}
                                             type={'circle'}
                                             tooltip={`${device.title} View`}
                                         />
@@ -230,8 +223,7 @@ function WebsiteBuilder() {
                         <div className={styles.editorContent} onClick={onOutsideEditorClick} style={{
                             backgroundImage: `radial-gradient( 100% 100% at 0 0,  ${token.colorBgLayout} 50%, ${token.colorBgElevated} 100%)`
                         }}>
-                            <BuilderWrapper builderState={builderState} activeDeviceType={activeDeviceType} />
-                            {/* <BuilderContainer builderState={builderState} activeDeviceType={activeDeviceType} /> */}
+                            <BuilderWrapper builderState={builderState} />
                         </div>
                     </Content>
                 </Layout>

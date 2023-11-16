@@ -1,9 +1,4 @@
-import { LOGO_TEXT } from "@constant/common";
-
-export const DARK_COLORS = ['#0C134F', '#5F264A', '#393646', '#37306B', '#2C3333'];
-export const LIGHT_COLORS = ['#79E0EE', '#B799FF', '#99A98F', '#A6D0DD', '#FFACAC'];
-export const NEON_COLORS = ['#79E0EE', '#FFB84C', '#FF55BB', '#F6F1E9', '#F0FF42', '#060047'];
-export const PASTEL_COLORS = ['#C4DFDF', '#F5F0BB', '#ACB1D6', '#DDFFBB', '#B9F3E4'];
+import { DARK_COLORS, LIGHT_COLORS, LOGO_TEXT, NEON_COLORS, PASTEL_COLORS } from "@constant/common";
 export default {
     id: '',
     version: '1.0',
@@ -31,7 +26,7 @@ export default {
     },
     variables: {
         colorBg: "#ffff",
-        colorTitle: "red",
+        colorTitle: "pink",
         colorParagraph: "green",
         colorButton: "#0f3832",
         colorOutlineButton: "#0f3832",

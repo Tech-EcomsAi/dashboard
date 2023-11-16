@@ -6,10 +6,9 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { useAppSelector } from '@hook/useAppSelector';
-import { getDarkModeState, toggleDarkMode } from '@reduxSlices/darkMode';
 import { Button, theme } from 'antd';
-import { showSuccessAlert } from '@reduxSlices/alert';
 import { showSuccessToast } from '@reduxSlices/toast';
+import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
 
 function Navbar() {
     const session = useSession();

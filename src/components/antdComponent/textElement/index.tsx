@@ -17,7 +17,7 @@ function TextElement({ text, color, size = "medium", weight = 400 }: TextElement
     switch (size) {
         case "small":
             fontSize = 12;
-            fontWeight = 200;
+            fontWeight = 400;
             break;
         case "medium":
             fontSize = 14;

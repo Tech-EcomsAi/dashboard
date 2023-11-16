@@ -1,5 +1,4 @@
 
-import { getDarkModeState } from "@reduxSlices/darkMode";
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import styles from "@organismsCSS/layout/layout.module.scss";
 import Router from "next/navigation";
@@ -16,6 +15,7 @@ import { getAuthUserState, setAuthUser } from "src/redux/slices/auth";
 import ErrorBoundary from "@organisms/errorBoundary";
 import { getUserByToken } from "src/apiService/user";
 import ThemeProvider from "src/themeProvider";
+import { getDarkModeState } from "@reduxSlices/clientThemeConfig";
 
 type LayoutProps = {
   children: ReactNode;

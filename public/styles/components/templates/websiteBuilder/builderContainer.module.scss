@@ -15,7 +15,7 @@
     letter-spacing: 0.3px;
     border-radius: 4px;
     text-align: center;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0) 0px 10px 20px;
   }
   .sortingInProgress {
     top: auto !important;
@@ -78,7 +78,7 @@
       &:hover {
         @include transition;
         outline: 1px groove var(--outlineColor);
-        box-shadow: 0 2px 10px #dee1ec;
+        box-shadow: 0 1px 5px #dee1ec;
       }
       &.sortingInProgress {
         top: auto !important;
@@ -119,13 +119,12 @@
     align-items: center;
     justify-content: center;
     padding: 0px;
-
     font-size: 22px;
     height: 200px;
     width: 100%;
     text-align: center;
     margin: unset;
-    border-radius: 7px;
+    // border-radius: 7px;
     letter-spacing: 0.2px;
     div {
       outline: 1px inset;

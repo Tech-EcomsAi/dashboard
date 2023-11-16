@@ -8,8 +8,8 @@ import defaultCraftBuilderConfig from 'src/data/defaultCraftBuilderConfig';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { showErrorToast } from '@reduxSlices/toast';
 import { PiFileSvg, PiFileJpg, PiFilePng, PiCrownFill } from 'react-icons/pi';
+import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
 import { TbDownload, TbEdit, TbResize } from 'react-icons/tb';
-import { toggleDarkMode, getDarkModeState } from '@reduxSlices/darkMode';
 import { useAppSelector } from '@hook/useAppSelector';
 import { MdDarkMode, MdCleaningServices, MdSave } from 'react-icons/md'
 import { v4 as uuid } from 'uuid';

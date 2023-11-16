@@ -5,19 +5,19 @@ import rootReducer from "../slices";
 
 const persistConfig = {
   key: "nextjs",
-  whitelist: ["auth"], // make sure it does not clash with server keys
+  whitelist: ["auth", "clientThemeConfig"], // make sure it does not clash with server keys
   storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const reduxStore: any = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
   // .concat(logger),
 });
-// store.__persistor = persistStore(store); // Nasty hack
+reduxStore.__persistor = persistStore(reduxStore); // Nasty hack
 
 export type AppStore = ReturnType<typeof reduxStore>;
 export type AppDispatch = ReturnType<AppStore["dispatch"]>;

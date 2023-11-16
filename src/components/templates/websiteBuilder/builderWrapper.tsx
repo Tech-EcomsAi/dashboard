@@ -10,7 +10,7 @@ import { isSameObjects, removeObjRef } from "@util/utils";
 import { useAppDispatch } from "@hook/useAppDispatch";
 import { BuilderContextType, getBuilderContext, updateBuilderContext } from "@reduxSlices/siteBuilderState";
 
-const BuilderWrapper = ({ builderState, activeDeviceType }) => {
+const BuilderWrapper = ({ builderState }) => {
     const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
 
@@ -34,26 +34,29 @@ const BuilderWrapper = ({ builderState, activeDeviceType }) => {
             // disablePadding={false}//Used to disable panning, zooming boundary padding effect. By enabling this option, you will not be able to zoom outside the image area
             centerZoomedOut={true}//When the zoom goes under the 1 value, the library will keep the content component always in the center. Setting it to false will allow to move the scaled element.
         >
-            <TransformComponentWrapper builderState={builderState} activeDeviceType={activeDeviceType} />
+            <TransformComponentWrapper builderState={builderState} />
         </TransformWrapper>
     );
 };
 
 export default BuilderWrapper;
 
-function TransformComponentWrapper({ builderState, activeDeviceType }) {
+function TransformComponentWrapper({ builderState }) {
     const { token } = theme.useToken();
     const dispatch = useAppDispatch();
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
+    const [updatedScale, setUpdatedScale] = useState(builderContext.state.scale);
+
     const updateContext = (event: any) => {
         const newSate = removeObjRef(event.state);
+        setUpdatedScale(event.state.scale)
         if (!isSameObjects(newSate, builderContext.state)) {
             console.log("newSate", newSate.scale)
-            console.log("newSate newScale", `${(newSate.scale > 0.5 ? newSate.scale * 100 : 10 * newSate.scale) * 10}px`)
+            // console.log("newSate newScale", `${(newSate.scale > 0.5 ? newSate.scale * 100 : 10 * newSate.scale) * 10}px`)
             dispatch(updateBuilderContext({ ...builderContext, state: newSate }))
         }
     }
-    const debouncedContextStateData = _debounce(updateContext, 1000);
+    const debouncedContextStateData = _debounce(updateContext, 100);
     useTransformEffect(debouncedContextStateData)
 
     return (
@@ -63,7 +66,9 @@ function TransformComponentWrapper({ builderState, activeDeviceType }) {
                 wrapperStyle={{
                     "height": 'calc(100vh - 60px)',
                     "width": '100%',
-                    "backgroundImage": `radial-gradient(circle at 1px 1px,${token.colorTextDisabled} 1px,transparent 0)`
+                    "backgroundImage": `radial-gradient(circle at 10px 10px,${token.colorTextPlaceholder} 1px,transparent 0)`,
+                    "backgroundSize": `${updatedScale * 50}px ${updatedScale * 50}px`,
+                    "cursor": "grab"
                 }}
                 contentStyle={{
                     flexWrap: "nowrap",
@@ -71,7 +76,7 @@ function TransformComponentWrapper({ builderState, activeDeviceType }) {
                     padding: "200px"
                 }}
             >
-                <BuilderContainer builderState={builderState} activeDeviceType={activeDeviceType} />
+                <BuilderContainer builderState={builderState} />
             </TransformComponent>
             <BuilderComponentControls />
         </React.Fragment>

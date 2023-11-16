@@ -10,6 +10,7 @@
   background-image: radial-gradient("#dee1ec" 1px, transparent 0);
   background-size: 10px 10px;
   overflow: unset;
+  @include transition;
 }
 
 .controlsWrapper {

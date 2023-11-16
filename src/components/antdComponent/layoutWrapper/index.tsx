@@ -1,5 +1,4 @@
 'use client'
-
 import React, { Fragment, useState } from 'react'
 import { Layout, theme } from 'antd';
 import AntdThemeProvider from '@providers/antdThemeProvider';
@@ -10,15 +9,19 @@ import SidebarComponent from '@organisms/sidebar';
 import styles from './layoutWrapper.module.scss'
 import { useServerInsertedHTML } from 'next/navigation';
 import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
+import { useAppSelector } from '@hook/useAppSelector';
+import { getSidebarState } from '@reduxSlices/clientThemeConfig';
 
 const { Content } = Layout;
 
 export default function AntdLayoutWrapper(props: any) {
     const [cache] = React.useState(() => createCache());
-    const [isCollapsed, setIsCollapsed] = useState(false)
+    const isCollapsed = useAppSelector(getSidebarState)
+
     useServerInsertedHTML(() => (
         <style id="antd" dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }}></style>
     ));
+
     return (
         <Layout className={`${styles.layoutWrapper}`}>
             <StyleProvider cache={cache}>
@@ -30,7 +33,7 @@ export default function AntdLayoutWrapper(props: any) {
                         {/* not used */}
                         {/* <AlertNotification /> */}
                         {/* not used */}
-                        <SidebarComponent isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+                        <SidebarComponent />
                         <Layout style={{ paddingLeft: isCollapsed ? "66px" : "200px" }}>
                             {/* {toggleHeader && <HeaderComponent />} */}
                             <Content>

@@ -5,10 +5,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import styles from './colorPicker.module.scss'
 import { BACKGROUND_TYPES, NO_COLOR_VALUE } from '@constant/common';
-import { getSiteConfig } from '@reduxSlices/siteConfig';
 import { useAppSelector } from '@hook/useAppSelector';
 import { removeObjRef } from '@util/utils';
 import { RxTransparencyGrid } from 'react-icons/rx';
+import { ActiveTemplateConfigType, getActiveTemplateConfig } from '@reduxSlices/siteBuilderState';
 
 const valueSample = [{ color: '#000', format: 'hex' }];
 
@@ -18,7 +18,7 @@ function ColorPickerComponent({ page = '', hideColorString = false, hidePresets 
     const { token } = theme.useToken();
     const [activeColor, setActiveColor] = useState<Color | string | any>(value.color);
     const [activeColorFormat, setActiveColorFormat] = useState<ColorPickerProps['format']>(value.format);
-    const siteConfig = useAppSelector(getSiteConfig);
+    const activeTemplateConfig: ActiveTemplateConfigType = useAppSelector(getActiveTemplateConfig);
     const [colorPresets, setColorPresets] = useState([])
 
     const colorString = useMemo(
@@ -41,8 +41,8 @@ function ColorPickerComponent({ page = '', hideColorString = false, hidePresets 
     }, [value])
 
     useEffect(() => {
-        siteConfig && setColorPresets(removeObjRef(siteConfig.colors))
-    }, [siteConfig])
+        activeTemplateConfig && setColorPresets(removeObjRef(activeTemplateConfig.colors))
+    }, [activeTemplateConfig])
 
     const onClickTransparency = () => {
         onChange({ color: NO_COLOR_VALUE, format: 'hex' })
