@@ -8,6 +8,7 @@ import { LuAlignVerticalJustifyCenter, LuAlignCenter, LuAlignHorizontalJustifyCe
 import { groupAlignments } from '@constant/craftBuilder';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { showErrorToast } from '@reduxSlices/toast';
+import TextElement from '@antdComponent/textElement';
 
 type pageProps = {
     updateLocalCanvas: any,
@@ -101,7 +102,7 @@ function CenterAlignment({ updateLocalCanvas, workspace, canvas, activeObjectsSt
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.alignmentWrap}`} >
-            <div className={`${styleElementCSS.label} ${styles.label}`}>Element Alignment With Background</div>
+            <TextElement text={"Element Alignment With Background"} color={token.colorTextBase} />
             <div className={`${styleElementCSS.elementWrap} ${styles.alignmentWrapper}`}>
                 {alignments.map((position, i) => {
                     return <React.Fragment key={position.name}>

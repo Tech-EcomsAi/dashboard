@@ -9,6 +9,7 @@ import { MdOutlineClose, MdAdd } from 'react-icons/md'
 import { BACKGROUND_TYPES } from '@constant/common';
 import { getGradientValue } from '@util/getColorsValue';
 import { removeObjRef } from '@util/utils';
+import IconButton from '@antdComponent/iconButton';
 
 const GRADIENT_DIRECTIONS = {
     linear: [
@@ -130,8 +131,7 @@ function GradientColor({ value, onChange }) {
 
 
     return (
-        <div className={`${styleElementCSS.styleWrap} ${styles.gradientColorWrap}`}>
-            {/* {showLabel && <div className={styleElementCSS.label}>Gradient Color</div>} */}
+        <div className={` ${styles.gradientColorWrap}`}>
             <div className={styles.elementWrap}>
                 <div className={styles.colorWrap} style={{ ...getBackground(value) }}></div>
                 <div className={styles.actionWrap}>
@@ -151,9 +151,7 @@ function GradientColor({ value, onChange }) {
                                 />
                             </div>
                         })}
-                        {value.colors.length <= 6 && <div className={`${styles.colorItemWrap} ${styles.addColor}`} onClick={onAddColor}>
-                            <MdAdd />
-                        </div>}
+                        {value.colors.length <= 6 && <IconButton tooltip={"Add more color"} type={'defaultButton'} icon={<MdAdd />} active={false} onClickButton={onAddColor} />}
                     </div>
                     <div className={styles.positionWrap}>
                         <Select
@@ -173,7 +171,7 @@ function GradientColor({ value, onChange }) {
                             options={GRADIENT_DIRECTIONS[value?.props?.type || 'linear']}
                         />
                     </div>
-                    <div className={`${styles.exploreWrap} ${showGradientsList ? styles.active : ''}`} onClick={() => setShowGradientsList(true)}>Explore More</div>
+                    <Button style={{ width: "100%", fontSize: "12px" }} type={showGradientsList ? "primary" : "default"} className={` ${showGradientsList ? styles.active : ''}`} onClick={() => setShowGradientsList(true)}>View More...</Button>
                     <Drawer
                         title="Colorful Gradients Pallets"
                         placement='right'

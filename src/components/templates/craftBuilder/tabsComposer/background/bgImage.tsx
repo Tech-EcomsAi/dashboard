@@ -17,6 +17,8 @@ import IconsElements from '@template/craftBuilder/tabsComposer/graphics/iconsEle
 import GraphicsElements from '@template/craftBuilder/tabsComposer/graphics/graphicsElements';
 import GraphicsCss from '@template/craftBuilder/tabsComposer/graphics/graphics.module.scss'
 import { getCustomObjectType } from '@util/craftBuilderUtils';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 
 type pageProps = {
     activeObject: any,
@@ -240,14 +242,9 @@ const BGImage = ({ activeObject, updateLocalCanvas, canvas, activeObjectsState }
                     {/* <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ color: token.colorTextBase }}>
                         <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Background Image Width</div>
                         <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                            <Slider
+                            <SliderElement
                                 min={10 || objectDimenstions.width}
                                 max={activeObject.patternData?.img?.width || currentPaternData.width}
-                                className={styles.siderWrap}
-                                defaultValue={objectDimenstions.width}
-                                style={{ width: '100%' }}
-                                railStyle={{ background: token.colorBgSpotlight }}
-                                trackStyle={{ background: token.colorBgSpotlight }}
                                 onChange={(value) => onChangePatternWidth(value)}
                                 value={currentPaternData.width}
                                 step={20}
@@ -255,16 +252,11 @@ const BGImage = ({ activeObject, updateLocalCanvas, canvas, activeObjectsState }
                         </div>
                     </div> */}
                     <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ color: token.colorTextBase }}>
-                        <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Background Image Opacity</div>
+                        <TextElement text={'Background Image Opacity'} color={token.colorTextBase} />
                         <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                            <Slider
+                            <SliderElement
                                 min={0}
                                 max={1}
-                                className={styles.siderWrap}
-                                defaultValue={currentPaternData.opacity}
-                                style={{ width: '100%' }}
-                                railStyle={{ background: token.colorBgSpotlight }}
-                                trackStyle={{ background: token.colorBgSpotlight }}
                                 onChange={(value) => onChangePatternOpacity(value)}
                                 value={currentPaternData.opacity}
                                 step={0.1}

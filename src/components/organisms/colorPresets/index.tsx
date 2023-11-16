@@ -4,8 +4,11 @@ import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss
 import ColorPickerComponent from '@molecules/styleElement/colorPicker';
 import { MdOutlineClose, MdAdd } from 'react-icons/md'
 import { removeObjRef } from '@util/utils';
-function ColorPresets({ config, onConfigUpdate }) {
+import { theme } from 'antd';
+import TextElement from '@antdComponent/textElement';
 
+function ColorPresets({ config, onConfigUpdate }) {
+    const { token } = theme.useToken();
     const onChangeValue = (groupIndex, colorIndex, value) => {
         const configCopy = removeObjRef(config);
         configCopy[groupIndex].colors[colorIndex] = value;
@@ -27,7 +30,7 @@ function ColorPresets({ config, onConfigUpdate }) {
     return (
 
         <div className={`${styleElementCSS.styleWrap} ${styles.colorPresetsWrap}`}>
-            <div className={styleElementCSS.label}>Saved Colors</div>
+            <TextElement text={'Saved Colors'} color={token.colorTextBase} size={"medium"} />
             <div className={`${styleElementCSS.elementWrap}`}>
                 {config.map((colorGroup: any, groupIndex: number) => {
                     return <div className={styles.colorGroupWrap} key={groupIndex + 1}>

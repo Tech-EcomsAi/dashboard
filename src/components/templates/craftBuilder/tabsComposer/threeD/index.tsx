@@ -6,6 +6,8 @@ import { Select, Slider, theme } from 'antd';
 import { TREE_D_STYLES } from '@constant/craftBuilder';
 import { removeObjRef } from '@util/utils';
 import { activeObjectsState } from '@template/craftBuilder/types';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 
 type pageProps = {
     updateLocalCanvas: any,
@@ -76,21 +78,16 @@ function ThreeD({ canvas, updateLocalCanvas, activeObjectsState }: pageProps) {
 
     return (
         <div className={styles.threeDWrap}>
-            <div className={styleElementCSS.label}>Tilt Element</div>
+            <TextElement text={'Tilt Element'} color={token.colorTextBase} />
             {!activeObjectsState.isSelected && <div className={styles.selectionError}>
                 Please, select an element to use the 3D effect.
             </div>}
             <div className={`${styleElementCSS.styleWrap} ${activeObjectsState.isSelected ? '' : 'disabled'} ${styles.imageBlurWrap}`} >
-                <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Tilt X</div>
+                <TextElement text={'Tilt X'} color={token.colorTextBase} />
                 <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                    <Slider
+                    <SliderElement
                         min={-40}
                         max={40}
-                        className={styles.siderWrap}
-                        defaultValue={effects.skewX}
-                        style={{ width: '100%' }}
-                        railStyle={{ background: token.colorBgSpotlight }}
-                        trackStyle={{ background: token.colorBgSpotlight }}
                         onChange={(value) => onChange('skewX', value)}
                         value={effects.skewX}
                         step={10}
@@ -98,16 +95,11 @@ function ThreeD({ canvas, updateLocalCanvas, activeObjectsState }: pageProps) {
                 </div>
             </div>
             <div className={`${styleElementCSS.styleWrap} ${activeObjectsState.isSelected ? '' : 'disabled'} ${styles.imageBlurWrap}`} >
-                <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Tilt Y</div>
+                <TextElement text={'Tilt Y'} color={token.colorTextBase} />
                 <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                    <Slider
+                    <SliderElement
                         min={-40}
                         max={40}
-                        className={styles.siderWrap}
-                        defaultValue={effects.skewY}
-                        style={{ width: '100%' }}
-                        railStyle={{ background: token.colorBgSpotlight }}
-                        trackStyle={{ background: token.colorBgSpotlight }}
                         onChange={(value) => onChange('skewY', value)}
                         value={effects.skewY}
                         step={10}

@@ -1,11 +1,10 @@
 @import "@styles/abstracts/mixins";
 .backgroundElementWrap {
   width: 100%;
-  background-color: var(--styleElementBg);
   border-radius: 4px;
 
   .segmentWrap {
-    // margin: 0 8px;
+    margin-bottom: 15px;
     .segmentItem {
       display: flex;
       justify-content: center;

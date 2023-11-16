@@ -8,10 +8,7 @@ function BackgroundColor({ value, onChange }: any) {
     const valueSample = [{ color: '#000', format: 'hex' }];
 
     return (
-        <div className={`${styleElementCSS.styleWrap} ${styles.backgroundColorelementWrap}`}>
-            {/* {showLabel && <div className={styleElementCSS.label}>Backgound Color</div>} */}
-            <ColorPickerComponent value={value} onChange={onChange} />
-        </div>
+        <ColorPickerComponent value={value} onChange={onChange} />
     )
 }
 

@@ -9,6 +9,7 @@ import { groupAlignments } from '@constant/craftBuilder';
 import { LuAlignStartVertical, LuAlignVerticalJustifyCenter, LuAlignEndVertical, LuAlignCenter, LuAlignStartHorizontal, LuAlignHorizontalJustifyCenter, LuAlignEndHorizontal } from 'react-icons/lu'
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { showErrorToast } from '@reduxSlices/toast';
+import TextElement from '@antdComponent/textElement';
 
 const alignments = [
     { id: groupAlignments.left, name: groupAlignments.left, icon: <LuAlignStartVertical />, tooltip: 'Left align to outer element' },
@@ -148,7 +149,7 @@ function GroupAlignment({ updateLocalCanvas, workspace, canvas, activeObjectsSta
     }
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.alignmentWrap}`}>
-            <div className={`${styleElementCSS.label} ${styles.label}`} style={{ color: token.colorTextBase }}>Group Element Alignment</div>
+            <TextElement text={"Group Element Alignment"} color={token.colorTextBase} />
             <div className={`${styleElementCSS.elementWrap} ${styles.alignmentWrapper}`}>
                 {alignments.map((position, i) => {
                     return <React.Fragment key={position.name}>

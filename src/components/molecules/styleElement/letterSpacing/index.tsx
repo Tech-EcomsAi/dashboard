@@ -1,10 +1,11 @@
-import { Select } from 'antd'
+import { Select, theme } from 'antd'
 import React, { useState } from 'react'
 import styles from './letterSpacing.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import TextElement from '@antdComponent/textElement';
 
 export default function LetterSpacing({ optionsList = null, showLabel = true, value, onChange, style = {} }) {
-
+    const { token } = theme.useToken();
     const defaultOptions = [
         { label: '0', value: '0px' },
         { label: '0.5', value: '0.5px' },
@@ -32,7 +33,7 @@ export default function LetterSpacing({ optionsList = null, showLabel = true, va
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.fontFamilyElementWrap}`} style={style}>
-            {showLabel && <div className={`${styleElementCSS.label} ${styles.label}`}>Letter Spacing</div>}
+            {showLabel && <TextElement text={"Letter Spacing"} />}
             <div className={styleElementCSS.elementWrap}>
                 <Select
                     showSearch

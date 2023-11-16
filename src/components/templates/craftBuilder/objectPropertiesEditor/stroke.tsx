@@ -4,6 +4,8 @@ import styles from './objectPropertiesEditor.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import ColorPickerComponent from '@molecules/styleElement/colorPicker';
 import { strokeTypeList } from '@constant/craftBuilder';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 const { Option } = Select;
 
 function Stroke({ updateLocalCanvas, canvas }) {
@@ -62,11 +64,11 @@ function Stroke({ updateLocalCanvas, canvas }) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.borderWrap}`}>
-            <div className={styleElementCSS.label}>Border/Stroke</div>
+            <TextElement text={'Border/Stroke'} color={token.colorTextBase} />
 
             <div className={`${styleElementCSS.elementWrap} ${styles.elementWrap}`}>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap}`}>
-                    <div className={styleElementCSS.label}>Type</div>
+                    <TextElement text={'Type'} color={token.colorTextBase} />
                     <div className={styleElementCSS.elementWrap}>
                         <Select
                             placeholder="Select type"
@@ -85,24 +87,18 @@ function Stroke({ updateLocalCanvas, canvas }) {
                     </div>
                 </div>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap}`} style={{ width: '60px' }}>
-                    <div className={styleElementCSS.label}>Color</div>
+                    <TextElement text={'Color'} color={token.colorTextBase} />
                     <div className={styleElementCSS.elementWrap}>
                         {stroke && <ColorPickerComponent parentStyles={{ margin: 'unset', background: 'unset' }} hideColorString hideTransparency value={{ format: 'hex', color: stroke?.stroke || '#0000' }} onChange={(value) => onChangeValue('stroke', value.color)} />}
                     </div>
                 </div>
             </div>
-            <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ padding: '0' }}
-            >
-                <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Size</div>
+            <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ padding: '0' }}>
+                <TextElement text={'Size'} color={token.colorTextBase} />
                 <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                    <Slider
+                    <SliderElement
                         min={0}
                         max={50}
-                        className={styles.siderWrap}
-                        defaultValue={0}
-                        style={{ width: '100%' }}
-                        railStyle={{ background: token.colorBgMask, }}
-                        trackStyle={{ background: `black`, }}
                         onChange={(value) => onChangeValue('strokeWidth', value)}
                         value={stroke?.strokeWidth}
                         step={1}

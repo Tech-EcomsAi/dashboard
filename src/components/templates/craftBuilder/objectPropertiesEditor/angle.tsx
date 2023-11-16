@@ -3,6 +3,8 @@ import { fabric } from "fabric";
 import styles from '@objectPropertiesEditor/objectPropertiesEditor.module.scss';
 import { Slider, theme } from 'antd';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 
 type pageProps = {
     updateLocalCanvas: any,
@@ -29,16 +31,11 @@ function Angle({ updateLocalCanvas, canvas }: pageProps) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`}>
-            <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Angle</div>
+            <TextElement text={'Angle'} color={token.colorTextBase} />
             <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                <Slider
+                <SliderElement
                     min={0}
                     max={360}
-                    className={styles.siderWrap}
-                    defaultValue={0}
-                    style={{ width: '100%' }}
-                    railStyle={{ background: token.colorBgMask, }}
-                    trackStyle={{ background: `black`, }}
                     onChange={(value) => onChangeImageOpacity(value)}
                     value={value}
                     step={1}

@@ -3,6 +3,8 @@ import { fabric } from "fabric";
 import styles from '@objectPropertiesEditor/objectPropertiesEditor.module.scss';
 import { Slider, theme } from 'antd';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 
 type pageProps = {
     updateLocalCanvas: any,
@@ -31,16 +33,11 @@ function Opacity({ updateLocalCanvas, canvas }: pageProps) {
         <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`}
             style={{ color: token.colorTextBase }}
         >
-            <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Blur</div>
+            <TextElement text={'Blur'} color={token.colorTextBase} />
             <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                <Slider
+                <SliderElement
                     min={0}
                     max={100}
-                    className={styles.siderWrap}
-                    defaultValue={100}
-                    style={{ width: '100%' }}
-                    railStyle={{ background: token.colorBgMask, }}
-                    trackStyle={{ background: `black`, }}
                     onChange={(value) => onChangeImageOpacity(value)}
                     value={value}
                     step={1}

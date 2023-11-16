@@ -1,5 +1,30 @@
 @import "@styles/abstracts/mixins";
 
+.directionsWrap {
+  .propSelectionWrap {
+    width: 100%;
+    @include flexStart;
+    gap: 10px;
+    margin-bottom: 10px;
+    .segmentWrap {
+      position: sticky;
+      top: 0;
+      left: 0;
+      backdrop-filter: blur(20px);
+      padding-left: 0;
+    }
+    .resetBtn {
+      margin-left: auto;
+    }
+  }
+  .multiDirections {
+    @include flexStart;
+    flex-direction: row;
+    .elementWrap {
+      flex-direction: column;
+    }
+  }
+}
 .elementOuter {
   width: 100%;
   @include flexCenterCol;

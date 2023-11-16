@@ -4,10 +4,13 @@ import FontFamily from '../fontFamily';
 import FontSize from '../fontSize';
 import styles from './textStyles.module.scss';
 import { TbAlignCenter, TbAlignLeft, TbAlignRight, TbBold, TbUnderline, TbItalic } from 'react-icons/tb';
-import { theme } from 'antd';
+import { Button, theme } from 'antd';
 import LetterSpacing from '../letterSpacing';
 import LineHeight from '../lineHeight';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import TextElement from '@antdComponent/textElement';
+import Saperator from '@atoms/Saperator';
+import IconButton from '@antdComponent/iconButton';
 
 function TextStyles({ config, onChange }) {
 
@@ -42,34 +45,27 @@ function TextStyles({ config, onChange }) {
     }
 
     return (
-
         <div className={`${styleElementCSS.styleWrap} ${styles.textStylesWrap}`}>
-            <div className={`${styleElementCSS.label} ${styles.label}`}>Text Styles</div>
-            <div className={`${styleElementCSS.elementWrap}`}>
+            <TextElement text={'Text Styles'} size="medium" />
+            <div className={`${styleElementCSS.elementWrap} ${styles.elementWrap}`}>
                 <div className={styles.propertyWrapper}>
                     <FontFamily value={config.fontFamily} onChange={onChange} />
                     <FontSize value={config.fontSize} onChange={onChange} />
                 </div>
                 <div className={styles.propertyWrapper}>
-                    {textStylesList.map((style, i) => {
-                        return <React.Fragment key={i}>
-                            <div className={styles.iconWrap} onClick={() => onClickAction(style)} style={{
-                                color: style.value == config[style.property] ? token.colorPrimary : token.colorText,
-                                border: '1px solid #dee1ec',
-                                borderColor: style.value == config[style.property] ? token.colorPrimary : token.colorBgLayout,
-                                background: token.colorBgLayout
-                            }}>
-                                {style.icon}
-                            </div>
-                        </React.Fragment>
-                    })}
-                </div>
-                <div className={styles.propertyWrapper}>
                     <LetterSpacing value={config.fontSize} onChange={onChange} />
                     <LineHeight value={config.fontFamily} onChange={onChange} />
                 </div>
+                <div className={styles.propertyWrapper}>
+                    {textStylesList.map((style, i) => {
+                        return <React.Fragment key={i}>
+                            <IconButton type={'defaultButton'} icon={style.icon} active={style.value == config[style.property]} onClickButton={() => onClickAction(style)} />
+                        </React.Fragment>
+                    })}
+                </div>
                 <ColorPickerComponent hideTransparency value={{ format: 'hex', color: config.color || '#000' }} onChange={(value) => onChange('color', value.color)} label="Text Color" />
             </div>
+            <Saperator />
         </div>
     )
 }

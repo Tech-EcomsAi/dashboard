@@ -1,6 +1,6 @@
 import { BACKGROUND_IMAGES_TYPES, PATTERN_PAGE } from '@constant/common';
 import GalleryImages from '@organisms/imagePickerModal/galleryImages';
-import { Checkbox, Segmented, Slider, theme, Tooltip } from 'antd';
+import { Checkbox, Segmented, theme, Tooltip } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { BsImages, BsImageAlt } from 'react-icons/bs';
 import { IoColorFill } from 'react-icons/io5'
@@ -22,6 +22,8 @@ import GraphicsCss from '@template/craftBuilder/tabsComposer/graphics/graphics.m
 import { RiImageAddFill } from 'react-icons/ri';
 import UploadImage from '@organisms/imagePickerModal/uploadImage';
 import PatternGallery from './patternGallery';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 
 type pageProps = {
     activeObject: any,
@@ -341,16 +343,11 @@ const Patterns = ({ activeObject, updateLocalCanvas, canvas, activeObjectsState 
                             </Checkbox>
                         </div>
                         <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ color: token.colorTextBase }}>
-                            <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Size</div>
+                            <TextElement text={'Size'} color={token.colorTextBase} />
                             <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                                <Slider
+                                <SliderElement
                                     min={10 || objectDimenstions.width}
                                     max={100}
-                                    className={styles.siderWrap}
-                                    defaultValue={objectDimenstions.width}
-                                    style={{ width: '100%' }}
-                                    railStyle={{ background: token.colorBgSpotlight }}
-                                    trackStyle={{ background: token.colorBgSpotlight }}
                                     onChange={(value) => onChangePatternWidth(value)}
                                     value={currentPaternData.width}
                                     step={10}
@@ -358,16 +355,11 @@ const Patterns = ({ activeObject, updateLocalCanvas, canvas, activeObjectsState 
                             </div>
                         </div>
                         {!(activeObject && getObjectType(activeObject)?.includes(OBJECT_TYPES.text)) && <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ color: token.colorTextBase }}>
-                            <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Spacing</div>
+                            <TextElement text={'Spacing'} color={token.colorTextBase} />
                             <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                                <Slider
+                                <SliderElement
                                     min={0}
                                     max={50}
-                                    className={styles.siderWrap}
-                                    defaultValue={0}
-                                    style={{ width: '100%' }}
-                                    railStyle={{ background: token.colorBgSpotlight }}
-                                    trackStyle={{ background: token.colorBgSpotlight }}
                                     onChange={(value) => onChangePatternPadding(value)}
                                     value={currentPaternData.padding}
                                     step={1}
@@ -375,16 +367,11 @@ const Patterns = ({ activeObject, updateLocalCanvas, canvas, activeObjectsState 
                             </div>
                         </div>}
                         <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ color: token.colorTextBase }}>
-                            <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Background Image Opacity</div>
+                            <TextElement text={'Background Image Opacity'} color={token.colorTextBase} />
                             <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                                <Slider
+                                <SliderElement
                                     min={0}
                                     max={1}
-                                    className={styles.siderWrap}
-                                    defaultValue={currentPaternData.opacity}
-                                    style={{ width: '100%' }}
-                                    railStyle={{ background: token.colorBgSpotlight }}
-                                    trackStyle={{ background: token.colorBgSpotlight }}
                                     onChange={(value) => onChangePatternOpacity(value)}
                                     value={currentPaternData.opacity}
                                     step={0.1}

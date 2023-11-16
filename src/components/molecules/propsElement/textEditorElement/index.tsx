@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import styles from './textElement.module.scss';
-import { Input } from 'antd';
+import { Input, theme } from 'antd';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import TextElement from '@antdComponent/textElement';
 
 const { TextArea } = Input;
 
-function TextElement({ value, onChange, label = '', placeholder, minRows = 1, maxRows = 3 }: any) {
+function TextEditorElement({ value, onChange, label = '', placeholder, minRows = 1, maxRows = 3 }: any) {
     const [activeValue, setActiveValue] = useState(value)
-
+    const { token } = theme.useToken();
     const onChangeValue = (value: any) => {
         onChange(value);
         setActiveValue(value);
     }
     return (
         <div className={`${styleElementCSS.styleWrap}`}>
-            {label && <div className={styleElementCSS.label}>{label}</div>}
+            {label && <TextElement text={label} color={token.colorTextBase} size={"medium"} />}
             <div className={`${styleElementCSS.elementWrap}`}>
                 <TextArea
                     value={activeValue}
@@ -27,4 +28,4 @@ function TextElement({ value, onChange, label = '', placeholder, minRows = 1, ma
     )
 }
 
-export default TextElement
+export default TextEditorElement

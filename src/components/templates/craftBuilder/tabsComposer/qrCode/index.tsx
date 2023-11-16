@@ -21,7 +21,6 @@ import { RiQrScan2Line } from "react-icons/ri";
 import SocialIcon from '@assets/Icons/social/SocialIcon';
 import { ImEnlarge } from 'react-icons/im';
 import { LuCheck, LuDelete, LuQrCode, LuSettings } from 'react-icons/lu';
-import SliderComponent from '@atoms/slider';
 import { CONTENT_TYPES, DEFAULT_QR_SIZE, LOGO_SIZES, QRProps, TAB_TYPES, VALUE_TYPES } from '@constant/qrCodeTypes';
 import { CUSTOME_ATTRIBUTES, OBJECT_TYPES } from '@constant/craftBuilder';
 import { getCustomObjectType, insertImgFile } from '@util/craftBuilderUtils';
@@ -31,6 +30,8 @@ import Group from '@template/craftBuilder/objectPropertiesEditor/group';
 import Lock from '@template/craftBuilder/objectPropertiesEditor/lock';
 import QrProps from './qrProps';
 import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 
 const { TextArea } = Input;
 
@@ -283,9 +284,9 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                         <div className={styles.actions}>
                             {['Top Left', 'Top Right', 'Bottom Right', 'Bottom Left'].map((eyeCorner, eyeCornerIndex) => {
                                 return <div key={eyeCornerIndex} className={`${styles.eyeRadiusWrap}`}>
-                                    <div className={`${styles.label}`} style={{ color: token.colorTextBase }}>{eyeCorner}</div>
+                                    <TextElement text={eyeCorner} color={token.colorTextBase} />
                                     <div className={`${styles.sliderWrap}`}>
-                                        <SliderComponent
+                                        <SliderElement
                                             min={0}
                                             max={30}
                                             onChange={(value) => onChangeEyeRadius(typeIndex, type, eyeCornerIndex, value)}
@@ -382,9 +383,9 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                     <Saperator />
                     {/* Border Radius */}
                     <div className={`${styleElementCSS.styleWrap} ${styles.logoWrap}`} style={{ background: 'unset', color: token.colorTextBase }}>
-                        <div className={`${styleElementCSS.label}`}>Background Radius</div>
+                        <TextElement text={'Background Radius'} color={token.colorTextBase} />
                         <div className={`${styles.styleWrap} ${styles.sliderWrap} ${styleElementCSS.elementWrap}`}>
-                            <SliderComponent
+                            <SliderElement
                                 min={0}
                                 max={qrConfig.quietZone / 1.5}
                                 onChange={(value) => onChange('borderRadius', value)}
@@ -406,7 +407,7 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                                 </Popover>
                             </div>
                             <div className={`${styles.styleWrap} ${styles.sliderWrap} ${styleElementCSS.elementWrap}`}>
-                                <SliderComponent
+                                <SliderElement
                                     min={0}
                                     max={30}
                                     onChange={(value) => onChangeRadius(type, value)}
@@ -450,7 +451,7 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                     {/* LOGO */}
                     <Saperator />
                     <div className={`${styleElementCSS.styleWrap} ${styles.logoWrap}`} style={{ background: 'unset', color: token.colorTextBase }}>
-                        <div className={`${styleElementCSS.label}`}>Logo/Image</div>
+                        <TextElement text={'Logo/Image'} color={token.colorTextBase} />
                         <div className={`${styles.styleWrap} ${styleElementCSS.elementWrap}`}>
                             <div className={styles.qrLogo}>
                                 <img src={qrConfig.logoImage} />
@@ -472,9 +473,9 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
 
                     {/* Logo Blur */}
                     <div className={`${styleElementCSS.styleWrap} ${styles.logoWrap}`} style={{ background: 'unset', color: token.colorTextBase }}>
-                        <div className={`${styleElementCSS.label}`}>Logo Blur</div>
+                        <TextElement text={'Logo Blur'} color={token.colorTextBase} />
                         <div className={`${styles.sliderWrap} ${styles.sliderWrap} ${styleElementCSS.elementWrap}`}>
-                            <SliderComponent
+                            <SliderElement
                                 min={0}
                                 max={1}
                                 onChange={(value) => onChange('logoOpacity', value)}
@@ -486,9 +487,9 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
 
                     {/* Logo Spacing */}
                     <div className={`${styleElementCSS.styleWrap} ${styles.logoWrap} ${qrConfig.size == qrConfig.logoWidth ? 'disabled' : ''}`} style={{ background: 'unset', color: token.colorTextBase }}>
-                        <div className={`${styleElementCSS.label}`}>Logo Spacing</div>
+                        <TextElement text={'Logo Spacing'} color={token.colorTextBase} />
                         <div className={`${styles.styleWrap} ${styles.sliderWrap} ${styleElementCSS.elementWrap}`}>
-                            <SliderComponent
+                            <SliderElement
                                 min={0}
                                 max={20}
                                 onChange={(value) => onChange('logoPadding', value)}
@@ -550,7 +551,7 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
 
                         <div className={styles.valueContentWrap} id="valueContentWrap">
                             {!Boolean(CONTENT_TYPES.find((t) => t.name == qrConfig.contentType)) && <div className={styles.note}>
-                                <div className={`${styleElementCSS.label}`}>Select type you want share after QR Code scanned</div>
+                                <TextElement text={'Select type you want share after QR Code scanned'} color={token.colorTextBase} />
                             </div>}
                             {qrConfig.valueType == VALUE_TYPES.OTHERS ? <>
                                 <div className={styles.contentTypesWrap}>
@@ -574,7 +575,7 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                                     })}
                                 </div>
                                 {Boolean(CONTENT_TYPES.find((t) => t.name == qrConfig.contentType)) ? <div className={`${styleElementCSS.styleWrap}`} style={{ background: 'unset', color: token.colorTextBase }}>
-                                    <div className={`${styleElementCSS.label}`}>Enter {CONTENT_TYPES.find((t) => t.name == qrConfig.contentType)?.tooltip} you want to share</div>
+                                    <TextElement text={`Enter ${CONTENT_TYPES.find((t) => t.name == qrConfig.contentType)?.tooltip} you want to share`} color={token.colorTextBase} />
                                     <div className={`${styleElementCSS.elementWrap}`}>
                                         <TextArea
                                             status={error.id == 'url' ? "error" : ''}
@@ -590,7 +591,7 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                             </> : <>
                                 <div className={styles.whatsappLinkWrap}>
                                     <div className={`${styleElementCSS.styleWrap}`} style={{ background: 'unset', color: token.colorTextBase }}>
-                                        <div className={`${styleElementCSS.label}`}>Enter your phone number</div>
+                                        <TextElement text={'Enter your phone number'} color={token.colorTextBase} />
                                         <div className={` ${styles.styleWrap} ${styleElementCSS.elementWrap}`}>
                                             <InputNumber
                                                 status={error.id == 'phone' ? "error" : ''}
@@ -607,7 +608,7 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                                     </div>
 
                                     <div className={`${styleElementCSS.styleWrap}`} style={{ background: 'unset', color: token.colorTextBase }}>
-                                        <div className={`${styleElementCSS.label}`}>Enter message you want to share</div>
+                                        <TextElement text={'Enter message you want to share'} color={token.colorTextBase} />
                                         <div className={` ${styles.styleWrap} ${styleElementCSS.elementWrap}`}>
                                             <TextArea
                                                 status={error.id == 'text' ? "error" : ''}

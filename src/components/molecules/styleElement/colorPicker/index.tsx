@@ -9,6 +9,7 @@ import { useAppSelector } from '@hook/useAppSelector';
 import { removeObjRef } from '@util/utils';
 import { RxTransparencyGrid } from 'react-icons/rx';
 import { ActiveTemplateConfigType, getActiveTemplateConfig } from '@reduxSlices/siteBuilderState';
+import TextElement from '@antdComponent/textElement';
 
 const valueSample = [{ color: '#000', format: 'hex' }];
 
@@ -65,7 +66,7 @@ function ColorPickerComponent({ page = '', hideColorString = false, hidePresets 
     }
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.colorPickerWrap}`} style={{ ...parentStyles }}>
-            {label && <div className={styleElementCSS.label}>{label}</div>}
+            {label && <TextElement text={label} />}
             <div className={styles.elementWrap}>
                 <ColorPicker
                     trigger="hover"
@@ -75,7 +76,7 @@ function ColorPickerComponent({ page = '', hideColorString = false, hidePresets 
                     placement="bottom"
                     onFormatChange={setActiveColorFormat}
                 >
-                    <Button type="primary" style={btnStyle}></Button>
+                    <Button type="default" style={{ background: activeColor }}></Button>
                 </ColorPicker>
 
                 {!hideTransparency && <>

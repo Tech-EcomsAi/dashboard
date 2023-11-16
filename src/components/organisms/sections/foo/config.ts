@@ -32,8 +32,8 @@ export default {
     "editable": {
         label: 'Container', style: [
             TEXT_STYLES,
-            BACKGROUND,
             BORDER,
+            BACKGROUND,
             BORDER_RADIUS,
             MARGIN,
             PADDING,

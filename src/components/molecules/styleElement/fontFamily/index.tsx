@@ -1,16 +1,18 @@
-import { Select, Spin } from 'antd'
+import { Select, Spin, theme } from 'antd'
 import React, { useState } from 'react'
 import styles from './fontFamily.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import FontFaceObserver from 'fontfaceobserver';
 import { IMAGE_EDITOR_PAGE } from '@constant/common';
+import TextElement from '@antdComponent/textElement';
 const { Option } = Select;
 
 export default function FontFamily({ size = 'middle', currentPage = '', showLabel = true, value, onChange, style = {} }) {
 
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useAppDispatch()
+    const { token } = theme.useToken();
     const optionsList = [
         { label: 'Poppins', value: 'Poppins' },
         { label: 'Abuget', value: 'Abuget' },
@@ -54,7 +56,7 @@ export default function FontFamily({ size = 'middle', currentPage = '', showLabe
 
     return (
         <div className={`styleElement ${styleElementCSS.styleWrap} ${styles.fontFamilyElementWrap}`} style={style}>
-            {showLabel && <div className={`${styleElementCSS.label} ${styles.label}`}>Font Family</div>}
+            {showLabel && <TextElement text={"Font Family"} />}
             <div className={styleElementCSS.elementWrap}>
                 <Select
                     size={size == 'middle' ? 'middle' : 'small'}

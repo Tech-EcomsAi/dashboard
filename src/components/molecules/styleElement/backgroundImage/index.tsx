@@ -5,6 +5,9 @@ import { Button, Checkbox, Image, Modal, Slider, Switch, theme } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { removeObjRef } from '@util/utils';
 import ImagePickerModal from '../../../organisms/imagePickerModal';
+import TextElement from '@antdComponent/textElement';
+import CheckboxElement from '@antdComponent/checkboxElement';
+import SliderElement from '@antdComponent/sliderElement';
 
 
 function BackgroundImage({ component = '', label = '', value, onChange }) {
@@ -37,7 +40,7 @@ function BackgroundImage({ component = '', label = '', value, onChange }) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.backgroundImageWrap}`}>
-            {label && <div className={styleElementCSS.label}>{label}</div>}
+            {label && <TextElement text={label} color={token.colorTextBase} />}
             <div className={`${styleElementCSS.elementWrap} ${styles.imageContentWrap}`}>
                 <div className={styles.uploadedImage} style={{
                     backgroundImage: value.src ? `url(${value.src})` : 'unset', backgroundPosition: "center center",
@@ -46,38 +49,23 @@ function BackgroundImage({ component = '', label = '', value, onChange }) {
                 }}></div>
                 <div className={styles.actionsWrap}>
                     <div className={styles.actions} style={{ background: 'unset', color: 'black' }}>
-                        <div className={styles.heading}>
-                            Image visibility:
-                        </div>
-                        <div className={styles.action} >
-                            <Checkbox defaultChecked={value.isMobile} style={{ color: 'black' }} checked={value.isMobile} onChange={(e) => onChangeAppearance(e, 'isMobile')}>Mobile</Checkbox>
-                        </div>
-                        <div className={styles.action} >
-                            <Checkbox defaultChecked={value.isDesktop} style={{ color: 'black' }} checked={value.isDesktop} onChange={(e) => onChangeAppearance(e, 'isDesktop')}>Desktop</Checkbox>
-                        </div>
+                        <TextElement text={'Image visibility'} color={token.colorTextBase} />
+                        <CheckboxElement active={value.isMobile} label='Mobile' onChange={(e) => onChangeAppearance(e, 'isMobile')} />
+                        <CheckboxElement active={value.isDesktop} label='Desktop' onChange={(e) => onChangeAppearance(e, 'isDesktop')} />
                     </div>
-                    <div className={`${styles.actions} ${styles.updateImageBtn}`} style={{ borderColor: token.colorBgBase }} onClick={showModal}>
-                        Change Image
-                    </div>
+                    <Button onClick={showModal} style={{ fontSize: "12px" }}>Change Image</Button>
                     <ImagePickerModal component={component} open={isModalOpen} value={value} onSave={(image) => onChangeImage(image)} onCancel={() => setIsModalOpen(false)} />
                 </div>
             </div>
             <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`}>
-                <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Image Blur </div>
-                <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                    <Slider
-                        min={0}
-                        max={1}
-                        className={styles.siderWrap}
-                        defaultValue={1}
-                        style={{ width: '100%' }}
-                        railStyle={{ background: token.colorBgMask, }}
-                        trackStyle={{ background: `black`, }}
-                        onChange={(value) => onChangeImageOpacity(value)}
-                        value={value.opacity}
-                        step={0.1}
-                    />
-                </div>
+                <TextElement text={`Image Blur ${value.opacity ? "(" + value.opacity + ")" : ""}`} color={token.colorTextBase} />
+                <SliderElement
+                    min={0}
+                    max={1}
+                    onChange={(value) => onChangeImageOpacity(value)}
+                    value={value.opacity}
+                    step={0.1}
+                />
             </div>
         </div>
     )

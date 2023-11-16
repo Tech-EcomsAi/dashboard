@@ -6,6 +6,8 @@ import ColorPickerComponent from '@molecules/styleElement/colorPicker';
 import { fabric } from "fabric";
 import { removeObjRef } from '@util/utils';
 import { shadowTypeList } from '@constant/craftBuilder';
+import TextElement from '@antdComponent/textElement';
+import SliderElement from '@antdComponent/sliderElement';
 const { Option } = Select;
 
 function Shadow({ updateLocalCanvas, canvas }) {
@@ -46,11 +48,10 @@ function Shadow({ updateLocalCanvas, canvas }) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.borderWrap}`}>
-            <div className={styleElementCSS.label}>Shadow</div>
-
+            <TextElement text={'Shadow'} color={token.colorTextBase} />
             <div className={`${styleElementCSS.elementWrap} ${styles.elementWrap}`}>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap}`}>
-                    <div className={styleElementCSS.label}>Type</div>
+                    <TextElement text={'Type'} color={token.colorTextBase} />
                     <div className={styleElementCSS.elementWrap}>
                         <Select
                             placeholder="Select"
@@ -69,7 +70,7 @@ function Shadow({ updateLocalCanvas, canvas }) {
                     </div>
                 </div>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap}`} style={{ width: '60px' }}>
-                    <div className={styleElementCSS.label}>Color</div>
+                    <TextElement text={'Color'} color={token.colorTextBase} />
                     <div className={styleElementCSS.elementWrap}>
                         {shadow && <ColorPickerComponent
                             parentStyles={{ margin: 'unset', background: 'unset' }}
@@ -80,16 +81,11 @@ function Shadow({ updateLocalCanvas, canvas }) {
                 </div>
             </div>
             <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ background: 'unset', color: token.colorTextBase, padding: '0' }}>
-                <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>Blur</div>
+                <TextElement text={'Blur'} color={token.colorTextBase} />
                 <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                    <Slider
+                    <SliderElement
                         min={0}
                         max={200}
-                        className={styles.siderWrap}
-                        defaultValue={0}
-                        style={{ width: '100%' }}
-                        railStyle={{ background: token.colorBgMask, }}
-                        trackStyle={{ background: `black`, }}
                         onChange={(value) => onChangeValue('blur', value)}
                         value={shadow?.blur}
                         step={1}
@@ -97,41 +93,31 @@ function Shadow({ updateLocalCanvas, canvas }) {
                 </div>
             </div>
             <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ background: 'unset', color: token.colorTextBase, padding: '0' }}>
-                <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>offsetX</div>
+                <TextElement text={'offsetX'} color={token.colorTextBase} />
                 <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                    <Slider
+                    <SliderElement
                         min={0}
                         max={50}
-                        className={styles.siderWrap}
-                        defaultValue={0}
-                        style={{ width: '100%' }}
-                        railStyle={{ background: token.colorBgMask, }}
-                        trackStyle={{ background: `black`, }}
+
                         onChange={(value) => onChangeValue('offsetX', value)}
                         value={shadow?.offsetX}
-                        step={1}
-                    />
+                        step={1} />
                 </div>
             </div>
             <div className={`${styleElementCSS.styleWrap} ${styles.imageBlurWrap}`} style={{ background: 'unset', color: token.colorTextBase, padding: '0' }}>
-                <div className={`${styleElementCSS.label}  ${styles.imageBlurLabel}`}>offsetY</div>
+                <TextElement text={'offsetY'} color={token.colorTextBase} />
                 <div className={`${styleElementCSS.elementWrap} ${styles.imageBlurContent}`}>
-                    <Slider
+                    <SliderElement
                         min={0}
                         max={50}
-                        className={styles.siderWrap}
-                        defaultValue={0}
-                        style={{ width: '100%' }}
-                        railStyle={{ background: token.colorBgMask, }}
-                        trackStyle={{ background: `black`, }}
+
                         onChange={(value) => onChangeValue('offsetY', value)}
                         value={shadow?.offsetY}
                         step={1}
                     />
                 </div>
             </div>
-        </div>
-    )
+        </div>)
 }
 
 export default Shadow

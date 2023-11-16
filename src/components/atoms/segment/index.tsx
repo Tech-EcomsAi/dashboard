@@ -1,6 +1,7 @@
 import { Segmented, Slider, theme, Tooltip } from 'antd'
 import React from 'react'
 import styles from './segmentComponent.module.scss';
+import TextElement from '@antdComponent/textElement';
 
 export const SEGMENT_OPTIONS_TYPES = {
     ARRAY: 'ARRAY',
@@ -13,7 +14,7 @@ const MIDDLE_SIZE: SizeType = "middle";
 
 type props = {}
 
-const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE_SIZE, showIcon = false, entity = "", parentClassname = "" }: any) => {
+const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE_SIZE, showIcon = false, entity = "", parentClassname = "", hideLabel = false }: any) => {
     const { token } = theme.useToken();
 
     const getSegmentOptions = () => {
@@ -38,13 +39,20 @@ const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE
                         <div
                             style={{ color: value == option.value ? token.colorBgBase : token.colorTextBase }}
                             className={`${styles.segmentItem} ${value == option.value ? styles.active : ''}`}>
-                            {showIcon && <div className={styles.iconWrap} style={{
-                                backgroundColor: token.colorBgBase,
-                                color: value == option.key ? token.colorPrimary : token.colorTextDescription
-                            }}>
+                            {showIcon && <div className={styles.iconWrap}
+                                style={{
+                                    color: value == option.key ? token.colorPrimary : token.colorTextDescription,
+                                    minWidth: size == "small" ? "20px" : "26px",
+                                    minHeight: size == "small" ? "20px" : "26px",
+                                    padding: size == "small" ? "2px" : "6px",
+                                    backgroundColor: size == "small" ? "unset" : token.colorBgBase,
+                                }}>
                                 {option.icon}
                             </div>}
-                            <div className={styles.name} style={{ color: token.colorTextBase }}>{option.key}</div>
+                            {!hideLabel && <div className={styles.name} style={{
+                                color: token.colorTextBase,
+                                fontSize: size == "small" ? "12px" : "13px"
+                            }}>{option.key}</div>}
                         </div>
                     </Tooltip>,
                 value: option.key
@@ -53,7 +61,7 @@ const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE
     }
     return (
         <div className={`${styles.segmentComponentWrap} ${parentClassname}`} style={{ color: token.colorTextBase }}>
-            {label && <div className={`${styles.label} `}>{label}</div>}
+            {label && <TextElement text={label} color={token.colorTextBase} size={"medium"} />}
             <div className={`${styles.segmentWrap} `}>
                 <Segmented
                     value={value}

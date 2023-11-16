@@ -3,6 +3,8 @@ import styles from './contentAlignment.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import { TbAlignCenter, TbAlignLeft, TbAlignRight } from 'react-icons/tb';
 import { theme } from 'antd';
+import TextElement from '@antdComponent/textElement';
+import Saperator from '@atoms/Saperator';
 
 function ContentAlignment({ value, onChange }) {
     const { token } = theme.useToken();
@@ -18,7 +20,7 @@ function ContentAlignment({ value, onChange }) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.contentWrap}`}>
-            <div className={styleElementCSS.label}>Content Alighnment</div>
+            <TextElement text={'Content Alighnment'} color={token.colorTextBase} size={"medium"} />
             <div className={`${styleElementCSS.elementWrap} ${styles.propertyWrapper}`}>
                 {optionsList.map((type, i) => {
                     return <React.Fragment key={i}>
@@ -33,6 +35,7 @@ function ContentAlignment({ value, onChange }) {
                     </React.Fragment>
                 })}
             </div>
+            <Saperator />
         </div>
     )
 }

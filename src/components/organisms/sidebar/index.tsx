@@ -9,7 +9,7 @@ import { RxDashboard } from 'react-icons/rx';
 import { IoAnalyticsSharp } from 'react-icons/io5';
 import { TbChartHistogram, TbChartPie, TbDeviceMobileShare, TbHelpCircle, TbNotes, TbPhoneCalling, TbUsers } from 'react-icons/tb';
 import { BsPeople } from 'react-icons/bs';
-import { MdDarkMode, MdOutlineCampaign, MdOutlineNavigateNext, MdOutlineSettingsSuggest } from 'react-icons/md';
+import { MdDarkMode, MdLightMode, MdOutlineCampaign, MdOutlineNavigateNext, MdOutlineSettingsSuggest } from 'react-icons/md';
 import { RiAccountPinCircleLine, RiArrowRightDoubleLine, RiArticleLine } from 'react-icons/ri';
 import { BiConversation } from 'react-icons/bi';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -261,27 +261,27 @@ const SidebarComponent = () => {
                             </div>
 
                             {/* Dark mode nav item */}
-                            {/* <div className={`${styles.menuItemWrap}`}
-                            onMouseEnter={() => setHoverId(darkModeNavItem.key)}
-                            onMouseLeave={() => setHoverId('')}
-                            onClick={() => onClickNav(darkModeNavItem)}
-                            style={{
-                                background: token.colorBgBase,
-                                color: (darkModeNavItem.key == hoverId || isDarkMode) ? token.colorPrimaryTextActive : token.colorText,
-                                border: `1px solid ${token.colorBorder}`,
-                            }}
-                        >
-                            <div className={styles.navWrap}>
-                                <div className={styles.labelIconWrap}>
-                                    <motion.div
-                                        className={`${styles.iconWrap}`}
-                                        style={{ color: token.colorPrimaryTextActive }}
-                                    >
-                                        {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
-                                    </motion.div>
+                            <div className={`${styles.menuItemWrap}`}
+                                onMouseEnter={() => setHoverId(darkModeNavItem.key)}
+                                onMouseLeave={() => setHoverId('')}
+                                onClick={() => onClickNav(darkModeNavItem)}
+                                style={{
+                                    background: token.colorBgBase,
+                                    color: (darkModeNavItem.key == hoverId || isDarkMode) ? token.colorPrimaryTextActive : token.colorText,
+                                    border: `1px solid ${token.colorBorder}`,
+                                }}
+                            >
+                                <div className={styles.navWrap}>
+                                    <div className={styles.labelIconWrap}>
+                                        <motion.div
+                                            className={`${styles.iconWrap}`}
+                                            style={{ color: token.colorPrimaryTextActive }}
+                                        >
+                                            {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
+                                        </motion.div>
+                                    </div>
                                 </div>
                             </div>
-                        </div> */}
 
                             {/* collapsed nav item */}
                             <div className={`${styles.menuItemWrap}`}

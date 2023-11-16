@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import styles from './boxShadow.module.scss';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
-import { Select } from 'antd';
+import { Select, theme } from 'antd';
+import TextElement from '@antdComponent/textElement';
+import Saperator from '@atoms/Saperator';
 
 function BoxShadow({ onChange, value }) {
 
     const [shadow, setShadow] = useState(value);
-
+    const { token } = theme.useToken();
     const optionsList = [
         { label: 'Soft Shadow', value: 'rgba(0, 0, 0, 0.2) 0px 1px 5px 0px' },
         { label: 'Mid Shadow', value: 'rgba(0, 0, 0, 0.4) 0px 1px 5px' },
@@ -27,7 +29,7 @@ function BoxShadow({ onChange, value }) {
     }
     return (
         <div className={`${styleElementCSS.styleWrap}`}>
-            <div className={styleElementCSS.label}>Box Shadow</div>
+            <TextElement text={'Box Shadow'} color={token.colorTextBase} size={"medium"} />
             <div className={`${styleElementCSS.elementWrap}`}>
                 <Select
                     showSearch
@@ -37,6 +39,7 @@ function BoxShadow({ onChange, value }) {
                     options={optionsList}
                 />
             </div>
+            <Saperator />
         </div>
     )
 }

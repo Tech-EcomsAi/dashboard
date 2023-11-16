@@ -16,30 +16,25 @@ type IconButtonProps = {
     text?: string,
     tooltip?: string
 }
+
+export const WithTooltip = ({ tooltip, children }) => {
+    return tooltip ? <Tooltip title={tooltip} color={'#8892b0'} key='3'>{children}</Tooltip> : <>{children}</>
+}
+
 function IconButton({ icon, active, onClickButton, type = "defaultButton", disabled = false, text = '', tooltip = '' }: IconButtonProps) {
     return (
         <>
-            {tooltip ? <>
-                <Tooltip title={tooltip} color={'#8892b0'} key='3'>
-                    <Button
-                        className={`${styles.iconButtonWrap} ${styles[type || "square"]}`}
-                        type={active ? "primary" : "default"}
-                        onClick={onClickButton}
-                        shape={type == "defaultButton" ? "default" : type}
-                    >
-                        <Space>{text}{icon}</Space>
-                    </Button>
-                </Tooltip>
-            </> : <>
+            <WithTooltip tooltip={tooltip}>
                 <Button
-                    className={`${styles.iconButtonWrap} ${styles[type]}`}
+                    className={`${styles.iconButtonWrap} ${styles[type || "square"]}`}
                     type={active ? "primary" : "default"}
                     onClick={onClickButton}
                     shape={type == "defaultButton" ? "default" : type}
+                    icon={icon}
                 >
-                    <Space>{text}{icon}</Space>
+                    {text && <Space>{text}</Space>}
                 </Button>
-            </>}
+            </WithTooltip>
         </>
     )
 }

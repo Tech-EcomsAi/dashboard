@@ -10,11 +10,14 @@ import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss
 import { BACKGROUND_TYPES } from '@constant/common';
 import { COLOR_INITIAL_VALUE, GRADIENT_INITIAL_VALUE, IMAGE_INITIAL_VALUE } from 'src/data/backgroundStyleValues';
 import BackgroundImage from '../backgroundImage';
+import TextElement from '@antdComponent/textElement';
+import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
+import Saperator from '@atoms/Saperator';
 
-const typeOptions = [
-    { title: BACKGROUND_TYPES.COLOR, icon: <IoMdColorFilter /> },
-    { title: BACKGROUND_TYPES.GRADIENT, icon: <VscColorMode /> },
-    { title: BACKGROUND_TYPES.IMAGE, icon: <BsFillImageFill /> },
+const SEGMENT_OPTIONS = [
+    { value: BACKGROUND_TYPES.COLOR, key: BACKGROUND_TYPES.COLOR, icon: <IoMdColorFilter /> },
+    { value: BACKGROUND_TYPES.GRADIENT, key: BACKGROUND_TYPES.GRADIENT, icon: <VscColorMode /> },
+    { value: BACKGROUND_TYPES.IMAGE, key: BACKGROUND_TYPES.IMAGE, icon: <BsFillImageFill /> },
 ]
 
 const valueSample = {
@@ -25,18 +28,6 @@ const valueSample = {
 
 function BackgroundElement({ component = '', onChange, value }) {
     const { token } = theme.useToken();
-
-    const getTypeOptions = () => {
-        return typeOptions.map((option, i) => {
-            return {
-                label: <div style={{ color: value?.type == option.title ? token.colorPrimaryText : token.colorText }}
-                    className={`${styles.segmentItem} ${value?.type == option.title ? styles.active : ''}`}>
-                    <div className={styles.title} style={{ color: value?.type == option.title ? token.colorPrimaryText : token.colorText }}>{option.title}</div>
-                </div>,
-                value: option.title
-            }
-        });
-    }
 
     const onChangeBgColor = (newColor) => {
         const valueCopy = { ...value };
@@ -59,24 +50,26 @@ function BackgroundElement({ component = '', onChange, value }) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.backgroundElementWrap}`}>
-            <div className={styleElementCSS.label}>Background</div>
+            <TextElement text={'Background'} size={"medium"} />
             <div className={`${styleElementCSS.elementWrap}`}>
                 <div className={styles.segmentWrap}>
-                    <Segmented
-                        size="small"
-                        block={true}
+                    <SegmentComponent
+                        label={``}
                         value={value?.type}
-                        className={`${styles.heading} ${styles.subHeading}`}
+                        showIcon={true}
                         onChange={(tab: any) => onChangeType(tab)}
-                        options={getTypeOptions()}
+                        options={SEGMENT_OPTIONS}
+                        type={SEGMENT_OPTIONS_TYPES.ARRAY_OF_OBJECTS}
+                        size={"small"}
                     />
                 </div>
-                <div className={styles.content}>
+                <>
                     {value?.type == BACKGROUND_TYPES.COLOR && <BackgroundColor value={value?.colors[0]} onChange={(newColor) => onChangeBgColor(newColor)} />}
                     {value?.type == BACKGROUND_TYPES.GRADIENT && <GradientColor value={value} onChange={onChange} />}
                     {value?.type == BACKGROUND_TYPES.IMAGE && (<BackgroundImage component={component} value={value} onChange={onChange} />)}
-                </div>
+                </>
             </div>
+            <Saperator />
         </div>
     )
 }

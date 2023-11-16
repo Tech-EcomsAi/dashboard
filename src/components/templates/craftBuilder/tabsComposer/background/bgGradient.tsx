@@ -9,6 +9,7 @@ import gradientList from 'src/data/gradientList';
 import { MdAdd, MdOutlineClose } from 'react-icons/md';
 import ColorPickerComponent from '@molecules/styleElement/colorPicker';
 import { BACKGROUND_TYPES } from '@constant/common';
+import SliderElement from '@antdComponent/sliderElement';
 
 const gradientColorsSample = [
     { "offset": 0, "color": "red" },
@@ -136,14 +137,9 @@ function BGGradient({ updateLocalCanvas, workspace, canvas }) {
                                 onChange={(value) => onChangeColor(cIndex, value.color)}
                                 parentStyles={{ width: "auto", margin: 'unset', background: 'unset' }}
                             />
-                            <Slider
+                            <SliderElement
                                 min={0}
                                 max={1}
-                                className={styles.siderWrap}
-                                defaultValue={colorData.offset}
-                                style={{ width: '100%' }}
-                                railStyle={{ background: token.colorBgSpotlight }}
-                                trackStyle={{ background: token.colorBgSpotlight }}
                                 onChange={(value) => onChangeOffset(cIndex, value)}
                                 value={colorData.offset}
                                 step={0.1}

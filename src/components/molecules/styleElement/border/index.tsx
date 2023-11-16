@@ -1,10 +1,12 @@
-import { Select } from 'antd'
+import { Select, theme } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './border.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import ColorPickerComponent from '../colorPicker';
 import { BORDER } from '@constant/editorStylesProperties';
 import { NO_COLOR_VALUE } from '@constant/common';
+import TextElement from '@antdComponent/textElement';
+import Saperator from '@atoms/Saperator';
 
 const sizeList = [
     { label: '1', value: '1px' },
@@ -26,7 +28,7 @@ const typeList = [
 function Border({ onChange, value }) {
 
     const [border, setBorder] = useState<any>();
-
+    const { token } = theme.useToken();
     useEffect(() => {
         if (value) {
             const propertyValues = {
@@ -50,11 +52,10 @@ function Border({ onChange, value }) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.borderWrap}`}>
-            <div className={styleElementCSS.label}>Border</div>
-
+            <TextElement text={'Border'} size={"medium"} />
             <div className={`${styleElementCSS.elementWrap} ${styles.elementWrap}`}>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap}`}>
-                    <div className={styleElementCSS.label}>Size</div>
+                    <TextElement text={'Size'} />
                     <div className={styleElementCSS.elementWrap}>
                         <Select
                             showSearch
@@ -67,7 +68,7 @@ function Border({ onChange, value }) {
                     </div>
                 </div>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap}`}>
-                    <div className={styleElementCSS.label}>Type</div>
+                    <TextElement text={'Type'} />
                     <div className={styleElementCSS.elementWrap}>
                         <Select
                             defaultValue={typeList[0].value}
@@ -79,7 +80,7 @@ function Border({ onChange, value }) {
                     </div>
                 </div>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap}`}>
-                    <div className={styleElementCSS.label}>Color</div>
+                    <TextElement text={'Color'} />
                     <div className={styleElementCSS.elementWrap}>
                         {border && <ColorPickerComponent parentStyles={{ margin: 'unset' }} hideColorString hideTransparency value={{ format: 'hex', color: border?.color }} onChange={(value) => onChangeValue('color', value.color)} />}
                     </div>
@@ -91,6 +92,7 @@ function Border({ onChange, value }) {
                     </div>
                 </div>
             </div>
+            <Saperator />
         </div>
     )
 }

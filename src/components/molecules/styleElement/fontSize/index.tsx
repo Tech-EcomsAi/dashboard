@@ -1,13 +1,14 @@
-import { Select } from 'antd'
+import { Select, theme } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './fontSize.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import { Empty } from 'antd';
+import TextElement from '@antdComponent/textElement';
 
 function FontSize({ showLabel = true, value, onChange, style = {} }) {
 
     const [optionsList, setOptionsList] = useState([])
-
+    const { token } = theme.useToken();
     useEffect(() => {
         const res = [];
         for (let i = 1; i <= 100; i++) {
@@ -22,7 +23,7 @@ function FontSize({ showLabel = true, value, onChange, style = {} }) {
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.fontSizeElementWrap}`} style={style}>
-            {showLabel && <div className={`${styleElementCSS.label} ${styles.label}`}>Font Size</div>}
+            {showLabel && <TextElement text={"Font Size"} />}
             <div className={styleElementCSS.elementWrap}>
                 <Select
                     // notFoundContent={<Empty description=""/>}

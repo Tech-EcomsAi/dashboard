@@ -2,6 +2,14 @@
 
 .textStylesWrap {
   width: 100%;
+  .elementWrap {
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+  }
   .fontStyleWrapper {
     @include flexStartAlC;
     gap: 5px;
@@ -11,9 +19,8 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 5px;
-    margin: 8px 0;
-    margin-top: unset;
+    gap: 10px;
+    margin: unset;
     .iconWrap {
       width: 36px;
       height: 36px;

@@ -1,10 +1,11 @@
-import { Select } from 'antd'
+import { Select, theme } from 'antd'
 import React, { useState } from 'react'
 import styles from './lineHeight.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import TextElement from '@antdComponent/textElement';
 
 export default function LineHeight({ optionsList = null, showLabel = true, value, onChange, style = {} }) {
-
+    const { token } = theme.useToken();
     const defaultOptions = [
         { label: '1', value: '1px' },
         { label: '3', value: '3px' },
@@ -31,7 +32,7 @@ export default function LineHeight({ optionsList = null, showLabel = true, value
 
     return (
         <div className={`${styleElementCSS.styleWrap} ${styles.fontFamilyElementWrap}`} style={style}>
-            {showLabel && <div className={`${styleElementCSS.label} ${styles.label}`}>Line Spacing</div>}
+            {showLabel && <TextElement text={"Line Height"} />}
             <div className={styleElementCSS.elementWrap}>
                 <Select
                     showSearch

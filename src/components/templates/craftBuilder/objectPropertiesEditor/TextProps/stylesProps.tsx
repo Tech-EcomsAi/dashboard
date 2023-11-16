@@ -14,6 +14,7 @@ import Saperator from '@atoms/Saperator';
 import { letterSpacingList, lineHeightsList, textAttributes } from '@constant/craftBuilder';
 import { IMAGE_EDITOR_PAGE } from '@constant/common';
 import Patterns from '../patterns';
+import TextElement from '@antdComponent/textElement';
 
 
 type pageProps = {
@@ -95,7 +96,7 @@ function StylesProps({ updateLocalCanvas, canvas, activeObjectsState }: pageProp
                 </div>
                 <Saperator />
 
-                <div className={`${styleElementCSS.label} ${styles.label}`}>Text Styles</div>
+                <TextElement text={'Text Styles'} color={token.colorTextBase} />
                 <div className={styles.propertyWrapper}>
                     {textStylesList.map((style, i) => {
                         return <React.Fragment key={i}>

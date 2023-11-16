@@ -7,6 +7,7 @@ import { complexImageFilters } from '@constant/craftBuilder';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import { showErrorToast } from '@reduxSlices/toast';
 import { useAppDispatch } from '@hook/useAppDispatch';
+import SliderElement from '@antdComponent/sliderElement';
 
 type pageProps = {
     createFilter: any,
@@ -104,14 +105,9 @@ function ComplexFilters({ createFilter, updateLocalCanvas, canvas, activeObjects
                         <Checkbox defaultChecked={filterItem.status} style={{ color: token.colorTextBase }} checked={filterItem.status} onChange={(value) => activateFilter(i, !filterItem.status)}>{filterItem.name}</Checkbox>
                     </div>
                     <div className={`${styleElementCSS.elementWrap} ${styles.element} ${filterItem.status ? styles.showValue : styles.hideValue}`}>
-                        <Slider
+                        <SliderElement
                             min={filterItem.min}
                             max={filterItem.max}
-                            className={styles.siderWrap}
-                            defaultValue={filterItem.value}
-                            style={{ width: '100%' }}
-                            railStyle={{ background: token.colorTextPlaceholder, }}
-                            trackStyle={{ background: token.colorPrimaryActive }}
                             onChange={(value) => onChangeValue(i, filterItem, value)}
                             value={filterItem.value}
                             step={filterItem.step}
