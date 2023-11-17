@@ -5,7 +5,7 @@
   .elementWrap {
     width: 100%;
     @include flexStartAlC;
-    gap: 5px;
+    gap: var(--small-gap);
     .borderItemWrap {
       padding: unset;
       display: flex;

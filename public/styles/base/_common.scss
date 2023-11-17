@@ -247,9 +247,25 @@
   }
 }
 
+.m-l-auto {
+  margin-left: auto;
+}
+
 .outline {
   &:hover {
     outline: 1px solid red;
+  }
+}
+
+button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ant-popconfirm-buttons {
+  button {
+    display: inline-block !important;
   }
 }
 @media (min-width: 320px) {

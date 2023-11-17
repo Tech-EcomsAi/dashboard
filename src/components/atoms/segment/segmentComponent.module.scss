@@ -26,17 +26,16 @@
       gap: 7px;
       padding: 2px;
       color: var(--secondary-color-beta);
-      font-size: 12px;
       .iconWrap {
-        min-width: 26px;
-        min-height: 26px;
+        min-width: 24px;
+        min-height: 24px;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 6px;
-        background-color: #dee1ec46;
+        padding: 4px;
+        // background-color: #dee1ec46;
         border-radius: 16px;
-        box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
+        // box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
         @include transition;
         svg {
           width: 100%;
@@ -44,7 +43,6 @@
         }
       }
       .name {
-        font-size: 13px;
         text-transform: capitalize;
       }
       &.active {

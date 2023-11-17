@@ -3,7 +3,7 @@ import ColorPickerComponent from '../colorPicker';
 import FontFamily from '../fontFamily';
 import FontSize from '../fontSize';
 import styles from './textStyles.module.scss';
-import { TbAlignCenter, TbAlignLeft, TbAlignRight, TbBold, TbUnderline, TbItalic } from 'react-icons/tb';
+import { TbAlignCenter, TbAlignLeft, TbAlignRight, TbBold, TbUnderline, TbItalic, TbLetterA } from 'react-icons/tb';
 import { Button, theme } from 'antd';
 import LetterSpacing from '../letterSpacing';
 import LineHeight from '../lineHeight';
@@ -11,36 +11,34 @@ import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss
 import TextElement from '@antdComponent/textElement';
 import Saperator from '@atoms/Saperator';
 import IconButton from '@antdComponent/iconButton';
+import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
 
 function TextStyles({ config, onChange }) {
 
     const { token } = theme.useToken();
 
     const textStylesList = [
-        { value: 'left', label: 'Left', icon: <TbAlignLeft />, property: 'textAlign' },
-        { value: 'center', label: 'Center', icon: <TbAlignCenter />, property: 'textAlign' },
-        { value: 'right', label: 'Right', icon: <TbAlignRight />, property: 'textAlign' },
-        { value: 'bold', label: 'Bold', icon: <TbBold />, property: 'fontWeight' },
-        { value: 'italic', label: 'Italic', icon: <TbItalic />, property: 'fontStyle' },
-        { value: 'underline', label: 'Underline', icon: <TbUnderline />, property: 'textDecoration' },
+        // { value: 'left', key: 'Left', icon: <TbAlignLeft />, property: 'textAlign' },
+        // { value: 'center', key: 'Center', icon: <TbAlignCenter />, property: 'textAlign' },
+        // { value: 'right', key: 'Right', icon: <TbAlignRight />, property: 'textAlign' },
+        { value: 'bold', key: 'Bold', icon: <TbBold />, property: 'fontWeight' },
+        { value: 'italic', key: 'Italic', icon: <TbItalic />, property: 'fontStyle' },
+        { value: 'underline', key: 'Underline', icon: <TbUnderline />, property: 'textDecoration' },
+        { value: 'uppercase', key: 'Uppercase', icon: <TbLetterA />, property: 'textTransform' },
+    ]
+
+
+    const VALUE_TYPES = [
+        { value: 'left', key: 'Left', icon: <TbAlignLeft />, property: 'textAlign' },
+        { value: 'center', key: 'Center', icon: <TbAlignCenter />, property: 'textAlign' },
+        { value: 'right', key: 'Right', icon: <TbAlignRight />, property: 'textAlign' },
     ]
 
     const onClickAction = (style) => {
-        switch (style.property) {
-            case 'textAlign':
-                onChange(style.property, style.value)
-                break;
-            case 'fontWeight':
-                onChange(style.property, config[style.property] == style.value ? 'unset' : style.value);
-                break;
-            case 'fontStyle':
-                onChange(style.property, config[style.property] == style.value ? 'unset' : style.value);
-                break;
-            case 'textDecoration':
-                onChange(style.property, config[style.property] == style.value ? 'unset' : style.value);
-                break;
-            default:
-                break;
+        if (style.property == "textAlign") {
+            onChange(style.property, style.value)
+        } else {
+            onChange(style.property, config[style.property] == style.value ? 'unset' : style.value);
         }
     }
 
@@ -57,11 +55,30 @@ function TextStyles({ config, onChange }) {
                     <LineHeight value={config.fontFamily} onChange={onChange} />
                 </div>
                 <div className={styles.propertyWrapper}>
-                    {textStylesList.map((style, i) => {
-                        return <React.Fragment key={i}>
-                            <IconButton type={'defaultButton'} icon={style.icon} active={style.value == config[style.property]} onClickButton={() => onClickAction(style)} />
-                        </React.Fragment>
-                    })}
+                    <div className={styles.segmentWrap}>
+                        <TextElement text={'Alignment'} styles={{ display: "block" }} />
+                        <SegmentComponent
+                            entity={'Text Alignment'}
+                            label=""
+                            value={config['textAlign']}
+                            onChange={(value) => onChange('textAlign', value)}
+                            showIcon={true}
+                            hideLabel={true}
+                            size={"small"}
+                            options={VALUE_TYPES}
+                            type={SEGMENT_OPTIONS_TYPES.ARRAY_OF_OBJECTS}
+                        />
+                    </div>
+                    <div className={styles.decorationWrap}>
+                        <TextElement text={'Decorations'} />
+                        <div className={styles.propertyWrapper}>
+                            {textStylesList.map((style, i) => {
+                                return <React.Fragment key={i}>
+                                    <IconButton styles={{ width: "100%", textTransform: "" }} type={'defaultButton'} icon={style.icon} active={style.value == config[style.property]} onClickButton={() => onClickAction(style)} />
+                                </React.Fragment>
+                            })}
+                        </div>
+                    </div>
                 </div>
                 <ColorPickerComponent hideTransparency value={{ format: 'hex', color: config.color || '#000' }} onChange={(value) => onChange('color', value.color)} label="Text Color" />
             </div>

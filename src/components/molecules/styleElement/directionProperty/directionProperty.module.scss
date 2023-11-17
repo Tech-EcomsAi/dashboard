@@ -5,7 +5,7 @@
     width: 100%;
     @include flexStart;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     .segmentWrap {
       position: sticky;
       top: 0;
@@ -59,7 +59,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
+    gap: var(--small-gap);
     .resetValues {
       @include flexCenter;
       width: 100%;

@@ -3,6 +3,7 @@ import styles from './textElement.module.scss';
 import { Input, theme } from 'antd';
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import TextElement from '@antdComponent/textElement';
+import Saperator from '@atoms/Saperator';
 
 const { TextArea } = Input;
 
@@ -18,12 +19,14 @@ function TextEditorElement({ value, onChange, label = '', placeholder, minRows =
             {label && <TextElement text={label} color={token.colorTextBase} size={"medium"} />}
             <div className={`${styleElementCSS.elementWrap}`}>
                 <TextArea
+                    autoSize
                     value={activeValue}
                     onChange={(e) => onChangeValue(e.target.value)}
                     placeholder={placeholder}
-                    autoSize={{ minRows, maxRows }}
+                // autoSize={{ minRows, maxRows }}
                 />
             </div>
+            <Saperator />
         </div>
     )
 }

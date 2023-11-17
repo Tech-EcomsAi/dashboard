@@ -21,7 +21,7 @@ function TextElement({ text, color = "", size = "small", styles = {} }: TextElem
         case "small":
             fontSize = 12;
             fontWeight = 400;
-            textColor = token.colorTextBase;
+            textColor = token.colorTextSecondary;
             styles = { ...styles, marginBottom: "5px" }
             break;
         case "medium":

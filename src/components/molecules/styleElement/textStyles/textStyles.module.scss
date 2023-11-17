@@ -4,7 +4,7 @@
   width: 100%;
   .elementWrap {
     width: 100%;
-    gap: 10px;
+    gap: var(--medium-gap);
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -19,8 +19,16 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 10px;
+    gap: var(--small-gap);
     margin: unset;
+    .segmentWrap {
+      width: 48%;
+    }
+    .decorationWrap {
+      width: 100%;
+      @include flexStart;
+      flex-direction: column;
+    }
     .iconWrap {
       width: 36px;
       height: 36px;

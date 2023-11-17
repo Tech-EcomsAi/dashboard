@@ -1,5 +1,5 @@
 import { BAR, SECTIONS_CATEGORIES } from "@constant/components";
-import { BACKGROUND, BORDER, BORDER_RADIUS, BOX_SHADOW, MARGIN, PADDING, TEXT_STYLES } from "@constant/editorStylesProperties";
+import { BACKGROUND, BORDER, BORDER_RADIUS, BOX_SHADOW, MARGIN, PADDING, TEXT_STYLES, CONTENT_ALIGNMENT } from "@constant/editorStylesProperties";
 import { v4 as uuid } from 'uuid';
 
 export default {
@@ -24,7 +24,7 @@ export default {
         type: 'Color',
         colors: [{ color: '#000', format: 'hex' }]
     },
-    "editable": { label: 'Container', style: [BACKGROUND, BORDER, BORDER_RADIUS, MARGIN, PADDING], props: [] },
+    "editable": { label: 'Container', style: [BACKGROUND, BORDER, BORDER_RADIUS, BOX_SHADOW, MARGIN, PADDING, TEXT_STYLES, CONTENT_ALIGNMENT], props: [] },
     "component": "div",
     "children": [
         {

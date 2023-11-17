@@ -4,7 +4,7 @@
   padding: unset !important;
   .elementWrap {
     @include flexStartAlC;
-    gap: 10px;
+    gap: var(--small-gap);
     width: 100%;
     .colorValue {
       min-width: auto;

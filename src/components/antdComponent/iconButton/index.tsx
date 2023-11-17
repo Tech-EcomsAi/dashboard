@@ -14,14 +14,15 @@ type IconButtonProps = {
     type?: ButtonType,
     disabled?: boolean,
     text?: string,
-    tooltip?: string
+    tooltip?: string,
+    styles?: any
 }
 
 export const WithTooltip = ({ tooltip, children }) => {
     return tooltip ? <Tooltip title={tooltip} color={'#8892b0'} key='3'>{children}</Tooltip> : <>{children}</>
 }
 
-function IconButton({ icon, active, onClickButton, type = "defaultButton", disabled = false, text = '', tooltip = '' }: IconButtonProps) {
+function IconButton({ icon, active, onClickButton, type = "defaultButton", styles = {}, text = '', tooltip = '' }: IconButtonProps) {
     return (
         <>
             <WithTooltip tooltip={tooltip}>
@@ -31,6 +32,7 @@ function IconButton({ icon, active, onClickButton, type = "defaultButton", disab
                     onClick={onClickButton}
                     shape={type == "defaultButton" ? "default" : type}
                     icon={icon}
+                    style={{ ...styles }}
                 >
                     {text && <Space>{text}</Space>}
                 </Button>

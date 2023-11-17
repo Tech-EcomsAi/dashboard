@@ -189,12 +189,9 @@ function WebsiteBuilder() {
                                     description="Are you sure you want revert?"
                                     onConfirm={onClickRevert}
                                 >
-                                    <IconButton
+                                    <Button
+                                        shape='circle'
                                         icon={<BsArrowCounterclockwise />}
-                                        active={false}
-                                        onClickButton={() => { }}
-                                        type={'circle'}
-                                        tooltip="Revert Changes"
                                     />
                                 </Popconfirm>
 
@@ -234,7 +231,7 @@ function WebsiteBuilder() {
                     theme={isDarkMode ? "dark" : "light"}
                     defaultCollapsed={false}
                     width={350}
-                    style={{ background: token.colorBgLayout }}
+                    style={{ background: token.colorBgTextHover }}
                 >
                     <div className={styles.builderRightWrap}
                     >

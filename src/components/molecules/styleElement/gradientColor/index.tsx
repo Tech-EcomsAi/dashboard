@@ -1,4 +1,4 @@
-import { Button, Drawer, Select, Space } from 'antd';
+import { Button, Drawer, Select, Space, Tooltip, theme } from 'antd';
 import React, { useEffect, useState } from 'react'
 import ColorPickerComponent from '../colorPicker';
 import styles from './gradientColor.module.scss';
@@ -54,7 +54,7 @@ function GradientColor({ value, onChange }) {
 
     const [showGradientsList, setShowGradientsList] = useState(false);
     const [originalState, setOriginalState] = useState({ isUpdated: false, value: null });
-
+    const { token } = theme.useToken();
 
     useEffect(() => {
         (showGradientsList) && setOriginalState({ isUpdated: false, value })
@@ -171,7 +171,9 @@ function GradientColor({ value, onChange }) {
                             options={GRADIENT_DIRECTIONS[value?.props?.type || 'linear']}
                         />
                     </div>
-                    <Button style={{ width: "100%", fontSize: "12px" }} type={showGradientsList ? "primary" : "default"} className={` ${showGradientsList ? styles.active : ''}`} onClick={() => setShowGradientsList(true)}>View More...</Button>
+                    <Tooltip title="View list of gradients">
+                        <Button style={{ width: "100%", color: token.colorTextSecondary }} type={showGradientsList ? "primary" : "text"} className={`${showGradientsList ? styles.active : ''}`} onClick={() => setShowGradientsList(true)}>View More...</Button>
+                    </Tooltip>
                     <Drawer
                         title="Colorful Gradients Pallets"
                         placement='right'

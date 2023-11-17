@@ -13,11 +13,12 @@ import BackgroundImage from '../backgroundImage';
 import TextElement from '@antdComponent/textElement';
 import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
 import Saperator from '@atoms/Saperator';
+import { LuImage } from 'react-icons/lu';
 
 const SEGMENT_OPTIONS = [
     { value: BACKGROUND_TYPES.COLOR, key: BACKGROUND_TYPES.COLOR, icon: <IoMdColorFilter /> },
     { value: BACKGROUND_TYPES.GRADIENT, key: BACKGROUND_TYPES.GRADIENT, icon: <VscColorMode /> },
-    { value: BACKGROUND_TYPES.IMAGE, key: BACKGROUND_TYPES.IMAGE, icon: <BsFillImageFill /> },
+    { value: BACKGROUND_TYPES.IMAGE, key: BACKGROUND_TYPES.IMAGE, icon: <LuImage /> },
 ]
 
 const valueSample = {

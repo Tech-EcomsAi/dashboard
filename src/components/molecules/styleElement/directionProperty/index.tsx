@@ -8,6 +8,9 @@ import Saperator from '@atoms/Saperator';
 import IconButton from '@antdComponent/iconButton';
 import { TbBorderCorners, TbSquare } from 'react-icons/tb';
 import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
+import { FcCancel } from 'react-icons/fc';
+import { BiMinus } from 'react-icons/bi';
+import { LuCross, LuMinus, LuMinusCircle, LuMinusSquare, LuX, LuXCircle, LuXSquare } from 'react-icons/lu';
 
 const getOptionsList = () => {
     const res = [];
@@ -27,10 +30,6 @@ function DirectionProperty({ propertyType, onChange, value }) {
     const [property, setProperty] = useState({ top: 1, bottom: 1, right: 1, left: 1, type: 'px' });
     const [commonProperty, setCommonProperty] = useState(0);
     const [valueType, setValueType] = useState('Common')
-
-    useEffect(() => {
-        console.log("valueType", valueType)
-    }, [valueType])
 
     const typesList = [
         { label: 'Top', value: 'top' },
@@ -96,6 +95,7 @@ function DirectionProperty({ propertyType, onChange, value }) {
             <div className={styles.propSelectionWrap}>
                 <div className={styles.segmentWrap}>
                     <SegmentComponent
+                        entity={propertyType}
                         label=""
                         value={valueType}
                         onChange={(value) => setValueType(value)}
@@ -107,13 +107,13 @@ function DirectionProperty({ propertyType, onChange, value }) {
                     />
                 </div>
                 <Tooltip title={`Remove ${propertyType}`}>
-                    <Button className={styles.resetBtn} type='text' danger style={{ fontSize: "12px" }} onClick={onReset}>Remove</Button>
+                    <Button className={`m-l-auto ${styles.resetBtn}`} type='text' danger style={{ fontSize: "15px" }} onClick={onReset} icon={<LuX />}></Button>
                 </Tooltip>
             </div>
             <>
                 {valueType == "Common" ? <div className={`${styleElementCSS.elementWrap} ${styles.elementOuter}`}>
                     <div className={`${styleElementCSS.styleWrap} ${styles.elementWrap} ${styles.commonElementWrap}`}>
-                        <TextElement text={'Common'} color={token.colorTextBase} />
+                        <TextElement text={'Same for all corners: '} color={token.colorTextBase} />
                         <div className={`${styleElementCSS.elementWrap} ${styles.element}`}>
                             <Select
                                 showSearch

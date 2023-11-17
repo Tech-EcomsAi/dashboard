@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from '@organismsCSS/editor/propsEditor.module.scss';
-import TextElement from '@molecules/propsElement/textEditorElement';
+import TextEditorElement from '@molecules/propsElement/textEditorElement';
 import { removeObjRef } from '@util/utils';
 
 function PropsEditor({ config, onConfigUpdate }) {
@@ -15,7 +15,7 @@ function PropsEditor({ config, onConfigUpdate }) {
         let component = null;
         switch (property) {
             case 'text':
-                component = <TextElement label={'Heading Text'} value={value} onChange={(value) => handlePropsChange(property, value)} placeholder={'Heading text'} />
+                component = <TextEditorElement label={'Heading Text'} value={value} onChange={(value) => handlePropsChange(property, value)} placeholder={'Heading text'} />
                 break;
 
             default:

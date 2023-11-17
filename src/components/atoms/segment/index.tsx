@@ -41,18 +41,15 @@ const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE
                             className={`${styles.segmentItem} ${value == option.value ? styles.active : ''}`}>
                             {showIcon && <div className={styles.iconWrap}
                                 style={{
-                                    color: value == option.key ? token.colorPrimary : token.colorTextDescription,
-                                    minWidth: size == "small" ? "20px" : "26px",
-                                    minHeight: size == "small" ? "20px" : "26px",
-                                    padding: size == "small" ? "2px" : "6px",
-                                    backgroundColor: size == "small" ? "unset" : token.colorBgBase,
+                                    color: value == option.key ? token.colorPrimary : token.colorTextSecondary,
+                                    // minWidth: size == "small" ? "20px" : "26px",
+                                    // minHeight: size == "small" ? "20px" : "26px",
+                                    // padding: size == "small" ? "2px" : "6px",
+                                    // backgroundColor: size == "small" ? "unset" : token.colorBgBase,
                                 }}>
                                 {option.icon}
                             </div>}
-                            {!hideLabel && <div className={styles.name} style={{
-                                color: token.colorTextBase,
-                                fontSize: size == "small" ? "12px" : "13px"
-                            }}>{option.key}</div>}
+                            {!hideLabel && <div className={styles.name} style={{ color: token.colorTextBase }}>{option.key}</div>}
                         </div>
                     </Tooltip>,
                 value: option.key
@@ -65,7 +62,7 @@ const SegmentComponent = ({ label, value, onChange, options, type, size = MIDDLE
             <div className={`${styles.segmentWrap} `}>
                 <Segmented
                     value={value}
-                    style={{ background: token.colorBorder }}
+                    // style={{ background: token.colortext }}
                     size={size}
                     block={true}
                     defaultValue={value}

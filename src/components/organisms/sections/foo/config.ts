@@ -15,7 +15,7 @@ export default {
     },
     "style": {
         "width": '100%',
-        "height": '300px',
+        "height": 'auto',
         "boxShadow": 'unset',
         "padding": '20px 20px 20px 20px',
         "color": 'black',

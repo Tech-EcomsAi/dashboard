@@ -20,6 +20,7 @@ function BuilderContainer({ builderState }) {
     const { token } = theme.useToken();
 
     const onClickComponent = (event: any, index: any, uid: number) => {
+        if (!builderContext.editorMode) return;
         if (uid) dispatch(updateActiveEditorComponent({ parentId: builderState[Object.keys(builderState)[0]][index]?.id, uid, originalState: builderState[Object.keys(builderState)[0]][index] }))
         else dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
         event.stopPropagation()
@@ -52,6 +53,7 @@ function BuilderContainer({ builderState }) {
                 {(builderContext.deviceType == "All" ? ["Mobile", "Desktop"] : [builderContext.deviceType]).map((deviceType: string, deviceIndex: number) => {
                     return <React.Fragment key={deviceIndex}>
                         <motion.div className={`${styles.builderDroppableList} ${styles[deviceType]}`}
+                            style={{ pointerEvents: builderContext.editorMode ? "unset" : "none" }}
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'max-content', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
@@ -65,7 +67,7 @@ function BuilderContainer({ builderState }) {
                                     style={{
                                         fontSize: `${(builderContext.state.scale > 0.3 ? 15 + builderContext.state.scale * 10 : 20 + (100 * builderContext.state.scale))}px`,
                                     }}>
-                                    {deviceType} Devices : {builderContext.state.scale}
+                                    {deviceType} Devices
                                 </div>
                             </div>
                             {Object.keys(builderState).map((list, i) => {

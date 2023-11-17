@@ -19,12 +19,30 @@ const AntdClient = ({ children }: any) => {
                         // colorPrimary: '#3bceac',
                         colorPrimary: isDarkMode ? darkThemeColor : lightThemeColor,
                         borderRadius: 5,
-                        wireframe: false
+                        wireframe: false,
+                        fontSize: 13
                     },
                     components: {
                         Menu: {
                             itemSelectedBg: token.colorPrimaryBg
                         },
+                        Tooltip: {
+                            paddingXS: 14
+                        },
+                        Segmented: {
+                            fontSize: 12,
+                            fontSizeLG: 13,
+                            controlHeightSM: 28,
+                            borderRadiusXS: 4,
+                            controlPaddingHorizontalSM: 10
+                        },
+                        Button: {
+                            contentFontSize: 13
+                        },
+                        Drawer: {
+                            padding: 10,
+                            paddingLG: 10
+                        }
                     },
                 }}
             >

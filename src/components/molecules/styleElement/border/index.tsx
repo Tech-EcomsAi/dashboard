@@ -1,4 +1,4 @@
-import { Select, theme } from 'antd'
+import { Button, Select, Tooltip, theme } from 'antd'
 import React, { useEffect, useState } from 'react'
 import styles from './border.module.scss'
 import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
@@ -7,6 +7,7 @@ import { BORDER } from '@constant/editorStylesProperties';
 import { NO_COLOR_VALUE } from '@constant/common';
 import TextElement from '@antdComponent/textElement';
 import Saperator from '@atoms/Saperator';
+import { LuX } from 'react-icons/lu';
 
 const sizeList = [
     { label: '1', value: '1px' },
@@ -87,9 +88,9 @@ function Border({ onChange, value }) {
                 </div>
                 <div className={`${styleElementCSS.styleWrap} ${styles.borderItemWrap} ${styles.resetValuesWrap}`}>
                     <div className={`${styleElementCSS.label} ${styles.label}`}></div>
-                    <div onClick={onReset} className={`${styleElementCSS.elementWrap}  ${styles.resetValues} ${border?.size == '0px' ? styles.active : ''}`}>
-                        Unset
-                    </div>
+                    <Tooltip title={`Remove Border`}>
+                        <Button className={`m-l-auto`} type='text' danger onClick={onReset} icon={<LuX />}></Button>
+                    </Tooltip>
                 </div>
             </div>
             <Saperator />
