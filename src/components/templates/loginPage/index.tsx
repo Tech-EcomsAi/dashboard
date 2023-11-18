@@ -1,3 +1,4 @@
+'use client'
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 import { useAppSelector } from "src/hooks/useAppSelector";
 import Router from "next/navigation";
@@ -19,7 +20,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (userDetails) {
-      Router.push("/");
+      // Router.push("/");
     }
   }, []);
 
@@ -29,7 +30,7 @@ function LoginPage() {
         console.log("getUserByCredentials", data);
         dispatch(setAuthUser(data));
         dispatch(showSuccessToast('Login Success'))
-        Router.push('/');
+        // Router.push('/');
       })
       .catch((err) => {
         dispatch(showErrorToast(err.message))

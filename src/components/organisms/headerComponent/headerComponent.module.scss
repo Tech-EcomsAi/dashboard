@@ -1,0 +1,35 @@
+@import "@styles/abstracts/mixins";
+
+.headerComponentWrap {
+  width: 100%;
+  height: 50px;
+  line-height: unset;
+  padding: 0 10px;
+  box-shadow: rgb(217, 217, 217) 0px 4px 8px -4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .breadcrumbsWrap {
+    @include flexStart;
+  }
+  .rightActionsWrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--medium-gap);
+    button {
+      padding: unset;
+      font-size: 17px;
+    }
+    .actionsWrap {
+      @include flexCenter;
+      gap: var(--medium-gap);
+    }
+    .profileWrap {
+      @include flexCenter;
+      img {
+        border-radius: 50%;
+      }
+    }
+  }
+}

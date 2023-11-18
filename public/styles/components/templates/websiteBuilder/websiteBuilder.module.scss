@@ -1,20 +1,29 @@
 @import "@styles/abstracts/mixins";
 
+@mixin rightContentHeight {
+  min-height: calc(100vh - 55px);
+  height: calc(100vh - 55px);
+  max-height: calc(100vh - 55px);
+}
+
 .websiteBuilderWrap {
-  height: 100vh;
+  @include appContentHeight;
   .builderLeftWrap {
-    height: auto;
-    // gap: 5px;
-    // padding: 5px;
-    // background: var(--primary-color-beta);
+    height: 100%;
+    position: relative;
     .headerWrap {
       height: unset;
       line-height: unset;
       padding: 7px;
-      border-radius: 0px;
       backdrop-filter: blur(20px);
       box-shadow: rgba(76, 78, 100, 0.068) 0px 2px 10px 0px;
       z-index: 2;
+      box-shadow: rgb(217, 217, 217) 1px 1px 8px -4px;
+      position: absolute;
+      top: 6px;
+      border-radius: 4px;
+      width: calc(100% - 12px);
+      left: 6px;
       .headingWrap {
         padding: 0 10px;
         @include flexStartAlC;
@@ -64,14 +73,17 @@
       }
     }
     .editorContent {
+      position: relative;
       width: 100%;
-      box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
-      @include flexCenter;
+      // box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
+      @include appContentHeight;
+      @include flexStart;
     }
   }
   .builderRightWrap {
-    height: 100vh;
+    @include rightContentHeight;
     overflow: auto;
+    border-radius: 4px;
     // flex: 0 0 350px !important;
     // max-width: 350px !important;
     // min-width: 350px !important;
@@ -86,43 +98,10 @@
         backdrop-filter: blur(20px);
         padding-left: 0;
         padding: 4px;
-        .segmentItem {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 5px;
-          padding: 2px;
-          color: var(--secondary-color-beta);
-          .iconWrap {
-            width: 27px;
-            height: 27px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 6px;
-            background-color: #dee1ec46;
-            border-radius: 16px;
-            box-shadow: rgba(76, 78, 100, 0.22) 0px 2px 10px 0px;
-            @include transition;
-          }
-          .title {
-            font-size: 12px;
-            letter-spacing: 0.3px;
-            font-family: var(--f-SemiBold);
-          }
-          &.active {
-            color: var(--secondary-color) !important;
-            .iconWrap {
-              background-color: var(--secondary-color) !important;
-              color: white;
-              @include transition;
-            }
-            @include transition;
-          }
-        }
+        z-index: 10;
       }
       .sidebarContentWrap {
-        height: calc(100vh - 45px);
+        // height: calc(100vh - 45px);
         overflow: auto;
         padding: 5px;
 

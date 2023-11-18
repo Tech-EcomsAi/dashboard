@@ -8,6 +8,7 @@ import { ReduxStoreProvider } from '@providers/reduxProvider'
 import ErrorBoundaryProvider from '@providers/errorBoundaryProvider'
 import "@styles/app.scss";
 import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
+import Navbar from 'src/components/navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -42,11 +43,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={inter.className}>
         <ErrorBoundaryProvider>
           <ReduxStoreProvider>
-            <AntdLayoutWrapper>
-              <SessionProvider session={session}>
+            {/* <Navbar /> */}
+            <SessionProvider session={session}>
+              <AntdLayoutWrapper>
                 {children}
-              </SessionProvider>
-            </AntdLayoutWrapper>
+              </AntdLayoutWrapper>
+            </SessionProvider>
           </ReduxStoreProvider>
         </ErrorBoundaryProvider>
       </body>

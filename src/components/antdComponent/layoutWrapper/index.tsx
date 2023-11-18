@@ -11,6 +11,8 @@ import { useServerInsertedHTML } from 'next/navigation';
 import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
 import { useAppSelector } from '@hook/useAppSelector';
 import { getSidebarState } from '@reduxSlices/clientThemeConfig';
+import HeaderComponent from '@organisms/headerComponent';
+import Navbar from 'src/components/navbar';
 
 const { Content } = Layout;
 
@@ -29,19 +31,12 @@ export default function AntdLayoutWrapper(props: any) {
                 <AntdThemeProvider>
                     <Fragment>
                         <Toast />
-
-                        {/* not used */}
-                        {/* <AlertNotification /> */}
-                        {/* not used */}
-                        <SidebarComponent />
-                        <Layout style={{ paddingLeft: isCollapsed ? "66px" : "200px" }}>
-                            {/* {toggleHeader && <HeaderComponent />} */}
-                            <Content>
+                        <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
+                            <HeaderComponent />
+                            <SidebarComponent />
+                            <Content className={styles.mainContentWraper}>
                                 {props.children}
                             </Content>
-                            {/* <FooterComponent /> */}
-                            {/* <div className={styles.contentContainer}>
-                          </div> */}
                         </Layout>
                     </Fragment>
                 </AntdThemeProvider>
@@ -49,32 +44,3 @@ export default function AntdLayoutWrapper(props: any) {
         </Layout>
     )
 }
-
-// function AntdLayoutWrapper(props: any) {
-//     return (
-//         <Layout className={`${styles.layoutWrapper}`}>
-//             <HeadMetaTags title={undefined} description={undefined} image={undefined} siteName={undefined} storeData={undefined} />
-//             <AntdThemeProvider>
-//                 <Fragment>
-//                     <Toast />
-
-//                     {/* not used */}
-//                     {/* <AlertNotification /> */}
-//                     {/* not used */}
-//                     <SidebarComponent />
-//                     <Layout>
-//                         {/* {toggleHeader && <HeaderComponent />} */}
-//                         <Content>
-//                             {props.children}
-//                         </Content>
-//                         {/* <FooterComponent /> */}
-//                         {/* <div className={styles.contentContainer}>
-//                           </div> */}
-//                     </Layout>
-//                 </Fragment>
-//             </AntdThemeProvider>
-//         </Layout>
-//     )
-// }
-
-// export default AntdLayoutWrapper

@@ -126,8 +126,7 @@ const AppSettingsPanel = ({ open, togglePannel }: PanelProps) => {
             <TextElement text={'Color presets'} color={token.colorPrimary} size={"small"} />
             <div className={styles.settingsDetails}>
               <div className={styles.setting}
-                style={{ borderColor: token.colorBorder, transform: "unset" }}
-                onClick={isCollapsed ? toggleSidebarState : () => { }}>
+                style={{ borderColor: token.colorBorder, transform: "unset" }}>
                 <TextElement text={'Primary theme color'} color={token.colorTextBase} />
                 <div className={`${styles.skeletonWrap} ${styles.colors}`} style={{ background: token.colorBgContainer }}>
                   {colorsList[isDarkMode ? "dark" : "light"].map((color: any, i: number) => {

@@ -32,6 +32,7 @@ const nextConfig = {
     compiler: {
         removeConsole: process.env.NODE_ENV !== "development", // Remove console.log in production
     },
+    transpilePackages: ['antd-mobile']
 }
 // Configuration object tells the next-pwa plugin 
 const withPWA = require("next-pwa")({

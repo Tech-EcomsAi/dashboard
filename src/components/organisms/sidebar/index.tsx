@@ -1,4 +1,3 @@
-'use client'
 import React, { Fragment, useState } from 'react'
 import { theme } from 'antd';
 import { getDarkModeState, getSidebarState, toggleDarkMode, toggleSidbar } from '@reduxSlices/clientThemeConfig';
@@ -18,7 +17,7 @@ import { useRouter } from 'next/navigation';
 import AppSettingsPanel from './appSettingsPanel';
 import ClientOnlyProvider from '@providers/clientOnlyProvider';
 
-type NavItem = { label: string, key: string, icon: any, isChild?: boolean, subNav?: any, showSubNav?: boolean };
+type NavItemType = { label: string, key: string, icon: any, isChild?: boolean, subNav?: any, showSubNav?: boolean };
 
 const SidebarComponent = () => {
     const dispatch = useAppDispatch();
@@ -27,8 +26,8 @@ const SidebarComponent = () => {
     const isDarkMode = useAppSelector(getDarkModeState);
     const isCollapsed = useAppSelector(getSidebarState)
     const [hoverId, setHoverId] = useState(null);
-    const [activeParentNav, setActiveParentNav] = useState<NavItem>({ label: '', key: '', icon: '', isChild: false })
-    const [activeNav, setActiveNav] = useState<NavItem>({ label: 'Builder', key: 'builder', icon: 'builder', isChild: false });
+    const [activeParentNav, setActiveParentNav] = useState<NavItemType>({ label: '', key: '', icon: '', isChild: false })
+    const [activeNav, setActiveNav] = useState<NavItemType>({ label: 'Builder', key: 'builder', icon: 'builder', isChild: false });
     const [isHover, setIsHover] = useState(true);
     const [showAppSettingsPanel, setShowAppSettingsPanel] = useState(false)
     const collapseNavItem = { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> };
@@ -36,14 +35,7 @@ const SidebarComponent = () => {
     const darkModeNavItem = { label: 'darkMode', key: 'darkMode', icon: <MdDarkMode /> };
     const helpNavItem = { label: 'help', key: 'dashboard-help', icon: <TbPhoneCalling /> };
 
-    // useEffect(() => {
-    //     if (isWindowAvailable()) {
-    //         dispatch(toggleDarkMode(initialThemeHandler()));
-    //         // setActiveNav(pathName.split('/')[0]);
-    //     }
-    // }, [windowRef])
-
-    const navMenu: NavItem[] = [
+    const NAV_MENUS: NavItemType[] = [
         {
             label: 'Dashboard', key: 'dashboard', icon: <RxDashboard />,
             subNav: [
@@ -64,10 +56,10 @@ const SidebarComponent = () => {
         { label: 'Note', key: 'note', icon: <TbNotes /> },
         { label: 'Blogs', key: 'query', icon: <RiArticleLine /> },
         { label: 'Promotion', key: 'promotion', icon: <MdOutlineCampaign /> },
-        { label: 'Help', key: 'help', icon: <TbHelpCircle /> },
+        { label: 'User Guide', key: 'help', icon: <TbHelpCircle /> },
     ]
 
-    const onClickNav = (navItem: NavItem) => {
+    const onClickNav = (navItem: NavItemType) => {
         switch (navItem.key) {
             case 'darkMode':
                 dispatch(toggleDarkMode(!isDarkMode))
@@ -103,10 +95,11 @@ const SidebarComponent = () => {
                     className={styles.sidebarContainer}
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
-                    animate={{ width: (!isCollapsed || isHover) ? '200px' : "66px" }}
+                    animate={{ width: (!isCollapsed || isHover) ? '200px' : "62px" }}
                     style={{ backgroundColor: token.colorBgBase, color: token.colorTextBase, }}>
                     <div className={styles.logoWrap}>
                         <div className={styles.logo}>
+                            {/* <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo_small.png?alt=media&token=d590b12e-ca38-40b0-9ef7-34c6374b8a72" /> */}
                             <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430" />
                             {/* {isCollapsed ?
                             <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo_small.png?alt=media&token=d590b12e-ca38-40b0-9ef7-34c6374b8a72" />
@@ -116,23 +109,24 @@ const SidebarComponent = () => {
                         </div>
                     </div>
                     <div className={styles.menuItemsWrap}>
-                        {navMenu.map((nav: NavItem, i: number) => {
+                        {NAV_MENUS.map((nav: NavItemType, i: number) => {
+                            const isActive = nav.key == activeNav.key;
                             return <Fragment key={i}>
-                                <div className={`${styles.menuItemWrap} ${nav.key == activeNav.key ? styles.active : ""} ${styles[nav.key]}`}
+                                <div className={`${styles.menuItemWrap} ${isActive ? styles.active : ""} ${styles[nav.key]}`}
                                     onMouseEnter={() => setHoverId(nav.key)}
                                     onMouseLeave={() => setHoverId('')}
                                     onClick={() => onClickNav(nav)}
                                     style={{
-                                        background: `${(nav.key == activeNav.key) ? token.colorPrimary : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorBgTextHover : token.colorBgBase)}`,
-                                        color: (nav.key == activeNav.key) ? token.colorTextLightSolid : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorPrimaryTextActive : token.colorText),
+                                        backgroundColor: `${(isActive) ? token.colorPrimaryBgHover : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorBgTextHover : token.colorBgBase)}`,
+                                        color: (isActive) ? token.colorTextLightSolid : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorPrimaryTextActive : token.colorText),
                                         border: token.colorBorder,
+                                        // backgroundImage: `radial-gradient( 100% 100% at 0 0, rgb(10 174 145 / 16%) 0, rgb(147 147 217 / 21%) 50%, #09aa8d26 100%)`,
                                     }}
                                 >
                                     <div className={styles.navWrap}>
                                         <div className={styles.labelIconWrap}>
                                             <div className={styles.iconWrap} style={{
-                                                // backgroundImage: `radial-gradient( 100% 100% at 0 0, rgb(10 174 145 / 16%) 0, rgb(147 147 217 / 21%) 50%, #09aa8d26 100%)`,
-                                                color: (nav.key == activeNav.key) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                                color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                             }}>
                                                 {nav.icon}
                                             </div>
@@ -149,7 +143,7 @@ const SidebarComponent = () => {
                                             <motion.div
                                                 className={`${styles.subNavIcon} ${styles.iconWrap}`}
                                                 style={{
-                                                    color: (nav.key == activeNav.key) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                                    color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                                 }}
                                                 transition={{ duration: 0.1 }}
                                                 animate={{
@@ -158,6 +152,13 @@ const SidebarComponent = () => {
                                                 <MdOutlineNavigateNext />
                                             </motion.div>}
                                     </div>
+                                    <AnimatePresence>
+                                        {(isActive && isCollapsed && !isHover) && <motion.div
+                                            initial={{ height: "100%", opacity: 0 }}
+                                            animate={{ height: '100%', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            className={styles.activeMark} style={{ background: token.colorPrimary }}></motion.div>}
+                                    </AnimatePresence>
                                 </div>
                                 <AnimatePresence>
                                     {Boolean(activeParentNav.key == nav.key && activeParentNav.subNav && activeParentNav.showSubNav && (!isCollapsed || isHover)) && <>

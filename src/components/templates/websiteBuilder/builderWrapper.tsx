@@ -64,7 +64,7 @@ function TransformComponentWrapper({ builderState }) {
         <React.Fragment>
             <TransformComponent wrapperClass={styles.builderWrapper}
                 wrapperStyle={{
-                    "height": 'calc(100vh - 60px)',
+                    "height": 'calc(100vh - 50px)',
                     "width": '100%',
                     "backgroundImage": `radial-gradient(circle at 10px 10px,${token.colorTextPlaceholder} 1px,transparent 0)`,
                     "backgroundSize": `${updatedScale * 50}px ${updatedScale * 50}px`,

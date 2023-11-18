@@ -1,7 +1,12 @@
+@import "@styles/abstracts/mixins";
+
 .layoutWrapper {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: row;
+  .mainContentWraper {
+    @include appContentHeight;
+  }
 }

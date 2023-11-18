@@ -3,9 +3,8 @@
 .builderWrapper {
   //   background: var(--light-slate);
   position: relative;
-  height: 100vh;
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px);
   width: 100%;
   background-image: radial-gradient("#dee1ec" 1px, transparent 0);
   background-size: 10px 10px;
@@ -24,7 +23,9 @@
   padding: 7px 10px;
   border-radius: 5px;
   gap: 8px;
-  box-shadow: 0 10px 20px #0000001a;
+  left: 50%;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1019607843);
+  // transform: translateX(50%);
   .segmentWrap {
     backdrop-filter: blur(20px);
     padding-left: 0;
