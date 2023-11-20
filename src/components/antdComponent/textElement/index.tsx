@@ -4,7 +4,7 @@ import React from 'react'
 type TextSize = "small" | "medium" | "large";
 
 type TextElementProps = {
-    text: string,
+    text: string | any,
     color?: string,
     size?: TextSize | number,
     styles?: any

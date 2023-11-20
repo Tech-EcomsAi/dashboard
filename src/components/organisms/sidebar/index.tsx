@@ -3,7 +3,7 @@ import { theme } from 'antd';
 import { getDarkModeState, getSidebarState, toggleDarkMode, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import styles from '@organismsCSS/sidebarComponent/sidebarComponent.module.scss';
 import { useAppDispatch } from '@hook/useAppDispatch';
-import { LuLayoutDashboard, LuLineChart, LuSettings, LuShoppingCart } from 'react-icons/lu';
+import { LuCalendarCheck, LuLayoutDashboard, LuLineChart, LuMail, LuMessageSquare, LuSettings, LuShoppingCart } from 'react-icons/lu';
 import { RxDashboard } from 'react-icons/rx';
 import { IoAnalyticsSharp } from 'react-icons/io5';
 import { TbChartHistogram, TbChartPie, TbDeviceMobileShare, TbHelpCircle, TbNotes, TbPhoneCalling, TbUsers } from 'react-icons/tb';
@@ -35,8 +35,10 @@ export const APPS_MENU: NavItemType[] = [
     {
         label: 'Apps', key: 'apps', icon: <RiAppsLine />,
         subNav: [
-            { label: 'Note', key: 'note', icon: <TbNotes /> },
-            { label: 'Blogs', key: 'query', icon: <RiArticleLine /> },
+            { label: 'Chat', key: 'chat', icon: <LuMessageSquare /> },
+            { label: 'Blog', key: 'query', icon: <RiArticleLine /> },
+            { label: 'Email', key: 'email', icon: <LuMail /> },
+            { label: 'Calendar', key: 'calendar', icon: <LuCalendarCheck /> },
         ]
     },
 ]

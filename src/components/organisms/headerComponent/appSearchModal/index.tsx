@@ -1,21 +1,48 @@
 import React, { Fragment, useState } from 'react'
-import { Button, Card, Divider, Input, Modal, Popconfirm, Space, theme } from 'antd'
+import { Button, Card, Divider, Input, Modal, Popconfirm, Space, Typography, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuCheckCircle, LuX } from 'react-icons/lu'
+import { LuCalendar, LuCheckCircle, LuHeadphones, LuListOrdered, LuListTodo, LuNewspaper, LuStar, LuUserX2, LuUsers, LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import Saperator from '@atoms/Saperator'
 import { APPS_MENU, DASHBOARD_MENU } from '@organisms/sidebar'
 import styles from './appSearchModal.module.scss'
-import { MdOutlineNavigateNext } from 'react-icons/md'
+import { MdOutlineNavigateNext, MdPayments } from 'react-icons/md'
+import { TbBug, TbMessageChatbot, TbMoneybag } from 'react-icons/tb'
+import { removeObjRef } from '@util/utils'
 
 const { Search } = Input;
+
+const LIST_MENUS = [
+    { label: 'Orders', keywords: 'orders,transactions', icon: <LuListOrdered /> },
+    { label: 'Appointments', keywords: 'appointments,transactions', icon: <LuListTodo /> },
+    { label: 'Users/CRM', keywords: 'users,customers', icon: <LuUsers /> },
+    { label: 'Payments', keywords: 'payments,transactions', icon: <TbMoneybag /> }
+]
+
+const REACH_US_LINKS = [
+    { label: 'Report issue', keywords: 'issue,contact,about,support', icon: <TbBug /> },
+    { label: 'Help Center', keywords: 'support,contact,about,ecomsai', icon: <LuHeadphones /> },
+    { label: 'Chat with Us', keywords: 'support,contact,about,ecomsai', icon: <TbMessageChatbot /> },
+    { label: 'Documentation', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuNewspaper /> }
+]
+
+const SEARCHES_LIST = [
+    { label: 'Dashboards', items: DASHBOARD_MENU[0].subNav },
+    { label: 'Apps', items: APPS_MENU[0].subNav },
+    { label: 'Reports List', items: LIST_MENUS },
+    { label: 'How to Reach Us', items: REACH_US_LINKS },
+]
+
 function AppSearchModal({ isModalOpen, onClose, children }) {
     const { token } = theme.useToken();
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const [hoverId, setHoverId] = useState(null)
+    const [hoverId, setHoverId] = useState(null);
+    const [filteredSearches, setFilteredSearches] = useState<any>(SEARCHES_LIST)
+    const { Text } = Typography;
+    const [inputStatus, setInputStatus] = useState<any>()
 
     const onClickSearch = () => {
         console.log("onclick search")
@@ -26,90 +53,68 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
         onClose()
     }
 
-    const renderTitle = () => {
-        return <Space direction='vertical' size={0}>
-            <Space align='baseline'>
-                <Space size={0} align='center'>
-                    <TextElement size={"medium"} text={'Search for anything'} color={token.colorTextBase} />
-                </Space>
-                <Button icon={<LuX />} type='default' size='small' shape='circle' onClick={handleClose} />
-            </Space>
-            <Divider style={{ margin: "6px 0" }} />
-        </Space>
-    }
-
-    const onClickNav = (nav) => {
-
+    const onChangeSearchQuery = (query: string) => {
+        setInputStatus("")
+        query = query ? query.toLowerCase() : '';
+        setSearchQuery(query);
+        const searchedCategory = [];
+        const searchListCopy = [...SEARCHES_LIST];
+        searchListCopy.map((category) => {
+            let queryIncludedItems = category.items.filter((i) => (i.label.toLowerCase()).includes(query) || (i.keywords ? (i.keywords?.toLowerCase())?.includes(query) : ""))
+            if (queryIncludedItems.length !== 0) {
+                const filteredCat = removeObjRef(category)
+                filteredCat.items = queryIncludedItems;
+                searchedCategory.push(filteredCat)
+            }
+        })
+        if (searchedCategory.length == 0) setInputStatus("error")
+        setFilteredSearches(!query ? SEARCHES_LIST : searchedCategory)
     }
 
     const renderSearchWrap = () => {
-        return <Space direction='vertical' size={0} style={{ marginBottom: "10px" }} className={styles.appSearchModal}>
+        return <Space direction='vertical' size={0} style={{ margin: "10px 0 0" }} className={styles.appSearchModal}>
             <Search value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => onChangeSearchQuery(e.target.value)}
                 onSearch={onClickSearch}
                 placeholder="Enter what you want to know"
                 enterButton={false}
                 allowClear
-                size="middle"
-                style={{ width: "100%" }}
+                size="large"
+                status={inputStatus || ""}
+                style={{ width: "660px" }}
                 loading={isLoading} />
-            <TextElement size={"medium"} text={'POPULAR SEARCHES'} color={token.colorPrimary} styles={{ margin: "20px 0 0", display: "block" }} />
-            <Space size={"small"} direction='vertical' style={{ margin: "20px 0" }}>
-                <TextElement text={'Dashboards'} color={token.colorTextDescription} size={"medium"} />
-                <div className={`${styles.menuItemsWrap}`}>
-                    {DASHBOARD_MENU[0].subNav.map((nav, i) => {
-                        return <div className={`${styles.menuItemWrap}`}
-                            onMouseEnter={() => setHoverId(nav.key)}
-                            onMouseLeave={() => setHoverId('')}
-                            onClick={() => onClickNav(nav)}
-                            style={{
-                                backgroundColor: `${nav.key == hoverId ? token.colorPrimaryBgHover : token.colorBgTextHover}`,
-                                color: nav.key == hoverId ? token.colorTextBase : token.colorTextBase,
-                                border: token.colorBorder,
-                            }}
-                        >
-                            <div className={styles.navWrap}>
-                                <div className={styles.labelIconWrap}>
-                                    <div className={styles.iconWrap} style={{
-                                        color: nav.key == hoverId ? token.colorTextBase : token.colorTextBase,
-                                    }}>
-                                        {nav.icon}
-                                    </div>
-                                    <div className={styles.label} >{nav.label}</div>
-                                </div>
+            <TextElement size={"medium"} text={'Quick Navigations Link'} color={token.colorPrimary} styles={{ margin: "20px 0 10px", display: "block" }} />
+            <div className={styles.appSearchActions}>
+                {filteredSearches.length != 0 ? <>
+                    {filteredSearches.map((searchCategory, i) => {
+                        return <Space size={"small"} direction='vertical' style={{ margin: "10px 0" }} key={i}>
+                            <TextElement text={searchCategory.label} color={token.colorTextDescription} size={"medium"} styles={{ paddingLeft: "20px" }} />
+                            <div className={`${styles.menuItemsWrap}`}>
+                                {searchCategory.items.map((nav, i) => {
+                                    return <Button size='large' type='text' key={i} icon={nav.icon}>{nav.label}</Button>
+                                })}
                             </div>
-                        </div>
+                        </Space>
                     })}
-                </div>
-            </Space>
-            <Space size={"small"} direction='vertical' style={{ margin: "20px 0" }}>
-                <TextElement text={'Apps'} color={token.colorTextDescription} size={"medium"} />
-                <div className={`${styles.menuItemsWrap}`}>
-                    {APPS_MENU[0].subNav.map((nav, i) => {
-                        return <div className={`${styles.menuItemWrap}`}
-                            onMouseEnter={() => setHoverId(nav.key)}
-                            onMouseLeave={() => setHoverId('')}
-                            onClick={() => onClickNav(nav)}
-                            style={{
-                                backgroundColor: `${nav.key == hoverId ? token.colorPrimaryBgHover : token.colorBgTextHover}`,
-                                color: nav.key == hoverId ? token.colorTextBase : token.colorTextBase,
-                                border: token.colorBorder,
-                            }}
-                        >
-                            <div className={styles.navWrap}>
-                                <div className={styles.labelIconWrap}>
-                                    <div className={styles.iconWrap} style={{
-                                        color: nav.key == hoverId ? token.colorTextBase : token.colorTextBase,
-                                    }}>
-                                        {nav.icon}
-                                    </div>
-                                    <div className={styles.label} >{nav.label}</div>
-                                </div>
+                </> : <>
+                    <Space className="d-f-c" align='center' style={{ width: "100%", margin: "10px 0", textAlign: "center" }} >
+                        <Text style={{ fontSize: "15px", width: "100%", letterSpacing: "0.2px" }} type='secondary'>No Results for <Text style={{ fontSize: "17px", width: "100%" }} strong >{searchQuery}</Text></Text>
+                    </Space>
+                </>}
+                {/* {Boolean(searchQuery) ? <>
+                </> : <>
+                    {SEARCHES_LIST.map((searchCategory, i) => {
+                        return <Space size={"small"} direction='vertical' style={{ margin: "10px 0" }} key={i}>
+                            <TextElement text={searchCategory.label} color={token.colorTextDescription} size={"medium"} styles={{ paddingLeft: "20px" }} />
+                            <div className={`${styles.menuItemsWrap}`}>
+                                {searchCategory.items.map((nav, i) => {
+                                    return <Button size='large' type='text' key={i} icon={nav.icon}>{nav.label}</Button>
+                                })}
                             </div>
-                        </div>
+                        </Space>
                     })}
-                </div>
-            </Space>
+                </>} */}
+            </div>
         </Space>
     }
 
@@ -121,11 +126,11 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
                 title={"Search for anything"}
                 open={isModalOpen}
                 footer={false}
-                closeIcon={<LuX />}
+                closeIcon={<Button shape='circle' icon={<LuX />} />}
                 maskClosable={true}
                 onCancel={handleClose}
                 mask={true}
-                width={"max-content"}
+                width={700}
             // closable={false}
             >
                 {renderSearchWrap()}
