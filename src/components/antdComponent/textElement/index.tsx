@@ -22,7 +22,7 @@ function TextElement({ text, color = "", size = "small", styles = {} }: TextElem
             fontSize = 12;
             fontWeight = 400;
             textColor = token.colorTextSecondary;
-            styles = { ...styles, marginBottom: "5px" }
+            styles = { marginBottom: "5px", ...styles }
             break;
         case "medium":
             fontSize = 13;

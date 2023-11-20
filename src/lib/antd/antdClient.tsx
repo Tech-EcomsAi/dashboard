@@ -42,6 +42,9 @@ const AntdClient = ({ children }: any) => {
                         Drawer: {
                             padding: 10,
                             paddingLG: 10
+                        },
+                        Collapse: {
+                            // headerBg: token.colorBgLayout
                         }
                     },
                 }}

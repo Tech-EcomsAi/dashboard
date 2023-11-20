@@ -44,8 +44,7 @@ const EditorComponent = ({ index, config, onConfigUpdate }) => {
     return (
         <div className={styles.editorComponent}>
             <Collapse
-                // ghost
-                style={{ background: token.colorBgLayout }}
+                style={{ borderColor: token.colorBorderSecondary }}
                 expandIconPosition='end'
                 accordion
                 onChange={onChange}

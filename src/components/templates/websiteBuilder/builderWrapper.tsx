@@ -45,7 +45,7 @@ function TransformComponentWrapper({ builderState }) {
     const { token } = theme.useToken();
     const dispatch = useAppDispatch();
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
-    const [updatedScale, setUpdatedScale] = useState(builderContext.state.scale);
+    const [updatedScale, setUpdatedScale] = useState(builderContext.state.scale || 0.5);
 
     const updateContext = (event: any) => {
         const newSate = removeObjRef(event.state);
@@ -66,7 +66,7 @@ function TransformComponentWrapper({ builderState }) {
                 wrapperStyle={{
                     "height": 'calc(100vh - 50px)',
                     "width": '100%',
-                    "backgroundImage": `radial-gradient(circle at 10px 10px,${token.colorTextPlaceholder} 1px,transparent 0)`,
+                    "backgroundImage": `radial-gradient(circle at 10px 10px, ${token.colorTextPlaceholder} 1px,transparent 0)`,
                     "backgroundSize": `${updatedScale * 50}px ${updatedScale * 50}px`,
                     "cursor": "grab"
                 }}

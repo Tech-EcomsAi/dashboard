@@ -9,7 +9,7 @@ import { IoAnalyticsSharp } from 'react-icons/io5';
 import { TbChartHistogram, TbChartPie, TbDeviceMobileShare, TbHelpCircle, TbNotes, TbPhoneCalling, TbUsers } from 'react-icons/tb';
 import { BsPeople } from 'react-icons/bs';
 import { MdDarkMode, MdLightMode, MdOutlineCampaign, MdOutlineNavigateNext, MdOutlineSettingsSuggest } from 'react-icons/md';
-import { RiAccountPinCircleLine, RiArrowRightDoubleLine, RiArticleLine } from 'react-icons/ri';
+import { RiAccountPinCircleLine, RiAppsLine, RiArrowRightDoubleLine, RiArticleLine } from 'react-icons/ri';
 import { BiConversation } from 'react-icons/bi';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAppSelector } from '@hook/useAppSelector';
@@ -18,6 +18,43 @@ import AppSettingsPanel from './appSettingsPanel';
 import ClientOnlyProvider from '@providers/clientOnlyProvider';
 
 type NavItemType = { label: string, key: string, icon: any, isChild?: boolean, subNav?: any, showSubNav?: boolean };
+
+export const DASHBOARD_MENU: NavItemType[] = [
+    {
+        label: 'Dashboard', key: 'dashboard', icon: <RxDashboard />,
+        subNav: [
+            { label: 'Summary', key: 'summary', icon: <TbChartPie /> },
+            { label: 'Sales', key: 'sales', icon: <LuLineChart /> },
+            { label: 'CRM', key: 'CRM', icon: <TbUsers /> },
+            { label: 'Analytics', key: 'analytics', icon: <IoAnalyticsSharp /> },
+        ]
+    },
+]
+
+export const APPS_MENU: NavItemType[] = [
+    {
+        label: 'Apps', key: 'apps', icon: <RiAppsLine />,
+        subNav: [
+            { label: 'Note', key: 'note', icon: <TbNotes /> },
+            { label: 'Blogs', key: 'query', icon: <RiArticleLine /> },
+        ]
+    },
+]
+
+export const SIDEBAR_NAV_MENUS: NavItemType[] = [
+    ...DASHBOARD_MENU,
+    { label: 'Builder', key: 'builder', icon: <LuLayoutDashboard /> },
+    ...APPS_MENU,
+    { label: 'Profile', key: 'profile', icon: <RiAccountPinCircleLine /> },
+    { label: 'Reports', key: 'reports', icon: <TbChartHistogram /> },
+    { label: 'CRM', key: 'CRM', icon: <BsPeople /> },
+    { label: 'Ecommerce', key: 'ecommerce', icon: <LuShoppingCart /> },
+    { label: 'Settings', key: 'settings', icon: <LuSettings /> },
+    { label: 'PWA', key: 'PWA', icon: <TbDeviceMobileShare /> },
+    { label: 'Chat', key: 'chat', icon: <BiConversation /> },
+    { label: 'Promotion', key: 'promotion', icon: <MdOutlineCampaign /> },
+    { label: 'User Guide', key: 'help', icon: <TbHelpCircle /> },
+]
 
 const SidebarComponent = () => {
     const dispatch = useAppDispatch();
@@ -30,33 +67,14 @@ const SidebarComponent = () => {
     const [activeNav, setActiveNav] = useState<NavItemType>({ label: 'Builder', key: 'builder', icon: 'builder', isChild: false });
     const [isHover, setIsHover] = useState(true);
     const [showAppSettingsPanel, setShowAppSettingsPanel] = useState(false)
-    const collapseNavItem = { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> };
-    const settingsNavItem = { label: 'Settings', key: 'dashboard-settings', icon: <MdOutlineSettingsSuggest /> };
-    const darkModeNavItem = { label: 'darkMode', key: 'darkMode', icon: <MdDarkMode /> };
-    const helpNavItem = { label: 'help', key: 'dashboard-help', icon: <TbPhoneCalling /> };
 
-    const NAV_MENUS: NavItemType[] = [
-        {
-            label: 'Dashboard', key: 'dashboard', icon: <RxDashboard />,
-            subNav: [
-                { label: 'Summary', key: 'summary', icon: <TbChartPie /> },
-                { label: 'Sales', key: 'sales', icon: <LuLineChart /> },
-                { label: 'CRM', key: 'CRM', icon: <TbUsers /> },
-                { label: 'Analytics', key: 'analytics', icon: <IoAnalyticsSharp /> },
-            ]
-        },
-        { label: 'Profile', key: 'profile', icon: <RiAccountPinCircleLine /> },
-        { label: 'Reports', key: 'reports', icon: <TbChartHistogram /> },
-        { label: 'Builder', key: 'builder', icon: <LuLayoutDashboard /> },
-        { label: 'CRM', key: 'CRM', icon: <BsPeople /> },
-        { label: 'Ecommerce', key: 'ecommerce', icon: <LuShoppingCart /> },
-        { label: 'Settings', key: 'settings', icon: <LuSettings /> },
-        { label: 'PWA', key: 'PWA', icon: <TbDeviceMobileShare /> },
-        { label: 'Chat', key: 'chat', icon: <BiConversation /> },
-        { label: 'Note', key: 'note', icon: <TbNotes /> },
-        { label: 'Blogs', key: 'query', icon: <RiArticleLine /> },
-        { label: 'Promotion', key: 'promotion', icon: <MdOutlineCampaign /> },
-        { label: 'User Guide', key: 'help', icon: <TbHelpCircle /> },
+
+
+    const ACTION_MENUS: NavItemType[] = [
+        { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> },
+        { label: 'Settings', key: 'dashboard-settings', icon: <MdOutlineSettingsSuggest /> },
+        { label: 'Dark Mode', key: 'darkMode', icon: <MdDarkMode /> },
+        { label: 'Support', key: 'dashboard-help', icon: <TbPhoneCalling /> },
     ]
 
     const onClickNav = (navItem: NavItemType) => {
@@ -68,7 +86,7 @@ const SidebarComponent = () => {
                 dispatch(toggleSidbar(!isCollapsed))
                 break;
             case 'dashboard-settings':
-                setActiveNav(navItem);
+                setShowAppSettingsPanel(true)
                 break;
             case 'reports':
                 router.push('/reports')
@@ -96,8 +114,8 @@ const SidebarComponent = () => {
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
                     animate={{ width: (!isCollapsed || isHover) ? '200px' : "62px" }}
-                    style={{ backgroundColor: token.colorBgBase, color: token.colorTextBase, }}>
-                    <div className={styles.logoWrap}>
+                    style={{ backgroundColor: token.colorBgBase, color: token.colorTextBase, borderRight: `1px solid ${token.colorBorder}` }}>
+                    <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "10px" : "2px" }}>
                         <div className={styles.logo}>
                             {/* <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo_small.png?alt=media&token=d590b12e-ca38-40b0-9ef7-34c6374b8a72" /> */}
                             <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430" />
@@ -109,7 +127,7 @@ const SidebarComponent = () => {
                         </div>
                     </div>
                     <div className={styles.menuItemsWrap}>
-                        {NAV_MENUS.map((nav: NavItemType, i: number) => {
+                        {SIDEBAR_NAV_MENUS.map((nav: NavItemType, i: number) => {
                             const isActive = nav.key == activeNav.key;
                             return <Fragment key={i}>
                                 <div className={`${styles.menuItemWrap} ${isActive ? styles.active : ""} ${styles[nav.key]}`}
@@ -200,118 +218,56 @@ const SidebarComponent = () => {
                                 </AnimatePresence>
                             </Fragment>
                         })}
+                    </div>
+                    <div className={`${styles.menuItemsWrap} ${styles.actionNavItem} `} style={{ background: token.colorBgBase, borderTop: `1px solid ${token.colorBorder}` }}>
+                        {ACTION_MENUS.map((nav: NavItemType, i: number) => {
+                            const isActive = nav.key == activeNav.key;
+                            return <Fragment key={i}>
+                                <div className={`${styles.menuItemWrap}`}
+                                    onMouseEnter={() => setHoverId(nav.key)}
+                                    onMouseLeave={() => setHoverId('')}
+                                    onClick={() => onClickNav(nav)}
+                                    style={{
+                                        backgroundColor: `${(isActive) ? token.colorPrimaryBgHover : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorBgTextHover : token.colorBgBase)}`,
+                                        color: (isActive) ? token.colorTextLightSolid : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorPrimaryTextActive : token.colorText),
+                                        border: token.colorBorder,
+                                    }}
+                                >
+                                    <div className={styles.navWrap}>
+                                        <div className={styles.labelIconWrap}>
+                                            <>
+                                                {nav.key == "collapsed" ? <motion.div
+                                                    className={`${styles.iconWrap}`}
+                                                    style={{ color: (nav.key == hoverId || isCollapsed) ? token.colorPrimaryTextActive : token.colorText }}
+                                                    transition={{ duration: 0.07 }}
+                                                    animate={{ rotate: !Boolean(isCollapsed) ? 180 : 0, }}>
+                                                    {nav.icon}
+                                                </motion.div> : <>
+                                                    {nav.key == "darkMode" ? <motion.div
+                                                        className={`${styles.iconWrap}`}
+                                                        style={{ color: (nav.key == hoverId || isDarkMode) ? token.colorPrimaryTextActive : token.colorText }}
+                                                        transition={{ duration: 0.07 }}
+                                                        animate={{ rotate: !Boolean(isDarkMode) ? 360 : 0, }}>
+                                                        {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
+                                                    </motion.div> :
+                                                        <div className={styles.iconWrap} style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText), }}>{nav.icon}</div>}
+                                                </>}
 
-                        <div className={`${styles.menuItemWrap} ${styles.actionNavItem}`}
-                            style={{
-                                flexDirection: (!isCollapsed || isHover) ? "row" : "column",
-                                background: token.colorBgBase,
-                                color: collapseNavItem.key == hoverId ? token.colorPrimaryTextActive : token.colorText,
-                                border: `unset`,
-                            }}>
+                                            </>
 
-                            {/* settings nav item */}
-                            <div className={`${styles.menuItemWrap}`}
-                                onMouseEnter={() => setHoverId(settingsNavItem.key)}
-                                onMouseLeave={() => setHoverId('')}
-                                onClick={() => setShowAppSettingsPanel(true)}
-                                style={{
-                                    background: token.colorBgBase,
-                                    color: (settingsNavItem.key == hoverId || showAppSettingsPanel) ? token.colorPrimaryTextActive : token.colorText,
-                                    border: `1px solid ${token.colorBorder}`,
-                                }}
-                            >
-                                <div className={styles.navWrap}>
-                                    <div className={styles.labelIconWrap}>
-                                        <motion.div
-                                            className={`${styles.iconWrap}`}
-                                            style={{ color: (settingsNavItem.key == hoverId || activeNav.key == settingsNavItem.key) ? token.colorPrimaryTextActive : token.colorText }}
-                                        >
-                                            {settingsNavItem.icon}
-                                        </motion.div>
-                                        {/* {(isHover || isCollapsed) && <motion.div className={styles.label}>
-                                        {settingsNavItem.label}
-                                    </motion.div>} */}
+                                            {(!isCollapsed || isHover) && <motion.div
+                                                initial={{ width: "max-content", opacity: 0 }}
+                                                animate={{ width: 'max-content', opacity: 1 }}
+                                                exit={{ width: "0", opacity: 0 }}
+                                                className={styles.label}
+                                            >
+                                                {nav.label}
+                                            </motion.div>}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            {/* help nav item */}
-                            <div className={`${styles.menuItemWrap}`}
-                                onMouseEnter={() => setHoverId(helpNavItem.key)}
-                                onMouseLeave={() => setHoverId('')}
-                                onClick={() => onClickNav(helpNavItem)}
-                                style={{
-                                    background: token.colorBgBase,
-                                    color: (helpNavItem.key == hoverId || helpNavItem.key == activeNav.key) ? token.colorPrimaryTextActive : token.colorText,
-                                    border: `1px solid ${token.colorBorder}`,
-                                }}
-                            >
-                                <div className={styles.navWrap}>
-                                    <div className={styles.labelIconWrap}>
-                                        <motion.div
-                                            className={`${styles.iconWrap}`}
-                                            style={{ color: (helpNavItem.key == hoverId || helpNavItem.key == activeNav.key) ? token.colorPrimaryTextActive : token.colorText }}
-                                        >
-                                            {helpNavItem.icon}
-                                        </motion.div>
-                                        {/* {(isHover || isCollapsed) && <motion.div className={styles.label}>
-                                        {isDarkMode ? "Light Mode" : "Dark Mode"}
-                                    </motion.div>} */}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Dark mode nav item */}
-                            <div className={`${styles.menuItemWrap}`}
-                                onMouseEnter={() => setHoverId(darkModeNavItem.key)}
-                                onMouseLeave={() => setHoverId('')}
-                                onClick={() => onClickNav(darkModeNavItem)}
-                                style={{
-                                    background: token.colorBgBase,
-                                    color: (darkModeNavItem.key == hoverId || isDarkMode) ? token.colorPrimaryTextActive : token.colorText,
-                                    border: `1px solid ${token.colorBorder}`,
-                                }}
-                            >
-                                <div className={styles.navWrap}>
-                                    <div className={styles.labelIconWrap}>
-                                        <motion.div
-                                            className={`${styles.iconWrap}`}
-                                            style={{ color: token.colorPrimaryTextActive }}
-                                        >
-                                            {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
-                                        </motion.div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* collapsed nav item */}
-                            <div className={`${styles.menuItemWrap}`}
-                                onMouseEnter={() => setHoverId(collapseNavItem.key)}
-                                onMouseLeave={() => setHoverId('')}
-                                onClick={() => onClickNav(collapseNavItem)}
-                                style={{
-                                    background: token.colorBgBase,
-                                    color: collapseNavItem.key == hoverId ? token.colorPrimaryTextActive : token.colorText,
-                                    border: `1px solid ${token.colorBorder}`,
-                                }}
-                            >
-                                <div className={styles.navWrap}>
-                                    <div className={styles.labelIconWrap}>
-                                        <motion.div
-                                            className={`${styles.iconWrap}`}
-                                            style={{ color: (collapseNavItem.key == hoverId) ? token.colorPrimaryTextActive : token.colorText }}
-                                            transition={{ duration: 0.07 }}
-                                            animate={{ rotate: !Boolean(isCollapsed) ? 180 : 0, }}>
-                                            {collapseNavItem.icon}
-                                        </motion.div>
-                                        {/* {(isCollapsed || isHover) && <motion.div className={styles.label}>
-                                        {collapseNavItem.label}
-                                    </motion.div>} */}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                            </Fragment>
+                        })}
                     </div>
                 </motion.div>
                 <AppSettingsPanel
@@ -324,3 +280,4 @@ const SidebarComponent = () => {
 }
 
 export default SidebarComponent
+

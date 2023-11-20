@@ -10,16 +10,16 @@ import styles from './layoutWrapper.module.scss'
 import { useServerInsertedHTML } from 'next/navigation';
 import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
 import { useAppSelector } from '@hook/useAppSelector';
-import { getSidebarState } from '@reduxSlices/clientThemeConfig';
+import { getDarkModeState, getSidebarState } from '@reduxSlices/clientThemeConfig';
 import HeaderComponent from '@organisms/headerComponent';
-import Navbar from 'src/components/navbar';
 
 const { Content } = Layout;
 
 export default function AntdLayoutWrapper(props: any) {
     const [cache] = React.useState(() => createCache());
-    const isCollapsed = useAppSelector(getSidebarState)
-
+    const isCollapsed = useAppSelector(getSidebarState);
+    const isDarkMode = useAppSelector(getDarkModeState)
+    const { token } = theme.useToken();
     useServerInsertedHTML(() => (
         <style id="antd" dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }}></style>
     ));
@@ -34,7 +34,7 @@ export default function AntdLayoutWrapper(props: any) {
                         <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
                             <HeaderComponent />
                             <SidebarComponent />
-                            <Content className={styles.mainContentWraper}>
+                            <Content className={styles.mainContentWraper} style={{ background: isDarkMode ? token.colorFillContent : token.colorBgLayout }}>
                                 {props.children}
                             </Content>
                         </Layout>

@@ -69,13 +69,13 @@ function SectionsContainer({ ComponentConfigs }) {
 
                             return <Collapse key={i}
                                 // bordered={false}
-                                style={{ background: token.colorBgLayout }}
                                 expandIconPosition='end'
                                 defaultActiveKey={[section]}
                                 onChange={onChange}
                                 size="small"
                                 className={styles.sectionConatiner}
                                 items={items}
+                                style={{ borderColor: token.colorBorderSecondary }}
                             />
                         })}
                     </>

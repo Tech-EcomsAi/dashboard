@@ -40,8 +40,7 @@ function Filters({ updateLocalCanvas, canvas, activeObjectsState }: pageProps) {
     return (
         <div className={styles.filtersWrap}>
             <Collapse
-                // ghost
-                style={{ background: token.colorBgLayout, width: '100%' }}
+                style={{ background: token.colorBgLayout, width: '100%', borderColor: token.colorBorderSecondary }}
                 expandIconPosition='end'
                 accordion
                 onChange={(type: any) => onChangeTab(type)}

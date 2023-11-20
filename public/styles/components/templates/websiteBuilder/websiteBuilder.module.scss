@@ -1,11 +1,5 @@
 @import "@styles/abstracts/mixins";
 
-@mixin rightContentHeight {
-  min-height: calc(100vh - 55px);
-  height: calc(100vh - 55px);
-  max-height: calc(100vh - 55px);
-}
-
 .websiteBuilderWrap {
   @include appContentHeight;
   .builderLeftWrap {
@@ -16,14 +10,13 @@
       line-height: unset;
       padding: 7px;
       backdrop-filter: blur(20px);
-      box-shadow: rgba(76, 78, 100, 0.068) 0px 2px 10px 0px;
       z-index: 2;
       box-shadow: rgb(217, 217, 217) 1px 1px 8px -4px;
       position: absolute;
-      top: 6px;
+      top: 0px;
       border-radius: 4px;
-      width: calc(100% - 12px);
-      left: 6px;
+      width: calc(100%);
+      left: 0px;
       .headingWrap {
         padding: 0 10px;
         @include flexStartAlC;
@@ -81,7 +74,7 @@
     }
   }
   .builderRightWrap {
-    @include rightContentHeight;
+    @include appContentHeight;
     overflow: auto;
     border-radius: 4px;
     // flex: 0 0 350px !important;

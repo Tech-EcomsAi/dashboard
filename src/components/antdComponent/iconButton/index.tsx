@@ -11,7 +11,7 @@ type IconButtonProps = {
     icon: ReactNode,
     active: Boolean,
     onClickButton: any,
-    type?: ButtonType,
+    type?: ButtonType | any,
     disabled?: boolean,
     text?: string,
     tooltip?: string,

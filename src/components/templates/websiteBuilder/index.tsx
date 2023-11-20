@@ -150,10 +150,11 @@ function WebsiteBuilder() {
     };
 
     return (
-        <Layout className={styles.websiteBuilderWrap}>
+        <Layout className={styles.websiteBuilderWrap} style={{ gap: collapsedSectionsContainer ? "0px" : "10px" }}>
             <DragDropContext onDragEnd={onDragEnd}>
-                <Layout className={styles.builderLeftWrap}>
-                    <Header className={`${styles.headerWrap}`} style={{ background: token.colorBgBase, boxShadow: `${token.colorBorder} 1px 1px 8px -4px` }}>
+                <Layout className={styles.builderLeftWrap} >
+                    <Header className={`${styles.headerWrap}`}
+                        style={{ background: token.colorBgBase, border: `1px solid ${token.colorBorderBg}`, boxShadow: `${token.colorBorder} 1px 1px 8px -4px` }}>
                         <Row>
                             {/* <Col className={`${styles.headingWrap}`} span={6}>
                                 <Space>
@@ -218,7 +219,7 @@ function WebsiteBuilder() {
                     </Header>
                     <Content className={`${styles.editorContent}`} onClick={onOutsideEditorClick} style={{
                         background: token.colorBgLayout,
-                        backgroundImage: `linear-gradient(0deg, ${token.colorBgLayout} 0%, ${token.colorBgTextHover} 100%)`
+                        // backgroundImage: `linear-gradient(0deg, ${token.colorBgLayout} 0%, ${token.colorBgTextHover} 100%)`
                     }}>
                         <BuilderWrapper builderState={builderState} />
                     </Content>
@@ -230,8 +231,9 @@ function WebsiteBuilder() {
                     theme={isDarkMode ? "dark" : "light"}
                     defaultCollapsed={false}
                     width={350}
-                    style={{ background: token.colorBgTextHover, padding: "5px 5px 0 0" }}>
-                    <div className={styles.builderRightWrap} style={{ background: token.colorBgBase }}>
+                    style={{ borderRadius: "4px" }}
+                >
+                    <div className={styles.builderRightWrap} style={{ background: token.colorBgBase, border: `1px solid ${token.colorBorderSecondary}` }}>
                         <div className={styles.sidebarWrap}>
                             <div className={styles.segmentWrap} style={{ borderBottom: `1px solid ${token.colorBorder}` }}>
                                 <SegmentComponent
