@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { theme } from 'antd';
-import { getAppSettingsPanelStatus, getDarkModeState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleSidbar } from '@reduxSlices/clientThemeConfig';
+import { getAppSettingsPanelStatus, getDarkModeState, getSidebarBgColorState, getSidebarColorState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import styles from '@organismsCSS/sidebarComponent/sidebarComponent.module.scss';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { LuCalendarCheck, LuLayoutDashboard, LuLineChart, LuMail, LuMessageSquare, LuSettings, LuShoppingCart } from 'react-icons/lu';
@@ -67,6 +67,8 @@ const SidebarComponent = () => {
     const [activeParentNav, setActiveParentNav] = useState<NavItemType>({ label: '', key: '', icon: '', isChild: false })
     const [activeNav, setActiveNav] = useState<NavItemType>({ label: 'Builder', key: 'builder', icon: 'builder', isChild: false });
     const [isHover, setIsHover] = useState(true);
+    const sidebarBgColor = useAppSelector(getSidebarBgColorState)
+    const sidebarColor = useAppSelector(getSidebarColorState)
 
     const ACTION_MENUS: NavItemType[] = [
         { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> },
@@ -112,7 +114,7 @@ const SidebarComponent = () => {
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
                     animate={{ width: (!isCollapsed || isHover) ? '200px' : "62px" }}
-                    style={{ backgroundColor: token.colorBgBase, color: token.colorTextBase, borderRight: `1px solid ${token.colorBorder}` }}>
+                    style={{ backgroundColor: sidebarBgColor || token.colorBgBase, color: sidebarColor || token.colorTextBase, borderRight: `1px solid ${token.colorBorder}` }}>
                     <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "10px" : "2px" }}>
                         <div className={styles.logo}>
                             {/* <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo_small.png?alt=media&token=d590b12e-ca38-40b0-9ef7-34c6374b8a72" /> */}
@@ -127,30 +129,30 @@ const SidebarComponent = () => {
                     <div className={styles.menuItemsWrap}>
                         {SIDEBAR_NAV_MENUS.map((nav: NavItemType, i: number) => {
                             const isActive = nav.key == activeNav.key;
+                            const isHovered = nav.key == hoverId;
                             return <Fragment key={i}>
                                 <div className={`${styles.menuItemWrap} ${isActive ? styles.active : ""} ${styles[nav.key]}`}
                                     onMouseEnter={() => setHoverId(nav.key)}
                                     onMouseLeave={() => setHoverId('')}
                                     onClick={() => onClickNav(nav)}
                                     style={{
-                                        backgroundColor: `${(isActive) ? token.colorPrimaryBgHover : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorBgTextHover : token.colorBgBase)}`,
-                                        color: (isActive) ? token.colorTextLightSolid : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorPrimaryTextActive : token.colorText),
+                                        backgroundColor: sidebarBgColor || token.colorBgBase,
+                                        // color: (isActive) ? token.colorTextLightSolid : ((isHovered || nav.key == activeParentNav.key) ? token.colorPrimaryTextActive : token.colorText),
                                         border: token.colorBorder,
-                                        // backgroundImage: `radial-gradient( 100% 100% at 0 0, rgb(10 174 145 / 16%) 0, rgb(147 147 217 / 21%) 50%, #09aa8d26 100%)`,
                                     }}
                                 >
                                     <div className={styles.navWrap}>
                                         <div className={styles.labelIconWrap}>
-                                            <div className={styles.iconWrap} style={{
-                                                color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
-                                            }}>
+                                            <div className={styles.iconWrap}
+                                                style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}>
                                                 {nav.icon}
                                             </div>
                                             {(!isCollapsed || isHover) && <motion.div
-                                                initial={{ width: "max-content", opacity: 0 }}
                                                 animate={{ width: 'max-content', opacity: 1 }}
                                                 exit={{ width: "0", opacity: 0 }}
+                                                initial={{ width: "max-content", opacity: 0 }}
                                                 className={styles.label}
+                                                style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}
                                             >
                                                 {nav.label}
                                             </motion.div>}
@@ -191,19 +193,20 @@ const SidebarComponent = () => {
                                                         onMouseLeave={() => setHoverId('')}
                                                         onClick={() => onClickNav(subNav)}
                                                         style={{
-                                                            background: `${(subNav.key == activeNav.key) ? token.colorPrimaryBgHover : (subNav.key == hoverId ? token.colorBgTextHover : token.colorBgBase)}`,
-                                                            color: (subNav.key == activeNav.key) ? token.colorTextLightSolid : (subNav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                                            // background: `${(subNav.key == activeNav.key) ? token.colorPrimaryBgHover : (subNav.key == hoverId ? token.colorBgTextHover : token.colorBgBase)}`,
+                                                            // color: (subNav.key == activeNav.key) ? token.colorTextLightSolid : (subNav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                                             border: token.colorBorder
                                                         }}
                                                     >
                                                         <div className={styles.navWrap}>
                                                             <div className={styles.labelIconWrap}>
-                                                                <div className={styles.iconWrap} style={{
-                                                                    color: (subNav.key == activeNav.key) ? token.colorTextLightSolid : (subNav.key == hoverId ? token.colorPrimaryTextActive : token.colorText),
-                                                                }}>
+                                                                <div className={styles.iconWrap}
+                                                                    style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}>
                                                                     {subNav.icon}
                                                                 </div>
-                                                                <div className={styles.label}>
+                                                                <div className={styles.label}
+                                                                    style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}
+                                                                >
                                                                     {subNav.label}
                                                                 </div>
                                                             </div>
@@ -217,7 +220,8 @@ const SidebarComponent = () => {
                             </Fragment>
                         })}
                     </div>
-                    <div className={`${styles.menuItemsWrap} ${styles.actionNavItem} `} style={{ background: token.colorBgBase, borderTop: `1px solid ${token.colorBorder}` }}>
+                    <div className={`${styles.menuItemsWrap} ${styles.actionNavItem} `}
+                        style={{ backgroundColor: sidebarBgColor || token.colorBgBase, borderTop: `1px solid ${token.colorBorder}` }}>
                         {ACTION_MENUS.map((nav: NavItemType, i: number) => {
                             const isActive = nav.key == activeNav.key;
                             return <Fragment key={i}>
@@ -226,7 +230,7 @@ const SidebarComponent = () => {
                                     onMouseLeave={() => setHoverId('')}
                                     onClick={() => onClickNav(nav)}
                                     style={{
-                                        backgroundColor: `${(isActive) ? token.colorPrimaryBgHover : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorBgTextHover : token.colorBgBase)}`,
+                                        // backgroundColor: `${(isActive) ? token.colorPrimaryBgHover : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorBgTextHover : token.colorBgBase)}`,
                                         color: (isActive) ? token.colorTextLightSolid : ((nav.key == hoverId || nav.key == activeParentNav.key) ? token.colorPrimaryTextActive : token.colorText),
                                         border: token.colorBorder,
                                     }}
@@ -236,19 +240,21 @@ const SidebarComponent = () => {
                                             <>
                                                 {nav.key == "collapsed" ? <motion.div
                                                     className={`${styles.iconWrap}`}
-                                                    style={{ color: (nav.key == hoverId || isCollapsed) ? token.colorPrimaryTextActive : token.colorText }}
+                                                    style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}
                                                     transition={{ duration: 0.07 }}
-                                                    animate={{ rotate: !Boolean(isCollapsed) ? 180 : 0, }}>
+                                                    animate={{ rotate: !Boolean(isCollapsed) ? 180 : 0 }}>
                                                     {nav.icon}
                                                 </motion.div> : <>
                                                     {nav.key == "darkMode" ? <motion.div
                                                         className={`${styles.iconWrap}`}
-                                                        style={{ color: (nav.key == hoverId || isDarkMode) ? token.colorPrimaryTextActive : token.colorText }}
+                                                        style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}
                                                         transition={{ duration: 0.07 }}
-                                                        animate={{ rotate: !Boolean(isDarkMode) ? 360 : 0, }}>
+                                                        animate={{ rotate: !Boolean(isDarkMode) ? 360 : 0 }}>
                                                         {isDarkMode ? <MdLightMode /> : <MdDarkMode />}
                                                     </motion.div> :
-                                                        <div className={styles.iconWrap} style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : token.colorText), }}>{nav.icon}</div>}
+                                                        <div className={styles.iconWrap}
+                                                            style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}
+                                                        >{nav.icon}</div>}
                                                 </>}
 
                                             </>
@@ -258,6 +264,7 @@ const SidebarComponent = () => {
                                                 animate={{ width: 'max-content', opacity: 1 }}
                                                 exit={{ width: "0", opacity: 0 }}
                                                 className={styles.label}
+                                                style={{ color: (isActive) ? token.colorTextLightSolid : (nav.key == hoverId ? token.colorPrimaryTextActive : sidebarColor || token.colorText) }}
                                             >
                                                 {nav.label}
                                             </motion.div>}

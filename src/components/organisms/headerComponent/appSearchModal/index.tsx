@@ -1,13 +1,10 @@
 import React, { Fragment, useState } from 'react'
-import { Button, Card, Divider, Input, Modal, Popconfirm, Space, Typography, theme } from 'antd'
+import { Button, Input, Modal, Space, Typography, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuCalendar, LuCheckCircle, LuHeadphones, LuListOrdered, LuListTodo, LuNewspaper, LuStar, LuUserX2, LuUsers, LuX } from 'react-icons/lu'
+import { LuHeadphones, LuListOrdered, LuListTodo, LuNewspaper, LuUsers, LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
-import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
-import Saperator from '@atoms/Saperator'
 import { APPS_MENU, DASHBOARD_MENU } from '@organisms/sidebar'
 import styles from './appSearchModal.module.scss'
-import { MdOutlineNavigateNext, MdPayments } from 'react-icons/md'
 import { TbBug, TbMessageChatbot, TbMoneybag } from 'react-icons/tb'
 import { removeObjRef } from '@util/utils'
 
@@ -31,7 +28,7 @@ const SEARCHES_LIST = [
     { label: 'Dashboards', items: DASHBOARD_MENU[0].subNav },
     { label: 'Apps', items: APPS_MENU[0].subNav },
     { label: 'Reports List', items: LIST_MENUS },
-    { label: 'How to Reach Us', items: REACH_US_LINKS },
+    { label: 'How to Reach Us', items: REACH_US_LINKS }
 ]
 
 function AppSearchModal({ isModalOpen, onClose, children }) {
@@ -101,19 +98,6 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
                         <Text style={{ fontSize: "15px", width: "100%", letterSpacing: "0.2px" }} type='secondary'>No Results for <Text style={{ fontSize: "17px", width: "100%" }} strong >{searchQuery}</Text></Text>
                     </Space>
                 </>}
-                {/* {Boolean(searchQuery) ? <>
-                </> : <>
-                    {SEARCHES_LIST.map((searchCategory, i) => {
-                        return <Space size={"small"} direction='vertical' style={{ margin: "10px 0" }} key={i}>
-                            <TextElement text={searchCategory.label} color={token.colorTextDescription} size={"medium"} styles={{ paddingLeft: "20px" }} />
-                            <div className={`${styles.menuItemsWrap}`}>
-                                {searchCategory.items.map((nav, i) => {
-                                    return <Button size='large' type='text' key={i} icon={nav.icon}>{nav.label}</Button>
-                                })}
-                            </div>
-                        </Space>
-                    })}
-                </>} */}
             </div>
         </Space>
     }
@@ -131,26 +115,9 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
                 onCancel={handleClose}
                 mask={true}
                 width={700}
-            // closable={false}
             >
                 {renderSearchWrap()}
             </Modal>
-
-            {/* <Popconfirm
-                destroyTooltipOnHide
-                title={renderTitle()}
-                description={renderSearchWrap()}
-                icon={<></>}
-
-                //ok button
-                onConfirm={viewAllClick}
-                okType="link"
-                okText=""
-                showCancel={false}
-                okButtonProps={{ style: { height: "0" }, type: "text" }}
-            >
-                {children}
-            </Popconfirm> */}
         </Fragment>
     )
 }

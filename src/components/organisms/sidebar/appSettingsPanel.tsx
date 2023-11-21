@@ -8,26 +8,25 @@ import Saperator from '@atoms/Saperator';
 import { useAppSelector } from '@hook/useAppSelector';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { convertRGBtoOBJ, hexToRgbA } from '@util/utils';
-import { getDarkColorState, getDarkModeState, getLightColorState, getSidebarState, toggleDarkMode, toggleSidbar, updateDarkThemeColor, updateLightThemeColor } from '@reduxSlices/clientThemeConfig';
+import { getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getSidebarBgColorState, getSidebarColorState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleSidbar, updateDarkThemeColor, updateLightThemeColor, updateSidebarBgColor, updateSidebarColor } from '@reduxSlices/clientThemeConfig';
 import { LIGHT_COLORS, DARK_COLORS } from '@constant/common';
 import SelectedItemCheck from '@atoms/selectedItemCheck';
-
-type PanelProps = {
-  open: boolean,
-  togglePannel: any
-}
+import CheckboxElement from '@antdComponent/checkboxElement';
 
 const colorsList = {
   light: LIGHT_COLORS,
   dark: DARK_COLORS,
 }
-const AppSettingsPanel = ({ open, togglePannel }: PanelProps) => {
+const AppSettingsPanel = () => {
   const { token } = theme.useToken();
   const dispatch = useAppDispatch();
   const isDarkMode = useAppSelector(getDarkModeState);
   const lightThemeColor = useAppSelector(getLightColorState)
   const darkThemeColor = useAppSelector(getDarkColorState)
   const isCollapsed = useAppSelector(getSidebarState)
+  const isOpen = useAppSelector(getAppSettingsPanelStatus);
+  const fixedHeader = useAppSelector(getHeaderPositionState)
+  const headerBgBlured = useAppSelector(getHeaderBgBlurState)
 
   const toggleDarkModeTheme = (from: string) => {
     if (from == 'light') {
@@ -61,12 +60,12 @@ const AppSettingsPanel = ({ open, togglePannel }: PanelProps) => {
         title="App settings"
         placement={"right"}
         closable={false}
-        onClose={togglePannel}
+        onClose={() => dispatch(toggleAppSettingsPanel(!isOpen))}
         destroyOnClose={true}
-        open={open}
+        open={isOpen}
         mask={false}
         key={"app-settings"}
-        extra={<IconButton type={'circle'} icon={<IoClose />} active={false} onClickButton={togglePannel} />}
+        extra={<IconButton type={'circle'} icon={<IoClose />} active={false} onClickButton={() => dispatch(toggleAppSettingsPanel(!isOpen))} />}
       >
         <div className={styles.appSettingsPanelWrap}>
           {/* //color mode wrap */}
@@ -94,7 +93,7 @@ const AppSettingsPanel = ({ open, togglePannel }: PanelProps) => {
           {/* //side bar wrap */}
           <Saperator />
           <div className={styles.settingsWrap}>
-            <TextElement text={'Sidebar'} color={token.colorPrimary} size={"small"} />
+            <TextElement text={'Sidebar Layout'} color={token.colorPrimary} size={"small"} />
             <div className={styles.settingsDetails}>
               <div className={styles.setting} style={{ borderColor: !isCollapsed ? token.colorPrimary : token.colorBorder }} onClick={isCollapsed ? toggleSidebarState : () => { }}>
                 <TextElement text={'Default'} color={token.colorTextBase} />
@@ -119,6 +118,44 @@ const AppSettingsPanel = ({ open, togglePannel }: PanelProps) => {
                 <SelectedItemCheck active={isCollapsed} />
               </div>
             </div>
+            {/* <div className={styles.settingsDetails}>
+              <div className={styles.setting}
+                style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <TextElement text={'Sidebar Background Color'} color={token.colorTextBase} />
+                <div className={`${styles.skeletonWrap} ${styles.colors}`} style={{ background: token.colorBgContainer }}>
+                  {colorsList[isDarkMode ? "dark" : "light"].map((color: any, i: number) => {
+                    const rgbaColors: any = convertRGBtoOBJ(hexToRgbA(color));
+                    return <Fragment key={i}>
+                      <Button className={styles.element}
+                        onClick={() => dispatch(updateSidebarBgColor(color))}
+                        style={{ background: `rgba(${rgbaColors.r}, ${rgbaColors.g}, ${rgbaColors.b}, ${0.6})`, borderColor: color }}>
+                        <SelectedItemCheck active={sidebarBgColor == color} />
+                        <span style={{ background: color, borderRadius: sidebarBgColor == color ? "4px" : "15px" }}></span>
+                      </Button>
+                    </Fragment>
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className={styles.settingsDetails}>
+              <div className={styles.setting}
+                style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <TextElement text={'Sidebar Color'} color={token.colorTextBase} />
+                <div className={`${styles.skeletonWrap} ${styles.colors}`} style={{ background: token.colorBgContainer }}>
+                  {colorsList[isDarkMode ? "dark" : "light"].map((color: any, i: number) => {
+                    const rgbaColors: any = convertRGBtoOBJ(hexToRgbA(color));
+                    return <Fragment key={i}>
+                      <Button className={styles.element}
+                        onClick={() => dispatch(updateSidebarColor(color))}
+                        style={{ background: `rgba(${rgbaColors.r}, ${rgbaColors.g}, ${rgbaColors.b}, ${0.6})`, borderColor: color }}>
+                        <SelectedItemCheck active={sidebarColor == color} />
+                        <span style={{ background: color, borderRadius: sidebarColor == color ? "4px" : "15px" }}></span>
+                      </Button>
+                    </Fragment>
+                  })}
+                </div>
+              </div>
+            </div> */}
           </div>
           {/* //theme color wrap */}
           <Saperator />
@@ -136,14 +173,25 @@ const AppSettingsPanel = ({ open, togglePannel }: PanelProps) => {
                         onClick={() => updateThemeColor(color)}
                         style={{ background: `rgba(${rgbaColors.r}, ${rgbaColors.g}, ${rgbaColors.b}, ${0.6})`, borderColor: color }}>
                         <SelectedItemCheck active={isDarkMode ? (darkThemeColor == color) : (lightThemeColor == color)} />
-                        <span style={{
-                          background: color,
-                          borderRadius: isDarkMode ? (darkThemeColor == color ? "4px" : "15px") : (lightThemeColor == color ? "4px" : "15px")
-                        }}></span>
+                        <span style={{ background: color, borderRadius: isDarkMode ? (darkThemeColor == color ? "4px" : "15px") : (lightThemeColor == color ? "4px" : "15px") }}></span>
                       </Button>
                     </Fragment>
                   })}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* //header wrap */}
+          <Saperator />
+          <div className={styles.settingsWrap}>
+            <TextElement text={'Header Styles'} color={token.colorPrimary} size={"small"} />
+            <div className={styles.settingsDetails}>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <CheckboxElement label='Fixed Type Header' active={fixedHeader} onChange={() => dispatch(toggleHeaderPosition(!fixedHeader))} />
+              </div>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <CheckboxElement label='Blur Header' active={headerBgBlured} onChange={() => dispatch(toggleHeaderBgBlur(!headerBgBlured))} />
               </div>
             </div>
           </div>

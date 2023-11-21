@@ -1,30 +1,34 @@
 import React, { Fragment, useState } from 'react'
-import { Button, Card, Divider, Popconfirm, Space, theme } from 'antd'
+import { Button, Card, Divider, Popconfirm, Space, message, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCheckCircle, LuImagePlus, LuPlus, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
+import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCheckCircle, LuImagePlus, LuPlus, LuSettings, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import styles from './appActionsModal.module.scss'
 import IconButton from '@antdComponent/iconButton'
+import { useAppDispatch } from '@hook/useAppDispatch'
+import { toggleAppSettingsPanel } from '@reduxSlices/clientThemeConfig'
 
 function AppActionsModal({ children, notifications }) {
     const [isLoading, setIsLoading] = useState(false)
     const { token } = theme.useToken();
     const router = useRouter();
     const [hoverId, setHoverId] = useState(null)
+    const dispatch = useAppDispatch()
 
     const ACTIONS_LIST = [
-        { title: "My Profile", icon: <LuUser /> },
-        { title: "Image Editor", icon: <LuImagePlus /> },
-        { title: "Add User", icon: <LuUserPlus /> },
-        { title: "Add Note", icon: <LuBanknote /> },
-        { title: "Add Product", icon: <LuPlus /> },
-        { title: "Add Reminder", icon: <LuAlarmPlus /> },
-        { title: "Appointment", icon: <LuCalendar /> },
-        { title: "Add Note", icon: <LuBanknote /> },
-        { title: "Add Product", icon: <LuPlus /> },
-        { title: "Add Reminder", icon: <LuAlarmPlus /> },
-        { title: "Appointment", icon: <LuCalendar /> },
+        { title: "My Profile", icon: <LuUser />, onClick: () => { } },
+        { title: "Image Editor", icon: <LuImagePlus />, onClick: () => { } },
+        { title: "Settings", icon: <LuSettings />, onClick: () => dispatch(toggleAppSettingsPanel(true)) },
+        { title: "Add User", icon: <LuUserPlus />, onClick: () => { } },
+        { title: "Add Note", icon: <LuBanknote />, onClick: () => { } },
+        { title: "Add Product", icon: <LuPlus />, onClick: () => { } },
+        { title: "Add Reminder", icon: <LuAlarmPlus />, onClick: () => { } },
+        { title: "Appointment", icon: <LuCalendar />, onClick: () => { } },
+        { title: "Add Note", icon: <LuBanknote />, onClick: () => { } },
+        { title: "Add Product", icon: <LuPlus />, onClick: () => { } },
+        { title: "Add Reminder", icon: <LuAlarmPlus />, onClick: () => { } },
+        { title: "Appointment", icon: <LuCalendar />, onClick: () => { } },
     ]
 
     const closeModalForceFully = () => {
@@ -34,6 +38,12 @@ function AppActionsModal({ children, notifications }) {
 
     const handleClose = () => {
         closeModalForceFully()
+    }
+
+    const onClickAction = (action) => {
+        action.onClick();
+        handleClose()
+        message.open({ content: `${action.title} clicked` })
     }
 
     const renderTitle = () => {
@@ -52,6 +62,7 @@ function AppActionsModal({ children, notifications }) {
         return <div className={styles.appActionsWrap}>
             {ACTIONS_LIST.map((action, i) => {
                 return <Card key={i} className={styles.actionCard}
+                    onClick={() => onClickAction(action)}
                     bodyStyle={{ padding: "unset" }}
                     size='small'
                     type='inner'

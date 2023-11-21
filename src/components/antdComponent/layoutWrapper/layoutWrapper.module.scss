@@ -8,9 +8,10 @@
   flex-direction: row;
   .mainContentWraper {
     padding: 10px;
-    overflow: hidden;
+    // overflow: hidden;
     min-height: calc(100vh - 50px);
     height: calc(100vh - 50px);
     max-height: calc(100vh - 50px);
+    margin-bottom: 200px;
   }
 }

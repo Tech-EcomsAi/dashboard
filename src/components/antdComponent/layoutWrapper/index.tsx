@@ -12,6 +12,7 @@ import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
 import { useAppSelector } from '@hook/useAppSelector';
 import { getDarkModeState, getSidebarState } from '@reduxSlices/clientThemeConfig';
 import HeaderComponent from '@organisms/headerComponent';
+import AppSettingsPanel from '@organisms/sidebar/appSettingsPanel';
 
 const { Content } = Layout;
 
@@ -34,6 +35,7 @@ export default function AntdLayoutWrapper(props: any) {
                         <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
                             <HeaderComponent />
                             <SidebarComponent />
+                            <AppSettingsPanel />
                             <Content className={styles.mainContentWraper} style={{ background: isDarkMode ? token.colorFillContent : token.colorBgLayout }}>
                                 {props.children}
                             </Content>

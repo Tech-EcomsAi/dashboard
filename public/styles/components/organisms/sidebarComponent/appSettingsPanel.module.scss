@@ -107,8 +107,8 @@
             flex-wrap: wrap;
             gap: 20px;
             .element {
-              width: 57px;
-              height: 54px;
+              width: 34px;
+              height: 34px;
               border: 1px solid;
               border-radius: 5px;
               padding: unset;
@@ -116,8 +116,8 @@
               @include flexCenter;
               @include hover;
               span {
-                width: 28px;
-                height: 28px;
+                width: 18px;
+                height: 18px;
                 border-radius: 20px;
                 @include transition;
               }

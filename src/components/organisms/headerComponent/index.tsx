@@ -14,6 +14,8 @@ import { RiAppsLine } from 'react-icons/ri';
 import AppSearchModal from './appSearchModal';
 import { BsUiChecksGrid } from 'react-icons/bs';
 import { IoGridOutline } from 'react-icons/io5';
+import { useAppSelector } from '@hook/useAppSelector';
+import { getHeaderBgBlurState, getHeaderPositionState } from '@reduxSlices/clientThemeConfig';
 
 const BadgeRenderer = ({ dotted, count, overflowCount, children }) => {
     return <Badge size="small" dot={dotted} count={count} overflowCount={overflowCount} style={{ top: "3px", right: "8px", background: "red" }}> {children}</Badge>
@@ -25,6 +27,8 @@ function HeaderComponent() {
     const session = useSession();
     const [userData, setUserData] = useState<any>(session?.data?.user)
     const [showSearchModal, setShowSearchModal] = useState(false)
+    const fixedHeader = useAppSelector(getHeaderPositionState)
+    const headerBgBlured = useAppSelector(getHeaderBgBlurState)
     const [notifications, setNotifications] = useState([
         { type: "Order", description: "New Order Placed", isReaded: false, status: "success" },
         { type: "Order", description: "New Order Placed Failed", isReaded: false, status: "fail" }
@@ -42,9 +46,11 @@ function HeaderComponent() {
     return (
         <div className={styles.headerComponentWrap}
             style={{
-                background: token.colorBgBase,
+                background: headerBgBlured ? "unset" : token.colorBgBase,
                 color: token.colorTextBase,
-                borderBottom: `1px solid ${token.colorBorder}`
+                borderBottom: `1px solid ${token.colorBorder}`,
+                position: fixedHeader ? "sticky" : "static",
+                backdropFilter: headerBgBlured ? "blur(20px)" : "none"
             }}
         >
             <div className={styles.breadcrumbsWrap}>
