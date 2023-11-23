@@ -13,6 +13,7 @@ const AntdClient = ({ children }: any) => {
     return (
         <>
             <ConfigProvider
+                // direction="rtl"
                 theme={{
                     algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                     token: {
@@ -41,7 +42,7 @@ const AntdClient = ({ children }: any) => {
                         },
                         Drawer: {
                             padding: 10,
-                            paddingLG: 10
+                            paddingLG: 15
                         },
                         Collapse: {
                             // headerBg: token.colorBgLayout

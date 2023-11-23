@@ -64,7 +64,7 @@ const SEGMENT_OPTIONS = [
     { key: 'Site', value: 'Global', icon: <LuSettings /> },
 ]
 
-const items: any = [
+const PAGES_LIST: any = [
     {
         key: '1',
         label: 'Home Page',
@@ -88,8 +88,8 @@ function WebsiteBuilder() {
     const builderState = useAppSelector(getBuilderState) || { [uuid()]: [] };
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
-    const [activePage, setActivePage] = useState(items[0])
     const [collapsedSectionsContainer, setCollapsedSectionsContainer] = useState(false)
+    const [activePage, setActivePage] = useState(PAGES_LIST[0])
 
     useEffect(() => {
         if (Boolean(activeComponent.uid)) {
@@ -139,14 +139,9 @@ function WebsiteBuilder() {
         dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
     }
 
-    const handleMenuClick: any = (e) => {
+    const handlePageClick: any = (e) => {
         console.log('click', e);
-        setActivePage(items.find((page: any) => page.key === e.key))
-    };
-
-    const menuProps = {
-        items,
-        onClick: handleMenuClick,
+        setActivePage(PAGES_LIST.find((page: any) => page.key === e.key))
     };
 
     return (
@@ -172,7 +167,7 @@ function WebsiteBuilder() {
                                 <Space>
                                     <Space>
                                         <TextElement color={token.colorText} text={`Current page :`} />
-                                        <Dropdown menu={menuProps}>
+                                        <Dropdown menu={{ items: PAGES_LIST, onClick: handlePageClick }}>
                                             <Button type='default'>
                                                 <Space>
                                                     {activePage.label}

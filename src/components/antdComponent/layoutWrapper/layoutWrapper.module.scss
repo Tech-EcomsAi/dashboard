@@ -2,16 +2,17 @@
 
 .layoutWrapper {
   width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-direction: row;
+  // display: flex;
+  // justify-content: flex-start;
+  // align-items: flex-start;
+  // flex-direction: row;
   .mainContentWraper {
     padding: 10px;
-    // overflow: hidden;
+    overflow: hidden;
     min-height: calc(100vh - 50px);
     height: calc(100vh - 50px);
     max-height: calc(100vh - 50px);
     margin-bottom: 200px;
+    overflow: unset;
   }
 }

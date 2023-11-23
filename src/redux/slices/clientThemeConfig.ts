@@ -11,7 +11,9 @@ export type ClientThemeConfigType = {
     sidebarBgColor: string,
     sidebarColor: string,
     stickyHeader: boolean,
-    headerBgBlur: boolean
+    headerBgBlur: boolean,
+    isRTLDirection: boolean,
+    language: string
 }
 
 const initialState: ClientThemeConfigType = {
@@ -23,7 +25,9 @@ const initialState: ClientThemeConfigType = {
     sidebarBgColor: '',
     sidebarColor: "",
     stickyHeader: true,
-    headerBgBlur: true
+    headerBgBlur: false,
+    isRTLDirection: false,
+    language: "en"
 }
 
 export const clientThemeConfig = createSlice({
@@ -57,10 +61,16 @@ export const clientThemeConfig = createSlice({
         toggleAppSettingsPanel(state, action) {
             state.showSettingsPanel = action.payload;
         },
+        toggleRTLDirection(state, action) {
+            state.isRTLDirection = action.payload;
+        },
+        updateAppLanguage(state, action) {
+            state.language = action.payload;
+        },
     }
 });
 
-const { toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur } = clientThemeConfig.actions;
+const { toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage } = clientThemeConfig.actions;
 const getDarkModeState = (state: AppState) => state.clientThemeConfig?.darkMode;
 const getLightColorState = (state: AppState) => state.clientThemeConfig?.lightColor;
 const getDarkColorState = (state: AppState) => state.clientThemeConfig?.darkColor;
@@ -70,8 +80,10 @@ const getSidebarColorState = (state: AppState) => state.clientThemeConfig?.sideb
 const getAppSettingsPanelStatus = (state: AppState) => state.clientThemeConfig?.showSettingsPanel;
 const getHeaderPositionState = (state: AppState) => state.clientThemeConfig?.stickyHeader;
 const getHeaderBgBlurState = (state: AppState) => state.clientThemeConfig?.headerBgBlur;
+const getRTLDirectionState = (state: AppState) => state.clientThemeConfig?.isRTLDirection;
+const getAppLanguageState = (state: AppState) => state.clientThemeConfig?.language;
 
 export {
-    toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur,
-    getDarkModeState, getLightColorState, getDarkColorState, getSidebarState, getAppSettingsPanelStatus, getSidebarBgColorState, getSidebarColorState, getHeaderPositionState, getHeaderBgBlurState
+    toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage,
+    getDarkModeState, getLightColorState, getDarkColorState, getSidebarState, getAppSettingsPanelStatus, getSidebarBgColorState, getSidebarColorState, getHeaderPositionState, getHeaderBgBlurState, getRTLDirectionState, getAppLanguageState
 }

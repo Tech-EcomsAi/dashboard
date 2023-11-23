@@ -10,39 +10,52 @@ import styles from './layoutWrapper.module.scss'
 import { useServerInsertedHTML } from 'next/navigation';
 import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
 import { useAppSelector } from '@hook/useAppSelector';
-import { getDarkModeState, getSidebarState } from '@reduxSlices/clientThemeConfig';
+import { getDarkModeState, getRTLDirectionState, getSidebarState } from '@reduxSlices/clientThemeConfig';
 import HeaderComponent from '@organisms/headerComponent';
 import AppSettingsPanel from '@organisms/sidebar/appSettingsPanel';
+import NoSSRProvider from '@providers/noSSRProvider';
+import type Entity from '@ant-design/cssinjs/es/Cache';
 
 const { Content } = Layout;
 
 export default function AntdLayoutWrapper(props: any) {
-    const [cache] = React.useState(() => createCache());
+    const cache = React.useMemo<Entity>(() => createCache(), []);
+    const isServerInserted = React.useRef<boolean>(false);
+    //    const [cache] = React.useState(() => createCache());
     const isCollapsed = useAppSelector(getSidebarState);
-    const isDarkMode = useAppSelector(getDarkModeState)
+    const isDarkMode = useAppSelector(getDarkModeState);
+    const isRTLDirection = useAppSelector(getRTLDirectionState)
     const { token } = theme.useToken();
-    useServerInsertedHTML(() => (
-        <style id="antd" dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }}></style>
-    ));
+
+    //  useServerInsertedHTML(() => {
+    // // avoid duplicate css insert
+    // if (isServerInserted.current) {
+    //   return;
+    // }
+    // isServerInserted.current = true;
+    // return <style id="antd" dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }} />;
+
 
     return (
-        <Layout className={`${styles.layoutWrapper}`}>
-            <StyleProvider cache={cache}>
-                <HeadMetaTags title={undefined} description={undefined} image={undefined} siteName={undefined} storeData={undefined} />
-                <AntdThemeProvider>
-                    <Fragment>
-                        <Toast />
-                        <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
-                            <HeaderComponent />
-                            <SidebarComponent />
-                            <AppSettingsPanel />
-                            <Content className={styles.mainContentWraper} style={{ background: isDarkMode ? token.colorFillContent : token.colorBgLayout }}>
-                                {props.children}
-                            </Content>
-                        </Layout>
-                    </Fragment>
-                </AntdThemeProvider>
-            </StyleProvider>
-        </Layout>
+        <NoSSRProvider>
+            <Layout className={`${styles.layoutWrapper}`} dir={isRTLDirection ? "rtl" : "ltr"} >
+                <StyleProvider cache={cache}>
+                    <HeadMetaTags title={undefined} description={undefined} image={undefined} siteName={undefined} storeData={undefined} />
+                    <AntdThemeProvider>
+                        <Fragment>
+                            <Toast />
+                            <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
+                                <HeaderComponent />
+                                <SidebarComponent />
+                                <AppSettingsPanel />
+                                <Content className={styles.mainContentWraper} style={{ background: isDarkMode ? token.colorFillContent : token.colorBgLayout }}>
+                                    {props.children}
+                                </Content>
+                            </Layout>
+                        </Fragment>
+                    </AntdThemeProvider>
+                </StyleProvider>
+            </Layout>
+        </NoSSRProvider>
     )
 }

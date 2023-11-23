@@ -28,6 +28,21 @@ export const BACKGROUND_IMAGES_TYPES = {
     SQUARE: 'square',
 }
 
+export const AVAILABLE_LANGUAGES: any = [
+    {
+        key: 'en',
+        label: 'English',
+    },
+    {
+        key: 'hn',
+        label: 'Hindi',
+    },
+    {
+        key: 'ar',
+        label: 'Arebic',
+    },
+];
+
 export const DEFAULT_LIGHT_COLOR = '#002864';
 export const DEFAULT_DARK_COLOR = '#00C9A7';
 export const DARK_COLORS = ['#00C9A7', '#116D6E', '#D4ADFC', '#F4EEE0', '#B6EADA', '#E9A6A6'];

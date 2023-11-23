@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Button, Drawer, Skeleton, theme } from 'antd';
+import { Button, Drawer, Dropdown, Skeleton, Space, theme } from 'antd';
 import { IoClose } from 'react-icons/io5';
 import IconButton from '@antdComponent/iconButton';
 import styles from '@organismsCSS/sidebarComponent/appSettingsPanel.module.scss'
@@ -8,10 +8,11 @@ import Saperator from '@atoms/Saperator';
 import { useAppSelector } from '@hook/useAppSelector';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { convertRGBtoOBJ, hexToRgbA } from '@util/utils';
-import { getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getSidebarBgColorState, getSidebarColorState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleSidbar, updateDarkThemeColor, updateLightThemeColor, updateSidebarBgColor, updateSidebarColor } from '@reduxSlices/clientThemeConfig';
-import { LIGHT_COLORS, DARK_COLORS } from '@constant/common';
+import { getAppLanguageState, getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getRTLDirectionState, getSidebarBgColorState, getSidebarColorState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleRTLDirection, toggleSidbar, updateAppLanguage, updateDarkThemeColor, updateLightThemeColor, updateSidebarBgColor, updateSidebarColor } from '@reduxSlices/clientThemeConfig';
+import { LIGHT_COLORS, DARK_COLORS, AVAILABLE_LANGUAGES } from '@constant/common';
 import SelectedItemCheck from '@atoms/selectedItemCheck';
 import CheckboxElement from '@antdComponent/checkboxElement';
+import { TbChevronDown } from 'react-icons/tb';
 
 const colorsList = {
   light: LIGHT_COLORS,
@@ -20,13 +21,15 @@ const colorsList = {
 const AppSettingsPanel = () => {
   const { token } = theme.useToken();
   const dispatch = useAppDispatch();
-  const isDarkMode = useAppSelector(getDarkModeState);
+  const isDarkMode = useAppSelector(getDarkModeState)
   const lightThemeColor = useAppSelector(getLightColorState)
   const darkThemeColor = useAppSelector(getDarkColorState)
   const isCollapsed = useAppSelector(getSidebarState)
-  const isOpen = useAppSelector(getAppSettingsPanelStatus);
+  const isOpen = useAppSelector(getAppSettingsPanelStatus)
   const fixedHeader = useAppSelector(getHeaderPositionState)
   const headerBgBlured = useAppSelector(getHeaderBgBlurState)
+  const isRTLDirection = useAppSelector(getRTLDirectionState)
+  const appLanguage = useAppSelector(getAppLanguageState)
 
   const toggleDarkModeTheme = (from: string) => {
     if (from == 'light') {
@@ -54,6 +57,10 @@ const AppSettingsPanel = () => {
     dispatch(toggleSidbar(!isCollapsed))
   }
 
+  const handleLanguageChange: any = (lang: any) => {
+    dispatch(updateAppLanguage(lang.key))
+  };
+
   return (
     <>
       <Drawer
@@ -72,22 +79,22 @@ const AppSettingsPanel = () => {
           <div className={styles.settingsWrap}>
             <TextElement text={'Color Mode'} color={token.colorPrimary} size={"small"} />
             <div className={styles.settingsDetails}>
-              <div className={styles.setting} style={{ borderColor: !isDarkMode ? token.colorPrimary : token.colorBorder }} onClick={() => toggleDarkModeTheme("light")}>
+              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: !isDarkMode ? token.colorPrimary : token.colorBorderSecondary }} onClick={() => toggleDarkModeTheme("light")}>
                 <TextElement text={'Light Mode'} color={token.colorTextBase} />
                 <div className={`${styles.skeletonWrap} ${styles.light}`}>
                   <div className={styles.small}></div>
                   <div className={styles.large}></div>
                 </div>
                 <SelectedItemCheck active={!isDarkMode} />
-              </div>
-              <div className={styles.setting} style={{ borderColor: isDarkMode ? token.colorPrimary : token.colorBorder }} onClick={() => toggleDarkModeTheme("dark")}>
+              </Button>
+              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: isDarkMode ? token.colorPrimary : token.colorBorderSecondary }} onClick={() => toggleDarkModeTheme("dark")}>
                 <TextElement text={'Dark Mode'} color={token.colorTextBase} />
                 <div className={`${styles.skeletonWrap} ${styles.dark}`}>
                   <div className={styles.small}></div>
                   <div className={styles.large}></div>
                 </div>
                 <SelectedItemCheck active={isDarkMode} />
-              </div>
+              </Button>
             </div>
           </div>
           {/* //side bar wrap */}
@@ -95,7 +102,7 @@ const AppSettingsPanel = () => {
           <div className={styles.settingsWrap}>
             <TextElement text={'Sidebar Layout'} color={token.colorPrimary} size={"small"} />
             <div className={styles.settingsDetails}>
-              <div className={styles.setting} style={{ borderColor: !isCollapsed ? token.colorPrimary : token.colorBorder }} onClick={isCollapsed ? toggleSidebarState : () => { }}>
+              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: !isCollapsed ? token.colorPrimary : token.colorBorderSecondary }} onClick={isCollapsed ? toggleSidebarState : () => { }}>
                 <TextElement text={'Default'} color={token.colorTextBase} />
                 <div className={`${styles.skeletonWrap} ${styles.sidebar} ${styles.default}`} style={{ background: token.colorBgContainer }}>
                   <div className={styles.elementWrap} style={{ background: token.colorBgBase, borderColor: token.colorBorderSecondary }}>
@@ -105,8 +112,8 @@ const AppSettingsPanel = () => {
                   </div>
                 </div>
                 <SelectedItemCheck active={!isCollapsed} />
-              </div>
-              <div className={styles.setting} style={{ borderColor: isCollapsed ? token.colorPrimary : token.colorBorder }} onClick={!isCollapsed ? toggleSidebarState : () => { }}>
+              </Button>
+              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: isCollapsed ? token.colorPrimary : token.colorBorderSecondary }} onClick={!isCollapsed ? toggleSidebarState : () => { }}>
                 <TextElement text={'Minimized'} color={token.colorTextBase} />
                 <div className={`${styles.skeletonWrap} ${styles.sidebar} ${styles.minimized}`} style={{ background: token.colorBgContainer }}>
                   <div className={styles.elementWrap} style={{ background: token.colorBgBase, borderColor: token.colorBorderSecondary }}>
@@ -116,7 +123,7 @@ const AppSettingsPanel = () => {
                   </div>
                 </div>
                 <SelectedItemCheck active={isCollapsed} />
-              </div>
+              </Button>
             </div>
             {/* <div className={styles.settingsDetails}>
               <div className={styles.setting}
@@ -195,6 +202,36 @@ const AppSettingsPanel = () => {
               </div>
             </div>
           </div>
+
+          {/* //App rtl */}
+          <Saperator />
+          <div className={styles.settingsWrap}>
+            <TextElement text={''} color={token.colorPrimary} size={"small"} />
+            <div className={styles.settingsDetails}>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <CheckboxElement label='RTL Direction Layout' active={isRTLDirection} onChange={() => dispatch(toggleRTLDirection(!isRTLDirection))} />
+              </div>
+            </div>
+          </div>
+
+          {/* //App language */}
+          <Saperator />
+          <div className={styles.settingsWrap}>
+            <TextElement text={'App Language'} color={token.colorPrimary} size={"small"} />
+            <div className={styles.settingsDetails}>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <Dropdown menu={{ items: AVAILABLE_LANGUAGES, onClick: handleLanguageChange }}>
+                  <Button type='default'>
+                    <Space>
+                      {AVAILABLE_LANGUAGES.find((lang) => lang.key == appLanguage || 'en')?.label}
+                      <TbChevronDown />
+                    </Space>
+                  </Button>
+                </Dropdown>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </Drawer>
