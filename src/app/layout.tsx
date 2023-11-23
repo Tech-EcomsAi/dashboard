@@ -9,6 +9,7 @@ import ErrorBoundaryProvider from '@providers/errorBoundaryProvider'
 import "@styles/app.scss";
 import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 import Navbar from 'src/components/navbar'
+import { defaultLocale } from 'src/middleware'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,10 +37,12 @@ export const metadata: Metadata = {
 };
 
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children, params }: {
+  children: React.ReactNode, params: { lang: string };
+}) {
   const session = await getServerSession(authOptions);
   return (
-    <html lang="en">
+    <html lang={params.lang ?? defaultLocale}>
       <body className={inter.className}>
         <ErrorBoundaryProvider>
           <ReduxStoreProvider>
