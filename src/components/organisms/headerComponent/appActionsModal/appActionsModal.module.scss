@@ -6,7 +6,7 @@
   flex-wrap: wrap;
   gap: 14px;
   .actionCard {
-    width: 95px;
+    width: calc(100% / 3 - 10px);
     height: auto;
     display: flex;
     justify-content: center;

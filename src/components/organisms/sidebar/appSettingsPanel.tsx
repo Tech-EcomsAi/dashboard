@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Button, Drawer, Dropdown, Skeleton, Space, theme } from 'antd';
+import { Button, Drawer, Select, Space, theme } from 'antd';
 import { IoClose } from 'react-icons/io5';
 import IconButton from '@antdComponent/iconButton';
 import styles from '@organismsCSS/sidebarComponent/appSettingsPanel.module.scss'
@@ -8,11 +8,11 @@ import Saperator from '@atoms/Saperator';
 import { useAppSelector } from '@hook/useAppSelector';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { convertRGBtoOBJ, hexToRgbA } from '@util/utils';
-import { getAppLanguageState, getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getRTLDirectionState, getSidebarBgColorState, getSidebarColorState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleRTLDirection, toggleSidbar, updateAppLanguage, updateDarkThemeColor, updateLightThemeColor, updateSidebarBgColor, updateSidebarColor } from '@reduxSlices/clientThemeConfig';
+import { getAppLanguageState, getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getRTLDirectionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleRTLDirection, toggleShowDateInHeader, toggleShowUserDetailsInHeader, toggleSidbar, updateAppLanguage, updateDarkThemeColor, updateLightThemeColor } from '@reduxSlices/clientThemeConfig';
 import { LIGHT_COLORS, DARK_COLORS, AVAILABLE_LANGUAGES } from '@constant/common';
 import SelectedItemCheck from '@atoms/selectedItemCheck';
 import CheckboxElement from '@antdComponent/checkboxElement';
-import { TbChevronDown } from 'react-icons/tb';
+import { LuArrowRight, LuArrowUpRight, LuExternalLink, LuLanguages } from 'react-icons/lu';
 
 const colorsList = {
   light: LIGHT_COLORS,
@@ -29,7 +29,9 @@ const AppSettingsPanel = () => {
   const fixedHeader = useAppSelector(getHeaderPositionState)
   const headerBgBlured = useAppSelector(getHeaderBgBlurState)
   const isRTLDirection = useAppSelector(getRTLDirectionState)
-  const appLanguage = useAppSelector(getAppLanguageState)
+  const showDateInHeader = useAppSelector(getShowDateInHeaderState)
+  const showUserInHeader = useAppSelector(getShowUserDetailsInHeaderState)
+  const appLanguage = useAppSelector(getAppLanguageState);
 
   const toggleDarkModeTheme = (from: string) => {
     if (from == 'light') {
@@ -58,13 +60,36 @@ const AppSettingsPanel = () => {
   }
 
   const handleLanguageChange: any = (lang: any) => {
-    dispatch(updateAppLanguage(lang.key))
+    dispatch(updateAppLanguage(lang))
   };
 
+  const getLanguageOptions = () => {
+    return [
+      {
+        value: 'en',
+        label: <Space> <>En</>English</Space>,
+      },
+      {
+        value: 'hi',
+        label: <Space> <>हिंदी</>Hindi</Space>,
+      },
+      {
+        value: 'ar',
+        label: <Space> <>عربي</>Arebic</Space>,
+      },
+    ]
+  }
+
+  const renderTitle = () => {
+    return <Space direction='vertical' size={0}>
+      <TextElement text={'App Appearance'} size="medium" color={token.colorPrimary} />
+      <TextElement text={'Customize & Preview in Real Time'} size="small" color={token.colorTextDescription} />
+    </Space>
+  }
   return (
     <>
       <Drawer
-        title="App settings"
+        title={renderTitle()}
         placement={"right"}
         closable={false}
         onClose={() => dispatch(toggleAppSettingsPanel(!isOpen))}
@@ -77,10 +102,10 @@ const AppSettingsPanel = () => {
         <div className={styles.appSettingsPanelWrap}>
           {/* //color mode wrap */}
           <div className={styles.settingsWrap}>
-            <TextElement text={'Color Mode'} color={token.colorPrimary} size={"small"} />
+            <TextElement text={'Color Mode'} color={token.colorTextBase} size="medium" />
             <div className={styles.settingsDetails}>
               <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: !isDarkMode ? token.colorPrimary : token.colorBorderSecondary }} onClick={() => toggleDarkModeTheme("light")}>
-                <TextElement text={'Light Mode'} color={token.colorTextBase} />
+                <TextElement text={'Light Mode'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.light}`}>
                   <div className={styles.small}></div>
                   <div className={styles.large}></div>
@@ -88,7 +113,7 @@ const AppSettingsPanel = () => {
                 <SelectedItemCheck active={!isDarkMode} />
               </Button>
               <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: isDarkMode ? token.colorPrimary : token.colorBorderSecondary }} onClick={() => toggleDarkModeTheme("dark")}>
-                <TextElement text={'Dark Mode'} color={token.colorTextBase} />
+                <TextElement text={'Dark Mode'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.dark}`}>
                   <div className={styles.small}></div>
                   <div className={styles.large}></div>
@@ -100,12 +125,13 @@ const AppSettingsPanel = () => {
           {/* //side bar wrap */}
           <Saperator />
           <div className={styles.settingsWrap}>
-            <TextElement text={'Sidebar Layout'} color={token.colorPrimary} size={"small"} />
+            <TextElement text={'Sidebar Layout'} color={token.colorTextBase} size="medium" />
             <div className={styles.settingsDetails}>
               <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: !isCollapsed ? token.colorPrimary : token.colorBorderSecondary }} onClick={isCollapsed ? toggleSidebarState : () => { }}>
-                <TextElement text={'Default'} color={token.colorTextBase} />
+                <TextElement text={'Default'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.sidebar} ${styles.default}`} style={{ background: token.colorBgContainer }}>
                   <div className={styles.elementWrap} style={{ background: token.colorBgBase, borderColor: token.colorBorderSecondary }}>
+                    <div className={styles.element} style={{ background: token.colorFillContent }}><span style={{ background: token.colorFillContent }}></span></div>
                     <div className={styles.element} style={{ background: token.colorFillContent }}><span style={{ background: token.colorFillContent }}></span></div>
                     <div className={styles.element} style={{ background: token.colorFillContent }}><span style={{ background: token.colorFillContent }}></span></div>
                     <div className={styles.element} style={{ background: token.colorFillContent }}><span style={{ background: token.colorFillContent }}></span></div>
@@ -114,7 +140,7 @@ const AppSettingsPanel = () => {
                 <SelectedItemCheck active={!isCollapsed} />
               </Button>
               <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: isCollapsed ? token.colorPrimary : token.colorBorderSecondary }} onClick={!isCollapsed ? toggleSidebarState : () => { }}>
-                <TextElement text={'Minimized'} color={token.colorTextBase} />
+                <TextElement text={'Minimized'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.sidebar} ${styles.minimized}`} style={{ background: token.colorBgContainer }}>
                   <div className={styles.elementWrap} style={{ background: token.colorBgBase, borderColor: token.colorBorderSecondary }}>
                     <div className={styles.element} style={{ background: token.colorFillContent }}></div>
@@ -167,11 +193,11 @@ const AppSettingsPanel = () => {
           {/* //theme color wrap */}
           <Saperator />
           <div className={styles.settingsWrap}>
-            <TextElement text={'Color presets'} color={token.colorPrimary} size={"small"} />
+            <TextElement text={'Color presets'} color={token.colorTextBase} size="medium" />
             <div className={styles.settingsDetails}>
               <div className={styles.setting}
                 style={{ borderColor: token.colorBorder, transform: "unset" }}>
-                <TextElement text={'Primary theme color'} color={token.colorTextBase} />
+                <TextElement text={'Primary theme color'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.colors}`} style={{ background: token.colorBgContainer }}>
                   {colorsList[isDarkMode ? "dark" : "light"].map((color: any, i: number) => {
                     const rgbaColors: any = convertRGBtoOBJ(hexToRgbA(color));
@@ -192,7 +218,7 @@ const AppSettingsPanel = () => {
           {/* //header wrap */}
           <Saperator />
           <div className={styles.settingsWrap}>
-            <TextElement text={'Header Styles'} color={token.colorPrimary} size={"small"} />
+            <TextElement text={'Header Styles'} color={token.colorTextBase} size="medium" />
             <div className={styles.settingsDetails}>
               <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
                 <CheckboxElement label='Fixed Type Header' active={fixedHeader} onChange={() => dispatch(toggleHeaderPosition(!fixedHeader))} />
@@ -203,36 +229,59 @@ const AppSettingsPanel = () => {
             </div>
           </div>
 
-          {/* //App rtl */}
+          {/* //App language */}
           <Saperator />
           <div className={styles.settingsWrap}>
-            <TextElement text={''} color={token.colorPrimary} size={"small"} />
-            <div className={styles.settingsDetails}>
-              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
-                <CheckboxElement label='RTL Direction Layout' active={isRTLDirection} onChange={() => dispatch(toggleRTLDirection(!isRTLDirection))} />
+            <TextElement text={'App Language'} color={token.colorTextBase} size="medium" />
+            <div className={styles.settingsDetails} style={{ gap: 0 }}>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset", width: "auto" }}>
+                <Select
+                  defaultValue="En English"
+                  value={appLanguage}
+                  style={{ width: 'auto' }}
+                  onChange={handleLanguageChange}
+                  options={getLanguageOptions()}
+                />
+              </div>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset", paddingLeft: "0" }}>
+                {/* <Button icon={<LuLanguages />}>Update Keywords</Button> */}
+                <Button type='link' icon={<LuExternalLink />}>Update {AVAILABLE_LANGUAGES.find((lang) => lang.value == appLanguage).label} Keywords</Button>
               </div>
             </div>
           </div>
 
-          {/* //App language */}
+          {/* //App rtl */}
           <Saperator />
           <div className={styles.settingsWrap}>
-            <TextElement text={'App Language'} color={token.colorPrimary} size={"small"} />
             <div className={styles.settingsDetails}>
               <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
-                <Dropdown menu={{ items: AVAILABLE_LANGUAGES, onClick: handleLanguageChange }}>
-                  <Button type='default'>
-                    <Space>
-                      {AVAILABLE_LANGUAGES.find((lang) => lang.key == appLanguage || 'en')?.label}
-                      <TbChevronDown />
-                    </Space>
-                  </Button>
-                </Dropdown>
+                <CheckboxElement label={<TextElement text={'RTL Direction Layout'} color={token.colorTextBase} size="medium" />} active={isRTLDirection} onChange={() => dispatch(toggleRTLDirection(!isRTLDirection))} />
+              </div>
+            </div>
+          </div>
+
+          {/* //Current date in header */}
+          <Saperator />
+          <div className={styles.settingsWrap}>
+            <div className={styles.settingsDetails}>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <CheckboxElement label={<TextElement text={'Show todays date in header'} color={token.colorTextBase} size="medium" />} active={showDateInHeader} onChange={() => dispatch(toggleShowDateInHeader(!showDateInHeader))} />
+              </div>
+            </div>
+          </div>
+
+          {/* //User details in header */}
+          <Saperator />
+          <div className={styles.settingsWrap}>
+            <div className={styles.settingsDetails}>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <CheckboxElement label={<TextElement text={'Show logged in user name in header'} color={token.colorTextBase} size="medium" />} active={showUserInHeader} onChange={() => dispatch(toggleShowUserDetailsInHeader(!showUserInHeader))} />
               </div>
             </div>
           </div>
 
         </div>
+        <Saperator />
 
       </Drawer>
     </>

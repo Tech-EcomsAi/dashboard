@@ -2,7 +2,7 @@
 import styles from '@templatesCSS/websiteBuilder/websiteBuilder.module.scss'
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, theme, Typography } from 'antd';
-import { getDarkModeState } from '@reduxSlices/clientThemeConfig';
+import { getAppLanguageState, getDarkModeState } from '@reduxSlices/clientThemeConfig';
 import { useAppSelector } from '@hook/useAppSelector';
 import { BsLaptop, BsPhone, BsArrowCounterclockwise } from 'react-icons/bs';
 import { v4 as uuid } from 'uuid';
@@ -24,29 +24,9 @@ import { LuSettings } from 'react-icons/lu';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 import { TbChevronDown, TbComponents, TbDevices, TbEdit } from 'react-icons/tb';
 import BuilderWrapper from './builderWrapper';
+import { translator } from 'public/dictionaries';
 
-const DragDropContext = dynamic(
-    () =>
-        import('@hello-pangea/dnd').then(mod => {
-            return mod.DragDropContext;
-        }),
-    { ssr: false },
-);
-const Droppable = dynamic(
-    () =>
-        import('@hello-pangea/dnd').then(mod => {
-            return mod.Droppable;
-        }),
-    { ssr: false },
-);
-const Draggable = dynamic(
-    () =>
-        import('@hello-pangea/dnd').then(mod => {
-            return mod.Draggable;
-        }),
-    { ssr: false },
-);
-
+const DragDropContext = dynamic(() => import('@hello-pangea/dnd').then(mod => { return mod.DragDropContext; }), { ssr: false },);
 
 const { Header, Content, Sider } = Layout;
 const { Text } = Typography;
@@ -90,6 +70,7 @@ function WebsiteBuilder() {
     const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
     const [collapsedSectionsContainer, setCollapsedSectionsContainer] = useState(false)
     const [activePage, setActivePage] = useState(PAGES_LIST[0])
+    const t = translator(useAppSelector(getAppLanguageState));
 
     useEffect(() => {
         if (Boolean(activeComponent.uid)) {
@@ -166,7 +147,7 @@ function WebsiteBuilder() {
                             <Col className={`${styles.headingWrap}`} span={18}>
                                 <Space>
                                     <Space>
-                                        <TextElement color={token.colorText} text={`Current page :`} />
+                                        <TextElement color={token.colorText} text={`${t.currentPageLabel} :`} />
                                         <Dropdown menu={{ items: PAGES_LIST, onClick: handlePageClick }}>
                                             <Button type='default'>
                                                 <Space>
@@ -242,7 +223,7 @@ function WebsiteBuilder() {
                             </div>
                             {activeOptionTab == SEGMENT_OPTIONS[0].key && <div className={styles.sidebarContentWrap}>
                                 <div className={styles.note} style={{ color: token.colorPrimary }}>
-                                    Drag and drop section to left builder area
+                                    {t.sectionHeader}
                                 </div>
                                 <SectionsContainer ComponentConfigs={ComponentConfigs} />
                             </div>}

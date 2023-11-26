@@ -54,6 +54,7 @@ export const SIDEBAR_NAV_MENUS: NavItemType[] = [
     { label: 'PWA', key: 'PWA', icon: <TbDeviceMobileShare /> },
     { label: 'Chat', key: 'chat', icon: <BiConversation /> },
     { label: 'Promotion', key: 'promotion', icon: <MdOutlineCampaign /> },
+    { label: 'Catalogue', key: 'catalogue', icon: <TbHelpCircle /> },
     { label: 'User Guide', key: 'help', icon: <TbHelpCircle /> },
 ]
 
@@ -69,7 +70,7 @@ const SidebarComponent = () => {
     const [isHover, setIsHover] = useState(true);
 
     const ACTION_MENUS: NavItemType[] = [
-        { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> },
+        // { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> },
         { label: 'Settings', key: 'dashboard-settings', icon: <MdOutlineSettingsSuggest /> },
         { label: 'Dark Mode', key: 'darkMode', icon: <MdDarkMode /> },
         { label: 'Support', key: 'dashboard-help', icon: <TbPhoneCalling /> },

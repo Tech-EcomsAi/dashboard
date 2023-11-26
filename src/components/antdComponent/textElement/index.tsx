@@ -48,7 +48,7 @@ function TextElement({ text, color = "", size = "small", styles = {} }: TextElem
                 color: color || textColor,
                 fontSize: `${fontSize}px`,
                 fontWeight,
-                letterSpacing: 0.1,
+                letterSpacing: 0.2,
                 width: "100%",
                 marginBottom: "10px",
                 fontFamily,

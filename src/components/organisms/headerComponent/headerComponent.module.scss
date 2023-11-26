@@ -7,12 +7,13 @@
   padding: 0 10px;
   // box-shadow: rgb(217, 217, 217) 0px 4px 8px -4px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   position: static;
   top: 0;
   right: 0;
   z-index: 11;
+  @include transition;
   .breadcrumbsWrap {
     @include flexStart;
   }
@@ -28,9 +29,18 @@
     .actionsWrap {
       @include flexCenter;
       gap: var(--small-gap);
+      &.dateWrap {
+        flex-direction: column;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        text-align: center;
+      }
     }
     .profileWrap {
       @include flexCenter;
+      gap: var(--medium-gap);
       img {
         border-radius: 50%;
       }

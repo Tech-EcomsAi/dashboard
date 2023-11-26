@@ -1,6 +1,9 @@
 import { DEFAULT_DARK_COLOR, DEFAULT_LIGHT_COLOR } from "@constant/common";
 import { createSlice } from "@reduxjs/toolkit";
 import { AppState } from "@reduxStore/index";
+import { ReactNode } from "react";
+
+export type BreadcrumbType = { key: number, path: string, title: string | ReactNode, onClick: any }
 
 export type ClientThemeConfigType = {
     darkMode: boolean;
@@ -13,7 +16,10 @@ export type ClientThemeConfigType = {
     stickyHeader: boolean,
     headerBgBlur: boolean,
     isRTLDirection: boolean,
-    language: string
+    language: string,
+    breadCrumbs: BreadcrumbType[],
+    showDateInHeader: boolean,
+    showUserDetailsInHeader: boolean,
 }
 
 const initialState: ClientThemeConfigType = {
@@ -27,7 +33,10 @@ const initialState: ClientThemeConfigType = {
     stickyHeader: true,
     headerBgBlur: false,
     isRTLDirection: false,
-    language: "en"
+    language: "en",
+    breadCrumbs: [],
+    showDateInHeader: false,
+    showUserDetailsInHeader: false
 }
 
 export const clientThemeConfig = createSlice({
@@ -67,10 +76,19 @@ export const clientThemeConfig = createSlice({
         updateAppLanguage(state, action) {
             state.language = action.payload;
         },
+        updateBreadcrumbs(state, action) {
+            state.breadCrumbs = action.payload;
+        },
+        toggleShowDateInHeader(state, action) {
+            state.showDateInHeader = action.payload;
+        },
+        toggleShowUserDetailsInHeader(state, action) {
+            state.showUserDetailsInHeader = action.payload;
+        },
     }
 });
 
-const { toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage } = clientThemeConfig.actions;
+const { toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage, updateBreadcrumbs, toggleShowDateInHeader, toggleShowUserDetailsInHeader } = clientThemeConfig.actions;
 const getDarkModeState = (state: AppState) => state.clientThemeConfig?.darkMode;
 const getLightColorState = (state: AppState) => state.clientThemeConfig?.lightColor;
 const getDarkColorState = (state: AppState) => state.clientThemeConfig?.darkColor;
@@ -82,8 +100,11 @@ const getHeaderPositionState = (state: AppState) => state.clientThemeConfig?.sti
 const getHeaderBgBlurState = (state: AppState) => state.clientThemeConfig?.headerBgBlur;
 const getRTLDirectionState = (state: AppState) => state.clientThemeConfig?.isRTLDirection;
 const getAppLanguageState = (state: AppState) => state.clientThemeConfig?.language;
+const getAppBreadcrumbsState = (state: AppState) => state.clientThemeConfig?.breadCrumbs;
+const getShowDateInHeaderState = (state: AppState) => state.clientThemeConfig?.showDateInHeader;
+const getShowUserDetailsInHeaderState = (state: AppState) => state.clientThemeConfig?.showUserDetailsInHeader;
 
 export {
-    toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage,
-    getDarkModeState, getLightColorState, getDarkColorState, getSidebarState, getAppSettingsPanelStatus, getSidebarBgColorState, getSidebarColorState, getHeaderPositionState, getHeaderBgBlurState, getRTLDirectionState, getAppLanguageState
+    toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage, updateBreadcrumbs, toggleShowDateInHeader, toggleShowUserDetailsInHeader,
+    getDarkModeState, getLightColorState, getDarkColorState, getSidebarState, getAppSettingsPanelStatus, getSidebarBgColorState, getSidebarColorState, getHeaderPositionState, getHeaderBgBlurState, getRTLDirectionState, getAppLanguageState, getAppBreadcrumbsState, getShowDateInHeaderState, getShowUserDetailsInHeaderState
 }

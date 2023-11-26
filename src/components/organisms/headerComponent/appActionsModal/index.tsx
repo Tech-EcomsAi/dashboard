@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Card, Divider, Popconfirm, Space, message, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCheckCircle, LuImagePlus, LuPlus, LuSettings, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
+import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCalendarPlus, LuCheckCircle, LuImagePlus, LuPlus, LuSettings, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import styles from './appActionsModal.module.scss'
@@ -24,11 +24,7 @@ function AppActionsModal({ children, notifications }) {
         { title: "Add Note", icon: <LuBanknote />, onClick: () => { } },
         { title: "Add Product", icon: <LuPlus />, onClick: () => { } },
         { title: "Add Reminder", icon: <LuAlarmPlus />, onClick: () => { } },
-        { title: "Appointment", icon: <LuCalendar />, onClick: () => { } },
-        { title: "Add Note", icon: <LuBanknote />, onClick: () => { } },
-        { title: "Add Product", icon: <LuPlus />, onClick: () => { } },
-        { title: "Add Reminder", icon: <LuAlarmPlus />, onClick: () => { } },
-        { title: "Appointment", icon: <LuCalendar />, onClick: () => { } },
+        { title: "Appointment", icon: <LuCalendarPlus />, onClick: () => { } },
     ]
 
     const closeModalForceFully = () => {
@@ -94,7 +90,7 @@ function AppActionsModal({ children, notifications }) {
                 okText=""
                 okType='text'
 
-                overlayInnerStyle={{ padding: "5px 5px 5px 12px" }}
+                overlayInnerStyle={{ padding: "15px" }}
                 // showCancel={false}
                 okButtonProps={{ style: { height: "0" }, type: "text" }}
                 cancelButtonProps={{ style: { height: "0" }, type: "text", id: "modal-close-btn" }}
