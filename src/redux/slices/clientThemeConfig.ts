@@ -20,6 +20,7 @@ export type ClientThemeConfigType = {
     breadCrumbs: BreadcrumbType[],
     showDateInHeader: boolean,
     showUserDetailsInHeader: boolean,
+    fullscreenMode: boolean,
 }
 
 const initialState: ClientThemeConfigType = {
@@ -36,7 +37,8 @@ const initialState: ClientThemeConfigType = {
     language: "en",
     breadCrumbs: [],
     showDateInHeader: false,
-    showUserDetailsInHeader: false
+    showUserDetailsInHeader: false,
+    fullscreenMode: false
 }
 
 export const clientThemeConfig = createSlice({
@@ -85,10 +87,13 @@ export const clientThemeConfig = createSlice({
         toggleShowUserDetailsInHeader(state, action) {
             state.showUserDetailsInHeader = action.payload;
         },
+        toggleFullscreenMode(state, action) {
+            state.fullscreenMode = action.payload;
+        },
     }
 });
 
-const { toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage, updateBreadcrumbs, toggleShowDateInHeader, toggleShowUserDetailsInHeader } = clientThemeConfig.actions;
+const { toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage, updateBreadcrumbs, toggleShowDateInHeader, toggleShowUserDetailsInHeader, toggleFullscreenMode } = clientThemeConfig.actions;
 const getDarkModeState = (state: AppState) => state.clientThemeConfig?.darkMode;
 const getLightColorState = (state: AppState) => state.clientThemeConfig?.lightColor;
 const getDarkColorState = (state: AppState) => state.clientThemeConfig?.darkColor;
@@ -103,8 +108,9 @@ const getAppLanguageState = (state: AppState) => state.clientThemeConfig?.langua
 const getAppBreadcrumbsState = (state: AppState) => state.clientThemeConfig?.breadCrumbs;
 const getShowDateInHeaderState = (state: AppState) => state.clientThemeConfig?.showDateInHeader;
 const getShowUserDetailsInHeaderState = (state: AppState) => state.clientThemeConfig?.showUserDetailsInHeader;
+const getFullscreenModeState = (state: AppState) => state.clientThemeConfig?.fullscreenMode;
 
 export {
-    toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage, updateBreadcrumbs, toggleShowDateInHeader, toggleShowUserDetailsInHeader,
-    getDarkModeState, getLightColorState, getDarkColorState, getSidebarState, getAppSettingsPanelStatus, getSidebarBgColorState, getSidebarColorState, getHeaderPositionState, getHeaderBgBlurState, getRTLDirectionState, getAppLanguageState, getAppBreadcrumbsState, getShowDateInHeaderState, getShowUserDetailsInHeaderState
+    toggleDarkMode, updateLightThemeColor, updateDarkThemeColor, toggleSidbar, toggleAppSettingsPanel, updateSidebarBgColor, updateSidebarColor, toggleHeaderPosition, toggleHeaderBgBlur, toggleRTLDirection, updateAppLanguage, updateBreadcrumbs, toggleShowDateInHeader, toggleShowUserDetailsInHeader, toggleFullscreenMode,
+    getDarkModeState, getLightColorState, getDarkColorState, getSidebarState, getAppSettingsPanelStatus, getSidebarBgColorState, getSidebarColorState, getHeaderPositionState, getHeaderBgBlurState, getRTLDirectionState, getAppLanguageState, getAppBreadcrumbsState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getFullscreenModeState
 }

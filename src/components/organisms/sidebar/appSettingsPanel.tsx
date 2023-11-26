@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Button, Drawer, Select, Space, theme } from 'antd';
 import { IoClose } from 'react-icons/io5';
 import IconButton from '@antdComponent/iconButton';
@@ -8,11 +8,12 @@ import Saperator from '@atoms/Saperator';
 import { useAppSelector } from '@hook/useAppSelector';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { convertRGBtoOBJ, hexToRgbA } from '@util/utils';
-import { getAppLanguageState, getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getRTLDirectionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleRTLDirection, toggleShowDateInHeader, toggleShowUserDetailsInHeader, toggleSidbar, updateAppLanguage, updateDarkThemeColor, updateLightThemeColor } from '@reduxSlices/clientThemeConfig';
+import { getAppLanguageState, getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getFullscreenModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getRTLDirectionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleFullscreenMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleRTLDirection, toggleShowDateInHeader, toggleShowUserDetailsInHeader, toggleSidbar, updateAppLanguage, updateDarkThemeColor, updateLightThemeColor } from '@reduxSlices/clientThemeConfig';
 import { LIGHT_COLORS, DARK_COLORS, AVAILABLE_LANGUAGES } from '@constant/common';
 import SelectedItemCheck from '@atoms/selectedItemCheck';
 import CheckboxElement from '@antdComponent/checkboxElement';
 import { LuArrowRight, LuArrowUpRight, LuExternalLink, LuLanguages } from 'react-icons/lu';
+import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
 
 const colorsList = {
   light: LIGHT_COLORS,
@@ -32,6 +33,15 @@ const AppSettingsPanel = () => {
   const showDateInHeader = useAppSelector(getShowDateInHeaderState)
   const showUserInHeader = useAppSelector(getShowUserDetailsInHeaderState)
   const appLanguage = useAppSelector(getAppLanguageState);
+  const fullscreenMode = useAppSelector(getFullscreenModeState);
+
+  useEffect(() => {
+    dispatch(toggleFullscreenMode(false))
+    // addEventListener("fullscreenchange", () => {
+
+    // });
+  }, [])
+
 
   const toggleDarkModeTheme = (from: string) => {
     if (from == 'light') {
@@ -80,12 +90,30 @@ const AppSettingsPanel = () => {
     ]
   }
 
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setTimeout(() => {
+        if (Boolean(window?.document?.fullscreenEnabled)) {
+          dispatch(showSuccessToast("Fullscreen mode enabled"))
+          dispatch(toggleFullscreenMode(true))
+        }
+        else dispatch(showErrorToast("Your broweser does not support fullscreen mode"))
+      }, 1000);
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+      dispatch(showSuccessToast("Fullscreen mode disabled"))
+      dispatch(toggleFullscreenMode(false))
+    }
+  }
+
   const renderTitle = () => {
     return <Space direction='vertical' size={0}>
       <TextElement text={'App Appearance'} size="medium" color={token.colorPrimary} />
       <TextElement text={'Customize & Preview in Real Time'} size="small" color={token.colorTextDescription} />
     </Space>
   }
+
   return (
     <>
       <Drawer
@@ -265,7 +293,7 @@ const AppSettingsPanel = () => {
           <div className={styles.settingsWrap}>
             <div className={styles.settingsDetails}>
               <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
-                <CheckboxElement label={<TextElement text={'Show todays date in header'} color={token.colorTextBase} size="medium" />} active={showDateInHeader} onChange={() => dispatch(toggleShowDateInHeader(!showDateInHeader))} />
+                <CheckboxElement label={<TextElement text={'Todays date in header'} color={token.colorTextBase} size="medium" />} active={showDateInHeader} onChange={() => dispatch(toggleShowDateInHeader(!showDateInHeader))} />
               </div>
             </div>
           </div>
@@ -275,7 +303,17 @@ const AppSettingsPanel = () => {
           <div className={styles.settingsWrap}>
             <div className={styles.settingsDetails}>
               <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
-                <CheckboxElement label={<TextElement text={'Show logged in user name in header'} color={token.colorTextBase} size="medium" />} active={showUserInHeader} onChange={() => dispatch(toggleShowUserDetailsInHeader(!showUserInHeader))} />
+                <CheckboxElement label={<TextElement text={'Logged in user name in header'} color={token.colorTextBase} size="medium" />} active={showUserInHeader} onChange={() => dispatch(toggleShowUserDetailsInHeader(!showUserInHeader))} />
+              </div>
+            </div>
+          </div>
+
+          {/* //Fullscreen mode */}
+          <Saperator />
+          <div className={styles.settingsWrap}>
+            <div className={styles.settingsDetails}>
+              <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
+                <CheckboxElement label={<TextElement text={`Fullscreen Mode`} color={token.colorTextBase} size="medium" />} active={fullscreenMode} onChange={toggleFullscreen} />
               </div>
             </div>
           </div>
