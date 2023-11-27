@@ -54,4 +54,5 @@ $color-error: #ff003d;
   --styleElementBg: #d1d5e845;
   --outlineColor: #fa9110;
   --fullHeight: calc(100vh - calc(100vh - 100%));
+  --header-Height: 52px; //update in src/components/templates/websiteBuilder/builderWrapper.tsx
 }

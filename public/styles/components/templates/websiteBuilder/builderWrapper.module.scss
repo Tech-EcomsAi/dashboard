@@ -4,7 +4,7 @@
   //   background: var(--light-slate);
   position: relative;
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - var(--header-Height));
   width: 100%;
   background-image: radial-gradient("#dee1ec" 1px, transparent 0);
   background-size: 10px 10px;

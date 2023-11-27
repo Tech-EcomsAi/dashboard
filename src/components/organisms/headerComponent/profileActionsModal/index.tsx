@@ -1,11 +1,9 @@
 import React, { Fragment, useState } from 'react'
-import { Avatar, Badge, Button, Card, Divider, Popconfirm, Space, message, theme } from 'antd'
+import { Avatar, Badge, Button, Card, Popconfirm, Space, message, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCalendarPlus, LuCheckCircle, LuHelpCircle, LuImagePlus, LuLogOut, LuPlus, LuSettings, LuSettings2, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
+import { LuHelpCircle, LuLogOut, LuSettings, LuSettings2, LuUser } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
-import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import styles from './profileActionsModal.module.scss'
-import IconButton from '@antdComponent/iconButton'
 import { useAppDispatch } from '@hook/useAppDispatch'
 import { toggleAppSettingsPanel } from '@reduxSlices/clientThemeConfig'
 import Image from 'next/image';
@@ -24,6 +22,7 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
         { title: "My Profile", icon: <LuUser />, onClick: () => { } },
         { title: "FAQ", icon: <LuHelpCircle />, onClick: () => { } },
         { title: "Business Settings", icon: <LuSettings />, onClick: () => { } },
+        { title: "App Appearance", icon: <LuSettings2 />, onClick: () => dispatch(toggleAppSettingsPanel(true)) },
         { title: "Logout", icon: <LuLogOut />, onClick: () => logoutUser() },
     ]
 
@@ -44,8 +43,10 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
 
     const logoutUser = () => {
         signOut();
+        router.push('/login')
         dispatch(showSuccessToast("User logged out successfuly"))
     }
+
     const renderProfileActions = () => {
         return <div className={styles.profileActionsWrap}>
             <Space direction='vertical' >

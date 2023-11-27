@@ -2,7 +2,7 @@
 
 .headerComponentWrap {
   width: 100%;
-  height: 50px;
+  height: var(--header-Height);
   line-height: unset;
   padding: 0 10px;
   // box-shadow: rgb(217, 217, 217) 0px 4px 8px -4px;

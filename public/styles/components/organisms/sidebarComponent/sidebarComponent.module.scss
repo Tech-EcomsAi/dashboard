@@ -15,9 +15,9 @@
   z-index: 12;
   .logoWrap {
     width: auto;
-    height: 50px;
-    min-height: 50px;
-    max-height: 50px;
+    height: var(--header-Height);
+    min-height: var(--header-Height);
+    max-height: var(--header-Height);
     display: flex;
     justify-content: space-between;
     align-items: center;

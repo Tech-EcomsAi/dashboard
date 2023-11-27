@@ -25,8 +25,8 @@ const BadgeRenderer = ({ dotted, count, overflowCount, children }) => {
 const HeaderComponent = () => {
 
     const { token } = theme.useToken();
-    const session = useSession();
-    const [userData, setUserData] = useState<any>(Boolean(session?.data?.user) ? session?.data?.user : { name: "", email: "" })
+    const { data: session } = useSession()
+    const [userData, setUserData] = useState<any>(Boolean(session?.user) ? session?.user : { name: "", email: "" })
     const [showSearchModal, setShowSearchModal] = useState(false)
     const fixedHeader = useAppSelector(getHeaderPositionState)
     const headerBgBlured = useAppSelector(getHeaderBgBlurState)
@@ -59,7 +59,7 @@ const HeaderComponent = () => {
     ])
 
     useEffect(() => {
-        setUserData(session?.data?.user)
+        setUserData(session?.user)
     }, [session])
 
     return (

@@ -11,14 +11,14 @@ import { showSuccessToast } from '@reduxSlices/toast';
 import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
 
 function Navbar() {
-    const session = useSession();
+    const { data: session } = useSession()
     const dispatch = useAppDispatch();
     const isDark = useAppSelector(getDarkModeState);
-    const [usetData, setUsetData] = useState<any>(session?.data?.user)
+    const [usetData, setUsetData] = useState<any>(session?.user)
     const { token } = theme.useToken();
 
     useEffect(() => {
-        setUsetData(session?.data?.user)
+        setUsetData(session?.user)
     }, [session])
 
     console.log("Navbar Session", session)
