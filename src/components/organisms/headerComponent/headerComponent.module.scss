@@ -21,7 +21,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: var(--medium-gap);
+    gap: var(--large-gap);
     button {
       padding: unset;
       font-size: 17px;
@@ -40,7 +40,8 @@
     }
     .profileWrap {
       @include flexCenter;
-      gap: var(--medium-gap);
+      cursor: pointer;
+      gap: var(--large-gap);
       img {
         border-radius: 50%;
       }

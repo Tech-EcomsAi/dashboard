@@ -249,7 +249,7 @@ const AppSettingsPanel = () => {
             <TextElement text={'Header Styles'} color={token.colorTextBase} size="medium" />
             <div className={styles.settingsDetails}>
               <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
-                <CheckboxElement label='Fixed Type Header' active={fixedHeader} onChange={() => dispatch(toggleHeaderPosition(!fixedHeader))} />
+                <CheckboxElement label='Fixed Header' active={fixedHeader} onChange={() => dispatch(toggleHeaderPosition(!fixedHeader))} />
               </div>
               <div className={styles.setting} style={{ borderColor: token.colorBorder, transform: "unset" }}>
                 <CheckboxElement label='Blur Header' active={headerBgBlured} onChange={() => dispatch(toggleHeaderBgBlur(!headerBgBlured))} />

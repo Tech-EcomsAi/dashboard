@@ -70,8 +70,7 @@ const SidebarComponent = () => {
     const [isHover, setIsHover] = useState(true);
 
     const ACTION_MENUS: NavItemType[] = [
-        // { label: 'Collapsed', key: 'collapsed', icon: <RiArrowRightDoubleLine /> },
-        { label: 'Settings', key: 'dashboard-settings', icon: <MdOutlineSettingsSuggest /> },
+        { label: 'App Appearance', key: 'dashboard-settings', icon: <MdOutlineSettingsSuggest /> },
         { label: 'Dark Mode', key: 'darkMode', icon: <MdDarkMode /> },
         { label: 'Support', key: 'dashboard-help', icon: <TbPhoneCalling /> },
     ]

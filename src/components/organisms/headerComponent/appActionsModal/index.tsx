@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Card, Divider, Popconfirm, Space, message, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCalendarPlus, LuCheckCircle, LuImagePlus, LuPlus, LuSettings, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
+import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCalendarPlus, LuCheckCircle, LuImagePlus, LuPlus, LuSettings, LuSettings2, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import styles from './appActionsModal.module.scss'
@@ -9,7 +9,7 @@ import IconButton from '@antdComponent/iconButton'
 import { useAppDispatch } from '@hook/useAppDispatch'
 import { toggleAppSettingsPanel } from '@reduxSlices/clientThemeConfig'
 
-function AppActionsModal({ children, notifications }) {
+function AppActionsModal({ children }) {
     const [isLoading, setIsLoading] = useState(false)
     const { token } = theme.useToken();
     const router = useRouter();
@@ -19,7 +19,7 @@ function AppActionsModal({ children, notifications }) {
     const ACTIONS_LIST = [
         { title: "My Profile", icon: <LuUser />, onClick: () => { } },
         { title: "Image Editor", icon: <LuImagePlus />, onClick: () => { } },
-        { title: "Settings", icon: <LuSettings />, onClick: () => dispatch(toggleAppSettingsPanel(true)) },
+        { title: "Appearance", icon: <LuSettings2 />, onClick: () => dispatch(toggleAppSettingsPanel(true)) },
         { title: "Add User", icon: <LuUserPlus />, onClick: () => { } },
         { title: "Add Note", icon: <LuBanknote />, onClick: () => { } },
         { title: "Add Product", icon: <LuPlus />, onClick: () => { } },
@@ -79,19 +79,13 @@ function AppActionsModal({ children, notifications }) {
     return (
         <Fragment>
             <Popconfirm
-                // title={"Unseen Notifications"}
                 placement="bottomRight"
                 destroyTooltipOnHide
                 title={renderTitle()}
                 description={renderAppActions()}
-                // open={isOpen}
                 icon={<></>}
-                //ok button
                 okText=""
                 okType='text'
-
-                overlayInnerStyle={{ padding: "15px" }}
-                // showCancel={false}
                 okButtonProps={{ style: { height: "0" }, type: "text" }}
                 cancelButtonProps={{ style: { height: "0" }, type: "text", id: "modal-close-btn" }}
                 cancelText=""
