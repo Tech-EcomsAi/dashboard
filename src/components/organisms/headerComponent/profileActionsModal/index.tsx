@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import { Avatar, Badge, Button, Card, Popconfirm, Space, message, theme } from 'antd'
+import { Avatar, Badge, Button, Card, Popconfirm, Space, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
 import { LuHelpCircle, LuLogOut, LuSettings, LuSettings2, LuUser } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
@@ -38,7 +38,6 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
     const onClickAction = (action) => {
         action.onClick();
         handleClose()
-        message.open({ content: `${action.title} clicked` })
     }
 
     const logoutUser = () => {
@@ -99,6 +98,7 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
                 okButtonProps={{ style: { height: "0" }, type: "text" }}
                 cancelButtonProps={{ style: { height: "0" }, type: "text", id: "modal-close-btn" }}
                 cancelText=""
+                className='d-f-c'
             >
                 {children}
             </Popconfirm>

@@ -1,19 +1,17 @@
 "use client"
-import React, { Fragment, ReactNode, useEffect, useState } from 'react'
-import { Avatar, Badge, Button, Divider, Layout, Space, Tooltip, message, theme } from 'antd';
-const { Header, Content } = Layout;
+import React, { Fragment, Suspense, useEffect, useState } from 'react'
+import { Avatar, Badge, Button, Divider, Space, message, theme } from 'antd';
 import styles from './headerComponent.module.scss'
-import { LuBell, LuMessageSquare, LuPanelLeftClose, LuPanelLeftOpen, LuPanelRightClose, LuSearch, LuUser } from 'react-icons/lu';
+import { LuBell, LuLoader, LuMessageSquare, LuPanelLeftClose, LuPanelLeftOpen, LuSearch, LuUser } from 'react-icons/lu';
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import NotificationsModal from '@organisms/headerComponent/notificationsModal';
 import MessagesModal from '@organisms/headerComponent/messagesModal';
 import AppActionsModal from './appActionsModal';
 import { TbApps } from 'react-icons/tb';
-import { RiArrowLeftDoubleFill, RiArrowRightDoubleLine } from 'react-icons/ri';
 import AppSearchModal from './appSearchModal';
 import { useAppSelector } from '@hook/useAppSelector';
-import { BreadcrumbType, getAppBreadcrumbsState, getDarkModeState, getHeaderBgBlurState, getHeaderPositionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
+import { BreadcrumbType, getAppBreadcrumbsState, getHeaderBgBlurState, getHeaderPositionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import TextElement from '@antdComponent/textElement';
 import ProfileActionsModal from './profileActionsModal';
@@ -128,9 +126,11 @@ const HeaderComponent = () => {
                                     <TextElement styles={{ margin: "7px 0 0 0", fontSize: "12px", lineHeight: "12px" }} text={`${userData?.name}`} color={token.colorPrimary} size={"medium"} />
                                     <TextElement styles={{ margin: "unset", fontSize: "10px" }} text={`${userData?.email}`} color={token.colorTextBase} />
                                 </div>}
-                                <Badge dot={true} style={{ top: "3px", right: "8px", background: "green" }}>
-                                    {userData?.image ? <Image src={userData?.image || ''} alt={''} height={32} width={32} /> : <Avatar >DG</Avatar>}
-                                </Badge>
+                                <Suspense fallback={<div><LuLoader /></div>}>
+                                    <Badge dot={true} style={{ top: "3px", right: "8px", background: "green" }}>
+                                        {userData?.image ? <Image src={userData?.image || ''} alt={''} height={32} width={32} /> : <Avatar >DG</Avatar>}
+                                    </Badge>
+                                </Suspense>
                             </ProfileActionsModal>
                         </>
                         :

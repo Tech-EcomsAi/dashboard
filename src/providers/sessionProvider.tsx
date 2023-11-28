@@ -8,8 +8,9 @@ type Props = {
 }
 
 export default function SessionProvider({ children, session }: Props) {
+    console.log("SessionProvider : session", session)
     return (
-        <Provider>
+        <Provider session={session}>
             {children}
         </Provider>
     )

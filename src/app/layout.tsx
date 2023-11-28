@@ -9,6 +9,10 @@ import ErrorBoundaryProvider from '@providers/errorBoundaryProvider'
 import "@styles/app.scss";
 import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 import Navbar from 'src/components/navbar'
+import { redirect } from 'next/navigation'
+import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
+import { Suspense } from 'react'
+import Loading from './loading'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -43,12 +47,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={inter.className}>
         <ErrorBoundaryProvider>
           <ReduxStoreProvider>
-            {/* <Navbar /> */}
-            <SessionProvider session={session}>
-              <AntdLayoutWrapper>
+            <Suspense fallback={<Loading page="main layout" />}>
+              <SessionProvider session={session}>
                 {children}
-              </AntdLayoutWrapper>
-            </SessionProvider>
+              </SessionProvider>
+            </Suspense>
           </ReduxStoreProvider>
         </ErrorBoundaryProvider>
       </body>

@@ -12,6 +12,7 @@ import { signIn, useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import TextElement from "@antdComponent/textElement";
 import { useRouter } from 'next/navigation'
+import { HOME_ROUTING } from "@constant/navigations";
 
 function LoginPage() {
 
@@ -20,13 +21,14 @@ function LoginPage() {
   const dispatch = useAppDispatch();
   const [error, setError] = useState({ id: '', message: '' });
   const { token } = theme.useToken();
-  const [userData, setUserData] = useState<any>(Boolean(session?.data?.user) ? session?.data?.user : { name: "", email: "" })
+  const [userData, setUserData] = useState<any>(Boolean(session?.data?.user) ? session?.data?.user : null)
   const router = useRouter();
-  useEffect(() => {
-    if (userData) {
-      router.push('/builder')
-    }
-  }, [userData])
+
+  // useEffect(() => {
+  //   if (Boolean(session?.data?.user)) {
+  //     router.push(`/${HOME_ROUTING}`)
+  //   }
+  // }, [session])
 
 
   const login = async (values: any) => {
@@ -127,9 +129,10 @@ function LoginPage() {
     </div>
   }
 
-  return <Suspense fallback={<p style={{ height: "100vh", width: "100vw", background: "red", color: "green", zIndex: 1000 }}>Logging out...</p>}>
-    {renderPage()}
-  </Suspense>
+  // return <Suspense fallback={<p style={{ height: "100vh", width: "100vw", background: "red", color: "green", zIndex: 1000 }}>Logging out...</p>}>
+  //   {renderPage()}
+  // </Suspense>
+  return <>{renderPage()}</>
 }
 
 export default LoginPage;
