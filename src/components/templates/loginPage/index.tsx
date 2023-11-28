@@ -13,6 +13,9 @@ import { FcGoogle } from "react-icons/fc";
 import TextElement from "@antdComponent/textElement";
 import { useRouter } from 'next/navigation'
 import { HOME_ROUTING } from "@constant/navigations";
+import { LuSun } from "react-icons/lu";
+import { useAppSelector } from "@hook/useAppSelector";
+import { getDarkModeState, toggleDarkMode } from "@reduxSlices/clientThemeConfig";
 
 function LoginPage() {
 
@@ -23,6 +26,7 @@ function LoginPage() {
   const { token } = theme.useToken();
   const [userData, setUserData] = useState<any>(Boolean(session?.data?.user) ? session?.data?.user : null)
   const router = useRouter();
+  const isDarkMode = useAppSelector(getDarkModeState)
 
   // useEffect(() => {
   //   if (Boolean(session?.data?.user)) {
@@ -56,21 +60,43 @@ function LoginPage() {
 
 
   const renderPage = () => {
-    return <div className={styles.loginPageWrap}>
-      <div className={styles.headerWrap}>
+    return <div className={styles.loginPageWrap}
+      style={{
+        background: token.colorBgBase,
+        backgroundImage: `radial-gradient(circle at 10px 10px, ${token.colorTextDisabled} 1px, transparent 0)`,
+      }}>
+      <Space className={styles.headerWrap} align="center">
         <div className={styles.logoWrap}>
           <img src={'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430'} />
         </div>
-      </div>
+        <Button icon={<LuSun />} size="large" onClick={() => dispatch(toggleDarkMode(!isDarkMode))} />
+      </Space>
       <div className={styles.bodyWrap}>
+        <div className={styles.bgWrap}></div>
         <div className={styles.bodyContent}>
-          <div className={styles.leftContent}>
+          {/* <div className={styles.leftContent}>
             <img src="assets/images/loginPage/login-2.svg" />
-          </div>
+          </div> */}
           <div className={styles.rightContent}>
-            <div className={styles.formWrap}>
-              <div className={`heading ${styles.heading}`}>Welcome back!</div>
-              <div className={styles.subHeading}>Take your business beyond the four walls</div>
+            <div className={styles.formWrap}
+              style={{
+                // background: token.colorBgBase,
+                // backgroundImage: `radial-gradient(circle at 10px 10px, ${token.colorTextDisabled} 1px, transparent 0)`,
+                borderColor: token.colorBorder,
+                background: `linear-gradient(0deg,rgba(186,207,247,.04),rgba(186,207,247,.04)), ${token.colorBgBase}`,
+                boxShadow: `inset 0 1px 1px 0 rgba(216,236,248,.2), inset 0 24px 48px 0 rgba(168,216,245,.06), 0 16px 32px rgba(0,0,0,.3)`,
+              }}>
+              <h3 className={`${styles.heading}`} style={{ color: token.colorTextLabel }}>Welcome to</h3>
+              <h1 className={`heading ${styles.heading} ${styles.title}`}>EcomsAi</h1>
+              <div className={styles.subHeading} style={{ color: token.colorTextBase }}>Take your business beyond the four walls</div>
+              <div className={styles.googleLoginWrap}>
+                <Button type="default"
+                  size="large"
+                  icon={<FcGoogle />}
+                  onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/builder' })} >
+                  Continue with Google</Button>
+              </div>
+              <Divider className={styles.saperator}>Or</Divider>
               <Form
                 name="normal_login"
                 className={`${styles.form} login-form`}
@@ -84,42 +110,22 @@ function LoginPage() {
                   name="username"
                   rules={[{ required: true, message: 'Please input your Username!' }]}
                 >
-                  <Input
-                    size="large"
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Username" />
+                  <Input className={styles.inputElement} size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
                 </Form.Item>
                 <Form.Item
                   className={styles.formItem}
                   name="password"
                   rules={[{ required: true, message: 'Please input your Password!' }]}
                 >
-                  <Input
-                    size="large"
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="password"
-                    placeholder="Password"
+                  <Input className={styles.inputElement} size="large" prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"
                   />
                 </Form.Item>
                 {error.message && <div className={styles.error}>
                   {error.message}
                 </div>}
                 <Space direction="vertical" align="center" style={{ width: "100%" }} >
-
-                  <Form.Item className={styles.submitBtnWrap} >
-                    <Button type="primary" size="large" htmlType="submit" style={{ width: "100%" }} className="login-form-button">
-                      Log in
-                    </Button>
-                    <Button type="link" className="login-form-button">
-                      Forgot password
-                    </Button>
-                  </Form.Item>
-
-                  <Divider style={{ background: token.colorPrimaryBg, width: "100p%" }} />
-                  <TextElement text={'OR'} color={'#ffff'} />
-                  <Divider style={{ background: token.colorPrimaryBg, width: "100p%" }} />
-
-                  <Button type="text" size="large" icon={<FcGoogle />} style={{ fontSize: 40 }} onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/builder' })} />
+                  <Button type="link" className="login-form-button">Forgot password</Button>
+                  <Button type="primary" size="large" htmlType="submit" style={{ width: 200 }} className="login-form-button">Log in</Button>
                 </Space>
               </Form>
             </div>
@@ -128,10 +134,6 @@ function LoginPage() {
       </div>
     </div>
   }
-
-  // return <Suspense fallback={<p style={{ height: "100vh", width: "100vw", background: "red", color: "green", zIndex: 1000 }}>Logging out...</p>}>
-  //   {renderPage()}
-  // </Suspense>
   return <>{renderPage()}</>
 }
 
