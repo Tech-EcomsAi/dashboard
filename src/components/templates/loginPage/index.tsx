@@ -71,11 +71,13 @@ function LoginPage() {
         </div>
         <Button icon={<LuSun />} size="large" onClick={() => dispatch(toggleDarkMode(!isDarkMode))} />
       </Space>
-      <div className={styles.bodyWrap}>
+      <div className={styles.bodyWrap} style={{
+        background: "url(assets/images/loginPage/login_screen_bg.png)"
+      }}>
         <div className={styles.bgWrap}></div>
         <div className={styles.bodyContent}>
           {/* <div className={styles.leftContent}>
-            <img src="assets/images/loginPage/login-2.svg" />
+            <img src="assets/images/loginPage/login_screen_bg.png" />
           </div> */}
           <div className={styles.rightContent}>
             <div className={styles.formWrap}
@@ -88,7 +90,7 @@ function LoginPage() {
               }}>
               <h3 className={`${styles.heading}`} style={{ color: token.colorTextLabel }}>Welcome to</h3>
               <h1 className={`heading ${styles.heading} ${styles.title}`}>EcomsAi</h1>
-              <div className={styles.subHeading} style={{ color: token.colorTextBase }}>Take your business beyond the four walls</div>
+              <div className={styles.subHeading} style={{ color: token.colorTextHeading }}>Take your business beyond the four walls</div>
               <div className={styles.googleLoginWrap}>
                 <Button type="default"
                   size="large"
@@ -110,14 +112,14 @@ function LoginPage() {
                   name="username"
                   rules={[{ required: true, message: 'Please input your Username!' }]}
                 >
-                  <Input className={styles.inputElement} size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                  <Input className={styles.inputElement} size="large" prefix={<UserOutlined className="site-form-item-icon" />} allowClear placeholder="Username" />
                 </Form.Item>
                 <Form.Item
                   className={styles.formItem}
                   name="password"
                   rules={[{ required: true, message: 'Please input your Password!' }]}
                 >
-                  <Input className={styles.inputElement} size="large" prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"
+                  <Input.Password className={styles.inputElement} size="large" prefix={<LockOutlined className="site-form-item-icon" />} allowClear placeholder="Password"
                   />
                 </Form.Item>
                 {error.message && <div className={styles.error}>
@@ -126,6 +128,9 @@ function LoginPage() {
                 <Space direction="vertical" align="center" style={{ width: "100%" }} >
                   <Button type="link" className="login-form-button">Forgot password</Button>
                   <Button type="primary" size="large" htmlType="submit" style={{ width: 200 }} className="login-form-button">Log in</Button>
+                </Space>
+                <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 20 }} >
+                  <Button type="text" className="login-form-button" style={{ color: token.colorTextLabel }}>Not able to login please contact owner</Button>
                 </Space>
               </Form>
             </div>

@@ -26,6 +26,8 @@
     align-items: center;
     margin: auto;
     position: relative;
+    background-repeat: no-repeat !important;
+    background-size: auto !important;
     .bodyContent {
       display: flex;
       justify-content: space-evenly;
@@ -42,6 +44,7 @@
         }
       }
       .rightContent {
+        transform: translateX(200px);
         min-width: 360px;
         max-width: 500px;
         width: 100%;
@@ -70,9 +73,9 @@
               font-weight: 700;
               // padding: 0 10px;
               background-image: linear-gradient(
-                to bottom,
-                #30c4b8,
-                #1677ff 70%
+                to right,
+                #30c4b8 30%,
+                #1677ff 85%
               );
               -webkit-text-fill-color: transparent;
               -webkit-background-clip: text;

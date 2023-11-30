@@ -1,6 +1,6 @@
 "use client"
 import React, { Fragment, Suspense, useEffect, useState } from 'react'
-import { Avatar, Badge, Button, Divider, Space, message, theme } from 'antd';
+import { Avatar, Badge, Button, Divider, Dropdown, Space, message, theme } from 'antd';
 import styles from './headerComponent.module.scss'
 import { LuBell, LuLoader, LuMessageSquare, LuPanelLeftClose, LuPanelLeftOpen, LuSearch, LuUser } from 'react-icons/lu';
 import { signIn, useSession } from 'next-auth/react';
@@ -11,10 +11,11 @@ import AppActionsModal from './appActionsModal';
 import { TbApps } from 'react-icons/tb';
 import AppSearchModal from './appSearchModal';
 import { useAppSelector } from '@hook/useAppSelector';
-import { BreadcrumbType, getAppBreadcrumbsState, getHeaderBgBlurState, getHeaderPositionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
+import { BreadcrumbSubpathsType, BreadcrumbType, getAppBreadcrumbsState, getHeaderBgBlurState, getHeaderPositionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import TextElement from '@antdComponent/textElement';
 import ProfileActionsModal from './profileActionsModal';
+import SelectElement from '@antdComponent/selectElement';
 
 const BadgeRenderer = ({ dotted, count, overflowCount, children }) => {
     return <Badge size="small" dot={dotted} count={count} overflowCount={overflowCount} style={{ top: "3px", right: "8px", background: "red" }}> {children}</Badge>
@@ -40,10 +41,17 @@ const HeaderComponent = () => {
         e.preventDefault()
     }
 
-    const bbredcrumbsDummy = [
-        // { key: 1, path: '', title: <LuHome />, onClick: (e) => onClickBreadCrumb(e, 1) },
-        { key: 2, path: '', title: 'Dashboard', onClick: (e) => onClickBreadCrumb(e, 2) },
-        { key: 3, path: '', title: 'Sales', onClick: (e) => onClickBreadCrumb(e, 3) },
+    const bbredcrumbsDummy: BreadcrumbType[] = [
+        { key: 1, value: 'Dashboard', label: 'Dashboard', onClick: (e) => onClickBreadCrumb(e, 2), subPaths: [] },
+        {
+            key: 2, value: 'Sales', label: 'Sales', onClick: (e) => onClickBreadCrumb(e, 3), subPaths: [
+                { key: 21, value: 'Summary', label: 'Summary', onClick: (e) => onClickBreadCrumb(e, 3), active: false },
+                { key: 22, value: 'Sales', label: 'Sales', onClick: (e) => onClickBreadCrumb(e, 3), active: true },
+                { key: 23, value: 'Users', label: 'Users', onClick: (e) => onClickBreadCrumb(e, 3), active: false },
+                { key: 24, value: 'Analytics', label: 'Analytics', onClick: (e) => onClickBreadCrumb(e, 3), active: false }
+            ]
+            // key: 2, value: 'Sales', label: 'Sales', onClick: (e) => onClickBreadCrumb(e, 3), subPaths: []
+        },
     ]
 
     const [notifications, setNotifications] = useState([
@@ -76,8 +84,28 @@ const HeaderComponent = () => {
                     <Space >
                         {bbredcrumbsDummy.map((breadcrumb: BreadcrumbType, i: number) => {
                             return <Fragment key={i}>
-                                {i != 0 && i !== breadcrumbs.length - 1 && <>/</>}
-                                <Button style={{ padding: "0", fontWeight: 600, fontSize: 14, fontStyle: "" }} type='text' onClick={i !== (breadcrumbs.length - 1) ? breadcrumb.onClick : () => { }}>{breadcrumb.title}</Button>
+                                {i != 0 && i !== breadcrumbs.length - 1 && <>{">"}</>}
+                                {breadcrumb.subPaths.length != 0 ? <>
+                                    <Dropdown menu={{
+                                        items: breadcrumb.subPaths, onClick: breadcrumb.onClick, selectable: true, defaultSelectedKeys: [`${breadcrumb.subPaths.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active)?.key}`],
+                                    }}>
+                                        <Button type='text'>
+                                            {breadcrumb.subPaths.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active).value}
+                                        </Button>
+                                    </Dropdown>
+                                    {/* <SelectElement
+                                        isBordered={false}
+                                        styles={{ width: "max-content", fontSize: 100 }}
+                                        value={breadcrumb.subPaths.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active).value}
+                                        onChange={breadcrumb.onClick}
+                                        options={breadcrumb.subPaths} /> */}
+                                </> : <>
+                                    <Button
+                                        style={{ padding: "0 10px", fontWeight: 600, fontSize: 14, fontStyle: "" }}
+                                        type='text'
+                                        onClick={i !== (breadcrumbs.length - 1) ? breadcrumb.onClick : () => { }}>
+                                        {breadcrumb.label}</Button>
+                                </>}
                             </Fragment>
                         })}
                     </Space>

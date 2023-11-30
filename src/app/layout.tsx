@@ -47,11 +47,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={inter.className}>
         <ErrorBoundaryProvider>
           <ReduxStoreProvider>
-            <Suspense fallback={<Loading page="Main Layout" />}>
-              <SessionProvider session={session}>
+            <SessionProvider session={session}>
+              <Suspense fallback={<Loading page="Main Layout" />}>
                 {children}
-              </SessionProvider>
-            </Suspense>
+              </Suspense>
+            </SessionProvider>
           </ReduxStoreProvider>
         </ErrorBoundaryProvider>
       </body>

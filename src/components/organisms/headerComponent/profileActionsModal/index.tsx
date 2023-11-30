@@ -75,8 +75,8 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
                             onMouseLeave={() => setHoverId('')}
                         >
                             <Space align='center' size={0}>
-                                <Button icon={action.icon} size='large' type='link' style={{ color: action.title == hoverId ? token.colorTextBase : token.colorTextLabel, fontSize: "16px" }} />
-                                <TextElement text={action.title} color={action.title == hoverId ? token.colorTextBase : token.colorTextLabel} />
+                                <Button icon={action.icon} size='large' type='link' style={{ color: action.title == hoverId ? token.colorPrimary : token.colorTextLabel, fontSize: "16px" }} />
+                                <TextElement text={action.title} color={action.title == hoverId ? token.colorPrimary : token.colorTextLabel} />
                             </Space>
                         </Card>
                     })}

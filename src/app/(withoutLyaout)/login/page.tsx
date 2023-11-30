@@ -1,11 +1,12 @@
 import LoginPage from '@template/loginPage'
 import React, { Suspense } from 'react'
+import Loading from 'src/app/loading'
 
 function page() {
     return <React.Fragment>
-        {/* <Suspense fallback={<p style={{ height: "100vh", width: "100vw", background: "deeppink", color: "green" }}>Logging out...</p>}> */}
-        <LoginPage />
-        {/* </Suspense> */}
+        <Suspense fallback={<Loading page={'Login'} />}>
+            <LoginPage />
+        </Suspense>
     </React.Fragment>
 }
 

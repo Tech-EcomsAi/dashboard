@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppState } from "@reduxStore/index";
 import { ReactNode } from "react";
 
-export type BreadcrumbType = { key: number, path: string, title: string | ReactNode, onClick: any }
+export type BreadcrumbType = { key: number, value: string, label: string | ReactNode, onClick: any, subPaths: BreadcrumbSubpathsType[] }
+export type BreadcrumbSubpathsType = { key: number, value: string, label: string | ReactNode, onClick: any, active: boolean }
 
 export type ClientThemeConfigType = {
     darkMode: boolean;

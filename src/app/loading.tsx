@@ -9,6 +9,7 @@ function Loading({ page }) {
                 alt={'EcomsAi'}
                 width={300}
                 height={"auto"} />
+            Loading {page} Page
         </main>
     )
 }
