@@ -72,13 +72,13 @@ function LoginPage() {
         <Button icon={<LuSun />} size="large" onClick={() => dispatch(toggleDarkMode(!isDarkMode))} />
       </Space>
       <div className={styles.bodyWrap} style={{
-        background: "url(assets/images/loginPage/login_screen_bg.png)"
+        // background: "url(assets/images/loginPage/login_screen_bg.png)"
       }}>
         <div className={styles.bgWrap}></div>
         <div className={styles.bodyContent}>
-          {/* <div className={styles.leftContent}>
+          <div className={styles.leftContent}>
             <img src="assets/images/loginPage/login_screen_bg.png" />
-          </div> */}
+          </div>
           <div className={styles.rightContent}>
             <div className={styles.formWrap}
               style={{

@@ -10,6 +10,9 @@ export const SEARCHED_IMAGES_COUNT_PER_REQUEST_PEXELS = 80;
 export const SEARCHED_IMAGES_COUNT_PER_REQUEST_PIXABAY = 200;
 export const LOGO = '/assets/3.png'
 export const LOGO_TEXT = 'GMD'
+export const LOGO_LARGE = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430';
+export const LOGO_SMALL = '';
+export const LOGO_ANIMATED = ''
 export const BACKGROUND_IMAGES_ORIENTATIONS = {
     LANDSCAPE: 'landscape',
     PORTRAIT: 'portrait',
