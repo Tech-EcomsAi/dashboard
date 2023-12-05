@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Saperator from '@atoms/Saperator'
 import { signOut } from 'next-auth/react'
 import { showSuccessToast } from '@reduxSlices/toast'
+import { NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 
 function ProfileActionsModal({ children, userData = { name: "", email: "", image: "" } }) {
     const [isLoading, setIsLoading] = useState(false)
@@ -41,8 +42,9 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
     }
 
     const logoutUser = () => {
-        signOut();
-        router.push('/login')
+        signOut()
+        // signOut({ callbackUrl: `/${NAVIGARIONS_ROUTINGS.SIGNIN}` });
+        // router.push(`/${NAVIGARIONS_ROUTINGS.SIGNIN}`)
         dispatch(showSuccessToast("User logged out successfuly"))
     }
 

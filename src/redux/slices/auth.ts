@@ -18,26 +18,7 @@ export const auth = createSlice({
     setAuthUser(state, action) {
       state.authUser = action.payload;
     },
-  },
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(HYDRATE_ACTION, (state, action: any) => {
-  //       return {
-  //         ...state,
-  //         ...action.payload.auth,
-  //       };
-  //       // action is inferred correctly here if using TS
-  //     })
-  // },
-
-  // extraReducers: {
-  //   [HYDRATE]: (state, action) => {
-  //     return {
-  //       ...state,
-  //       ...action.payload.auth,
-  //     };
-  //   },
-  // },
+  }
 });
 
 export const { setAuthUser } = auth.actions;

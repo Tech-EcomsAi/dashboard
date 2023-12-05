@@ -11,39 +11,88 @@ import { getUserByCredentials } from "@lib/internalApi/user";
 import { signIn, useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import TextElement from "@antdComponent/textElement";
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { HOME_ROUTING } from "@constant/navigations";
 import { LuSun } from "react-icons/lu";
 import { useAppSelector } from "@hook/useAppSelector";
 import { getDarkModeState, toggleDarkMode } from "@reduxSlices/clientThemeConfig";
 
+const LOGIN_ERRORS = {
+  "INVALID_CREAD": "invalid-login-credentials",
+  "UNREGISTRED": "email-not-registred",
+}
+
 function LoginPage() {
 
   const session = useSession();
-  const [cred, setUser] = useState({ username: '', password: '' });
+  const [cred, setUser] = useState({ email: '', password: '' });
   const dispatch = useAppDispatch();
   const [error, setError] = useState({ id: '', message: '' });
   const { token } = theme.useToken();
   const [userData, setUserData] = useState<any>(Boolean(session?.data?.user) ? session?.data?.user : null)
   const router = useRouter();
   const isDarkMode = useAppSelector(getDarkModeState)
+  const [isLoading, setIsLoading] = useState(false)
 
-  // useEffect(() => {
-  //   if (Boolean(session?.data?.user)) {
-  //     router.push(`/${HOME_ROUTING}`)
-  //   }
-  // }, [session])
+  useEffect(() => {
+    if (Boolean(session?.data?.user)) {
+      console.log("user found")
+      redirect(`/${HOME_ROUTING}`)
+    }
+  }, [])
 
 
-  const login = async (values: any) => {
-    getUserByCredentials(values)
-      .then((data) => {
-        console.log("getUserByCredentials", data);
-        dispatch(setAuthUser(data));
-        dispatch(showSuccessToast('Login Success'))
-        // Router.push('/');
+  const signInWithCredentials = async (values: any) => {
+    setIsLoading(true)
+    signIn('credentials', { email: values.email, password: values.password, redirect: false })
+      // getUserByCredentials(values)
+      .then((response) => {
+        if (response?.error) {
+          console.log("singin cred error", response?.error)
+          //failure
+          if (response?.error.includes(LOGIN_ERRORS.INVALID_CREAD)) {
+            dispatch(showErrorToast("Invalid credentials"))
+            setError({ id: "cread", message: "Invalid credentials" })
+          } else if (response?.error.includes(LOGIN_ERRORS.UNREGISTRED)) {
+            dispatch(showErrorToast("Email not registered"))
+            setError({ id: "cread", message: "Invalid email" })
+          } else {
+            dispatch(showErrorToast("Somthing went wrong"))
+            setError({ id: "cread", message: "Somthing went wrong, please try again !" })
+          }
+        } else {
+          //success
+          redirect(`/${HOME_ROUTING}`)
+        }
+        setIsLoading(false)
       })
       .catch((err) => {
+        setIsLoading(false)
+        dispatch(showErrorToast(err.message))
+        setError(err)
+      });
+  }
+
+  const signInWithGoogle = () => {
+    signIn('google')
+      .then((response) => {
+        if (response.error) {
+          //failure
+          if (response.error.includes(LOGIN_ERRORS.INVALID_CREAD)) {
+            dispatch(showErrorToast("Invalid credentials"))
+            setError({ id: "cread", message: "Invalid credentials" })
+          } else if (response.error.includes(LOGIN_ERRORS.UNREGISTRED)) {
+            dispatch(showErrorToast("Email not registered"))
+            setError({ id: "cread", message: "Invalid email" })
+          }
+        } else {
+          //success
+          redirect(`/${HOME_ROUTING}`)
+        }
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        setIsLoading(false)
         dispatch(showErrorToast(err.message))
         setError(err)
       });
@@ -95,24 +144,24 @@ function LoginPage() {
                 <Button type="default"
                   size="large"
                   icon={<FcGoogle />}
-                  onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/builder' })} >
-                  Continue with Google</Button>
+                  onClick={signInWithGoogle} >
+                  Sing in with Google</Button>
               </div>
               <Divider className={styles.saperator}>Or</Divider>
               <Form
                 name="normal_login"
                 className={`${styles.form} login-form`}
                 initialValues={{}}
-                onFinish={login}
+                onFinish={signInWithCredentials}
                 onValuesChange={onValuesChange}
                 validateMessages={validateMessages}
               >
                 <Form.Item
                   className={styles.formItem}
-                  name="username"
-                  rules={[{ required: true, message: 'Please input your Username!' }]}
+                  name="email"
+                  rules={[{ required: true, message: 'Please input your email!' }]}
                 >
-                  <Input className={styles.inputElement} size="large" prefix={<UserOutlined className="site-form-item-icon" />} allowClear placeholder="Username" />
+                  <Input className={styles.inputElement} size="large" prefix={<UserOutlined className="site-form-item-icon" />} allowClear placeholder="Email" />
                 </Form.Item>
                 <Form.Item
                   className={styles.formItem}
@@ -127,7 +176,7 @@ function LoginPage() {
                 </div>}
                 <Space direction="vertical" align="center" style={{ width: "100%" }} >
                   <Button type="link" className="login-form-button">Forgot password</Button>
-                  <Button type="primary" size="large" htmlType="submit" style={{ width: 200 }} className="login-form-button">Log in</Button>
+                  <Button loading={isLoading} type="primary" size="large" htmlType="submit" style={{ width: 200 }} className="login-form-button">Log in</Button>
                 </Space>
                 <Space direction="vertical" align="center" style={{ width: "100%", marginTop: 20 }} >
                   <Button type="text" className="login-form-button" style={{ color: token.colorTextLabel }}>Not able to login please contact owner</Button>

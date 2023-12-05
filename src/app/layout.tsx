@@ -13,6 +13,7 @@ import { redirect } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import { Suspense } from 'react'
 import Loading from './loading'
+import Toast from '@organisms/toast'
 
 const inter = Inter({ subsets: ['latin'] })
 

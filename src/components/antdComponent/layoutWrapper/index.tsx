@@ -43,7 +43,6 @@ export default function AntdLayoutWrapper(props: any) {
                     <HeadMetaTags title={undefined} description={undefined} image={undefined} siteName={undefined} storeData={undefined} />
                     <AntdThemeProvider>
                         <Fragment>
-                            <Toast />
                             <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
                                 <HeaderComponent />
                                 <SidebarComponent />
