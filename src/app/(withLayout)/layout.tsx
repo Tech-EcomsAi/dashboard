@@ -11,7 +11,6 @@ const WithLayout = async ({ children }) => {
     //if user not authenticated then redirect to login page
     const session = await getServerSession()
     if (!session?.user) {
-        debugger
         redirect(`/${NAVIGARIONS_ROUTINGS.SIGNIN}`);
     }
 

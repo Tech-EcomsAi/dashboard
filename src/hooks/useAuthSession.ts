@@ -7,8 +7,8 @@ export function useAuthSession() {
     const router = useRouter()
     const { data: session } = useSession()
     const user: any = session?.user
-    useEffect(() => {
-        if (!user) router.push("/login");
-    }, [user]);
+    // useEffect(() => {
+    //     if (!user) router.push("/login");
+    // }, [user]);
     return user;
 }

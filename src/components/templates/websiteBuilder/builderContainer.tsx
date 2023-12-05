@@ -72,7 +72,7 @@ function BuilderContainer({ builderState }) {
                             </div>
                             {Object.keys(builderState).map((list, i) => {
                                 return (
-                                    <Droppable key={list} droppableId={list} >
+                                    <Droppable key={i} droppableId={list} >
                                         {(provided, snapshot) => (
                                             <Fragment>
                                                 <div className={`builderBody ${styles.bodyFrame} ${snapshot.isDraggingOver ? styles.isDraggingOver : ''}`}

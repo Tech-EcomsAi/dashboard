@@ -44,7 +44,7 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
     const logoutUser = () => {
         signOut()
         // signOut({ callbackUrl: `/${NAVIGARIONS_ROUTINGS.SIGNIN}` });
-        // router.push(`/${NAVIGARIONS_ROUTINGS.SIGNIN}`)
+        router.push(`/${NAVIGARIONS_ROUTINGS.SIGNIN}`)
         dispatch(showSuccessToast("User logged out successfuly"))
     }
 

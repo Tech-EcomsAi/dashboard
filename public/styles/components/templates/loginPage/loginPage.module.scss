@@ -38,6 +38,8 @@
     background-size: 500px !important;
     background-position-y: 100px !important;
     background-position: left;
+    height: calc(100vh - 99px);
+
     .bodyContent {
       display: flex;
       justify-content: space-evenly;

@@ -35,7 +35,10 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         signIn: async ({ user, profile, account }: any) => {
             console.log("signIn : user, profile, account }", { user, profile, account })
-            const dbUser: any = await getUserByEmail(user.email);
+            let dbUser = user;
+            if (!('isVerified' in dbUser)) {
+                dbUser = await getUserByEmail(user.email);
+            }
             if (dbUser?.isVerified) {
                 return true;
             } else {
@@ -44,31 +47,25 @@ export const authOptions: NextAuthOptions = {
         },
         jwt: async ({ token, user, account, profile, isNewUser }: any) => {
             console.log('*** jwt start ***')
-            console.log("Jwt { token, user, account, profile, isNewUser }", { token, user, account, profile, isNewUser })
-            console.log('*** jwt end ***')
+            // console.log("Jwt { token, user, account, profile, isNewUser }", { token, user, account, profile, isNewUser })
+            // console.log('*** jwt end ***')
 
             if (Boolean(token && token?.email)) {
-                const user: any = await getUserByEmail(token.email)
+                const dbUser: any = await getUserByEmail(token.email)
                 // console.log('User found.', user);
-                if (user.id) {
-                    token.id = user.id;
-                    token.credits = user.credits;
+                if (dbUser.id) {
+                    token.dbUser = dbUser
                 }
                 if (account) { }
             }
             // console.log("token", token)
             return token;
         },
-        session: ({ session, token }) => {
-            console.log("session { token, session, user }", { token, session })
+        session: ({ session, token }: any) => {
             if (Boolean(token && token?.email)) {
-                session.user.id = token.id;
-                session.user.name = token.name;
-                session.user.email = token.email;
-                session.user.image = token.picture;
-                session.user.credits = token.credits;
-                session.user.accessToken = token?.accessToken;
+                session.user = { ...session.user, ...token.dbUser }
             }
+            console.log("session { token, session, user }", { token, session })
             return session;
         }
     },
@@ -93,7 +90,7 @@ export const authOptions: NextAuthOptions = {
                         .then(userCredential => {
                             console.log("signInWithEmailAndPassword userCredential.user", userCredential.user)
                             if (userCredential.user) {
-                                return userCredential.user;
+                                return { ...userCredential.user, ...dbUser };
                             }
                             return null;
                         })
