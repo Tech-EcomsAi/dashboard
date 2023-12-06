@@ -119,16 +119,16 @@
         font-weight: 400;
         .labelIconWrap {
           position: relative;
-          &::before {
-            width: 5px;
-            height: 5px;
-            border-radius: 10px;
-            background-color: var(--lightest-slate);
-            position: absolute;
-            top: 44%;
-            left: -10px;
-            content: "";
-          }
+          // &::before {
+          //   width: 5px;
+          //   height: 5px;
+          //   border-radius: 10px;
+          //   background-color: var(--lightest-slate);
+          //   position: absolute;
+          //   top: 44%;
+          //   left: -10px;
+          //   content: "";
+          // }
         }
       }
     }

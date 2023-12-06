@@ -35,7 +35,7 @@ export const REPORTS_MENU: NavItemType[] = [
     {
         label: 'Reports', route: NAVIGARIONS_ROUTINGS.REPORTS, icon: <LuLineChart />,
         subNav: [
-            { label: 'Summary', route: NAVIGARIONS_ROUTINGS.REPORTS_SUMMARY, icon: <TbChartPie /> },
+            { label: 'Cumulative', route: NAVIGARIONS_ROUTINGS.REPORTS_SUMMARY, icon: <TbChartPie /> },
             { label: 'Sales', route: NAVIGARIONS_ROUTINGS.REPORTS_SALES, icon: <LuLineChart /> },
             { label: 'Users', route: NAVIGARIONS_ROUTINGS.REPORTS_USERS, icon: <TbUsers /> },
             { label: 'Analytics', route: NAVIGARIONS_ROUTINGS.REPORTS_ANALYTICS, icon: <IoAnalyticsSharp /> },
@@ -232,7 +232,7 @@ const SidebarComponent = () => {
                                     onClick={() => onClickNav(nav, 1, navIndex)}
                                     style={{
                                         backgroundColor: `${(nav.active) ? token.colorPrimaryBgHover : ((nav.route == hoverId || nav.subNavActive) ? token.colorBgTextHover : token.colorBgBase)}`,
-                                        color: (isActive) ? token.colorTextLightSolid : ((nav.route == hoverId || nav.route == activeParentNav.route) ? token.colorPrimaryTextActive : token.colorText),
+                                        color: (nav.active) ? token.colorTextLightSolid : ((nav.route == hoverId || nav.subNavActive) ? token.colorPrimaryTextActive : token.colorText),
                                         border: token.colorBorder,
                                     }}
                                 >

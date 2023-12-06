@@ -9,7 +9,7 @@ export const NAVIGARIONS_ROUTINGS = {
     DASHBOARDS_ANALYTICS: 'dashboards/analytics',
 
     //App routings
-    APPS_DASHBOARD: 'apps',
+    APPS_DASHBOARD: 'apps/dashboard',
     APP_CHATS: 'apps/chat',
     APP_BLOGS: 'apps/blogger',
     APP_EMAILS: 'apps/email',
