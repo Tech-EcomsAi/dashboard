@@ -1,6 +1,6 @@
 "use client"
-import React, { Fragment, Suspense, useEffect, useState } from 'react'
-import { Avatar, Badge, Button, Divider, Dropdown, Space, message, theme } from 'antd';
+import React, { Fragment, Suspense, useCallback, useEffect, useState } from 'react'
+import { Avatar, Badge, Button, Divider, Dropdown, Space, theme } from 'antd';
 import styles from './headerComponent.module.scss'
 import { LuBell, LuLoader, LuMessageSquare, LuPanelLeftClose, LuPanelLeftOpen, LuSearch, LuUser } from 'react-icons/lu';
 import { signIn, useSession } from 'next-auth/react';
@@ -8,14 +8,19 @@ import Image from 'next/image';
 import NotificationsModal from '@organisms/headerComponent/notificationsModal';
 import MessagesModal from '@organisms/headerComponent/messagesModal';
 import AppActionsModal from './appActionsModal';
-import { TbApps } from 'react-icons/tb';
+import { TbApps, TbChevronRight } from 'react-icons/tb';
 import AppSearchModal from './appSearchModal';
 import { useAppSelector } from '@hook/useAppSelector';
 import { BreadcrumbSubpathsType, BreadcrumbType, getAppBreadcrumbsState, getHeaderBgBlurState, getHeaderPositionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import TextElement from '@antdComponent/textElement';
 import ProfileActionsModal from './profileActionsModal';
-import SelectElement from '@antdComponent/selectElement';
+import { usePathname } from 'next/navigation';
+import { NavItemType, SIDEBAR_NAV_MENUS } from '@organisms/sidebar';
+import { removeObjRef } from '@util/utils';
+import { FaChevronRight } from 'react-icons/fa';
+import { useRouter } from 'next/navigation'
+import { AiOutlineRight } from 'react-icons/ai';
 
 const BadgeRenderer = ({ dotted, count, overflowCount, children }) => {
     return <Badge size="small" dot={dotted} count={count} overflowCount={overflowCount} style={{ top: "3px", right: "8px", background: "red" }}> {children}</Badge>
@@ -32,27 +37,50 @@ const HeaderComponent = () => {
     const isCollapsed = useAppSelector(getSidebarState);
     const showDateInHeader = useAppSelector(getShowDateInHeaderState);
     const showUserDetailsInHeader = useAppSelector(getShowUserDetailsInHeaderState);
-    const breadcrumbs = useAppSelector(getAppBreadcrumbsState) || [];
     const dispatch = useAppDispatch();
+    const pathname = usePathname();
+    const router = useRouter();
 
-    const onClickBreadCrumb = (e, nav) => {
-        message.open({ content: `${nav} clicked` })
-        e.stopPropagation()
-        e.preventDefault()
+    const onClickBreadCrumb = (selectedKey, parentNav: any) => {
+        const newNav: NavItemType = parentNav.subNav.find((nav: NavItemType) => nav.key == selectedKey.key);
+        router.replace(newNav.route.split('/')[1])
     }
 
-    const bbredcrumbsDummy: BreadcrumbType[] = [
-        { key: 1, value: 'Dashboard', label: 'Dashboard', onClick: (e) => onClickBreadCrumb(e, 2), subPaths: [] },
-        {
-            key: 2, value: 'Sales', label: 'Sales', onClick: (e) => onClickBreadCrumb(e, 3), subPaths: [
-                { key: 21, value: 'Summary', label: 'Summary', onClick: (e) => onClickBreadCrumb(e, 3), active: false },
-                { key: 22, value: 'Sales', label: 'Sales', onClick: (e) => onClickBreadCrumb(e, 3), active: true },
-                { key: 23, value: 'Users', label: 'Users', onClick: (e) => onClickBreadCrumb(e, 3), active: false },
-                { key: 24, value: 'Analytics', label: 'Analytics', onClick: (e) => onClickBreadCrumb(e, 3), active: false }
+    const getBredcrumbs = (pathname) => {
+        let breadcrumbArray: any = [];
+        const navCopy = removeObjRef(SIDEBAR_NAV_MENUS)
+        if (pathname.split("/").length > 2) { //reports/sales
+            let activeParentNavIndex = -1;
+            let activeSubParentnavIndex = -1;
+            navCopy.map((navItem: NavItemType, pIndex: number) => {
+                if (navItem.subNav) {
+                    navItem.subNav.map((subNavItem: any, sIndex) => {
+                        delete subNavItem.icon;
+                        subNavItem.key = `${pIndex}${sIndex}`
+                        if (pathname == `/${subNavItem.route}`) {
+                            subNavItem.active = true;
+                            activeParentNavIndex = pIndex;
+                            activeSubParentnavIndex = sIndex;
+                        } else subNavItem.active = false;
+                    })
+                }
+            })
+            if (activeParentNavIndex != -1 && activeSubParentnavIndex != -1) {
+                let activeParentNav: NavItemType = navCopy[activeParentNavIndex];
+                let activeSubParentnav: NavItemType = activeParentNav.subNav[activeSubParentnavIndex];
+                breadcrumbArray.push({ key: 1, route: activeParentNav.route, label: activeParentNav.label, subNav: [] })
+                breadcrumbArray.push({ key: 2, route: activeSubParentnav.route, label: activeSubParentnav.label, subNav: activeParentNav.subNav })
+            }
+        } else {
+            let activeNav = navCopy.find((nav: NavItemType) => pathname == `/${nav.route}`);
+            breadcrumbArray = [
+                { key: 1, route: activeNav.route, label: activeNav.label, subNav: [] }
             ]
-            // key: 2, value: 'Sales', label: 'Sales', onClick: (e) => onClickBreadCrumb(e, 3), subPaths: []
-        },
-    ]
+        }
+        return breadcrumbArray;
+    }
+
+    const breadcrumbs = useCallback(() => getBredcrumbs(pathname), [pathname])
 
     const [notifications, setNotifications] = useState([
         { type: "Order", description: "New Order Placed", isReaded: false, status: "success" },
@@ -80,29 +108,23 @@ const HeaderComponent = () => {
         >
             <div className={styles.breadcrumbsWrap}>
                 <Space align='center'>
-                    <Button icon={isCollapsed ? <LuPanelLeftOpen /> : <LuPanelLeftClose />} type='text' style={{ padding: "0", fontSize: "20px" }} onClick={() => dispatch(toggleSidbar(!isCollapsed))} />
-                    <Space >
-                        {bbredcrumbsDummy.map((breadcrumb: BreadcrumbType, i: number) => {
+                    <Button icon={isCollapsed ? <LuPanelLeftOpen /> : <LuPanelLeftClose />} type='dashed' style={{ padding: "0", fontSize: "20px" }} onClick={() => dispatch(toggleSidbar(!isCollapsed))} />
+                    <Space size={0}>
+                        {breadcrumbs().map((breadcrumb: BreadcrumbType, i: number) => {
                             return <Fragment key={i}>
-                                {i != 0 && i !== breadcrumbs.length - 1 && <>{">"}</>}
-                                {breadcrumb.subPaths.length != 0 ? <>
+                                {i != 0 && i !== breadcrumbs.length - 1 && <><TbChevronRight /></>}
+                                {breadcrumb.subNav.length != 0 ? <>
                                     <Dropdown menu={{
-                                        items: breadcrumb.subPaths, onClick: breadcrumb.onClick, selectable: true, defaultSelectedKeys: [`${breadcrumb.subPaths.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active)?.key}`],
+                                        items: breadcrumb.subNav, onClick: (selectedKey) => onClickBreadCrumb(selectedKey, breadcrumb), selectable: true, defaultSelectedKeys: [`${breadcrumb.subNav.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active)?.key || ''}`],
                                     }}>
-                                        <Button type='text'>
-                                            {breadcrumb.subPaths.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active).value}
+                                        <Button style={{ fontSize: 12, border: "unset" }} size='middle' type='default'>
+                                            {breadcrumb.subNav.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active).label}
                                         </Button>
                                     </Dropdown>
-                                    {/* <SelectElement
-                                        isBordered={false}
-                                        styles={{ width: "max-content", fontSize: 100 }}
-                                        value={breadcrumb.subPaths.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active).value}
-                                        onChange={breadcrumb.onClick}
-                                        options={breadcrumb.subPaths} /> */}
                                 </> : <>
                                     <Button
-                                        style={{ padding: "0 10px", fontWeight: 600, fontSize: 14, fontStyle: "" }}
-                                        type='text'
+                                        style={{ fontSize: 12, border: "unset", pointerEvents: "none" }} size='middle'
+                                        type='default'
                                         onClick={i !== (breadcrumbs.length - 1) ? breadcrumb.onClick : () => { }}>
                                         {breadcrumb.label}</Button>
                                 </>}
