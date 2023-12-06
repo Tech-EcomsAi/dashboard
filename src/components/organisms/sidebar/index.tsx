@@ -231,15 +231,15 @@ const SidebarComponent = () => {
                                     onMouseLeave={() => setHoverId('')}
                                     onClick={() => onClickNav(nav, 1, navIndex)}
                                     style={{
-                                        backgroundColor: `${(nav.active) ? token.colorPrimaryBgHover : ((nav.route == hoverId || nav.subNavActive) ? token.colorBgTextHover : token.colorBgBase)}`,
-                                        color: (nav.active) ? token.colorTextLightSolid : ((nav.route == hoverId || nav.subNavActive) ? token.colorPrimaryTextActive : token.colorText),
+                                        backgroundColor: (isActive || nav.subNavActive) ? token.colorPrimaryBorder : (nav.route == hoverId ? token.colorBgTextHover : token.colorBgBase),
+                                        color: (isActive || nav.subNavActive) ? token.colorTextLightSolid : (nav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                         border: token.colorBorder,
                                     }}
                                 >
                                     <div className={styles.navWrap}>
                                         <div className={styles.labelIconWrap}>
                                             <div className={styles.iconWrap} style={{
-                                                color: (isActive) ? token.colorTextLightSolid : (nav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                                color: (isActive || nav.subNavActive) ? token.colorTextLightSolid : (nav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                             }}>
                                                 {nav.icon}
                                             </div>
@@ -289,7 +289,7 @@ const SidebarComponent = () => {
                                                         onMouseLeave={() => setHoverId('')}
                                                         onClick={() => onClickNav(subNav, 2, navIndex, subnavIndex)}
                                                         style={{
-                                                            background: `${(subNav.active) ? token.colorPrimaryBgHover : (subNav.route == hoverId ? token.colorBgTextHover : token.colorBgBase)}`,
+                                                            background: `${(subNav.active) ? token.colorPrimaryBorder : (subNav.route == hoverId ? token.colorBgTextHover : token.colorBgBase)}`,
                                                             color: (subNav.active) ? token.colorTextLightSolid : (subNav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                                             border: token.colorBorder
                                                         }}

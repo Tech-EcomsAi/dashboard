@@ -132,7 +132,7 @@ const AppSettingsPanel = () => {
           <div className={styles.settingsWrap}>
             <TextElement text={'Color Mode'} color={token.colorTextBase} size="medium" />
             <div className={styles.settingsDetails}>
-              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: !isDarkMode ? token.colorPrimary : token.colorBorderSecondary }} onClick={() => toggleDarkModeTheme("light")}>
+              <Button type='text' className={`${styles.setting} ${!isDarkMode ? styles.active : ""}`} style={{ height: "auto" }} onClick={() => toggleDarkModeTheme("light")}>
                 <TextElement text={'Light Mode'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.light}`}>
                   <div className={styles.small}></div>
@@ -140,7 +140,7 @@ const AppSettingsPanel = () => {
                 </div>
                 <SelectedItemCheck active={!isDarkMode} />
               </Button>
-              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: isDarkMode ? token.colorPrimary : token.colorBorderSecondary }} onClick={() => toggleDarkModeTheme("dark")}>
+              <Button type='text' className={`${styles.setting} ${isDarkMode ? styles.active : ""}`} style={{ height: "auto" }} onClick={() => toggleDarkModeTheme("dark")}>
                 <TextElement text={'Dark Mode'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.dark}`}>
                   <div className={styles.small}></div>
@@ -155,7 +155,7 @@ const AppSettingsPanel = () => {
           <div className={styles.settingsWrap}>
             <TextElement text={'Sidebar Layout'} color={token.colorTextBase} size="medium" />
             <div className={styles.settingsDetails}>
-              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: !isCollapsed ? token.colorPrimary : token.colorBorderSecondary }} onClick={isCollapsed ? toggleSidebarState : () => { }}>
+              <Button type='text' className={`${styles.setting} ${!isCollapsed ? styles.active : ""}`} style={{ height: "auto" }} onClick={isCollapsed ? toggleSidebarState : () => { }}>
                 <TextElement text={'Default'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.sidebar} ${styles.default}`} style={{ background: token.colorBgContainer }}>
                   <div className={styles.elementWrap} style={{ background: token.colorBgBase, borderColor: token.colorBorderSecondary }}>
@@ -167,7 +167,7 @@ const AppSettingsPanel = () => {
                 </div>
                 <SelectedItemCheck active={!isCollapsed} />
               </Button>
-              <Button type='text' className={styles.setting} style={{ height: "auto", borderColor: isCollapsed ? token.colorPrimary : token.colorBorderSecondary }} onClick={!isCollapsed ? toggleSidebarState : () => { }}>
+              <Button type='text' className={`${styles.setting} ${isCollapsed ? styles.active : ""}`} style={{ height: "auto" }} onClick={!isCollapsed ? toggleSidebarState : () => { }}>
                 <TextElement text={'Minimized'} color={token.colorTextLabel} />
                 <div className={`${styles.skeletonWrap} ${styles.sidebar} ${styles.minimized}`} style={{ background: token.colorBgContainer }}>
                   <div className={styles.elementWrap} style={{ background: token.colorBgBase, borderColor: token.colorBorderSecondary }}>
