@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { theme } from 'antd';
 import { getDarkModeState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import styles from '@organismsCSS/sidebarComponent/sidebarComponent.module.scss';
@@ -12,11 +12,12 @@ import { MdDarkMode, MdLightMode, MdOutlineCampaign, MdOutlineNavigateNext, MdOu
 import { RiAccountPinCircleLine, RiAppsLine, RiArticleLine } from 'react-icons/ri';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useAppSelector } from '@hook/useAppSelector';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import ClientOnlyProvider from '@providers/clientOnlyProvider';
 import { NAVIGARIONS_ROUTINGS } from '@constant/navigations';
+import { removeObjRef } from '@util/utils';
 
-export type NavItemType = { key?: any, label: string, route: string, icon: any, isChild?: boolean, subNav?: NavItemType[], showSubNav?: boolean, active?: boolean };
+export type NavItemType = { key?: any, label: string, route: string, icon: any, isChild?: boolean, subNav?: NavItemType[], showSubNav?: boolean, active?: boolean, subNavActive?: boolean };
 
 export const DASHBOARD_MENU: NavItemType[] = [
     {
@@ -32,7 +33,7 @@ export const DASHBOARD_MENU: NavItemType[] = [
 
 export const REPORTS_MENU: NavItemType[] = [
     {
-        label: 'Reports', route: NAVIGARIONS_ROUTINGS.REPORTS, icon: <RxDashboard />,
+        label: 'Reports', route: NAVIGARIONS_ROUTINGS.REPORTS, icon: <LuLineChart />,
         subNav: [
             { label: 'Summary', route: NAVIGARIONS_ROUTINGS.REPORTS_SUMMARY, icon: <TbChartPie /> },
             { label: 'Sales', route: NAVIGARIONS_ROUTINGS.REPORTS_SALES, icon: <LuLineChart /> },
@@ -81,6 +82,8 @@ const SidebarComponent = () => {
     const [activeParentNav, setActiveParentNav] = useState<NavItemType>({ label: '', route: '', icon: '', isChild: false })
     const [activeNav, setActiveNav] = useState<NavItemType>({ label: 'Builder', route: 'builder', icon: 'builder', isChild: false });
     const [isHover, setIsHover] = useState(true);
+    const [sidebarMenusList, setSidebarMenusList] = useState(SIDEBAR_NAV_MENUS);
+    const pathname = usePathname()
 
     const ACTION_MENUS: NavItemType[] = [
         { label: 'App Appearance', route: 'dashboard-settings', icon: <MdOutlineSettingsSuggest /> },
@@ -88,30 +91,120 @@ const SidebarComponent = () => {
         { label: 'Raise Support', route: 'dashboard-help', icon: <TbPhoneCalling /> },
     ]
 
-    const onClickNav = (navItem: NavItemType) => {
-        setActiveParentNav({ label: '', route: '', icon: '', isChild: false })
-        if (navItem.subNav) {
-            if (activeParentNav.route == navItem.route && activeParentNav.showSubNav) setActiveParentNav({ ...navItem, showSubNav: false })
-            else setActiveParentNav({ ...navItem, showSubNav: true });
-        } else {
-            switch (navItem.route) {
-                case 'darkMode':
-                    dispatch(toggleDarkMode(!isDarkMode))
-                    break;
-                case 'collapsed':
-                    dispatch(toggleSidbar(!isCollapsed))
-                    break;
-                case 'dashboard-settings':
-                    dispatch(toggleAppSettingsPanel(true))
-                    break;
-                default:
-                    if (!navItem.isChild) setActiveParentNav({ label: '', route: '', icon: '', isChild: false })
-                    setActiveNav(navItem);
-                    router.push(`/${navItem.route}`)
-                    break;
+    useEffect(() => {
+        const menuCopy = [...SIDEBAR_NAV_MENUS];
+        menuCopy.map((nav: NavItemType, index: number) => {
+            //first level nav click
+            nav.showSubNav = false;
+            nav.subNavActive = false;
+            nav.active = false;
+
+            //second level sub nav clicked
+            if (Boolean(nav?.subNav?.length)) {
+                nav.subNav.map((subnav: NavItemType, subIndex: number) => {
+                    subnav.active = false
+                    if (pathname == `/${subnav.route}`) {
+                        nav.showSubNav = true;
+                        subnav.active = true;
+                        nav.subNavActive = true;
+                        setActiveNav(subnav)
+                        setActiveParentNav(nav)
+                    }
+                })
             }
+            if (pathname == `/${nav.route}`) {
+                setActiveNav(nav)
+                nav.active = true;
+            }
+        })
+        setSidebarMenusList(menuCopy)
+    }, [pathname])
+
+
+    const onClickNav = (navItem: NavItemType, menuLevel: number, navIndex: number, subNavIndex: number = -1) => {
+
+        if (menuLevel == 1) {
+            if (Boolean(navItem?.subNav?.length)) {
+                const menuCopy = [...SIDEBAR_NAV_MENUS];
+                menuCopy[navIndex].showSubNav = !menuCopy[navIndex].showSubNav;
+                setSidebarMenusList(menuCopy)
+            } else {
+                router.push(`/${navItem.route}`);
+            }
+        } else {
+            router.push(`/${navItem.route}`);
         }
+
+        // const menuCopy = [...SIDEBAR_NAV_MENUS];
+        // let activeNavCopy: NavItemType = { label: '', route: '', icon: '', isChild: false };
+        // let activeParentNavCopy: NavItemType = { label: '', route: '', icon: '', isChild: false };
+        // menuCopy.map((nav: NavItemType, index: number) => {
+        //     //first level nav click
+        //     nav.showSubNav = false;
+        //     nav.active = false;
+        //     if (activeNav.route == nav.route) nav.active = true;
+
+        //     //if clicked on first level nav
+        //     if (!Boolean(navItem?.subNav?.length) && menuLevel == 1 && subNavIndex != -1) {
+        //         nav.subNavActive = false
+        //     }
+        //     //second level sub nav clicked
+        //     if (Boolean(nav?.subNav?.length)) {
+
+        //         //if clicked on second level nav then all same level subnav should be disabled
+        //         if (menuLevel == 2 && navIndex == index) nav.subNav.map((n) => n.active = false)
+
+        //         nav.subNav.map((subnav: NavItemType, subIndex: number) => {
+        //             //if clicked on single level nav e=then disable all other subnavs
+        //             if (!Boolean(navItem?.subNav?.length) && menuLevel == 1) {
+        //                 nav.subNavActive = false
+        //                 subnav.active = false
+        //             }
+
+        //             //if clicked on second level nav
+        //             if (subIndex == subNavIndex && navIndex == index) {
+        //                 subnav.active = true;
+        //                 activeNavCopy = subnav;
+        //                 activeParentNavCopy = nav;
+        //                 nav.subNavActive = true
+        //                 router.push(`/${subnav.route}`);
+        //             }
+        //         })
+        //     }
+
+
+        //     if (navIndex == index) {
+        //         if (Boolean(nav?.subNav?.length)) {
+        //             nav.showSubNav = true;
+        //         } else {
+        //             nav.active = true;
+        //             router.push(`/${nav.route}`);
+        //             activeNavCopy = nav;
+        //         }
+        //     }
+        // })
+
+        // setActiveNav(activeNavCopy)
+        // setActiveParentNav(activeParentNavCopy)
+        // setSidebarMenusList(menuCopy)
     };
+
+    const onClickActionsMenu = (navItem) => {
+        switch (navItem.route) {
+            case 'darkMode':
+                dispatch(toggleDarkMode(!isDarkMode))
+                break;
+            case 'collapsed':
+                dispatch(toggleSidbar(!isCollapsed))
+                break;
+            case 'dashboard-settings':
+                dispatch(toggleAppSettingsPanel(true))
+                break;
+            default:
+
+                break;
+        }
+    }
 
     return (
         <ClientOnlyProvider>
@@ -122,30 +215,25 @@ const SidebarComponent = () => {
                     onMouseLeave={() => setIsHover(false)}
                     animate={{ width: (!isCollapsed || isHover) ? '200px' : "62px" }}
                     style={{ backgroundColor: token.colorBgBase, color: token.colorTextBase, borderRight: `1px solid ${token.colorBorder}` }}>
+
                     <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "10px" : "2px" }}>
                         <div className={styles.logo}>
-                            {/* <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo_small.png?alt=media&token=d590b12e-ca38-40b0-9ef7-34c6374b8a72" /> */}
                             <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430" />
-                            {/* {isCollapsed ?
-                            <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo_small.png?alt=media&token=d590b12e-ca38-40b0-9ef7-34c6374b8a72" />
-                            :
-                            <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430" />
-                        } */}
                         </div>
                     </div>
+
                     <div className={styles.menuItemsWrap}>
-                        {SIDEBAR_NAV_MENUS.map((nav: NavItemType, i: number) => {
-                            const isActive = nav.route == activeNav.route;
-                            return <Fragment key={i}>
+                        {sidebarMenusList.map((nav: NavItemType, navIndex: number) => {
+                            const isActive = nav.active;
+                            return <Fragment key={navIndex}>
                                 <div className={`${styles.menuItemWrap} ${isActive ? styles.active : ""} ${styles[nav.route]}`}
                                     onMouseEnter={() => setHoverId(nav.route)}
                                     onMouseLeave={() => setHoverId('')}
-                                    onClick={() => onClickNav(nav)}
+                                    onClick={() => onClickNav(nav, 1, navIndex)}
                                     style={{
-                                        backgroundColor: `${(isActive) ? token.colorPrimaryBgHover : ((nav.route == hoverId || nav.route == activeParentNav.route) ? token.colorBgTextHover : token.colorBgBase)}`,
+                                        backgroundColor: `${(nav.active) ? token.colorPrimaryBgHover : ((nav.route == hoverId || nav.subNavActive) ? token.colorBgTextHover : token.colorBgBase)}`,
                                         color: (isActive) ? token.colorTextLightSolid : ((nav.route == hoverId || nav.route == activeParentNav.route) ? token.colorPrimaryTextActive : token.colorText),
                                         border: token.colorBorder,
-                                        // backgroundImage: `radial-gradient( 100% 100% at 0 0, rgb(10 174 145 / 16%) 0, rgb(147 147 217 / 21%) 50%, #09aa8d26 100%)`,
                                     }}
                                 >
                                     <div className={styles.navWrap}>
@@ -172,7 +260,7 @@ const SidebarComponent = () => {
                                                 }}
                                                 transition={{ duration: 0.1 }}
                                                 animate={{
-                                                    rotate: Boolean(activeParentNav.route == nav.route && activeParentNav.subNav && activeParentNav.showSubNav) ? 90 : 0,
+                                                    rotate: Boolean(nav.showSubNav) ? 90 : 0,
                                                 }}>
                                                 <MdOutlineNavigateNext />
                                             </motion.div>}
@@ -186,29 +274,30 @@ const SidebarComponent = () => {
                                     </AnimatePresence>
                                 </div>
                                 <AnimatePresence>
-                                    {Boolean(activeParentNav.route == nav.route && activeParentNav.subNav && activeParentNav.showSubNav && (!isCollapsed || isHover)) && <>
+                                    {Boolean(nav.showSubNav && (!isCollapsed || isHover)) && <>
                                         <motion.div
                                             style={{ width: "100%" }}
                                             initial={{ height: 0, opacity: 0 }}
                                             animate={{ height: 'max-content', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
                                         >
-                                            {nav.subNav?.map((subNav: any, i: number) => {
-                                                return <Fragment key={i}>
-                                                    <div className={`${styles.menuItemWrap} ${styles.subMenuItemWrap} ${subNav.route == activeNav.route ? styles.active : ""}`}
+                                            {nav.subNav?.map((subNav: any, subnavIndex: number) => {
+
+                                                return <Fragment key={subnavIndex}>
+                                                    <div className={`${styles.menuItemWrap} ${styles.subMenuItemWrap} ${subNav.active ? styles.active : ""}`}
                                                         onMouseEnter={() => setHoverId(subNav.route)}
                                                         onMouseLeave={() => setHoverId('')}
-                                                        onClick={() => onClickNav(subNav)}
+                                                        onClick={() => onClickNav(subNav, 2, navIndex, subnavIndex)}
                                                         style={{
-                                                            background: `${(subNav.route == activeNav.route) ? token.colorPrimaryBgHover : (subNav.route == hoverId ? token.colorBgTextHover : token.colorBgBase)}`,
-                                                            color: (subNav.route == activeNav.route) ? token.colorTextLightSolid : (subNav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                                            background: `${(subNav.active) ? token.colorPrimaryBgHover : (subNav.route == hoverId ? token.colorBgTextHover : token.colorBgBase)}`,
+                                                            color: (subNav.active) ? token.colorTextLightSolid : (subNav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                                             border: token.colorBorder
                                                         }}
                                                     >
                                                         <div className={styles.navWrap}>
                                                             <div className={styles.labelIconWrap}>
                                                                 <div className={styles.iconWrap} style={{
-                                                                    color: (subNav.route == activeNav.route) ? token.colorTextLightSolid : (subNav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                                                    color: (subNav.active) ? token.colorTextLightSolid : (subNav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
                                                                 }}>
                                                                     {subNav.icon}
                                                                 </div>
@@ -233,7 +322,7 @@ const SidebarComponent = () => {
                                 <div className={`${styles.menuItemWrap}`}
                                     onMouseEnter={() => setHoverId(nav.route)}
                                     onMouseLeave={() => setHoverId('')}
-                                    onClick={() => onClickNav(nav)}
+                                    onClick={() => onClickActionsMenu(nav)}
                                     style={{
                                         backgroundColor: `${(isActive) ? token.colorPrimaryBgHover : ((nav.route == hoverId || nav.route == activeParentNav.route) ? token.colorBgTextHover : token.colorBgBase)}`,
                                         color: (isActive) ? token.colorTextLightSolid : ((nav.route == hoverId || nav.route == activeParentNav.route) ? token.colorPrimaryTextActive : token.colorText),
