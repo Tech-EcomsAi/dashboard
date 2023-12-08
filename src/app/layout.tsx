@@ -7,13 +7,8 @@ import SessionProvider from '@providers/sessionProvider'
 import { ReduxStoreProvider } from '@providers/reduxProvider'
 import ErrorBoundaryProvider from '@providers/errorBoundaryProvider'
 import "@styles/app.scss";
-import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
-import Navbar from 'src/components/navbar'
-import { redirect } from 'next/navigation'
-import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import { Suspense } from 'react'
 import Loading from './loading'
-import Toast from '@organisms/toast'
 
 const inter = Inter({ subsets: ['latin'] })
 

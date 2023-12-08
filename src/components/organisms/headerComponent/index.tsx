@@ -2,7 +2,7 @@
 import React, { Fragment, Suspense, useCallback, useEffect, useState } from 'react'
 import { Avatar, Badge, Button, Divider, Dropdown, Space, theme } from 'antd';
 import styles from './headerComponent.module.scss'
-import { LuBell, LuLoader, LuMessageSquare, LuPanelLeftClose, LuPanelLeftOpen, LuSearch, LuUser } from 'react-icons/lu';
+import { LuBell, LuHome, LuLoader, LuMessageSquare, LuPanelLeftClose, LuPanelLeftOpen, LuSearch, LuUser } from 'react-icons/lu';
 import { signIn, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import NotificationsModal from '@organisms/headerComponent/notificationsModal';
@@ -11,7 +11,7 @@ import AppActionsModal from './appActionsModal';
 import { TbApps, TbChevronRight } from 'react-icons/tb';
 import AppSearchModal from './appSearchModal';
 import { useAppSelector } from '@hook/useAppSelector';
-import { BreadcrumbSubpathsType, BreadcrumbType, getAppBreadcrumbsState, getHeaderBgBlurState, getHeaderPositionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
+import { BreadcrumbSubpathsType, BreadcrumbType, getHeaderBgBlurState, getHeaderPositionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import TextElement from '@antdComponent/textElement';
 import ProfileActionsModal from './profileActionsModal';
@@ -21,6 +21,7 @@ import { removeObjRef } from '@util/utils';
 import { FaChevronRight } from 'react-icons/fa';
 import { useRouter } from 'next/navigation'
 import { AiOutlineRight } from 'react-icons/ai';
+import { HOME_ROUTING } from '@constant/navigations';
 
 const BadgeRenderer = ({ dotted, count, overflowCount, children }) => {
     return <Badge size="small" dot={dotted} count={count} overflowCount={overflowCount} style={{ top: "3px", right: "8px", background: "red" }}> {children}</Badge>
@@ -72,10 +73,12 @@ const HeaderComponent = () => {
                 breadcrumbArray.push({ key: 2, route: activeSubParentnav.route, label: activeSubParentnav.label, subNav: activeParentNav.subNav })
             }
         } else {
-            let activeNav = navCopy.find((nav: NavItemType) => pathname == `/${nav.route}`);
-            breadcrumbArray = [
-                { key: 1, route: activeNav.route, label: activeNav.label, subNav: [] }
-            ]
+            if (pathname) {
+                let activeNav = navCopy.find((nav: NavItemType) => pathname == `/${nav.route}`);
+                if (activeNav) {
+                    breadcrumbArray = [{ key: 1, route: activeNav.route, label: activeNav.label, subNav: [] }]
+                }
+            }
         }
         return breadcrumbArray;
     }
@@ -109,6 +112,7 @@ const HeaderComponent = () => {
             <div className={styles.breadcrumbsWrap}>
                 <Space align='center'>
                     <Button icon={isCollapsed ? <LuPanelLeftOpen /> : <LuPanelLeftClose />} type='dashed' style={{ padding: "0", fontSize: "20px" }} onClick={() => dispatch(toggleSidbar(!isCollapsed))} />
+                    <Button icon={<LuHome />} type='text' style={{ padding: "0", fontSize: "20px" }} onClick={() => router.push('/')} />
                     <Space size={0}>
                         {breadcrumbs().map((breadcrumb: BreadcrumbType, i: number) => {
                             return <Fragment key={i}>

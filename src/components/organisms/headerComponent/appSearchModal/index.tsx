@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Input, Modal, Space, Typography, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuHeadphones, LuListOrdered, LuListTodo, LuNewspaper, LuUsers, LuX } from 'react-icons/lu'
+import { LuHeadphones, LuHelpingHand, LuListOrdered, LuListTodo, LuNewspaper, LuPhoneCall, LuUsers, LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import { APPS_MENU, DASHBOARD_MENU } from '@organisms/sidebar'
 import styles from './appSearchModal.module.scss'
@@ -10,25 +10,25 @@ import { removeObjRef } from '@util/utils'
 
 const { Search } = Input;
 
-const LIST_MENUS = [
-    { label: 'Orders', keywords: 'orders,transactions', icon: <LuListOrdered /> },
-    { label: 'Appointments', keywords: 'appointments,transactions', icon: <LuListTodo /> },
-    { label: 'Users/CRM', keywords: 'users,customers', icon: <LuUsers /> },
-    { label: 'Payments', keywords: 'payments,transactions', icon: <TbMoneybag /> }
+export const LIST_MENUS = [
+    { label: 'Orders', keywords: 'orders,transactions', icon: <LuListOrdered />, route: "orders" },
+    { label: 'Appointments', keywords: 'appointments,transactions', icon: <LuListTodo />, route: "appointments" },
+    { label: 'Users/CRM', keywords: 'users,customers', icon: <LuUsers />, route: "users" },
+    { label: 'Payments', keywords: 'payments,transactions', icon: <TbMoneybag />, route: "payments" }
 ]
 
-const REACH_US_LINKS = [
-    { label: 'Report issue', keywords: 'issue,contact,about,support', icon: <TbBug /> },
-    { label: 'Help Center', keywords: 'support,contact,about,ecomsai', icon: <LuHeadphones /> },
-    { label: 'Chat with Us', keywords: 'support,contact,about,ecomsai', icon: <TbMessageChatbot /> },
-    { label: 'Documentation', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuNewspaper /> }
+export const REACH_US_LINKS = [
+    { label: 'Report issue', keywords: 'issue,contact,about,support', icon: <TbBug />, route: "raise-issue" },
+    { label: 'Help Center', keywords: 'support,contact,about,ecomsai', icon: <LuHeadphones />, route: "help-center" },
+    { label: 'Chat with Us', keywords: 'support,contact,about,ecomsai', icon: <TbMessageChatbot />, route: "chat-with-us" },
+    { label: 'Documentation', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuNewspaper />, route: "documentation" },
 ]
 
-const SEARCHES_LIST = [
-    { label: 'Dashboards', items: DASHBOARD_MENU[0].subNav },
-    { label: 'Apps', items: APPS_MENU[0].subNav },
-    { label: 'Reports List', items: LIST_MENUS },
-    { label: 'How to Reach Us', items: REACH_US_LINKS }
+export const SEARCHES_LIST = [
+    { label: 'Dashboards', items: DASHBOARD_MENU[0].subNav, icon: DASHBOARD_MENU[0].icon },
+    { label: 'Apps', items: APPS_MENU[0].subNav, icon: APPS_MENU[0].icon },
+    { label: 'Transactions', items: LIST_MENUS, icon: <LuListOrdered /> },
+    { label: 'How to Reach Us', items: REACH_US_LINKS, icon: <LuHelpingHand /> }
 ]
 
 function AppSearchModal({ isModalOpen, onClose, children }) {
@@ -57,7 +57,7 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
         const searchedCategory = [];
         const searchListCopy = [...SEARCHES_LIST];
         searchListCopy.map((category) => {
-            let queryIncludedItems = category.items.filter((i) => (i.label.toLowerCase()).includes(query) || (i.keywords ? (i.keywords?.toLowerCase())?.includes(query) : ""))
+            let queryIncludedItems = category.items.filter((i: any) => (i.label.toLowerCase()).includes(query) || (i.keywords ? (i.keywords?.toLowerCase())?.includes(query) : ""))
             if (queryIncludedItems.length !== 0) {
                 const filteredCat = removeObjRef(category)
                 filteredCat.items = queryIncludedItems;

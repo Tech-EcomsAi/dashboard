@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
             }
         },
         jwt: async ({ token, user, account, profile, isNewUser }: any) => {
-            console.log('*** jwt start ***')
+            // console.log('*** jwt start ***')
             // console.log("Jwt { token, user, account, profile, isNewUser }", { token, user, account, profile, isNewUser })
             // console.log('*** jwt end ***')
 
@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
             if (Boolean(token && token?.email)) {
                 session.user = { ...session.user, ...token.dbUser }
             }
-            console.log("session { token, session, user }", { token, session })
+            // console.log("session { token, session, user }", { token, session })
             return session;
         }
     },

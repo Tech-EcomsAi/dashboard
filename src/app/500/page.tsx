@@ -15,7 +15,7 @@ function NotFound() {
                     status="500"
                     title="500"
                     subTitle="Sorry, something went wrong."
-                    extra={<Button type="primary" onClick={() => router.push(`/${HOME_ROUTING}`)}>Go to dashboard</Button>}
+                    extra={<Button type="primary" onClick={() => router.push(HOME_ROUTING)}>Go to dashboard</Button>}
                 />
             </div>
         </div>

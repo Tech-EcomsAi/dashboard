@@ -1,6 +1,6 @@
-export const HOME_ROUTING = 'builder';
-
 export const NAVIGARIONS_ROUTINGS = {
+    //generic dashboard or home 
+    HOME: '/',
     //Dashboard routings
     DASHBOARDS: 'dashboards',
     DASHBOARDS_SUMMARY: 'dashboards/summary',
@@ -23,7 +23,9 @@ export const NAVIGARIONS_ROUTINGS = {
     REPORTS_USERS: 'reports/users',
     REPORTS_ANALYTICS: 'reports/analytics',
 
-    WEBSITE_BUILDER: 'builder',
+    WEBSITE_BUILDER_DASHBOARD: 'websites/dashboard',
+    WEBSITE_BUILDER_EDITOR: 'websites/editor',
+
     CRM: 'CRM',
     ECCOMERCE: "ecommerce",
     SETTINGS: "settings",
@@ -37,3 +39,5 @@ export const NAVIGARIONS_ROUTINGS = {
     SIGNIN: 'signin',
     FORGOT_PASSWORD: 'forgot-password',
 }
+export const HOME_ROUTING = `/`;
+

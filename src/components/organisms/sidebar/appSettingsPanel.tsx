@@ -19,6 +19,7 @@ const colorsList = {
   light: LIGHT_COLORS,
   dark: DARK_COLORS,
 }
+
 const AppSettingsPanel = () => {
   const { token } = theme.useToken();
   const dispatch = useAppDispatch();

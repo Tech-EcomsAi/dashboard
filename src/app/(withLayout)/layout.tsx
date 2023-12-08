@@ -15,7 +15,6 @@ const WithLayout = async ({ children }) => {
     }
 
     return (
-        // <Loading page="withlayout" />
         <AntdLayoutWrapper>
             {children}
         </AntdLayoutWrapper>

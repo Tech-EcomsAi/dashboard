@@ -1,7 +1,6 @@
 'use client'
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 import React, { useEffect, useState } from "react";
-import styles from '@templatesCSS/loginPage/loginPage.module.scss'
 import { Button, Divider, Form, Input, Space, theme } from "antd";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { EMPTY_ERROR } from "@constant/common";
@@ -14,6 +13,7 @@ import { LuSun } from "react-icons/lu";
 import { useAppSelector } from "@hook/useAppSelector";
 import { getDarkModeState, toggleDarkMode } from "@reduxSlices/clientThemeConfig";
 import { useRouter } from 'next/navigation'
+import styles from './loginPage.module.scss'
 
 const LOGIN_ERRORS = {
   "INVALID_CREAD": "invalid-login-credentials",
@@ -32,7 +32,7 @@ function LoginPage() {
   useEffect(() => {
     if (Boolean(session?.data?.user)) {
       console.log("user found")
-      router.push(`/${HOME_ROUTING}`)
+      router.push(HOME_ROUTING)
     }
   }, [])
 
@@ -58,7 +58,7 @@ function LoginPage() {
         } else {
           //success
           dispatch(showSuccessToast("Perfect! You're signed in successfuly."))
-          router.push(`/${HOME_ROUTING}`)
+          router.push(HOME_ROUTING)
         }
         setIsLoading(false)
       })
@@ -87,7 +87,7 @@ function LoginPage() {
           //success
           debugger
           dispatch(showSuccessToast("Perfect! You're signed in successfuly."))
-          router.push(`/${HOME_ROUTING}`)
+          router.push(HOME_ROUTING)
         }
         debugger
         setIsLoading(false)

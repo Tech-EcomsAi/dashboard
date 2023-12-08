@@ -16,7 +16,7 @@ function MessagesModal({ children, unreadMessages }) {
     }
 
     const viewAllClick = () => {
-        router.push(`/${HOME_ROUTING}`)
+        router.push(HOME_ROUTING)
         // router.push(`/${NAVIGARIONS_ROUTINGS.MESSAGES}`)
     }
 

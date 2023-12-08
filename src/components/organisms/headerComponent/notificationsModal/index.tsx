@@ -16,7 +16,7 @@ function NotificationsModal({ children, notifications }) {
     }
 
     const viewAllClick = () => {
-        router.push(`/${HOME_ROUTING}`)
+        router.push(HOME_ROUTING)
         // router.push(`/${NAVIGARIONS_ROUTINGS.NOTIFICATIONS}`)
     }
 

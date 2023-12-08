@@ -51,7 +51,7 @@ export const AVAILABLE_LANGUAGES: any = [
 
 export const DEFAULT_LIGHT_COLOR = '#002864';
 export const DEFAULT_DARK_COLOR = '#00C9A7';
-export const DARK_COLORS = ['#bd83b8', '#66a8cf', '#F1916D', '#f5d7db', '#00C9A7', '#116D6E', '#D4ADFC', '#F4EEE0', '#B6EADA', '#E9A6A6'];
-export const LIGHT_COLORS = ['#cb2b83', '#bd83b8', '#1d1a39', '#26425a', '#451952', '#1b3358', '#072e33', '#F1916D', '#0C134F', '#363062', '#610C9F', '#E19898'];
+export const DARK_COLORS = ['#00bfff', '#bd83b8', '#66a8cf', '#F1916D', '#f5d7db', '#00C9A7', '#116D6E', '#D4ADFC', '#F4EEE0', '#B6EADA', '#E9A6A6'];
+export const LIGHT_COLORS = ['#00bfff', '#cb2b83', '#bd83b8', '#1d1a39', '#26425a', '#451952', '#1b3358', '#072e33', '#F1916D', '#0C134F', '#363062', '#610C9F', '#E19898'];
 export const NEON_COLORS = ['#79E0EE', '#FFB84C', '#FF55BB', '#F6F1E9', '#F0FF42', '#060047'];
 export const PASTEL_COLORS = ['#C4DFDF', '#F5F0BB', '#ACB1D6', '#DDFFBB', '#B9F3E4'];

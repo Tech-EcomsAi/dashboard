@@ -37,7 +37,7 @@ function ForgotPasswordPage() {
     useEffect(() => {
         if (Boolean(session?.data?.user)) {
             console.log("user found")
-            redirect(`/${HOME_ROUTING}`)
+            redirect(HOME_ROUTING)
         }
     }, [])
 

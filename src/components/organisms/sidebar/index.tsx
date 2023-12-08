@@ -35,7 +35,7 @@ export const REPORTS_MENU: NavItemType[] = [
     {
         label: 'Reports', route: NAVIGARIONS_ROUTINGS.REPORTS, icon: <LuLineChart />,
         subNav: [
-            { label: 'Cumulative', route: NAVIGARIONS_ROUTINGS.REPORTS_SUMMARY, icon: <TbChartPie /> },
+            { label: 'Summary', route: NAVIGARIONS_ROUTINGS.REPORTS_SUMMARY, icon: <TbChartPie /> },
             { label: 'Sales', route: NAVIGARIONS_ROUTINGS.REPORTS_SALES, icon: <LuLineChart /> },
             { label: 'Users', route: NAVIGARIONS_ROUTINGS.REPORTS_USERS, icon: <TbUsers /> },
             { label: 'Analytics', route: NAVIGARIONS_ROUTINGS.REPORTS_ANALYTICS, icon: <IoAnalyticsSharp /> },
@@ -59,7 +59,7 @@ export const APPS_MENU: NavItemType[] = [
 
 export const SIDEBAR_NAV_MENUS: NavItemType[] = [
     ...DASHBOARD_MENU,
-    { label: 'Builder', route: NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER, icon: <LuLayoutDashboard /> },
+    { label: 'Websites', route: NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD, icon: <LuLayoutDashboard /> },
     ...REPORTS_MENU,
     ...APPS_MENU,
     { label: 'Profile', route: NAVIGARIONS_ROUTINGS.LOGGEDIN_PROFILE, icon: <RiAccountPinCircleLine /> },

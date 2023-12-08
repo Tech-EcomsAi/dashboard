@@ -28,14 +28,14 @@ function NotFound() {
             <div className={styles.info}>
                 <h2>We can't find that page</h2>
                 <p>We're fairly sure that page used to be here, but seems to have gone missing. We do apologise on it's behalf.</p>
-                <Button size='large' type="primary" onClick={() => router.push(`/${HOME_ROUTING}`)}>Go to dashboard</Button>
+                <Button size='large' type="primary" onClick={() => router.push(HOME_ROUTING)}>Go to dashboard</Button>
             </div>
             {/* <div className={styles.contentWrap}>
                 <Result
                     status="404"
                     title="404"
                     subTitle="Sorry, the page you visited does not exist."
-                    extra={<Button type="primary" onClick={() => router.push(`/${HOME_ROUTING}`)}>Go to dashboard</Button>}
+                    extra={<Button type="primary" onClick={() => router.push(HOME_ROUTING)}>Go to dashboard</Button>}
                 />
             </div> */}
         </div>

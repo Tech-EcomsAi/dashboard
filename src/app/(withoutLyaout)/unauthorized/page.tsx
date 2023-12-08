@@ -3,7 +3,7 @@ import React, { Suspense } from 'react'
 import styles from "../../404/notfound.module.css";
 import { Button } from 'antd';
 import { useRouter } from 'next/navigation';
-import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations';
+import { NAVIGARIONS_ROUTINGS } from '@constant/navigations';
 import { LOGO_LARGE } from '@constant/common';
 
 function UnAuthorized() {
@@ -29,14 +29,6 @@ function UnAuthorized() {
                 <p>If you're supposed to have access, please make sure you're logged in with the correct account. For further assistance, reach out to our support team.</p>
                 <Button size='large' type="primary" onClick={() => router.push(`/${NAVIGARIONS_ROUTINGS.SIGNIN}`)}>Sign-in with different email</Button>
             </div>
-            {/* <div className={styles.contentWrap}>
-                <Result
-                    status="404"
-                    title="404"
-                    subTitle="Sorry, the page you visited does not exist."
-                    extra={<Button type="primary" onClick={() => router.push(`/${HOME_ROUTING}`)}>Go to dashboard</Button>}
-                />
-            </div> */}
         </div>
     )
 }
