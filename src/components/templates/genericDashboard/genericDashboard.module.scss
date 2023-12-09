@@ -91,6 +91,9 @@
       .serachResultsWrap {
         border-radius: 4px;
       }
+      .groupWrap {
+        justify-content: center;
+      }
       .navGroup {
         //   padding-left: 80px;
         .navGroupName {
@@ -211,9 +214,14 @@
         font-size: 14px;
       }
     }
-    .searchGroupWrap {
-      .searchWrap {
-        width: 100% !important;
+    .contentWrap {
+      .searchGroupWrap {
+        .searchWrap {
+          width: 100% !important;
+        }
+        .groupWrap {
+          justify-content: flex-start;
+        }
       }
     }
   }

@@ -1,4 +1,3 @@
-import { NavItemType, SIDEBAR_NAV_MENUS } from '@organisms/sidebar';
 import { BreadcrumbSubpathsType, BreadcrumbType, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import { removeObjRef } from '@util/utils';
 import { Button, Divider, Dropdown, MenuProps, Space, Typography, theme } from 'antd';
@@ -10,7 +9,7 @@ import styles from '../headerComponent.module.scss'
 import { useAppSelector } from '@hook/useAppSelector';
 import { LuPanelLeftOpen, LuPanelLeftClose, LuHome, LuChevronDown } from 'react-icons/lu';
 import { useAppDispatch } from '@hook/useAppDispatch';
-import { NAVIGARIONS_ROUTINGS } from '@constant/navigations';
+import { NAVIGARIONS_ROUTINGS, NavItemType, SIDEBAR_NAV_MENUS } from '@constant/navigations';
 import { RxSlash } from 'react-icons/rx';
 const { Text } = Typography;
 
@@ -57,7 +56,7 @@ function AppBreadcrumb() {
                         key: nav.key,
                         // active: nav.active,
                         label: nav.label,
-                        icon: nav.icon,
+                        icon: <nav.icon style={{ fontSize: 15 }} />,
                         route: nav.route,
                     })
                     //if subnav selected then subnav key set to parents key for displaying on dropdown label
@@ -66,7 +65,7 @@ function AppBreadcrumb() {
             }
             breadcrumbArray.push({ key: activeParentNav.key, route: activeParentNav.route, label: activeParentNav.label, subNav: subNavEle.length ? subNavEle : [] })
         } // else 404 page
-        return breadcrumbArray;
+        return [...breadcrumbArray];
     }
 
     const breadcrumbs = useCallback(() => getBredcrumbs(pathname), [pathname])

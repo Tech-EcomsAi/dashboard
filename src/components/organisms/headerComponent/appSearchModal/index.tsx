@@ -1,35 +1,13 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Input, Modal, Space, Typography, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuHeadphones, LuHelpingHand, LuListOrdered, LuListTodo, LuNewspaper, LuPhoneCall, LuUsers, LuX } from 'react-icons/lu'
+import { LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
-import { APPS_MENU, DASHBOARD_MENU } from '@organisms/sidebar'
 import styles from './appSearchModal.module.scss'
-import { TbBug, TbMessageChatbot, TbMoneybag } from 'react-icons/tb'
 import { removeObjRef } from '@util/utils'
+import { SEARCHES_LIST } from '@constant/navigations'
 
 const { Search } = Input;
-
-export const LIST_MENUS = [
-    { label: 'Orders', keywords: 'orders,transactions', icon: <LuListOrdered />, route: "orders" },
-    { label: 'Appointments', keywords: 'appointments,transactions', icon: <LuListTodo />, route: "appointments" },
-    { label: 'Users/CRM', keywords: 'users,customers', icon: <LuUsers />, route: "users" },
-    { label: 'Payments', keywords: 'payments,transactions', icon: <TbMoneybag />, route: "payments" }
-]
-
-export const REACH_US_LINKS = [
-    { label: 'Raise issue', keywords: 'issue,contact,about,support', icon: <TbBug />, route: "raise-issue" },
-    { label: 'Help Center', keywords: 'support,contact,about,ecomsai', icon: <LuHeadphones />, route: "help-center" },
-    { label: 'Contact Us', keywords: 'support,contact,about,ecomsai', icon: <TbMessageChatbot />, route: "chat-with-us" },
-    { label: 'Documentation', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuNewspaper />, route: "documentation" },
-]
-
-export const SEARCHES_LIST = [
-    { label: 'Dashboards', items: DASHBOARD_MENU[0].subNav, icon: DASHBOARD_MENU[0].icon },
-    { label: 'Apps', items: APPS_MENU[0].subNav, icon: APPS_MENU[0].icon },
-    { label: 'Transactions', items: LIST_MENUS, icon: <LuListOrdered /> },
-    { label: 'How to Reach Us', items: REACH_US_LINKS, icon: <LuHelpingHand /> }
-]
 
 function AppSearchModal({ isModalOpen, onClose, children }) {
     const { token } = theme.useToken();
@@ -88,7 +66,7 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
                             <TextElement text={searchCategory.label} color={token.colorTextDescription} size={"medium"} styles={{ paddingLeft: "20px" }} />
                             <div className={`${styles.menuItemsWrap}`}>
                                 {searchCategory.items.map((nav, i) => {
-                                    return <Button size='large' type='text' key={i} icon={nav.icon}>{nav.label}</Button>
+                                    return <Button size='large' type='text' key={i} icon={<nav.icon style={{ fontSize: 20 }} />}>{nav.label}</Button>
                                 })}
                             </div>
                         </Space>

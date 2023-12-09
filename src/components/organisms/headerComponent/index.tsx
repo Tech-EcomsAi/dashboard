@@ -16,7 +16,6 @@ import { useAppDispatch } from '@hook/useAppDispatch';
 import TextElement from '@antdComponent/textElement';
 import ProfileActionsModal from './profileActionsModal';
 import { usePathname } from 'next/navigation';
-import { NavItemType, SIDEBAR_NAV_MENUS } from '@organisms/sidebar';
 import { removeObjRef } from '@util/utils';
 import { FaChevronRight } from 'react-icons/fa';
 import { useRouter } from 'next/navigation'

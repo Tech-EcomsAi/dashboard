@@ -1,16 +1,14 @@
 'use client'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import styles from './genericDashboard.module.scss';
-import { Button, Card, Input, Popconfirm, Space, Typography, theme } from 'antd';
+import { Button, Card, Space, theme } from 'antd';
 import { useRouter } from 'next/navigation'
-import { LuCloudSun, LuHeartHandshake, LuHelpingHand, LuListOrdered, LuPhoneCall, LuReplace, LuShare2, LuStar, LuSun, LuUser } from 'react-icons/lu';
+import { LuCloudSun, LuHeartHandshake, LuHelpingHand, LuListOrdered, LuReplace, LuShare2, LuStar, LuSun, LuUser } from 'react-icons/lu';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
 import { useAppSelector } from '@hook/useAppSelector';
-import { APPS_MENU, DASHBOARD_MENU, NavItemType, REPORTS_MENU } from '@organisms/sidebar';
-import { LIST_MENUS, REACH_US_LINKS, SEARCHES_LIST } from '@organisms/headerComponent/appSearchModal';
-import TextElement from '@antdComponent/textElement';
 import SearchComponent from './searchComponent';
+import { APPS_MENU, DASHBOARD_MENU, REPORTS_MENU, NavItemType, LIST_MENUS, REACH_US_LINKS } from '@constant/navigations';
 
 function GenericDashboard() {
     const { token } = theme.useToken();
@@ -18,23 +16,27 @@ function GenericDashboard() {
     const dispatch = useAppDispatch()
     const isDarkMode = useAppSelector(getDarkModeState)
 
+    const getIcon = (icon: any) => {
+        const ICON_COMPONENT = icon;
+        return <ICON_COMPONENT />
+    }
+
     const ABOUT_US_LINKS = [
         ...REACH_US_LINKS,
-        { label: 'Suggest Feature', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuReplace />, route: "documentation" },
-        { label: 'Feedback', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuStar />, route: "documentation" },
-        { label: 'About us', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuUser />, route: "documentation" },
-        { label: 'Privacy & Terms', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuHelpingHand />, route: "documentation" },
-        { label: 'Share Us', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuShare2 />, route: "documentation" },
+        { label: 'Suggest Feature', keywords: 'documentation,contact,about,ecomsai,support', icon: LuReplace, route: "documentation" },
+        { label: 'Feedback', keywords: 'documentation,contact,about,ecomsai,support', icon: LuStar, route: "documentation" },
+        { label: 'About us', keywords: 'documentation,contact,about,ecomsai,support', icon: LuUser, route: "documentation" },
+        { label: 'Privacy & Terms', keywords: 'documentation,contact,about,ecomsai,support', icon: LuHelpingHand, route: "documentation" },
+        { label: 'Share Us', keywords: 'documentation,contact,about,ecomsai,support', icon: LuShare2, route: "documentation" },
     ]
 
     const MENU_LIST = [
+        { label: 'Apps', items: APPS_MENU[0].subNav, icon: APPS_MENU[0].icon },
+        { label: 'Transactions', items: LIST_MENUS, icon: LuListOrdered },
         { label: 'Dashboards', items: DASHBOARD_MENU[0].subNav, icon: DASHBOARD_MENU[0].icon },
         { label: 'Reports', items: REPORTS_MENU[0].subNav, icon: REPORTS_MENU[0].icon },
-        { label: 'Apps', items: APPS_MENU[0].subNav, icon: APPS_MENU[0].icon },
-        { label: 'Transactions', items: LIST_MENUS, icon: <LuListOrdered /> },
-        { label: 'How to Reach Us', items: ABOUT_US_LINKS, icon: <LuHeartHandshake /> }
+        { label: 'How to Reach Us', items: ABOUT_US_LINKS, icon: LuHeartHandshake },
     ]
-
 
     return (
         <div className={styles.genericDashboardWrap}
@@ -72,14 +74,15 @@ function GenericDashboard() {
                 <Space className={styles.contentWrap} size={20} align='center'>
                     <div className={styles.searchGroupWrap}>
                         <SearchComponent />
-                        <Space className={styles.groupWrap} align='center' wrap style={{ justifyContent: "center" }} size={15}>
+                        <Space className={styles.groupWrap} wrap size={15}>
 
-                            {MENU_LIST.map((groupDetails: any) => {
-                                return <Card className={styles.navGroup} bordered>
+                            {MENU_LIST.map((groupDetails: any, gIndex: number) => {
+                                const GroupIconComponent = groupDetails.icon;
+                                return <Card className={styles.navGroup} bordered key={gIndex}>
                                     <Space direction='vertical' size={10}>
                                         <Space className={styles.navGroupName} style={{ color: token.colorPrimaryBorder }}>
                                             <div className={styles.groupIcon}>
-                                                {groupDetails.icon}
+                                                {<GroupIconComponent />}
                                             </div>
                                             <div className={styles.groupName} style={{ color: token.colorTextBase }}>
                                                 {groupDetails.label}
@@ -87,8 +90,9 @@ function GenericDashboard() {
                                         </Space>
                                         <Space className={styles.navItems} wrap>
                                             {groupDetails.items.map((nav: NavItemType, i: number) => {
+                                                const IconComponent = nav.icon;
                                                 return <Fragment key={i}>
-                                                    <Button size='large' icon={nav.icon} onClick={() => router.push(nav.route)}>{nav.label}</Button>
+                                                    <Button size='large' icon={<IconComponent />} onClick={() => router.push(nav.route)}>{nav.label}</Button>
                                                 </Fragment>
                                             })}
                                         </Space>
