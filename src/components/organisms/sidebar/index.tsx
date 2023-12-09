@@ -10,6 +10,7 @@ import { useAppSelector } from '@hook/useAppSelector';
 import { usePathname, useRouter } from 'next/navigation';
 import ClientOnlyProvider from '@providers/clientOnlyProvider';
 import { NAVIGARIONS_ROUTINGS, NavItemType, SIDEBAR_NAV_MENUS } from '@constant/navigations';
+import { LOGO, LOGO_LARGE } from '@constant/common';
 
 const SidebarComponent = () => {
     const dispatch = useAppDispatch();
@@ -115,7 +116,7 @@ const SidebarComponent = () => {
 
                     <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "10px" : "2px" }}>
                         <div className={styles.logo}>
-                            <img src="https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430" />
+                            <img src={LOGO_LARGE} />
                         </div>
                     </div>
 

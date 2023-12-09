@@ -1,6 +1,6 @@
 import { BreadcrumbSubpathsType, BreadcrumbType, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
 import { removeObjRef } from '@util/utils';
-import { Button, Divider, Dropdown, MenuProps, Space, Typography, theme } from 'antd';
+import { Button, Divider, Dropdown, MenuProps, Space, Tooltip, Typography, theme } from 'antd';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import React, { Fragment, useCallback } from 'react'
@@ -63,7 +63,7 @@ function AppBreadcrumb() {
                     if (nav.active) activeParentNav.key = nav.key;
                 })
             }
-            breadcrumbArray.push({ key: activeParentNav.key, route: activeParentNav.route, label: activeParentNav.label, subNav: subNavEle.length ? subNavEle : [] })
+            breadcrumbArray.push({ key: activeParentNav.key, icon: activeParentNav.icon, route: activeParentNav.route, label: activeParentNav.label, subNav: subNavEle.length ? subNavEle : [] })
         } // else 404 page
         return [...breadcrumbArray];
     }
@@ -75,14 +75,28 @@ function AppBreadcrumb() {
         <Fragment>
             <div className={styles.breadcrumbsWrap}>
                 <Space align='center'>
-                    <Button icon={isCollapsed ? <LuPanelLeftOpen /> : <LuPanelLeftClose />} type='text' style={{ padding: "0", fontSize: "20px" }} onClick={() => dispatch(toggleSidbar(!isCollapsed))} />
+                    <Tooltip title={`${isCollapsed ? "Expand sidebar navigation" : "Collapse sidebar navigation"}`}>
+                        <Button icon={isCollapsed ? <LuPanelLeftOpen /> : <LuPanelLeftClose />} type='text' style={{ padding: "0", fontSize: "20px" }} onClick={() => dispatch(toggleSidbar(!isCollapsed))} />
+                    </Tooltip>
+
                     <Divider type='vertical' plain style={{ height: "32px", margin: "0", borderInlineStartWidth: "2px", top: "2px", }} />
-                    <Button icon={<LuHome />} type='text' style={{ padding: "0", fontSize: "20px" }} onClick={() => router.push('/')} />
+
+                    <Tooltip title="Go to your main home page">
+                        <Button icon={<LuHome />} type='text' style={{ padding: "0", fontSize: "20px" }} onClick={() => router.push('/')} />
+                    </Tooltip>
+
                     <Divider type='vertical' plain style={{ height: "32px", margin: "0", borderInlineStartWidth: "2px", top: "2px", }} />
+
                     <Space align='center' size={0}>
                         {breadcrumbs().map((breadcrumb: BreadcrumbType, i: number) => {
+                            const activeSubNav = breadcrumb.subNav ? breadcrumb.subNav.find((subBreadcrumb: BreadcrumbSubpathsType) => breadcrumb.key == subBreadcrumb.key) : null;
                             return <Fragment key={i}>
-                                <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorFillContent }}>{breadcrumb.label}</Text>
+                                <Tooltip title={`Currently you're on ${breadcrumb.label} page`}>
+                                    <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorFillContent }}>
+                                        <breadcrumb.icon />
+                                        {breadcrumb.label}
+                                    </Text>
+                                </Tooltip>
                                 {breadcrumb.subNav.length != 0 && <>
                                     <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorBgBase, padding: "0 5px" }}>/</Text>
                                     <Dropdown menu={{
@@ -92,7 +106,8 @@ function AppBreadcrumb() {
                                         defaultSelectedKeys: [`${breadcrumb.key.toString()}`],
                                     }}>
                                         <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorFillContent, cursor: "pointer" }}>
-                                            {breadcrumb.subNav.find((subBreadcrumb: BreadcrumbSubpathsType) => breadcrumb.key == subBreadcrumb.key)?.label || ''} <LuChevronDown />
+                                            {/* {activeSubNav.icon}  */}
+                                            {activeSubNav?.label || ''} <LuChevronDown />
                                         </Text>
                                     </Dropdown>
                                 </>}

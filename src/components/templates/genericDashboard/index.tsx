@@ -8,7 +8,7 @@ import { useAppDispatch } from '@hook/useAppDispatch';
 import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
 import { useAppSelector } from '@hook/useAppSelector';
 import SearchComponent from './searchComponent';
-import { APPS_MENU, DASHBOARD_MENU, REPORTS_MENU, NavItemType, LIST_MENUS, REACH_US_LINKS } from '@constant/navigations';
+import { APPS_MENU, DASHBOARD_MENU, REPORTS_MENU, NavItemType, LIST_MENUS, REACH_US_LINKS, NAVIGARIONS_ROUTINGS } from '@constant/navigations';
 
 function GenericDashboard() {
     const { token } = theme.useToken();
@@ -71,9 +71,11 @@ function GenericDashboard() {
                     </h4>
                 </div>
                 {/* content */}
+
                 <Space className={styles.contentWrap} size={20} align='center'>
                     <div className={styles.searchGroupWrap}>
                         <SearchComponent />
+                        <Button onClick={() => router.push(NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD)} >Your Websites Dashboard</Button>
                         <Space className={styles.groupWrap} wrap size={15}>
 
                             {MENU_LIST.map((groupDetails: any, gIndex: number) => {
@@ -101,8 +103,6 @@ function GenericDashboard() {
                             })}
                         </Space>
                     </div>
-
-                    {/* <Button onClick={() => router.push(HOME_ROUTING)} >Builder</Button> */}
                 </Space>
             </Space>
         </div>

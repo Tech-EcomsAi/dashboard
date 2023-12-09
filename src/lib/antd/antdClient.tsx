@@ -10,6 +10,17 @@ const AntdClient = ({ children }: any) => {
     const lightThemeColor = useAppSelector(getLightColorState)
     const darkThemeColor = useAppSelector(getDarkColorState)
     const { token } = theme.useToken();
+    console.log(`
+  
+  ᴾʳᵉˢᵉⁿᵗⁱⁿᵍ ʸᵒᵘ...
+
+
+                 🇪‌🇨‌🇴‌🇲‌🇸‌🇦‌🇮‌          
+    💜  🇹‌🇭‌🇪‌ 🇪‌🇻‌🇪‌🇷‌🇾‌🇹‌🇭‌🇮‌🇳‌🇬‌ 🇦‌🇵‌🇵‌  💜   
+
+
+
+  `)
     return (
         <>
             <ConfigProvider

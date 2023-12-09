@@ -56,10 +56,10 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
                 allowClear
                 size="large"
                 status={inputStatus || ""}
-                style={{ width: "660px" }}
+                style={{ width: "100%" }}
                 loading={isLoading} />
             <TextElement size={"medium"} text={'Quick Navigations Link'} color={token.colorPrimary} styles={{ margin: "20px 0 10px", display: "block" }} />
-            <div className={styles.appSearchActions}>
+            <Space wrap direction='horizontal' align='start'>
                 {filteredSearches.length != 0 ? <>
                     {filteredSearches.map((searchCategory, i) => {
                         return <Space size={"small"} direction='vertical' style={{ margin: "10px 0" }} key={i}>
@@ -76,7 +76,7 @@ function AppSearchModal({ isModalOpen, onClose, children }) {
                         <Text style={{ fontSize: "15px", width: "100%", letterSpacing: "0.2px" }} type='secondary'>No Results for <Text style={{ fontSize: "17px", width: "100%" }} strong >{searchQuery}</Text></Text>
                     </Space>
                 </>}
-            </div>
+            </Space>
         </Space>
     }
 

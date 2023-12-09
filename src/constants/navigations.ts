@@ -1,6 +1,6 @@
 
 import { LuCalendarCheck, LuHeadphones, LuHelpingHand, LuLayoutDashboard, LuLineChart, LuListOrdered, LuListTodo, LuMail, LuMessageSquare, LuNewspaper, LuSettings, LuShoppingCart, LuUsers } from 'react-icons/lu';
-import { TbBug, TbChartPie, TbDeviceMobileShare, TbHelpCircle, TbMessageChatbot, TbMoneybag, TbUsers } from 'react-icons/tb';
+import { TbBug, TbChartPie, TbDeviceMobileShare, TbWorldBolt, TbHelpCircle, TbMessageChatbot, TbMoneybag, TbUsers } from 'react-icons/tb';
 import { MdOutlineCampaign } from 'react-icons/md';
 import { RxDashboard } from 'react-icons/rx';
 import { BsPeople } from 'react-icons/bs';
@@ -93,7 +93,7 @@ export const APPS_MENU: NavItemType[] = [
 export const SIDEBAR_NAV_MENUS: NavItemType[] = [
     ...DASHBOARD_MENU,
     {
-        label: 'Websites', route: NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD, icon: LuLayoutDashboard
+        label: 'Website', route: NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD, icon: TbWorldBolt
     },
     ...REPORTS_MENU,
     ...APPS_MENU,
