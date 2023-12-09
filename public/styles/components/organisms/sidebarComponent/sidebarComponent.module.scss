@@ -55,6 +55,7 @@
       border-radius: 4px;
       z-index: 1;
       cursor: pointer;
+      position: relative;
       @include transition;
       .navWrap {
         display: flex;
@@ -98,7 +99,6 @@
       }
       &.active {
         font-weight: 600;
-        position: relative;
       }
       .activeMark {
         content: "";

@@ -22,6 +22,7 @@ import { FaChevronRight } from 'react-icons/fa';
 import { useRouter } from 'next/navigation'
 import { AiOutlineRight } from 'react-icons/ai';
 import { HOME_ROUTING } from '@constant/navigations';
+import AppBreadcrumb from './appBreadcrumb/appBreadcrumb';
 
 const BadgeRenderer = ({ dotted, count, overflowCount, children }) => {
     return <Badge size="small" dot={dotted} count={count} overflowCount={overflowCount} style={{ top: "3px", right: "8px", background: "red" }}> {children}</Badge>
@@ -39,51 +40,7 @@ const HeaderComponent = () => {
     const showDateInHeader = useAppSelector(getShowDateInHeaderState);
     const showUserDetailsInHeader = useAppSelector(getShowUserDetailsInHeaderState);
     const dispatch = useAppDispatch();
-    const pathname = usePathname();
     const router = useRouter();
-
-    const onClickBreadCrumb = (selectedKey, parentNav: any) => {
-        const newNav: NavItemType = parentNav.subNav.find((nav: NavItemType) => nav.key == selectedKey.key);
-        router.replace(newNav.route.split('/')[1])
-    }
-
-    const getBredcrumbs = (pathname) => {
-        let breadcrumbArray: any = [];
-        const navCopy = removeObjRef(SIDEBAR_NAV_MENUS)
-        if (pathname.split("/").length > 2) { //reports/sales
-            let activeParentNavIndex = -1;
-            let activeSubParentnavIndex = -1;
-            navCopy.map((navItem: NavItemType, pIndex: number) => {
-                if (navItem.subNav) {
-                    navItem.subNav.map((subNavItem: any, sIndex) => {
-                        delete subNavItem.icon;
-                        subNavItem.key = `${pIndex}${sIndex}`
-                        if (pathname == `/${subNavItem.route}`) {
-                            subNavItem.active = true;
-                            activeParentNavIndex = pIndex;
-                            activeSubParentnavIndex = sIndex;
-                        } else subNavItem.active = false;
-                    })
-                }
-            })
-            if (activeParentNavIndex != -1 && activeSubParentnavIndex != -1) {
-                let activeParentNav: NavItemType = navCopy[activeParentNavIndex];
-                let activeSubParentnav: NavItemType = activeParentNav.subNav[activeSubParentnavIndex];
-                breadcrumbArray.push({ key: 1, route: activeParentNav.route, label: activeParentNav.label, subNav: [] })
-                breadcrumbArray.push({ key: 2, route: activeSubParentnav.route, label: activeSubParentnav.label, subNav: activeParentNav.subNav })
-            }
-        } else {
-            if (pathname) {
-                let activeNav = navCopy.find((nav: NavItemType) => pathname == `/${nav.route}`);
-                if (activeNav) {
-                    breadcrumbArray = [{ key: 1, route: activeNav.route, label: activeNav.label, subNav: [] }]
-                }
-            }
-        }
-        return breadcrumbArray;
-    }
-
-    const breadcrumbs = useCallback(() => getBredcrumbs(pathname), [pathname])
 
     const [notifications, setNotifications] = useState([
         { type: "Order", description: "New Order Placed", isReaded: false, status: "success" },
@@ -109,34 +66,7 @@ const HeaderComponent = () => {
                 backdropFilter: headerBgBlured ? "blur(20px)" : "none"
             }}
         >
-            <div className={styles.breadcrumbsWrap}>
-                <Space align='center'>
-                    <Button icon={isCollapsed ? <LuPanelLeftOpen /> : <LuPanelLeftClose />} type='dashed' style={{ padding: "0", fontSize: "20px" }} onClick={() => dispatch(toggleSidbar(!isCollapsed))} />
-                    <Button icon={<LuHome />} type='text' style={{ padding: "0", fontSize: "20px" }} onClick={() => router.push('/')} />
-                    <Space size={0}>
-                        {breadcrumbs().map((breadcrumb: BreadcrumbType, i: number) => {
-                            return <Fragment key={i}>
-                                {i != 0 && i !== breadcrumbs.length - 1 && <><TbChevronRight /></>}
-                                {breadcrumb.subNav.length != 0 ? <>
-                                    <Dropdown menu={{
-                                        items: breadcrumb.subNav, onClick: (selectedKey) => onClickBreadCrumb(selectedKey, breadcrumb), selectable: true, defaultSelectedKeys: [`${breadcrumb.subNav.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active)?.key || ''}`],
-                                    }}>
-                                        <Button style={{ fontSize: 12, border: "unset" }} size='middle' type='default'>
-                                            {breadcrumb.subNav.find((breadcrumb: BreadcrumbSubpathsType) => breadcrumb.active).label}
-                                        </Button>
-                                    </Dropdown>
-                                </> : <>
-                                    <Button
-                                        style={{ fontSize: 12, border: "unset", pointerEvents: "none" }} size='middle'
-                                        type='default'
-                                        onClick={i !== (breadcrumbs.length - 1) ? breadcrumb.onClick : () => { }}>
-                                        {breadcrumb.label}</Button>
-                                </>}
-                            </Fragment>
-                        })}
-                    </Space>
-                </Space>
-            </div>
+            <AppBreadcrumb />
             <div className={styles.rightActionsWrap}>
                 <div className={styles.actionsWrap}>
                     <Button type="text" icon={<LuSearch />} onClick={() => setShowSearchModal(!showSearchModal)} />

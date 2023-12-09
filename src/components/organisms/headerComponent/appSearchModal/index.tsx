@@ -18,9 +18,9 @@ export const LIST_MENUS = [
 ]
 
 export const REACH_US_LINKS = [
-    { label: 'Report issue', keywords: 'issue,contact,about,support', icon: <TbBug />, route: "raise-issue" },
+    { label: 'Raise issue', keywords: 'issue,contact,about,support', icon: <TbBug />, route: "raise-issue" },
     { label: 'Help Center', keywords: 'support,contact,about,ecomsai', icon: <LuHeadphones />, route: "help-center" },
-    { label: 'Chat with Us', keywords: 'support,contact,about,ecomsai', icon: <TbMessageChatbot />, route: "chat-with-us" },
+    { label: 'Contact Us', keywords: 'support,contact,about,ecomsai', icon: <TbMessageChatbot />, route: "chat-with-us" },
     { label: 'Documentation', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuNewspaper />, route: "documentation" },
 ]
 

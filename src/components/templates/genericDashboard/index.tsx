@@ -3,7 +3,7 @@ import React, { Fragment, useState } from 'react'
 import styles from './genericDashboard.module.scss';
 import { Button, Card, Input, Popconfirm, Space, Typography, theme } from 'antd';
 import { useRouter } from 'next/navigation'
-import { LuCloudSun, LuHeartHandshake, LuHelpingHand, LuListOrdered, LuPhoneCall, LuShare2, LuStar, LuSun, LuUser } from 'react-icons/lu';
+import { LuCloudSun, LuHeartHandshake, LuHelpingHand, LuListOrdered, LuPhoneCall, LuReplace, LuShare2, LuStar, LuSun, LuUser } from 'react-icons/lu';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
 import { useAppSelector } from '@hook/useAppSelector';
@@ -20,11 +20,11 @@ function GenericDashboard() {
 
     const ABOUT_US_LINKS = [
         ...REACH_US_LINKS,
-        { label: 'Call Us', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuPhoneCall />, route: "documentation" },
-        { label: 'About us', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuUser />, route: "documentation" },
+        { label: 'Suggest Feature', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuReplace />, route: "documentation" },
         { label: 'Feedback', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuStar />, route: "documentation" },
+        { label: 'About us', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuUser />, route: "documentation" },
         { label: 'Privacy & Terms', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuHelpingHand />, route: "documentation" },
-        { label: 'Share & Refer Us', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuShare2 />, route: "documentation" },
+        { label: 'Share Us', keywords: 'documentation,contact,about,ecomsai,support', icon: <LuShare2 />, route: "documentation" },
     ]
 
     const MENU_LIST = [

@@ -1,13 +1,14 @@
 import React, { Fragment, useState } from 'react'
 import { Button, Card, Divider, Popconfirm, Space, message, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCalendarPlus, LuCheckCircle, LuImagePlus, LuPlus, LuSettings, LuSettings2, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
+import { LuActivity, LuAlarmPlus, LuBanknote, LuCalendar, LuCalendarPlus, LuCheckCircle, LuCloudSun, LuImagePlus, LuPlus, LuSettings, LuSettings2, LuSun, LuUser, LuUserPlus, LuX } from 'react-icons/lu'
 import { useRouter } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import styles from './appActionsModal.module.scss'
 import IconButton from '@antdComponent/iconButton'
 import { useAppDispatch } from '@hook/useAppDispatch'
-import { toggleAppSettingsPanel } from '@reduxSlices/clientThemeConfig'
+import { getDarkModeState, toggleAppSettingsPanel, toggleDarkMode } from '@reduxSlices/clientThemeConfig'
+import { useAppSelector } from '@hook/useAppSelector'
 
 function AppActionsModal({ children }) {
     const [isLoading, setIsLoading] = useState(false)
@@ -15,9 +16,11 @@ function AppActionsModal({ children }) {
     const router = useRouter();
     const [hoverId, setHoverId] = useState(null)
     const dispatch = useAppDispatch()
+    const isDarkMode = useAppSelector(getDarkModeState);
 
     const ACTIONS_LIST = [
         { title: "My Profile", icon: <LuUser />, onClick: () => { } },
+        { title: isDarkMode ? "Light Mode" : "Dark Mode", icon: isDarkMode ? <LuSun /> : <LuCloudSun />, onClick: () => dispatch(toggleDarkMode(!isDarkMode)) },
         { title: "Image Editor", icon: <LuImagePlus />, onClick: () => { } },
         { title: "Appearance", icon: <LuSettings2 />, onClick: () => dispatch(toggleAppSettingsPanel(true)) },
         { title: "Add User", icon: <LuUserPlus />, onClick: () => { } },
@@ -39,7 +42,7 @@ function AppActionsModal({ children }) {
     const onClickAction = (action) => {
         action.onClick();
         handleClose()
-        message.open({ content: `${action.title} clicked` })
+        // message.open({ content: `${action.title} clicked` })
     }
 
     const renderTitle = () => {

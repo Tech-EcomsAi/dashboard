@@ -16,6 +16,23 @@
   @include transition;
   .breadcrumbsWrap {
     @include flexStart;
+    .saperator {
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
+    }
+    .bradcrumbLabel {
+      padding: 7px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+    }
   }
   .rightActionsWrap {
     display: flex;

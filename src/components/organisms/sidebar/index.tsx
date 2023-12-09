@@ -93,6 +93,7 @@ const SidebarComponent = () => {
 
     useEffect(() => {
         const menuCopy = [...SIDEBAR_NAV_MENUS];
+        let currentNav;
         menuCopy.map((nav: NavItemType, index: number) => {
             //first level nav click
             nav.showSubNav = false;
@@ -107,16 +108,26 @@ const SidebarComponent = () => {
                         nav.showSubNav = true;
                         subnav.active = true;
                         nav.subNavActive = true;
-                        setActiveNav(subnav)
+                        currentNav = subnav;
                         setActiveParentNav(nav)
                     }
                 })
             }
             if (pathname == `/${nav.route}`) {
-                setActiveNav(nav)
+                currentNav = nav;
                 nav.active = true;
             }
         })
+
+        if (!currentNav) {
+            if (`/${NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD}` == pathname || `/${NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_EDITOR}` == pathname) {
+                currentNav = { route: NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD, label: 'Websites' };
+                let websiteNavIndex = menuCopy.findIndex((nav) => nav.route == NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD);
+                menuCopy[websiteNavIndex].active = true;
+            }
+        }
+
+        currentNav && setActiveNav(currentNav);
         setSidebarMenusList(menuCopy)
     }, [pathname])
 
@@ -231,15 +242,15 @@ const SidebarComponent = () => {
                                     onMouseLeave={() => setHoverId('')}
                                     onClick={() => onClickNav(nav, 1, navIndex)}
                                     style={{
-                                        backgroundColor: (isActive || nav.subNavActive) ? token.colorPrimaryBorder : (nav.route == hoverId ? token.colorBgTextHover : token.colorBgBase),
-                                        color: (isActive || nav.subNavActive) ? token.colorTextLightSolid : (nav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                        backgroundColor: (isActive) ? token.colorPrimaryBorder : (nav.route == hoverId || nav.subNavActive ? token.colorBgTextHover : token.colorBgBase),
+                                        color: (isActive) ? token.colorTextLightSolid : (nav.route == hoverId || nav.subNavActive ? token.colorPrimaryTextActive : token.colorText),
                                         border: token.colorBorder,
                                     }}
                                 >
                                     <div className={styles.navWrap}>
                                         <div className={styles.labelIconWrap}>
                                             <div className={styles.iconWrap} style={{
-                                                color: (isActive || nav.subNavActive) ? token.colorTextLightSolid : (nav.route == hoverId ? token.colorPrimaryTextActive : token.colorText),
+                                                color: (isActive) ? token.colorTextLightSolid : (nav.route == hoverId || nav.subNavActive ? token.colorPrimaryTextActive : token.colorText),
                                             }}>
                                                 {nav.icon}
                                             </div>
@@ -265,8 +276,10 @@ const SidebarComponent = () => {
                                                 <MdOutlineNavigateNext />
                                             </motion.div>}
                                     </div>
+
+                                    {/* sidebar collapsed active mark strip */}
                                     <AnimatePresence>
-                                        {(isActive && isCollapsed && !isHover) && <motion.div
+                                        {((isActive || nav.subNavActive) && isCollapsed && !isHover) && <motion.div
                                             initial={{ height: "100%", opacity: 0 }}
                                             animate={{ height: '100%', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
