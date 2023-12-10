@@ -28,7 +28,7 @@ $color-error: #ff003d;
   --primary-text-color: black;
   --primary-heading-color: #042953;
 
-  --primary-font: "poppins-regular";
+  --primary-font: var(--font-inter);
   --atlantika: "atlantika";
   --bringHeart: "bringHeart";
   --mvboli: "mvboli";

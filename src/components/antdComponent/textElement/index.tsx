@@ -16,7 +16,7 @@ function TextElement({ text, color = "", size = "small", styles = {} }: TextElem
     let fontSize = 14;
     let fontWeight = 400;
     let textColor = color || token.colorTextBase;
-    let fontFamily = "poppins-regular";
+    // let fontFamily = "poppins-regular";
     switch (size) {
         case "small":
             fontSize = 12;
@@ -28,7 +28,7 @@ function TextElement({ text, color = "", size = "small", styles = {} }: TextElem
             fontSize = 13;
             fontWeight = 600;
             textColor = token.colorTextBase;
-            fontFamily = "poppins-regular"
+            // fontFamily = "poppins-regular"
             break;
         case "large":
             fontSize = 14;
@@ -51,7 +51,7 @@ function TextElement({ text, color = "", size = "small", styles = {} }: TextElem
                 letterSpacing: 0.2,
                 width: "100%",
                 marginBottom: "10px",
-                fontFamily,
+                // fontFamily,
                 ...styles
             }}>
             {text}

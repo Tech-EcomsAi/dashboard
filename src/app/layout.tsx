@@ -9,8 +9,17 @@ import ErrorBoundaryProvider from '@providers/errorBoundaryProvider'
 import "@styles/app.scss";
 import { Suspense } from 'react'
 import Loading from './loading'
+import { Poppins } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: '100'
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+})
 
 // export const metadata: Metadata = {
 // title: 'Ecoms Ai',
@@ -46,7 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await getServerSession(authOptions);
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.variable} font-sans`}>
         <ErrorBoundaryProvider>
           <ReduxStoreProvider>
             <SessionProvider session={session}>

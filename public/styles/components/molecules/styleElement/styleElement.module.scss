@@ -18,7 +18,7 @@
   }
   .label {
     font-size: 13px;
-    font-family: var(--f-Regular);
+    font-family: var(--primary-font);
     letter-spacing: 0.2px;
     margin-bottom: 8px;
     font-weight: 800;
@@ -33,7 +33,7 @@
   }
   .styleWrap {
     .label {
-      font-family: var(--f-Regular);
+      font-family: var(--primary-font);
       font-weight: 100;
       // color: var(--lightest-navy);
     }
