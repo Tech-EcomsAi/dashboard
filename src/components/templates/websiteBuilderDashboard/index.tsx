@@ -3,13 +3,13 @@ import React, { Fragment } from 'react'
 import styles from './websiteBuilderDashboard.module.scss';
 import { Button, Card, Space, theme } from 'antd';
 import { LuFileStack, LuFileText, LuFileVideo2, LuFlower2, LuFootprints, LuMoreVertical, LuPlus } from 'react-icons/lu';
-import { LOGO_ANIMATED, LOGO_LARGE } from '@constant/common';
+import { LOGO_ANIMATED, LOGO_LARGE, LOGO_SMALL } from '@constant/common';
 import { hexToRgbA } from '@util/utils';
 import TemplateRenderer from './templateRenderer';
 import ActionIconButton from '@antdComponent/iconButton/actionIconButton';
 const { Meta } = Card;
 
-type TEMPLATE_DETAILS_TYPE = {
+export type TEMPLATE_DETAILS_TYPE = {
     id: string,
     title: string,
     description?: string,
@@ -20,7 +20,10 @@ type TEMPLATE_DETAILS_TYPE = {
     sharedWith: any,
     createdBy: any,
     publicUrl: string,
-    templateId: string
+    templateId: string,
+    isNew: boolean,
+    isTrending: boolean,
+    isForYou: boolean,
 }
 
 type TEMPLATE_SECTION = {
@@ -43,18 +46,39 @@ const Dummy_templates_list: TEMPLATE_DETAILS_TYPE[] = [
         sharedWith: [],
         createdBy: { id: 123, name: "Yamnse" },
         publicUrl: "https://minimals.cc/dashboard/user",
-        templateId: ''
+        templateId: '',
+        isNew: true,
+        isTrending: true,
+        isForYou: true,
     }, {
         id: '1234',
         title: "My second site",
         thumbnail: LOGO_LARGE,
         createdOn: "",
-        isPublished: true,
+        isPublished: false,
         isDeleted: false,
         sharedWith: [],
         createdBy: { id: 123, name: "Danny" },
         publicUrl: "https://minimals.cc/dashboard/user",
-        templateId: '1726'
+        templateId: '1726',
+        isNew: true,
+        isTrending: false,
+        isForYou: false,
+    },
+    {
+        id: '12345',
+        title: "My second site",
+        thumbnail: LOGO_SMALL,
+        createdOn: "",
+        isPublished: false,
+        isDeleted: false,
+        sharedWith: [],
+        createdBy: { id: 123, name: "Danny" },
+        publicUrl: "https://minimals.cc/dashboard/user",
+        templateId: '1726',
+        isNew: false,
+        isTrending: false,
+        isForYou: true,
     }
 ]
 
@@ -82,7 +106,7 @@ const getStartedContentRenderer = (icon) => {
 
 const templateSectionRenderer = (sectionDetails: TEMPLATE_SECTION) => {
     return <Card key={sectionDetails.key} className={styles.templatesGroup} title={sectionDetails.title} extra={<Button>View All</Button>}>
-        <Space className={styles.templatesList} wrap align='start' size={20}>
+        <Space className={styles.templatesList} align='start' size={20}>
             {sectionDetails.templatesList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
                 return <TemplateRenderer templateDetails={templateDetails} isPlatformTemplate={true} />
             })}
@@ -94,11 +118,11 @@ function WebsiteBuilderDashboard() {
     const { token } = theme.useToken();
     return (
         <Space className={styles.websiteBuilderDashboardWrap} direction='vertical'>
-
             <Card className={styles.templatesGroup} title="Get Started">
-                <Space className={styles.templatesList} wrap align='start'>
+                <Space className={`${styles.templatesList} ${styles.infoCardBodyWrap}`} wrap align='start'>
                     {INFO_CARDS_LIST.map((cardDetails: any) => {
-                        return <Card key={cardDetails.key} className={styles.infoCardBody}
+                        return <Card key={cardDetails.key}
+                            className={styles.infoCardBody}
                             bordered hoverable
                             bodyStyle={{
                                 padding: "10px 20px 10px 10px",
@@ -122,15 +146,20 @@ function WebsiteBuilderDashboard() {
             </Card>
 
             <Card className={styles.templatesGroup} title="Your Creations">
-                <Space className={styles.templatesList} align='start' size={20}>
+                <Space className={`${styles.templatesList} ${styles.customeTemplates}`} align='start' size={20}>
                     <Card bordered hoverable
-                        style={{ width: 200, minHeight: 200 }}
+                        bodyStyle={{ padding: 14 }}
+                        style={{
+                            width: 200,
+                            minHeight: 200,
+                            borderColor: token.colorBorder,
+                            background: token.colorBgBase
+                        }}
                         cover={<>
                             <Space style={{ width: "100%", height: 200, display: "flex", justifyContent: "center" }} align='center'>
                                 <Button type='dashed' size='large' icon={<LuPlus style={{ fontSize: 20 }} />} />
                             </Space>
-                        </>}
-                    >
+                        </>}>
                         <Meta
                             title="Create New Blank"
                             description="Create your own design using our predesigned templates"

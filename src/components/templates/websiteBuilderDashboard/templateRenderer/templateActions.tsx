@@ -1,7 +1,7 @@
 import ActionIconButton from '@antdComponent/iconButton/actionIconButton';
 import { Tooltip, Space, Button, Popconfirm, message, Dropdown } from 'antd';
 import React, { Fragment } from 'react'
-import { LuEye, LuPenSquare, LuMoreHorizontal, LuUserPlus, LuCopy, LuDelete, LuStar, LuTrash, LuHeart, LuExternalLink } from 'react-icons/lu';
+import { LuEye, LuPenSquare, LuMoreHorizontal, LuUserPlus, LuCopy, LuDelete, LuStar, LuTrash, LuHeart, LuExternalLink, LuGlobe } from 'react-icons/lu';
 
 type TEMPLATE_ACTION = {
     key: "preview" | "edit" | "more" | "favorite" | "use";
@@ -23,6 +23,7 @@ const USER_TEMPLATES_ACTIONS: TEMPLATE_ACTION[] = [
 
 const MORE_ACTIONS = [
     { key: 'edit', label: "Edit/Clone template", icon: <ActionIconButton icon={LuCopy} /> },
+    { key: 'publish', label: "Make it Live/ Publish", icon: <Button icon={<LuGlobe style={{ color: 'green', fontSize: 15 }} />} type='text' /> },
     { key: 'Delete', label: "Delete template", icon: <ActionIconButton icon={LuTrash} /> },
     { key: 'collaborators', label: "Add Collaborators", icon: <ActionIconButton icon={LuUserPlus} /> },
 ]

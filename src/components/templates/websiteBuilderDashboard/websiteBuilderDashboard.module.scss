@@ -9,6 +9,12 @@
       justify-content: space-between;
     }
     .templatesList {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: nowrap;
+      overflow: auto;
+      position: relative;
       .infoCardBody {
         animation: 20s ease 0s infinite normal none running glow;
         background-size: 10px 10px !important;
@@ -23,6 +29,32 @@
         @include flexCenter;
         // padding: 30px 0 20px;
         min-height: 230px;
+      }
+      .templateDetailsWrap {
+        .cardCoverWrap {
+          @include flexCenter;
+          padding: 1px;
+          min-height: 250px;
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+      }
+      &.customeTemplates {
+        > div {
+          &:first-child {
+            position: sticky;
+            left: 0;
+            // box-shadow: 1px 3px 11px -3px rgba(54, 55, 56, 0.4352941176);
+            top: 0;
+            z-index: 1;
+            border-radius: 4px;
+          }
+        }
+      }
+      &.infoCardBodyWrap {
+        overflow: unset;
       }
     }
   }
