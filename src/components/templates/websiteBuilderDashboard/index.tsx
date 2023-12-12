@@ -1,86 +1,16 @@
 'use client'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import styles from './websiteBuilderDashboard.module.scss';
-import { Button, Card, Space, theme } from 'antd';
-import { LuFileStack, LuFileText, LuFileVideo2, LuFlower2, LuFootprints, LuMoreVertical, LuPlus } from 'react-icons/lu';
-import { LOGO_ANIMATED, LOGO_LARGE, LOGO_SMALL } from '@constant/common';
+import { Button, Card, Space, message, theme } from 'antd';
+import { LuFileStack, LuFileText, LuFileVideo2, LuFlower2, LuFootprints, LuPlus } from 'react-icons/lu';
 import { hexToRgbA } from '@util/utils';
 import TemplateRenderer from './templateRenderer';
 import ActionIconButton from '@antdComponent/iconButton/actionIconButton';
+import { TEMPLATE_DETAILS_TYPE, TEMPLATE_SECTION } from './templateConstants';
+import TemplateCreationModal from './templateCreationModal';
+import ViewAllTemplatesModal from './viewAllTemplatesModal';
+import TempTemplateList from 'src/data/templates';
 const { Meta } = Card;
-
-export type TEMPLATE_DETAILS_TYPE = {
-    id: string,
-    title: string,
-    description?: string,
-    thumbnail: any,
-    createdOn: any,
-    isPublished: boolean,
-    isDeleted: boolean,
-    sharedWith: any,
-    createdBy: any,
-    publicUrl: string,
-    templateId: string,
-    isNew: boolean,
-    isTrending: boolean,
-    isForYou: boolean,
-}
-
-type TEMPLATE_SECTION = {
-    key: string;
-    title: string;
-    icon: React.JSX.Element;
-    description: string;
-    templatesList: TEMPLATE_DETAILS_TYPE[];
-}
-
-
-const Dummy_templates_list: TEMPLATE_DETAILS_TYPE[] = [
-    {
-        id: '123',
-        title: "My first site",
-        thumbnail: LOGO_ANIMATED,
-        createdOn: "",
-        isPublished: true,
-        isDeleted: false,
-        sharedWith: [],
-        createdBy: { id: 123, name: "Yamnse" },
-        publicUrl: "https://minimals.cc/dashboard/user",
-        templateId: '',
-        isNew: true,
-        isTrending: true,
-        isForYou: true,
-    }, {
-        id: '1234',
-        title: "My second site",
-        thumbnail: LOGO_LARGE,
-        createdOn: "",
-        isPublished: false,
-        isDeleted: false,
-        sharedWith: [],
-        createdBy: { id: 123, name: "Danny" },
-        publicUrl: "https://minimals.cc/dashboard/user",
-        templateId: '1726',
-        isNew: true,
-        isTrending: false,
-        isForYou: false,
-    },
-    {
-        id: '12345',
-        title: "My second site",
-        thumbnail: LOGO_SMALL,
-        createdOn: "",
-        isPublished: false,
-        isDeleted: false,
-        sharedWith: [],
-        createdBy: { id: 123, name: "Danny" },
-        publicUrl: "https://minimals.cc/dashboard/user",
-        templateId: '1726',
-        isNew: false,
-        isTrending: false,
-        isForYou: true,
-    }
-]
 
 const INFO_CARDS_LIST = [
     { key: 1, title: "Start the App Tour", icon: LuFootprints, colors: ['#C4DFDF', '#F5F0BB'], description: "Start the App Tour" },
@@ -91,9 +21,9 @@ const INFO_CARDS_LIST = [
 ]
 
 const TEMPLATES_SECTIONS: TEMPLATE_SECTION[] = [
-    { key: 'trending', title: "Trending templates", icon: <LuFootprints />, description: "Start the App Tour", templatesList: Dummy_templates_list },
-    { key: 'new', title: "New templates", icon: <LuFootprints />, description: "Start the App Tour", templatesList: Dummy_templates_list },
-    { key: 'foryou', title: "Made for you", icon: <LuFootprints />, description: "Start the App Tour", templatesList: Dummy_templates_list },
+    { key: 'isTrending', title: "Trending templates", icon: <LuFootprints />, description: "Start the App Tour", templatesList: TempTemplateList.filter((t) => t['isTrending']) },
+    { key: 'isNew', title: "New templates", icon: <LuFootprints />, description: "Start the App Tour", templatesList: TempTemplateList.filter((t) => t['isNew']) },
+    { key: 'isForYou', title: "Made for you", icon: <LuFootprints />, description: "Start the App Tour", templatesList: TempTemplateList.filter((t) => t['isForYou']) },
 ]
 
 const getStartedContentRenderer = (icon) => {
@@ -104,18 +34,30 @@ const getStartedContentRenderer = (icon) => {
     </Fragment >
 }
 
-const templateSectionRenderer = (sectionDetails: TEMPLATE_SECTION) => {
-    return <Card key={sectionDetails.key} className={styles.templatesGroup} title={sectionDetails.title} extra={<Button>View All</Button>}>
-        <Space className={styles.templatesList} align='start' size={20}>
-            {sectionDetails.templatesList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
-                return <TemplateRenderer templateDetails={templateDetails} isPlatformTemplate={true} />
-            })}
-        </Space>
-    </Card>
-}
-
 function WebsiteBuilderDashboard() {
     const { token } = theme.useToken();
+    const [showCreationModal, setShowCreationModal] = useState(false);
+    const [showViewAllTemplateModal, setShowViewAllTemplateModal] = useState(false);
+
+    const onCreateNewTemplate = () => {
+        setShowCreationModal(true)
+    }
+
+    const handleModalResponse = () => {
+        message.open({ content: "Cretaion modal closed" })
+        setShowCreationModal(false)
+    }
+
+    const templateSectionRenderer = (sectionDetails: TEMPLATE_SECTION) => {
+        return <Card key={sectionDetails.key} className={styles.templatesGroup} title={sectionDetails.title} extra={<Button onClick={() => setShowViewAllTemplateModal(true)}>View All</Button>}>
+            <Space className={styles.templatesList} align='start' size={20}>
+                {sectionDetails.templatesList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
+                    return <TemplateRenderer templateDetails={templateDetails} />
+                })}
+            </Space>
+        </Card>
+    }
+
     return (
         <Space className={styles.websiteBuilderDashboardWrap} direction='vertical'>
             <Card className={styles.templatesGroup} title="Get Started">
@@ -123,14 +65,13 @@ function WebsiteBuilderDashboard() {
                     {INFO_CARDS_LIST.map((cardDetails: any) => {
                         return <Card key={cardDetails.key}
                             className={styles.infoCardBody}
-                            bordered hoverable
+                            bordered
+                            hoverable
                             bodyStyle={{
                                 padding: "10px 20px 10px 10px",
                                 background: `linear-gradient(86deg, ${hexToRgbA(cardDetails.colors[0], 0.2)} 0%,${hexToRgbA(cardDetails.colors[1], 0.3)} 100%)`
                             }}
                             style={{
-                                position: "relative",
-                                overflow: "hidden",
                                 background: token.colorBgBase,
                                 backgroundImage: `radial-gradient(circle at 10px 10px, ${token.colorTextDisabled} 1px, transparent 0)`,
                             }}
@@ -151,29 +92,39 @@ function WebsiteBuilderDashboard() {
                         bodyStyle={{ padding: 14 }}
                         style={{
                             width: 200,
-                            minHeight: 200,
+                            minHeight: 350,
                             borderColor: token.colorBorder,
                             background: token.colorBgBase
                         }}
                         cover={<>
-                            <Space style={{ width: "100%", height: 200, display: "flex", justifyContent: "center" }} align='center'>
+                            <Space style={{ width: "100%", height: 350, display: "flex", padding: 10, justifyContent: "center" }} direction='vertical' align='center' wrap>
                                 <Button type='dashed' size='large' icon={<LuPlus style={{ fontSize: 20 }} />} />
+                                Create your own template
                             </Space>
-                        </>}>
-                        <Meta
+                        </>}
+                        onClick={onCreateNewTemplate}
+                    >
+                        {/* <Meta
                             title="Create New Blank"
                             description="Create your own design using our predesigned templates"
-                        />
+                        /> */}
                     </Card>
-                    {Dummy_templates_list.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
-                        return <TemplateRenderer templateDetails={templateDetails} isPlatformTemplate={false} />
+                    {TempTemplateList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
+                        return <TemplateRenderer templateDetails={templateDetails} />
                     })}
                 </Space>
             </Card>
 
+            {/* platform templates  */}
             {TEMPLATES_SECTIONS.map((sectionDetails: TEMPLATE_SECTION) => {
                 return templateSectionRenderer(sectionDetails)
             })}
+
+            {/* template creation modal */}
+            <TemplateCreationModal setShowViewAllTemplateModal={setShowViewAllTemplateModal} showModal={showCreationModal} handleModalResponse={handleModalResponse} />
+            {/* template list modal */}
+            <ViewAllTemplatesModal templateList={TempTemplateList} showModal={showViewAllTemplateModal} handleModalResponse={() => setShowViewAllTemplateModal(false)} />
+
         </Space>
     )
 }

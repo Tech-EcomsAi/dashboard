@@ -666,7 +666,11 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                 open={Boolean(showWAPreviewModal)}
                 onCancel={() => setShowWAPreviewModal(false)}
                 onOk={() => window.open(qrConfig.value, "_blank")}
-                maskStyle={{ backdropFilter: 'blur(6px)' }}
+                styles={{
+                    mask: {
+                        backdropFilter: 'blur(6px)'
+                    }
+                }}
                 className={styles.modalWrap}
                 closeIcon={<AiOutlineClose />}
                 width={'max-content'}
@@ -693,7 +697,11 @@ function QrCode({ canvas, updateLocalCanvas, activeObjectsState, workspace }) {
                 open={Boolean(showQRPreviewModal)}
                 onCancel={() => setShowQRPreviewModal(false)}
                 onOk={() => window.open(qrConfig.value, "_blank")}
-                maskStyle={{ backdropFilter: 'blur(6px)' }}
+                styles={{
+                    mask: {
+                        backdropFilter: 'blur(6px)'
+                    }
+                }}
                 className={styles.modalWrap}
                 closeIcon={<AiOutlineClose />}
                 width={'max-content'}

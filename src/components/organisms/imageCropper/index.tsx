@@ -113,7 +113,11 @@ function ImageCropper({ modalData, onSave, onCancel, onReplaceImage }) {
             destroyOnClose
             title="Crop selected image"
             open={Boolean(modalData.active)}
-            maskStyle={{ backdropFilter: 'blur(6px)' }}
+            styles={{
+                mask: {
+                    backdropFilter: 'blur(6px)'
+                }
+            }}
             className={styles.cropperModal}
             closeIcon={<AiOutlineClose />}
             width={'max-content'}

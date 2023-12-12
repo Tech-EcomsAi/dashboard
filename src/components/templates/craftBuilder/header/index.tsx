@@ -382,7 +382,7 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
                 title="Final image preview"
                 open={Boolean(previewUrl)}
                 onCancel={() => setPreviewUrl('')}
-                maskStyle={{ backdropFilter: 'blur(6px)' }}
+
                 footer={null}
                 className={styles.modalWrap}
                 closeIcon={<AiOutlineClose />}
@@ -399,7 +399,11 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
                 title="Share your creativity"
                 open={Boolean(shareModal.active)}
                 onCancel={() => setShareModal({ ...shareModalEmptyObj, active: false })}
-                maskStyle={{ backdropFilter: 'blur(6px)' }}
+                styles={{
+                    mask: {
+                        backdropFilter: 'blur(6px)'
+                    }
+                }}
                 closeIcon={<AiOutlineClose />}
                 width={'max-content'}
                 onOk={() => onShare(shareModal)}
@@ -442,7 +446,11 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
                 title="Sizes Options:"
                 open={Boolean(openSizeModal)}
                 onCancel={() => setOpenSizeModal(false)}
-                maskStyle={{ backdropFilter: 'blur(3px)' }}
+                styles={{
+                    mask: {
+                        backdropFilter: 'blur(6px)'
+                    }
+                }}
                 footer={null}
                 width={'max-content'}
                 className={styles.modalWrap}
@@ -511,7 +519,11 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
                 title="Download Options:"
                 open={Boolean(openDownloadModal)}
                 onCancel={() => setOpenDownloadModal('')}
-                maskStyle={{ backdropFilter: 'blur(3px)' }}
+                styles={{
+                    mask: {
+                        backdropFilter: 'blur(6px)'
+                    }
+                }}
                 footer={null}
                 className={styles.modalWrap}
                 closeIcon={<AiOutlineClose />}
