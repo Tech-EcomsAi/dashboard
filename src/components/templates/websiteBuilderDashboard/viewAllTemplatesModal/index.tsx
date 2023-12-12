@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styles from './viewAllTemplatesModal.module.scss'
 import { Button, Card, FloatButton, Modal, Space } from 'antd'
 import { LuX } from 'react-icons/lu'
@@ -37,7 +37,7 @@ function ViewAllTemplatesModal({ templateList, showModal, handleModalResponse, f
                 </Card> */}
                 <Space className={WrapperStyles.templatesList} align='start' wrap size={20}>
                     {templateList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
-                        return <TemplateRenderer templateDetails={templateDetails} />
+                        return <Fragment key={templateDetails.id}><TemplateRenderer templateDetails={templateDetails} /></Fragment>
                     })}
                 </Space>
             </div>

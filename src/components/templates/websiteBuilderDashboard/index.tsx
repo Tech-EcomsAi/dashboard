@@ -52,7 +52,7 @@ function WebsiteBuilderDashboard() {
         return <Card key={sectionDetails.key} className={styles.templatesGroup} title={sectionDetails.title} extra={<Button onClick={() => setShowViewAllTemplateModal(true)}>View All</Button>}>
             <Space className={styles.templatesList} align='start' size={20}>
                 {sectionDetails.templatesList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
-                    return <TemplateRenderer templateDetails={templateDetails} />
+                    return <Fragment key={templateDetails.id}><TemplateRenderer templateDetails={templateDetails} /></Fragment>
                 })}
             </Space>
         </Card>
@@ -110,7 +110,7 @@ function WebsiteBuilderDashboard() {
                         /> */}
                     </Card>
                     {TempTemplateList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
-                        return <TemplateRenderer templateDetails={templateDetails} />
+                        return <Fragment key={templateDetails.id}><TemplateRenderer templateDetails={templateDetails} /></Fragment>
                     })}
                 </Space>
             </Card>

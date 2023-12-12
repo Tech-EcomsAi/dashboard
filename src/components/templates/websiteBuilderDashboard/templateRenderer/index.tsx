@@ -69,11 +69,11 @@ function TemplateRenderer({ templateDetails }: { templateDetails: TEMPLATE_DETAI
                         description={<Space direction='vertical' >{templateDetails.tagline}</Space>}
                     />
                     {tagsList().length != 0 && <Space wrap align='start' size={5}>
-                        {tagsList().map((tag) => <>{tag}</>)}
+                        {tagsList().map((tag) => <Fragment key={tag}>{tag}</Fragment>)}
                     </Space>}
                 </Space>
             </Card>
-            <TemplatePreviewModal showModal={showTemplatePreviewModal.active} handleModalResponse={handleModalResponse} templateDetails={templateDetails} />
+            {showTemplatePreviewModal.active && <TemplatePreviewModal showModal={showTemplatePreviewModal.active} handleModalResponse={handleModalResponse} templateDetails={templateDetails} />}
         </>
     )
 }
