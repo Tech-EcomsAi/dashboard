@@ -1,10 +1,21 @@
-import { TEMPLATE_DETAILS_TYPE } from "@template/websiteBuilderDashboard/templateConstants";
+import { TEMPLATE_CATEGORY, TEMPLATE_DETAILS_TYPE } from "@template/websiteBuilderDashboard/templateConstants";
 
+
+export const TEMPLATE_CATEGORIES: TEMPLATE_CATEGORY[] = [
+    { id: 'all', title: "All", icon: "", active: true },
+    { id: '1', title: "Ecommerce", icon: "", active: true },
+    { id: '2', title: "Langing Pages", icon: "", active: true },
+    { id: '3', title: "Agency", icon: "", active: true },
+    { id: '4', title: "Mini", icon: "", active: true },
+    { id: '5', title: "Personal Brand", icon: "", active: true },
+]
 const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
     {
         id: '1',
         title: "Valaam",
+        categoryId: '1',
         tagline: "AI Website",
+        keywords: "AI Website",
         thumbnail: 'https://framerusercontent.com/images/Y9bOnPwMQdItxF5ixTjNTjkhi4A.jpg?scale-down-to=1024',
         images: [
             'https://framerusercontent.com/images/ZK8rFHgxlSUKwzO7nSqHbTwpIQ.jpg?scale-down-to=1024',
@@ -27,7 +38,9 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
     {
         id: '2',
         title: "Atomic",
+        categoryId: '2',
         tagline: 'Creative Professional Website',
+        keywords: 'Creative Professional Website',
         thumbnail: 'https://framerusercontent.com/images/8G9F7BMTWoPofks9XGlnTM4sO4g.jpg',
         description: "The Atomic template is more than just a design solution; it's a powerhouse for creative professionals, design agencies and all type of businesses seeking to showcase their prowess in the most visually stunning way.",
         createdOn: "",
@@ -49,7 +62,9 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
     {
         id: '3',
         title: "Axels",
+        categoryId: '1',
         tagline: 'Jewelry e-commerce Website',
+        keywords: 'Jewelry e-commerce Website',
         description: "Bring simple elegance to your jewelry e-commerce using Axels, the minimalist jewelry e-commerce website Framer template.",
         thumbnail: 'https://framerusercontent.com/images/Qv15brmwxFL6xzMjVDL9CtpAJQ.jpg',
         images: ['https://framerusercontent.com/images/nUQEoJquygABqRZnnEerhS0tew.jpg?scale-down-to=1024',
@@ -71,7 +86,9 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
     {
         id: '4',
         title: "Meteora",
+        categoryId: '3',
         tagline: "Agency Website",
+        keywords: "Agency Website",
         description: "Meteora provides a seamless integration of your projects and thoughts for agencies of all kind, allowing you to curate a unique online space that reflects your individuality.",
         thumbnail: 'https://framerusercontent.com/images/LsZlsEeTBcVyaG6o8swlYfnZcA.jpg?scale-down-to=512',
         images: ['https://framerusercontent.com/images/0U5wjsoJztKJ1tgON9Sl8nOSwlo.jpg?scale-down-to=1024',
@@ -93,7 +110,9 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
     {
         id: '5',
         title: "iBook",
+        categoryId: '3',
         tagline: "Premium Template for Authors And Writers",
+        keywords: "Premium Template for Authors And Writers",
         description: "Are you looking to create a great website for your upcoming book, or for you as a book author? Search no more. Presenting Book, our latest premium Framer Template for Book Writers.",
         thumbnail: 'https://framerusercontent.com/images/sJf058RKZOPJLvD3wuTOtEPtIk.jpg?scale-down-to=512',
         images: ['https://framerusercontent.com/images/TrB72uw9R2ogHFzfpaAU0QEpoU.jpg',
@@ -115,7 +134,9 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
     {
         id: '6',
         title: "Naru",
+        categoryId: '2',
         tagline: "E-commerce Website",
+        keywords: "E-commerce Website",
         description: "A sleek E-commerce template crafted for Framer. Simplify your selling experience with Naru. This minimalistic design enables you to effortlessly sell your digital products with just a few clicks.",
         thumbnail: 'https://framerusercontent.com/images/EwlY7srjawQYbXrdxXc1t79Eyw.jpg?scale-down-to=512',
         images: ['https://framerusercontent.com/images/7sehkcHQtMrywf3ZSFZPPjRqQA.jpg',

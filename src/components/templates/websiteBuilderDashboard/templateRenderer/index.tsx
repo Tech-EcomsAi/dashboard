@@ -36,7 +36,7 @@ function TemplateRenderer({ templateDetails }: { templateDetails: TEMPLATE_DETAI
             const tags = [];
             if (templateDetails.isTrending) tags.push(<Tag color='purple'>🔥 Trending Now</Tag>);
             if (templateDetails.isForYou) tags.push(<Tag color='green'>💜 Made for you</Tag>);
-            if (templateDetails.isNew) tags.push(<Tag color='deepPink'>✨ New</Tag>)
+            if (templateDetails.isNew) tags.push(<Tag color='deepPink'>⚡️ New</Tag>)
             return tags;
         },
         [templateDetails],

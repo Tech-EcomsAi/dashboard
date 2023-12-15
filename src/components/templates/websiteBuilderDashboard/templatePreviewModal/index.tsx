@@ -6,6 +6,7 @@ import styles from './templatePreviewModal.module.scss'
 const { Text, Title } = Typography
 const { Meta } = Card;
 import { Carousel } from 'antd';
+import { AnimatePresence, motion } from 'framer-motion'
 
 function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse }: { templateDetails: TEMPLATE_DETAILS_TYPE, showModal: boolean, handleModalResponse: any }) {
 
@@ -16,7 +17,7 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
             const tags = [];
             if (templateDetails.isTrending) tags.push(<Tag style={{ fontSize: 13, padding: "7px 10px" }} color='purple'>🔥 Trending Now</Tag>);
             if (templateDetails.isForYou) tags.push(<Tag style={{ fontSize: 13, padding: "7px 10px" }} color='green'>💜 Made for you</Tag>);
-            if (templateDetails.isNew) tags.push(<Tag style={{ fontSize: 13, padding: "7px 10px" }} color='deepPink'>✨ New</Tag>)
+            if (templateDetails.isNew) tags.push(<Tag style={{ fontSize: 13, padding: "7px 10px" }} color='deepPink'>⚡️ New</Tag>)
             return tags;
         },
         [templateDetails],
@@ -92,7 +93,8 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
             width={'max-content'}
             closable
         >
-            <div className={styles.templatePreviewContent}>
+            <div key={templateDetails.id}
+                className={styles.templatePreviewContent}>
                 <Card
                     key={templateDetails.id}
                     className={styles.templateDetailsWrap}

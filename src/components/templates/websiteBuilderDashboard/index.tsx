@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useState } from 'react'
 import styles from './websiteBuilderDashboard.module.scss';
-import { Button, Card, Space, message, theme } from 'antd';
+import { Button, Card, Space, Typography, message, theme } from 'antd';
 import { LuFileStack, LuFileText, LuFileVideo2, LuFlower2, LuFootprints, LuPlus } from 'react-icons/lu';
 import { hexToRgbA } from '@util/utils';
 import TemplateRenderer from './templateRenderer';
@@ -11,6 +11,8 @@ import TemplateCreationModal from './templateCreationModal';
 import ViewAllTemplatesModal from './viewAllTemplatesModal';
 import TempTemplateList from 'src/data/templates';
 const { Meta } = Card;
+const { Title } = Typography;
+const CARD_HEADING_LEVEL = 3;
 
 const INFO_CARDS_LIST = [
     { key: 1, title: "Start the App Tour", icon: LuFootprints, colors: ['#C4DFDF', '#F5F0BB'], description: "Start the App Tour" },
@@ -49,7 +51,7 @@ function WebsiteBuilderDashboard() {
     }
 
     const templateSectionRenderer = (sectionDetails: TEMPLATE_SECTION) => {
-        return <Card key={sectionDetails.key} className={styles.templatesGroup} title={sectionDetails.title} extra={<Button onClick={() => setShowViewAllTemplateModal(true)}>View All</Button>}>
+        return <Card key={sectionDetails.key} className={styles.templatesGroup} title={<Title level={CARD_HEADING_LEVEL}> {sectionDetails.title}</Title>} extra={<Button onClick={() => setShowViewAllTemplateModal(true)}>View All</Button>}>
             <Space className={styles.templatesList} align='start' size={20}>
                 {sectionDetails.templatesList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
                     return <Fragment key={templateDetails.id}><TemplateRenderer templateDetails={templateDetails} /></Fragment>
@@ -60,7 +62,7 @@ function WebsiteBuilderDashboard() {
 
     return (
         <Space className={styles.websiteBuilderDashboardWrap} direction='vertical'>
-            <Card className={styles.templatesGroup} title="Get Started">
+            <Card className={styles.templatesGroup} title={<Title level={CARD_HEADING_LEVEL}>Get Started</Title>}>
                 <Space className={`${styles.templatesList} ${styles.infoCardBodyWrap}`} wrap align='start'>
                     {INFO_CARDS_LIST.map((cardDetails: any) => {
                         return <Card key={cardDetails.key}
@@ -86,7 +88,7 @@ function WebsiteBuilderDashboard() {
                 </Space>
             </Card>
 
-            <Card className={styles.templatesGroup} title="Your Creations">
+            <Card className={styles.templatesGroup} title={<Title level={CARD_HEADING_LEVEL}>Your Creations</Title>}>
                 <Space className={`${styles.templatesList} ${styles.customeTemplates}`} align='start' size={20}>
                     <Card bordered hoverable
                         bodyStyle={{ padding: 14 }}
