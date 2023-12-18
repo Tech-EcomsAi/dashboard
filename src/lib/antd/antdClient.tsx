@@ -4,6 +4,13 @@ import { ConfigProvider } from "antd";
 import { theme } from 'antd';
 import { useAppSelector } from "@hook/useAppSelector";
 import { getDarkColorState, getDarkModeState, getLightColorState } from '@reduxSlices/clientThemeConfig';
+import { Inter } from "next/font/google";
+
+export const INTER_FONT = Inter({
+    subsets: ['latin'],
+    variable: '--font-inter',
+})
+console.log("INTER_FONT", INTER_FONT)
 
 const AntdClient = ({ children }: any) => {
     const isDarkMode = useAppSelector(getDarkModeState)
@@ -11,14 +18,11 @@ const AntdClient = ({ children }: any) => {
     const darkThemeColor = useAppSelector(getDarkColorState)
     const { token } = theme.useToken();
     console.log(`
-  
   ᴾʳᵉˢᵉⁿᵗⁱⁿᵍ ʸᵒᵘ...
-
-
                  🇪‌🇨‌🇴‌🇲‌🇸‌🇦‌🇮‌          
     💜  🇹‌🇭‌🇪‌ 🇪‌🇻‌🇪‌🇷‌🇾‌🇹‌🇭‌🇮‌🇳‌🇬‌ 🇦‌🇵‌🇵‌  💜   
-
   `)
+
     return (
         <>
             <ConfigProvider
@@ -55,6 +59,9 @@ const AntdClient = ({ children }: any) => {
                         },
                         Collapse: {
                             // headerBg: token.colorBgLayout
+                        },
+                        Typography: {
+                            fontFamilyCode: INTER_FONT.style.fontFamily
                         }
                     },
                 }}

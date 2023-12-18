@@ -25,6 +25,7 @@ import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 import { TbChevronDown, TbComponents, TbDevices, TbEdit } from 'react-icons/tb';
 import BuilderWrapper from './builderWrapper';
 import { translator } from 'public/dictionaries';
+import { WEBSITE_PAGES_LIST } from '@constant/builder';
 
 const DragDropContext = dynamic(() => import('@hello-pangea/dnd').then(mod => { return mod.DragDropContext; }), { ssr: false },);
 
@@ -44,21 +45,6 @@ const SEGMENT_OPTIONS = [
     { key: 'Site', value: 'Global', icon: <LuSettings /> },
 ]
 
-const PAGES_LIST: any = [
-    {
-        key: '1',
-        label: 'Home Page',
-    },
-    {
-        key: '2',
-        label: 'About Us',
-    },
-    {
-        key: '3',
-        label: 'Contact Us',
-    },
-];
-
 function WebsiteBuilder() {
     const { token } = theme.useToken();
     const isDarkMode = useAppSelector(getDarkModeState)
@@ -69,7 +55,7 @@ function WebsiteBuilder() {
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
     const [collapsedSectionsContainer, setCollapsedSectionsContainer] = useState(false)
-    const [activePage, setActivePage] = useState(PAGES_LIST[0])
+    const [activePage, setActivePage] = useState(WEBSITE_PAGES_LIST[0])
     const t = translator(useAppSelector(getAppLanguageState));
 
     useEffect(() => {
@@ -122,7 +108,7 @@ function WebsiteBuilder() {
 
     const handlePageClick: any = (e) => {
         console.log('click', e);
-        setActivePage(PAGES_LIST.find((page: any) => page.key === e.key))
+        setActivePage(WEBSITE_PAGES_LIST.find((page: any) => page.key === e.key))
     };
 
     return (
@@ -148,7 +134,7 @@ function WebsiteBuilder() {
                                 <Space>
                                     <Space>
                                         <TextElement color={token.colorText} text={`${t.currentPageLabel} :`} />
-                                        <Dropdown menu={{ items: PAGES_LIST, onClick: handlePageClick }}>
+                                        <Dropdown menu={{ items: WEBSITE_PAGES_LIST, onClick: handlePageClick }}>
                                             <Button type='default'>
                                                 <Space>
                                                     {activePage.label}

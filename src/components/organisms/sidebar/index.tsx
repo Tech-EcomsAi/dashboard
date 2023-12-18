@@ -10,7 +10,7 @@ import { useAppSelector } from '@hook/useAppSelector';
 import { usePathname, useRouter } from 'next/navigation';
 import ClientOnlyProvider from '@providers/clientOnlyProvider';
 import { NAVIGARIONS_ROUTINGS, NavItemType, SIDEBAR_NAV_MENUS } from '@constant/navigations';
-import { LOGO, LOGO_LARGE } from '@constant/common';
+import { LOGO, LOGO_LARGE, LOGO_SMALL } from '@constant/common';
 
 const SidebarComponent = () => {
     const dispatch = useAppDispatch();
@@ -114,9 +114,9 @@ const SidebarComponent = () => {
                     animate={{ width: (!isCollapsed || isHover) ? '200px' : "62px" }}
                     style={{ backgroundColor: token.colorBgBase, color: token.colorTextBase, borderRight: `1px solid ${token.colorBorder}` }}>
 
-                    <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "10px" : "2px" }}>
+                    <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "20px" : "2px" }}>
                         <div className={styles.logo}>
-                            <img src={LOGO_LARGE} />
+                            {isHover || !isCollapsed ? <><img src={LOGO_LARGE} /></> : <img src={LOGO_SMALL} />}
                         </div>
                     </div>
 

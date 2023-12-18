@@ -103,7 +103,7 @@ function ViewAllTemplatesModal({ templateList, showModal, handleModalResponse, f
             }}
             footer={null}
             className={`${WrapperStyles.websiteBuilderDashboardWrap} ${styles.viewAllTemplatesModalWrap}`}
-            closeIcon={<LuX />}
+            closeIcon={<Button shape='circle' icon={<LuX />} style={{ position: "sticky", top: '0', zIndex: "2", fontSize: 20 }} />}
             width={'max-content'}
         >
             <Space className={WrapperStyles.templatesGroup} direction='vertical' size={20}>

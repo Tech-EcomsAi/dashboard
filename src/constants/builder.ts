@@ -16,3 +16,18 @@ export const BUILDER_DEFAULT_COLORS = [
         colors: ['#C4DFDF', '#F5F0BB', '#ACB1D6', '#DDFFBB', '#B9F3E4'],
     },
 ]
+
+export const WEBSITE_PAGES_LIST: any = [
+    {
+        key: '1',
+        label: 'Home Page',
+    },
+    {
+        key: '2',
+        label: 'About Us',
+    },
+    {
+        key: '3',
+        label: 'Contact Us',
+    },
+];

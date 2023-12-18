@@ -16,7 +16,7 @@ const poppins = Poppins({
   weight: '100'
 })
 
-const inter = Inter({
+const INTER_FONT = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 })
@@ -55,7 +55,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await getServerSession(authOptions);
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans`}>
+      <body className={`${INTER_FONT.variable} font-sans`}>
         <ErrorBoundaryProvider>
           <ReduxStoreProvider>
             <SessionProvider session={session}>

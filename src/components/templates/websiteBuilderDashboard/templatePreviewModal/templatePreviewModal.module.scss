@@ -1,4 +1,10 @@
 .templatePreviewModal {
+  .modalClose {
+    font-size: 30px;
+    padding: 2px;
+    border: 1px solid #dee1ecc0;
+    border-radius: 50%;
+  }
   .templatePreviewContent {
     .cardCoverWrap {
       max-width: 600;

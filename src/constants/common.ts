@@ -1,3 +1,6 @@
+import IconLogo from "@assets/logo/icon.svg";
+import HorizontalLogo from "@assets/logo/horizontal.svg";
+
 export const TOGGLE_DARK_MODE = 'TOGGLE_DARK_MODE';
 export const BUILDER_PAGE = 'BUILDER';
 export const SECTION_PAGE = 'SECTION';
@@ -8,11 +11,14 @@ export const NO_COLOR_VALUE = '#ffffff00';
 export const SEARCHED_IMAGES_COUNT_PER_REQUEST_UNSPLASH = 30;
 export const SEARCHED_IMAGES_COUNT_PER_REQUEST_PEXELS = 80;
 export const SEARCHED_IMAGES_COUNT_PER_REQUEST_PIXABAY = 200;
+
+// export const LOGO = IconLogo;
+export const HORIZONTAL_LOGO = HorizontalLogo;
 export const LOGO = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430'
 export const LOGO_TEXT = 'EcomsAI'
-export const LOGO_LARGE = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430';
-export const LOGO_SMALL = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo_small.png?alt=media&token=d590b12e-ca38-40b0-9ef7-34c6374b8a72';
-export const LOGO_ANIMATED = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2FecomsAi.gif?alt=media&token=6ce6e52d-7ac5-4e46-b68f-fdd1e11cba07'
+export const LOGO_LARGE = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Fhorizontal.svg?alt=media&token=aee07ecb-c9ce-4a65-b3e1-1bea2a3f12ef';
+export const LOGO_SMALL = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Ficon.svg?alt=media&token=c59081fc-7efa-4c77-8e70-d98966f82c1e';
+export const LOGO_ANIMATED = 'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2FecomsAi.gif?alt=media&token=6ce6e52d-7ac5-4e46-b68f-fdd1e11cba07';
 export const BACKGROUND_IMAGES_ORIENTATIONS = {
     LANDSCAPE: 'landscape',
     PORTRAIT: 'portrait',

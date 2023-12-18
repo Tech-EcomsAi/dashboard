@@ -52,6 +52,15 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
         </>
     }
 
+    const openBuilder = () => {
+        console.log("openBuilder called")
+        handleModalResponse();
+    }
+
+    const openPreviewInNewTab = () => {
+        window.open(templateDetails.thumbnail, "_blank")
+    }
+
     return (
         <Modal
             destroyOnClose
@@ -59,7 +68,6 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
             title=""
             open={showModal}
             className={styles.templatePreviewModal}
-            onCancel={() => handleModalResponse()}
             styles={{
                 header: {
                     position: "sticky",
@@ -85,13 +93,16 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
                 },
                 mask: { backdropFilter: 'blur(6px)' }
             }}
-            okText="Use for Free"
-            okButtonProps={{ size: "large", icon: <LuPenSquare /> }}
-            cancelText="Preview in new tab"
-            cancelButtonProps={{ size: "large", icon: <LuExternalLink /> }}
-            closeIcon={<Button shape='circle' icon={<LuX />} style={{ position: "sticky", top: '0', zIndex: "2" }} />}
+            // okText="Use for Free"
+            // cancelText="Preview in new tab"
+            closeIcon={<Button shape='circle' icon={<LuX />} style={{ position: "sticky", top: '0', zIndex: "2", fontSize: 20 }} />}
+            onCancel={() => handleModalResponse()}
             width={'max-content'}
             closable
+            footer={<Space>
+                <Button size='large' type='default' icon={<LuExternalLink />} onClick={openPreviewInNewTab}>Preview in new tab</Button>
+                <Button size='large' type='primary' icon={<LuPenSquare />} onClick={openBuilder}>Use for Free</Button>
+            </Space>}
         >
             <div key={templateDetails.id}
                 className={styles.templatePreviewContent}>

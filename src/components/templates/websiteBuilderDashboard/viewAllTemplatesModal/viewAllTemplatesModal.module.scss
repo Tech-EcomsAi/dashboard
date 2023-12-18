@@ -1,5 +1,11 @@
 @import "@styles/abstracts/mixins";
 .viewAllTemplatesModalWrap {
+  .modalClose {
+    font-size: 30px;
+    padding: 2px;
+    border: 1px solid #dee1ecc0;
+    border-radius: 50%;
+  }
   .topFilters {
     width: 100%;
     display: flex;

@@ -71,8 +71,8 @@ function AppActionsModal({ children }) {
                     onMouseLeave={() => setHoverId('')}
                 >
                     <Space direction='vertical' align='center'>
-                        <Button icon={action.icon} size='large' shape='circle' type='dashed' style={{ fontSize: "18px", color: token.colorPrimary }} />
-                        <TextElement text={action.title} color={token.colorTextLabel} styles={{ textAlign: "center", display: "block", marginBottom: "0px" }} />
+                        <Button icon={action.icon} size='large' shape='circle' type='text' style={{ fontSize: 22, color: hoverId == action.title ? token.colorPrimary : token.colorTextLabel }} />
+                        <TextElement text={action.title} color={hoverId == action.title ? token.colorPrimary : token.colorTextLabel} styles={{ textAlign: "center", display: "block", marginBottom: "0px" }} />
                     </Space>
                 </Card>
             })}
