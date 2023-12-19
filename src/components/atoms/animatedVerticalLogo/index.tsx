@@ -12,13 +12,13 @@ function AnimatedVerticalLogo({ color = "#000" }) {
             </g>
             <defs>
                 <linearGradient id="paint0_linear_25_2" x1="1335.95" y1="845.436" x2="1784.85" y2="845.436" gradientUnits="userSpaceOnUse">
-                    <stop stopcolor="#29AAE3"></stop>
-                    <stop offset="0.498958" stopcolor="#0071BD"></stop>
-                    <stop offset="1" stopcolor="#0051D2"></stop>
+                    <stop stopColor="#29AAE3"></stop>
+                    <stop offset="0.498958" stopColor="#0071BD"></stop>
+                    <stop offset="1" stopColor="#0051D2"></stop>
                 </linearGradient>
                 <linearGradient id="paint1_linear_25_2" x1="1595.11" y1="848.904" x2="2048.63" y2="848.904" gradientUnits="userSpaceOnUse">
-                    <stop stopcolor="#29AAE3"></stop>
-                    <stop offset="1" stopcolor="#0054D0"></stop>
+                    <stop stopColor="#29AAE3"></stop>
+                    <stop offset="1" stopColor="#0054D0"></stop>
                 </linearGradient>
                 <clipPath id="clip0_25_2">
                     <rect width="3384" height="2075" fill="white" className={styles.logoelem6}></rect>
