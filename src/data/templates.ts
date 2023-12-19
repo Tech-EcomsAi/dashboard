@@ -1,6 +1,5 @@
 import { TEMPLATE_CATEGORY, TEMPLATE_DETAILS_TYPE } from "@template/websiteBuilderDashboard/templateConstants";
 
-
 export const TEMPLATE_CATEGORIES: TEMPLATE_CATEGORY[] = [
     { id: 'all', title: "All", icon: "", active: true },
     { id: '1', title: "Ecommerce", icon: "", active: true },
@@ -9,6 +8,7 @@ export const TEMPLATE_CATEGORIES: TEMPLATE_CATEGORY[] = [
     { id: '4', title: "Mini", icon: "", active: true },
     { id: '5', title: "Personal Brand", icon: "", active: true },
 ]
+
 const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
     {
         id: '1',

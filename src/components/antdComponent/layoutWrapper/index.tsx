@@ -20,22 +20,10 @@ const { Content } = Layout;
 
 export default function AntdLayoutWrapper(props: any) {
     const cache = React.useMemo<Entity>(() => createCache(), []);
-    const isServerInserted = React.useRef<boolean>(false);
-    //    const [cache] = React.useState(() => createCache());
     const isCollapsed = useAppSelector(getSidebarState);
     const isDarkMode = useAppSelector(getDarkModeState);
     const isRTLDirection = useAppSelector(getRTLDirectionState)
     const { token } = theme.useToken();
-
-    //  useServerInsertedHTML(() => {
-    // // avoid duplicate css insert
-    // if (isServerInserted.current) {
-    //   return;
-    // }
-    // isServerInserted.current = true;
-    // return <style id="antd" dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }} />;
-
-
     return (
         <NoSSRProvider>
             <Layout className={`${styles.layoutWrapper}`} dir={isRTLDirection ? "rtl" : "ltr"} >
@@ -43,6 +31,7 @@ export default function AntdLayoutWrapper(props: any) {
                     <HeadMetaTags title={undefined} description={undefined} image={undefined} siteName={undefined} storeData={undefined} />
                     <AntdThemeProvider>
                         <Fragment>
+                            <Toast />
                             <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
                                 <HeaderComponent />
                                 <SidebarComponent />

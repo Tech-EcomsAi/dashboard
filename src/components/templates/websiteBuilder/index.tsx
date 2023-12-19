@@ -25,13 +25,17 @@ import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 import { TbChevronDown, TbComponents, TbDevices, TbEdit } from 'react-icons/tb';
 import BuilderWrapper from './builderWrapper';
 import { translator } from 'public/dictionaries';
-import { WEBSITE_PAGES_LIST } from '@constant/builder';
+// import { WEBSITE_PAGES_LIST } from '@constant/builder';
 
 const DragDropContext = dynamic(() => import('@hello-pangea/dnd').then(mod => { return mod.DragDropContext; }), { ssr: false },);
 
 const { Header, Content, Sider } = Layout;
 const { Text } = Typography;
-
+const activePaesList = [
+    { key: '1', label: 'Home Page' },
+    { key: '2', label: 'About Us' },
+    { key: '3', label: 'Contact Us' },
+];
 const DEVICE_TYPES = [
     { title: 'All', icon: <TbDevices /> },
     { title: 'Mobile', icon: <BsPhone /> },
@@ -55,7 +59,7 @@ function WebsiteBuilder() {
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
     const [collapsedSectionsContainer, setCollapsedSectionsContainer] = useState(false)
-    const [activePage, setActivePage] = useState(WEBSITE_PAGES_LIST[0])
+    const [activePage, setActivePage] = useState(activePaesList[0])
     const t = translator(useAppSelector(getAppLanguageState));
 
     useEffect(() => {
@@ -108,7 +112,7 @@ function WebsiteBuilder() {
 
     const handlePageClick: any = (e) => {
         console.log('click', e);
-        setActivePage(WEBSITE_PAGES_LIST.find((page: any) => page.key === e.key))
+        setActivePage(activePaesList.find((page: any) => page.key === e.key))
     };
 
     return (
@@ -134,7 +138,7 @@ function WebsiteBuilder() {
                                 <Space>
                                     <Space>
                                         <TextElement color={token.colorText} text={`${t.currentPageLabel} :`} />
-                                        <Dropdown menu={{ items: WEBSITE_PAGES_LIST, onClick: handlePageClick }}>
+                                        <Dropdown menu={{ items: activePaesList, onClick: handlePageClick }}>
                                             <Button type='default'>
                                                 <Space>
                                                     {activePage.label}

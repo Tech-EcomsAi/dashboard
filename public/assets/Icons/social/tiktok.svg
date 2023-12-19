@@ -5,7 +5,7 @@
 	.st3{fill:#C2191E;}
 	.st4{fill:#1DA1F3;}
 	.st5{fill:#FEFE00;}
-	.st6{fill:#25D366;stroke:#FFFFFF;stroke-width:5;stroke-miterlimit:10;}
+	.st6{fill:#25D366;stroke:#FFFFFF;strokeWidth:5;stroke-miterlimit:10;}
 	.st7{fill:#CB2027;}
 	.st8{fill:#0077B5;}
 	.st9{fill:url(#SVGID_2_);}

@@ -123,7 +123,7 @@ function WebsiteBuilderDashboard() {
             })}
 
             {/* template creation modal */}
-            <TemplateCreationModal setShowViewAllTemplateModal={setShowViewAllTemplateModal} showModal={showCreationModal} handleModalResponse={handleModalResponse} />
+            {showCreationModal && <TemplateCreationModal setShowViewAllTemplateModal={setShowViewAllTemplateModal} showModal={showCreationModal} handleModalResponse={handleModalResponse} />}
             {/* template list modal */}
             <ViewAllTemplatesModal templateList={TempTemplateList} showModal={showViewAllTemplateModal} handleModalResponse={() => setShowViewAllTemplateModal(false)} />
 
