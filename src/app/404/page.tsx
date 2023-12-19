@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 import { HOME_ROUTING } from '@constant/navigations';
 import { LOGO_LARGE } from '@constant/common';
+import AnimatedLogo from '@atoms/animatedLogo';
+import AnimatedVerticalLogo from '@atoms/animatedVerticalLogo';
 
 function NotFound() {
     const router = useRouter()
@@ -13,7 +15,7 @@ function NotFound() {
         <div className={styles.pageWrap}>
             <div className={styles.logoWrap}>
                 <Suspense fallback={<div>Loading</div>}>
-                    <img src={LOGO_LARGE} />
+                    <AnimatedVerticalLogo color='#dee1ec' />
                 </Suspense>
             </div>
             <div className={styles.hWrap}>

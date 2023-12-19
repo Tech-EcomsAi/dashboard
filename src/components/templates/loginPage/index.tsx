@@ -3,7 +3,7 @@ import { useAppDispatch } from "src/hooks/useAppDispatch";
 import React, { useEffect, useState } from "react";
 import { Button, Divider, Form, Input, Space, theme } from "antd";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { EMPTY_ERROR } from "@constant/common";
+import { EMPTY_ERROR, LOGO_SMALL } from "@constant/common";
 import { showErrorToast, showSuccessToast } from "@reduxSlices/toast";
 import { signIn, useSession } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
@@ -116,7 +116,7 @@ function LoginPage() {
     }}>
     <Space className={styles.headerWrap} align="center">
       <div className={styles.logoWrap}>
-        <img src={'https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/ecomsAi%2Flogo%2Flogo.png?alt=media&token=af824138-7ebb-4a72-b873-57298fd0a430'} />
+        <img src={LOGO_SMALL} />
       </div>
       <Button icon={<LuSun />} size="large" onClick={() => dispatch(toggleDarkMode(!isDarkMode))} />
     </Space>

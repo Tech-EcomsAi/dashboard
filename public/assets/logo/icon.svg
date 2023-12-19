@@ -7,13 +7,13 @@
 </g>
 <defs>
 <linearGradient id="paint0_linear_25_28" x1="1053.92" y1="1027.96" x2="1857.64" y2="1027.96" gradientUnits="userSpaceOnUse">
-<stop stop-color="#29AAE3"/>
-<stop offset="0.498958" stop-color="#0071BD"/>
-<stop offset="1" stop-color="#0051D2"/>
+<stop stopcolor="#29AAE3"/>
+<stop offset="0.498958" stopcolor="#0071BD"/>
+<stop offset="1" stopcolor="#0051D2"/>
 </linearGradient>
 <linearGradient id="paint1_linear_25_28" x1="1517.92" y1="1034.18" x2="2329.93" y2="1034.18" gradientUnits="userSpaceOnUse">
-<stop stop-color="#29AAE3"/>
-<stop offset="1" stop-color="#0054D0"/>
+<stop stopcolor="#29AAE3"/>
+<stop offset="1" stopcolor="#0054D0"/>
 </linearGradient>
 <clipPath id="clip0_25_28">
 <rect width="3384" height="2075" fill="white"/>

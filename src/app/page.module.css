@@ -1,10 +1,54 @@
-.main {
+.loadingWrap {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 6rem;
-  min-height: 100vh;
-  padding: 0;
-  background: white;
+  flex-direction: column;
+  background: unset;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loadingWrap svg {
+  width: 100%;
+  height: 300px;
+}
+
+.bgWrap {
+  z-index: 10;
+  pointer-events: none;
+  position: absolute;
+  bottom: -250px;
+  left: 50%;
+  transform: translateX(-50%) scale(1.5);
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.2;
+  filter: blur(100px);
+  will-change: transform;
+  animation-timeline: auto;
+  animation-range-start: normal;
+  animation-range-end: normal;
+  background: linear-gradient(135deg,
+      rgb(114, 46, 209) 0%,
+      rgb(22, 119, 255) 30%,
+      rgba(245, 34, 224, 0.519) 70%,
+      rgb(19, 194, 194) 100%,
+      var(--primary-color-alpha),
+      #00bfff) 0% 0% / 200% 200%;
+  animation: 20s ease 3s infinite normal none running glow;
+}
+
+
+@keyframes glow {
+  0% {
+    background-position: 0px -100%;
+  }
+
+  50% {
+    background-position: 200% 50%;
+  }
+
+  100% {
+    background-position: 0px -100%;
+  }
 }

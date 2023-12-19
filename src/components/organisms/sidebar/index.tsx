@@ -11,6 +11,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import ClientOnlyProvider from '@providers/clientOnlyProvider';
 import { NAVIGARIONS_ROUTINGS, NavItemType, SIDEBAR_NAV_MENUS } from '@constant/navigations';
 import { LOGO, LOGO_LARGE, LOGO_SMALL } from '@constant/common';
+import EcomsIconLogo from '@atoms/ecomsLogo';
+import EcomsVerticalLogo from '@atoms/ecomsLogo/ecomsVerticalLogo';
+import EcomsHorizontalLogo from '@atoms/ecomsLogo/ecomsHorizontalLogo';
 
 const SidebarComponent = () => {
     const dispatch = useAppDispatch();
@@ -116,7 +119,7 @@ const SidebarComponent = () => {
 
                     <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "20px" : "2px" }}>
                         <div className={styles.logo}>
-                            {isHover || !isCollapsed ? <><img src={LOGO_LARGE} /></> : <img src={LOGO_SMALL} />}
+                            {isHover || !isCollapsed ? <EcomsHorizontalLogo color="#dee1ec" /> : <EcomsIconLogo />}
                         </div>
                     </div>
 
