@@ -1,33 +1,35 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import styles from './templateCreationModal.module.scss';
-import { Button, Card, Modal, Space, Timeline, Typography } from 'antd';
-import { LuArrowLeft, LuBook, LuBookCopy, LuBookLock, LuBookOpenCheck, LuBookTemplate, LuPaperclip, LuX } from 'react-icons/lu';
+import { Button, Card, Modal, Space, Timeline, Typography, theme } from 'antd';
+import { LuArrowLeft, LuBook, LuBookCopy, LuBookLock, LuBookOpenCheck, LuBookTemplate, LuMoveLeft, LuMoveRight, LuPanelRight, LuPaperclip, LuX } from 'react-icons/lu';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { showErrorAlert } from '@reduxSlices/alert';
 import { showErrorToast } from '@reduxSlices/toast';
 import Loader from '@organisms/loader';
 import { TEMPLATES_PROPS_TYPE, TEMPLATE_PAGES_LIST, TEMPLATE_SECTIONS_LIST, TEMPLATE_TYPES_LIST } from '@constant/templates';
 import Saperator from '@atoms/Saperator';
+import { MdOutlineNavigateNext } from 'react-icons/md';
 const { Text, Title } = Typography
+import { AnimatePresence, motion } from 'framer-motion';
 
-type STEP_DETAILS_PROPS = {
-    stepId: number, title: string, tooltip: string
-}
-const STEPS_LIST = [
-    { stepId: 0, title: "Select Type", tooltip: "Which type of website do you want to create?" },
-    { stepId: 1, title: "Select Pages", tooltip: "Select pages of your website" },
-    { stepId: 2, title: "Select Sections", tooltip: "Select section of your pages" },
-    { stepId: 3, title: "Creating your site", tooltip: "Please hold tight, your site is getting ready in few seconds" },
+type STEP_DETAILS_PROPS = { stepId: number, title: string, selectedTitle: string, tooltip: string, list: any[] }
+
+const STEPS_LIST: STEP_DETAILS_PROPS[] = [
+    { stepId: 0, list: TEMPLATE_TYPES_LIST, selectedTitle: "Selected Website Type", title: "Select Type", tooltip: "Which type of website do you want to create?" },
+    { stepId: 1, list: TEMPLATE_PAGES_LIST, selectedTitle: "Selected Pages", title: "Select Pages", tooltip: "Select pages of your website" },
+    { stepId: 2, list: TEMPLATE_SECTIONS_LIST, selectedTitle: "Selected Sections", title: "Select Sections", tooltip: "Select section of your pages" },
+    // { stepId: 3, list: [], selectedTitle: "Creating your site", title: "Creating your site", tooltip: "Please hold tight, your site is getting ready in few seconds" },
 ]
 
 function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleModalResponse }) {
     const [activeStep, setActiveStep] = useState(STEPS_LIST[0]);
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false)
+    const { token } = theme.useToken();
     const [templateDetails, setTemplateDetails] = useState({
         templateType: { key: "", title: "" },
-        pages: ["Home Page"],
-        sections: [""]
+        pages: [{ key: 1, title: "Home Page" }],
+        sections: []
     })
 
     const createWebsite = () => {
@@ -62,26 +64,26 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
     const onSelectConfig = (value: TEMPLATES_PROPS_TYPE) => {
         //type
         if (activeStep.stepId == 0) {
-            setTemplateDetails({ pages: ["Home Page"], sections: [], templateType: value });
+            setTemplateDetails({ pages: [{ key: 1, title: "Home Page" }], sections: [], templateType: value });
             setActiveStep(STEPS_LIST[1])
             //pages
         } else if (activeStep.stepId == 1) {
-            const previndex = templateDetails.pages.findIndex((p) => p == value.key)
+            const previndex = templateDetails.pages.findIndex((p) => p.key == value.key)
             if (previndex != -1) {
                 const pagesList = templateDetails.pages;
                 pagesList.splice(previndex, 1);
                 setTemplateDetails({ ...templateDetails, pages: pagesList });
             } else {
-                setTemplateDetails({ ...templateDetails, pages: [...templateDetails.pages, value.key] });
+                setTemplateDetails({ ...templateDetails, pages: [...templateDetails.pages, value] });
             }
         } else if (activeStep.stepId == 2) {
-            const previndex = templateDetails.sections.findIndex((p) => p == value.key)
+            const previndex = templateDetails.sections.findIndex((p) => p.key == value.key)
             if (previndex != -1) {
                 const sectionsList = templateDetails.sections;
                 sectionsList.splice(previndex, 1);
                 setTemplateDetails({ ...templateDetails, sections: sectionsList });
             } else {
-                setTemplateDetails({ ...templateDetails, sections: [...templateDetails.sections, value.key] });
+                setTemplateDetails({ ...templateDetails, sections: [...templateDetails.sections, value] });
             }
         } else {
 
@@ -95,6 +97,70 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
         } else {
             setActiveStep(stepDetails)
         }
+    }
+
+    const renderStepsCard = () => {
+        return STEPS_LIST.map((stepDetails: STEP_DETAILS_PROPS, index: number) => {
+            const isActive = (stepDetails.stepId == 0 ? Boolean(templateDetails?.templateType?.title) :
+                stepDetails.stepId == 1 ? templateDetails?.pages.length > 1 :
+                    templateDetails?.sections.length != 0)
+
+            return {
+                children: <Card
+                    className={styles.stepCard}
+                    key={stepDetails.stepId}
+                    headStyle={{ minHeight: 0, padding: 0 }}
+                    style={{ background: token.colorFillContent }}
+                    title={<Space style={{ cursor: "pointer", width: "100%", padding: 8, background: token.colorPrimaryBg }} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId])}>
+                        {stepDetails.stepId == 0 ? <>
+                            {Boolean(templateDetails?.templateType?.title) ?
+                                <Space align='center'>
+                                    <Text>{stepDetails.selectedTitle} :</Text>
+                                    <Title level={5} style={{ margin: 0 }} type='success'> {templateDetails?.templateType?.title}</Title>
+                                </Space>
+                                :
+                                <Text>{stepDetails.tooltip}</Text>}
+                        </> : stepDetails.stepId == 1 ? <>
+                            {templateDetails?.pages.length > 1 ?
+                                <Space align='center' wrap>
+                                    <Text>{stepDetails.selectedTitle} :</Text>
+                                    <Title level={5} style={{ margin: 0 }} type='success'> {templateDetails?.pages.map((page, i) => <Fragment key={page.key}>{page.title} {i != templateDetails?.pages.length - 1 && ", "}</Fragment>)}</Title>
+                                </Space>
+                                :
+                                <Text>{STEPS_LIST[1].tooltip}</Text>}
+                        </> : <>
+                            {templateDetails?.sections.length != 0 ?
+                                <Space align='center' wrap>
+                                    <Text>{stepDetails.selectedTitle} :</Text>
+                                    <Title level={5} style={{ margin: 0 }} type='success'> {templateDetails?.sections.map((section, i) => <Fragment key={section.key}>{section.title} {i != templateDetails?.sections.length - 1 && ", "}</Fragment>)}</Title>
+                                </Space>
+                                :
+                                <Text>{STEPS_LIST[2].tooltip}</Text>}
+                        </>}
+                    </Space>}
+                    bodyStyle={{ padding: "unset" }}
+                    extra={<Button className={styles.actionButton} icon={<MdOutlineNavigateNext />} type='text' size='large' style={{ transform: `rotate(${activeStep.stepId == stepDetails.stepId ? 90 : 0}deg)` }} />}
+                >
+                    {activeStep.stepId == stepDetails.stepId && <Space direction='vertical' align='end' style={{ width: "100%", padding: 20 }}>
+                        <Space wrap style={{ width: "100%" }}>
+                            {stepDetails.list.map((typeDetails: TEMPLATES_PROPS_TYPE) => {
+                                return <Fragment key={typeDetails.key}>
+                                    {stepDetails.stepId == 0 && <Button shape='round' type={templateDetails?.templateType?.key == typeDetails.key ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig(typeDetails)}>{typeDetails.title}</Button>}
+                                    {stepDetails.stepId == 1 && <Button shape='round' type={templateDetails?.pages.find(type => typeDetails.key == type.key) ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig({ key: typeDetails.key, title: typeDetails.title })}>{typeDetails.title}</Button>}
+                                    {stepDetails.stepId == 2 && <Button shape='round' type={templateDetails?.sections.find(type => typeDetails.key == type.key) ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig({ key: typeDetails.key, title: typeDetails.title })}>{typeDetails.title}</Button>}
+                                </Fragment>
+                            })}
+                        </Space>
+                        <Space align='end' style={{ width: "100%" }} >
+                            {stepDetails.stepId > 0 && <Button icon={<LuMoveLeft />} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId - 1])} />}
+                            {stepDetails.stepId < 2 && <Button icon={<LuMoveRight />} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId + 1])} />}
+                        </Space>
+                    </Space>
+                    }
+                </Card >,
+                color: isActive ? "green" : "gray"
+            }
+        })
     }
 
     return (
@@ -122,80 +188,11 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
             className={styles.templatePreviewModalWrap}
         >
             <Saperator />
-
-            <Timeline
-                items={[
-                    {
-                        children: <Card
-                            title={<Space onClick={() => navigateToStep(STEPS_LIST[0])}>
-                                {Boolean(templateDetails?.templateType?.title) ?
-                                    <Text>Selected website type : {templateDetails?.templateType?.title}</Text> :
-                                    <Text>{STEPS_LIST[0].tooltip}</Text>}
-                            </Space>}
-                            bodyStyle={{ padding: "unset" }}
-                        >
-                            {activeStep.stepId == 0 && <Space direction='horizontal' wrap style={{ width: "100%", padding: 20 }}>
-                                {TEMPLATE_TYPES_LIST.map((typeDetails: TEMPLATES_PROPS_TYPE) => {
-                                    return <Fragment key={typeDetails.key}>
-                                        <Button type={templateDetails?.templateType?.key == typeDetails.key ? "primary" : "dashed"}
-                                            size='large'
-                                            onClick={() => onSelectConfig(typeDetails)}>{typeDetails.title}</Button>
-                                    </Fragment>
-                                })}
-                            </Space>}
-                        </Card>,
-                        color: Boolean(templateDetails?.templateType?.title) ? "green" : "gray"
-                    },
-                    {
-                        children:
-                            <Card
-                                title={
-                                    <Space onClick={() => navigateToStep(STEPS_LIST[1])}>
-                                        {templateDetails?.pages.length > 1 ?
-                                            <Text>Selected pages : {templateDetails?.pages.map((p) => <Fragment key={p}>{p}</Fragment>)}</Text> :
-                                            <Text>{STEPS_LIST[1].tooltip}</Text>}
-                                    </Space>
-                                }
-                                bodyStyle={{ padding: "unset" }}
-                            >
-                                {activeStep.stepId == 1 && <Space direction='horizontal' wrap style={{ width: "100%", padding: 20 }}>
-                                    {TEMPLATE_PAGES_LIST.map((typeDetails: TEMPLATES_PROPS_TYPE) => {
-                                        return <Fragment key={typeDetails.key}>
-                                            <Button type={templateDetails?.pages.includes(typeDetails.key) ? "primary" : "dashed"}
-                                                size='large'
-                                                onClick={() => onSelectConfig(typeDetails)}>{typeDetails.title}</Button>
-                                        </Fragment>
-                                    })}
-                                </Space>}
-                            </Card>,
-                        color: templateDetails?.pages.length > 1 ? "green" : "gray"
-                    },
-                    {
-                        children: <Card
-                            title={
-                                <Space onClick={() => navigateToStep(STEPS_LIST[2])}>
-                                    {templateDetails?.sections.length != 0 ?
-                                        <Text>Selected Sections : {templateDetails?.sections.map((p) => <Fragment key={p}>{p}</Fragment>)}</Text> :
-                                        <Text>{STEPS_LIST[2].tooltip}</Text>}
-                                </Space>
-                            }
-                            bodyStyle={{ padding: "unset" }}
-                        >
-                            {activeStep.stepId == 2 && <Space direction='horizontal' wrap style={{ width: "100%", padding: 20 }}>
-                                {TEMPLATE_SECTIONS_LIST.map((typeDetails: TEMPLATES_PROPS_TYPE) => {
-                                    return <Fragment key={typeDetails.key}>
-                                        <Button type={templateDetails?.sections.includes(typeDetails.key) ? "primary" : "dashed"}
-                                            size='large'
-                                            onClick={() => onSelectConfig(typeDetails)}>{typeDetails.title}</Button>
-                                    </Fragment>
-                                })}
-                            </Space>}
-                        </Card>,
-                        color: templateDetails?.sections.length != 0 ? "green" : "gray"
-                    },
-                ]}
-            />
-
+            <AnimatePresence>
+                <Timeline
+                    items={[...renderStepsCard()]}
+                />
+            </AnimatePresence>
             {isLoading && <Loader />}
         </Modal>
     )

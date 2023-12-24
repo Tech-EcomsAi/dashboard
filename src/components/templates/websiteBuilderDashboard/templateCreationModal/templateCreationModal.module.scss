@@ -1,0 +1,10 @@
+.stepCard {
+  position: relative;
+  .actionButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    z-index: 2;
+  }
+}

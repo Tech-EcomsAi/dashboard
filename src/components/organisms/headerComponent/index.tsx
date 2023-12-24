@@ -111,7 +111,7 @@ const HeaderComponent = () => {
                                 </div>}
                                 <Suspense fallback={<div><LuLoader /></div>}>
                                     <Badge dot={true} style={{ top: "3px", right: "8px", background: "green" }}>
-                                        {userData?.image ? <Image src={userData?.image || ''} alt={''} height={32} width={32} /> : <Avatar >DG</Avatar>}
+                                        {userData?.image ? <Image src={userData?.image || ''} alt={'ecoms.ai'} height={32} width={32} /> : <Avatar >DG</Avatar>}
                                     </Badge>
                                 </Suspense>
                             </ProfileActionsModal>

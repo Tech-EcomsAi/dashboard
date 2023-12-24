@@ -10,7 +10,6 @@ export const INTER_FONT = Inter({
     subsets: ['latin'],
     variable: '--font-inter',
 })
-console.log("INTER_FONT", INTER_FONT)
 
 const AntdClient = ({ children }: any) => {
     const isDarkMode = useAppSelector(getDarkModeState)

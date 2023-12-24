@@ -134,11 +134,11 @@ function ImageCropper({ modalData, onSave, onCancel, onReplaceImage }) {
                 <div className={styles.displayImagesWrap}>
                     {/* //original image */}
                     <div className={styles.originalImageWrap}>
-                        <img src={modalData?.src} />
+                        <img alt='ecoms.ai' src={modalData?.src} />
                     </div>
                     {/* //cropped IMage Wrap */}
                     <div className={styles.cropperdImageWrap}>
-                        <img src={croppedImage ? croppedImage : modalData?.src} />
+                        <img alt='ecoms.ai' src={croppedImage ? croppedImage : modalData?.src} />
                     </div>
                 </div>
                 <div className={styles.imageCropperWrap}>

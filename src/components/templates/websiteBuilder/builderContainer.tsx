@@ -85,7 +85,7 @@ function BuilderContainer({ builderState }) {
                                                     }}
                                                 >
                                                     {Boolean(builderState[list].length) && builderState[list].map((item, index) => {
-                                                        return <Fragment>
+                                                        return <Fragment key={index}>
                                                             {/* item.id: {item.id}
                                                         <br />
                                                         snapshot.draggingOverWith: {snapshot.draggingOverWith}
@@ -95,7 +95,7 @@ function BuilderContainer({ builderState }) {
                                                             {/* {snapshot.isUsingPlaceholder && <div style={{ color: "red", fontSize: "40px" }}>isUsingPlaceholder :Drop items here</div>}
                                                         {snapshot.isDraggingOver && <div style={{ color: "red", fontSize: "40px" }}> isDraggingOver : Drop items here</div>} */}
 
-                                                            <Draggable isDragDisabled={!builderContext.editorMode} key={item?.id} draggableId={item?.id} index={index}>
+                                                            <Draggable isDragDisabled={!builderContext.editorMode} key={index} draggableId={item?.id} index={index}>
                                                                 {(provided: any, snapshot) => {
                                                                     return <React.Fragment>
                                                                         <div className={`${styles.draggComponentWrap} ${snapshot.isDragging ? styles.sortingInProgress : ''}`}

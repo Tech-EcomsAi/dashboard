@@ -54,7 +54,7 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
                 <Space className={styles.profileHeader} size={10} style={{ background: token.colorBgBlur }} align='start'>
                     <Space className={styles.profileImage}>
                         <Badge dot={true} style={{ top: "0px", right: "0", background: "green" }}>
-                            {userData?.image ? <Image src={userData?.image || ''} alt={''} height={42} width={42} /> : <Avatar >DG</Avatar>}
+                            {userData?.image ? <Image src={userData?.image || ''} alt={'ecoms.ai'} height={42} width={42} /> : <Avatar >DG</Avatar>}
                         </Badge>
                     </Space>
                     <Space direction='vertical' size={0}>

@@ -441,7 +441,7 @@ export default function CraftBuilder() {
                 <div className={styles.editorContainer} style={{ background: token.colorBgContainer, color: token.colorTextBase }}>
                     <div className={styles.tabsSection}>
                         <div className={styles.logoWrap}>
-                            <img src={LOGO} />
+                            <img src={LOGO} alt='ecoms.ai' />
                         </div>
                         <TabsWrapper activeEditorTab={activeEditorTab} setActiveEditorTab={onChangeTab} />
                     </div>

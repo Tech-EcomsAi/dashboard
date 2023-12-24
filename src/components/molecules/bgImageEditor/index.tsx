@@ -28,8 +28,8 @@ function BgImageEditor({ currentPage = '', active, imageData, onSelect, stylePro
                         <Button onClick={() => onSelect(imageData)} type="primary" size="middle" icon={<BiCheck />}>Select</Button>
                     </Tooltip> */}
                 </div>
-                {<Image src={imageData.thumb || imageData.src} preview={false} />}
-                {showPreview && <Image
+                {<Image alt={'ecoms.ai'} src={imageData.thumb || imageData.src} preview={false} />}
+                {showPreview && <Image alt={'ecoms.ai'}
                     style={{ display: 'none' }}
                     src={imageData.thumb || imageData.src}
                     preview={{

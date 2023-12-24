@@ -1,3 +1,5 @@
+//no-anonymous-default-export
+
 export default [
     {
         "name": "Omolon",

@@ -116,7 +116,3 @@ export const authOptions: NextAuthOptions = {
 export const getServerSideSessionUser = async () => {
     return await getServerSession(authOptions);
 }
-
-export const getClientSideSessionUser = async () => {
-    return await useSession();
-}

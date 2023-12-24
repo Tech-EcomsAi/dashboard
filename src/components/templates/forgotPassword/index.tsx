@@ -1,13 +1,11 @@
 'use client'
 import { useAppDispatch } from "src/hooks/useAppDispatch";
 import React, { useEffect, useState } from "react";
-import styles from '@templatesCSS/loginPage/loginPage.module.scss'
-import { Button, Divider, Form, Input, Space, theme } from "antd";
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Space, theme } from "antd";
+import { UserOutlined } from '@ant-design/icons';
 import { EMPTY_ERROR } from "@constant/common";
 import { showErrorToast, showSuccessToast } from "@reduxSlices/toast";
-import { signIn, useSession } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
+import { useSession } from "next-auth/react";
 import { redirect } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from "@constant/navigations";
 import { LuArrowLeft, LuSun } from "react-icons/lu";
@@ -15,8 +13,8 @@ import { useAppSelector } from "@hook/useAppSelector";
 import { getDarkModeState, toggleDarkMode } from "@reduxSlices/clientThemeConfig";
 import { useRouter } from 'next/navigation'
 import { firebaseAuth } from "@lib/firebase/firebaseClient";
-import TextElement from "@antdComponent/textElement";
 import { sendPasswordResetEmail } from "firebase/auth";
+import styles from '../loginPage/loginPage.module.scss';
 
 const LOGIN_ERRORS = {
     "INVALID_EMAIL": "auth/invalid-email",

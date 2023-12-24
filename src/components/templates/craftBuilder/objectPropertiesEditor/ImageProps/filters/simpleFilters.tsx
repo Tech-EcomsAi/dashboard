@@ -79,14 +79,15 @@ function SimpleFilters({ createFilter, updateLocalCanvas, canvas, activeObjectsS
                             <LuCheck />
                         </div>}
                         <div className={bgImagestyles.imageContent} >
-                            <Image style={{ borderRadius: "4px", }} src={`/assets/images/filters/${type}.png`} preview={false} />
+                            <Image alt='ecoms.ai' style={{ borderRadius: "4px", }} src={`/assets/images/filters/${type}.png`} preview={false} />
                         </div>
-                        <div className={bgImagestyles.title} style={{
-                            borderRadius: "4px",
-                            fontSize: '11px',
-                            backgroundColor: availableFilters[type] ? token.colorPrimary : token.colorBgContainer,
-                            color: token.colorText
-                        }}>{type}</div>
+                        <div className={bgImagestyles.title}
+                            style={{
+                                borderRadius: "4px",
+                                fontSize: '11px',
+                                backgroundColor: availableFilters[type] ? token.colorPrimary : token.colorBgContainer,
+                                color: token.colorText
+                            }}>{type}</div>
                     </div>
                 </React.Fragment>
             })}

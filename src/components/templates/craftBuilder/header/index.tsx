@@ -389,7 +389,7 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
                 width={'max-content'}
             >
                 <div className={styles.previewImageWrap}>
-                    <img src={previewUrl} />
+                    <img src={previewUrl} alt='ecoms.ai' />
                 </div>
             </Modal>
 
@@ -532,7 +532,7 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
                     <div className={styles.actionsWrap}>
                         <div className={styles.previewWrap}>
                             <div className={styles.previewImageWrap}>
-                                <img src={openDownloadModal} />
+                                <img alt='ecoms.ai' src={openDownloadModal} />
                             </div>
                         </div>
                         <div className={styles.saveOptionsWrap}>

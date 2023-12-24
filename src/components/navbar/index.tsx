@@ -46,7 +46,7 @@ function Navbar() {
             <div className={styles.loginAction}>
                 {usetData?.email}
                 <div >{usetData?.name}</div>
-                {usetData?.image && <div ><Image src={usetData?.image || ''} alt={''} height={50} width={50} /></div>}
+                {usetData?.image && <div ><Image src={usetData?.image || ''} alt={'ecoms.ai'} height={50} width={50} /></div>}
                 {Boolean(usetData) ? <button onClick={() => signOut()}>Logout</button> :
                     <button onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/dashboard' })}>Login</button>}
                 {/* <button onClick={() => signIn("email", { email: "pasaydandg@gmail.com" })}>Sign in with Email</button> */}
