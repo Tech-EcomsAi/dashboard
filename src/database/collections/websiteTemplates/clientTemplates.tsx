@@ -6,8 +6,8 @@ import { addDoc, doc, getDoc } from "firebase/firestore";
 const COLLECTION = DB_COLLECTIONS.WEBSITE_CLIENT_TEMPLATES;
 
 const getCollectionRef = () => {
-    const tennatId = 0;
-    const storeId = 0;
+    const tennatId = 1;
+    const storeId = 1;
     return collection(firebaseClient, `${COLLECTION}/${tennatId}/${storeId}`)
 }
 

@@ -11,6 +11,7 @@ import Saperator from '@atoms/Saperator';
 import { MdOutlineNavigateNext } from 'react-icons/md';
 import { AnimatePresence, motion } from 'framer-motion';
 import { addClientTemplate, getClientTemplate } from '@database/collections/websiteTemplates/clientTemplates';
+import { addPlatformTemplate } from '@database/collections/websiteTemplates/platformTemplates';
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 
@@ -22,7 +23,7 @@ const STEPS_LIST: STEP_DETAILS_PROPS[] = [
     { stepId: 0, list: TEMPLATE_TYPES_LIST, selectedTitle: "Selected Website Type", title: "Select Type", tooltip: "Which type of website do you want to create?" },
     { stepId: 1, list: TEMPLATE_PAGES_LIST, selectedTitle: "Selected Pages", title: "Select Pages", tooltip: "Select pages of your website" },
     { stepId: 2, list: TEMPLATE_SECTIONS_LIST, selectedTitle: "Selected Home Page Sections", title: "Select Sections Home Page ", tooltip: "Select section of your pages" },
-    { stepId: 3, list: [], selectedTitle: "Site Short description", title: "Enter short description of your site ", tooltip: "Enter short description of your site" },
+    // { stepId: 3, list: [], selectedTitle: "Site Short description", title: "Enter short description of your site ", tooltip: "Enter short description of your site" },
 ]
 
 function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleModalResponse }) {
@@ -40,17 +41,22 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
 
 
 
-    const createWebsite = () => {
+    const createTemplate = () => {
         setIsLoading(true)
-        return new Promise((res, rej) => {
-            const templateData = { ...templateDetails };
-            addClientTemplate(templateData).then((generatedId) => {
-                setTimeout(() => {
-                    setIsLoading(false)
-                    res(true)
-                }, 5000);
+        const templateData = { ...templateDetails };
+        setSiteCreationActive(true)
+        addPlatformTemplate(templateData)
+            .then((templateId) => {
+                console.log("templateId", templateId)
+                setIsLoading(false)
+                dispatch(showSuccessToast("Website Created Successfully"))
             })
-        })
+            .catch((error) => {
+                console.log("error", error)
+                setSiteCreationActive(false)
+                setIsLoading(false)
+                dispatch(showErrorToast("Template creation failed"))
+            })
     }
 
     const getTemplates = () => {
@@ -70,12 +76,11 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
         } else if (activeStep.stepId == 1) {
             setActiveStep(STEPS_LIST[2]);
         } else if (activeStep.stepId == 2) {
-            setActiveStep(STEPS_LIST[3]);
-        } else if (activeStep.stepId == 3) {
-            setSiteCreationActive(true)
-            createWebsite().then(() => {
-                dispatch(showSuccessToast("Website Created Successfully"))
-            })
+            if (templateDetails.sections.length !== 0) {
+                createTemplate();
+            } else {
+                dispatch(showErrorToast("Please select sections for your home page"))
+            }
         }
     }
 
@@ -127,7 +132,7 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
                     key={stepDetails.stepId}
                     headStyle={{ minHeight: 0, padding: 0 }}
                     style={{ background: token.colorFillContent }}
-                    title={<Space wrap style={{ cursor: "pointer", width: "100%", padding: 8, background: token.colorPrimaryBg }} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId])}>
+                    title={<Space wrap style={{ cursor: "pointer", width: "100%", padding: 8, background: token.colorBgBase }} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId])}>
                         {stepDetails.stepId == 0 ? <>
                             {Boolean(templateDetails?.templateType?.title) ?
                                 <Space wrap align='center'>
