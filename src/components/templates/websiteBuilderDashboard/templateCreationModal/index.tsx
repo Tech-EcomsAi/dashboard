@@ -1,24 +1,28 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import styles from './templateCreationModal.module.scss';
-import { Button, Card, Modal, Space, Timeline, Typography, theme } from 'antd';
+import { Button, Card, Input, Modal, Space, Timeline, Typography, theme } from 'antd';
 import { LuArrowLeft, LuBook, LuBookCopy, LuBookLock, LuBookOpenCheck, LuBookTemplate, LuMoveLeft, LuMoveRight, LuPanelRight, LuPaperclip, LuX } from 'react-icons/lu';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { showErrorAlert } from '@reduxSlices/alert';
-import { showErrorToast } from '@reduxSlices/toast';
+import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
 import Loader from '@organisms/loader';
 import { TEMPLATES_PROPS_TYPE, TEMPLATE_PAGES_LIST, TEMPLATE_SECTIONS_LIST, TEMPLATE_TYPES_LIST } from '@constant/templates';
 import Saperator from '@atoms/Saperator';
 import { MdOutlineNavigateNext } from 'react-icons/md';
-const { Text, Title } = Typography
 import { AnimatePresence, motion } from 'framer-motion';
+import { addClientTemplate, getClientTemplate } from '@database/collections/websiteTemplates/clientTemplates';
+const { Text, Title } = Typography;
+const { TextArea } = Input;
+
+const HOME_PAGE_TYPE = { key: 1, title: "Home Page" };
 
 type STEP_DETAILS_PROPS = { stepId: number, title: string, selectedTitle: string, tooltip: string, list: any[] }
 
 const STEPS_LIST: STEP_DETAILS_PROPS[] = [
     { stepId: 0, list: TEMPLATE_TYPES_LIST, selectedTitle: "Selected Website Type", title: "Select Type", tooltip: "Which type of website do you want to create?" },
     { stepId: 1, list: TEMPLATE_PAGES_LIST, selectedTitle: "Selected Pages", title: "Select Pages", tooltip: "Select pages of your website" },
-    { stepId: 2, list: TEMPLATE_SECTIONS_LIST, selectedTitle: "Selected Sections", title: "Select Sections", tooltip: "Select section of your pages" },
-    // { stepId: 3, list: [], selectedTitle: "Creating your site", title: "Creating your site", tooltip: "Please hold tight, your site is getting ready in few seconds" },
+    { stepId: 2, list: TEMPLATE_SECTIONS_LIST, selectedTitle: "Selected Home Page Sections", title: "Select Sections Home Page ", tooltip: "Select section of your pages" },
+    { stepId: 3, list: [], selectedTitle: "Site Short description", title: "Enter short description of your site ", tooltip: "Enter short description of your site" },
 ]
 
 function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleModalResponse }) {
@@ -26,45 +30,59 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false)
     const { token } = theme.useToken();
+    const [siteCreationActive, setSiteCreationActive] = useState(false)
     const [templateDetails, setTemplateDetails] = useState({
         templateType: { key: "", title: "" },
-        pages: [{ key: 1, title: "Home Page" }],
-        sections: []
+        pages: [HOME_PAGE_TYPE],
+        sections: [],
+        description: ""
     })
+
+
 
     const createWebsite = () => {
         setIsLoading(true)
         return new Promise((res, rej) => {
-            setTimeout(() => {
-                setIsLoading(false)
-                res(true)
-            }, 5000);
+            const templateData = { ...templateDetails };
+            addClientTemplate(templateData).then((generatedId) => {
+                setTimeout(() => {
+                    setIsLoading(false)
+                    res(true)
+                }, 5000);
+            })
+        })
+    }
+
+    const getTemplates = () => {
+        getClientTemplate().then((res) => {
+            console.log("res", res)
         })
     }
 
     const onSubmit = () => {
+        getTemplates();
         if (activeStep.stepId == 0) {
             if (templateDetails.templateType.key) {
                 setActiveStep(STEPS_LIST[1])
             } else {
-                dispatch(showErrorToast("Please select type"))
+                dispatch(showErrorToast("Please select website type"))
             }
         } else if (activeStep.stepId == 1) {
             setActiveStep(STEPS_LIST[2]);
         } else if (activeStep.stepId == 2) {
             setActiveStep(STEPS_LIST[3]);
+        } else if (activeStep.stepId == 3) {
+            setSiteCreationActive(true)
             createWebsite().then(() => {
-                dispatch(showErrorToast("Website Created Successfully"))
+                dispatch(showSuccessToast("Website Created Successfully"))
             })
-        } else {
-
         }
     }
 
     const onSelectConfig = (value: TEMPLATES_PROPS_TYPE) => {
         //type
         if (activeStep.stepId == 0) {
-            setTemplateDetails({ pages: [{ key: 1, title: "Home Page" }], sections: [], templateType: value });
+            setTemplateDetails({ ...templateDetails, templateType: value, sections: [] })
             setActiveStep(STEPS_LIST[1])
             //pages
         } else if (activeStep.stepId == 1) {
@@ -85,8 +103,6 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
             } else {
                 setTemplateDetails({ ...templateDetails, sections: [...templateDetails.sections, value] });
             }
-        } else {
-
         }
     }
 
@@ -111,10 +127,10 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
                     key={stepDetails.stepId}
                     headStyle={{ minHeight: 0, padding: 0 }}
                     style={{ background: token.colorFillContent }}
-                    title={<Space style={{ cursor: "pointer", width: "100%", padding: 8, background: token.colorPrimaryBg }} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId])}>
+                    title={<Space wrap style={{ cursor: "pointer", width: "100%", padding: 8, background: token.colorPrimaryBg }} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId])}>
                         {stepDetails.stepId == 0 ? <>
                             {Boolean(templateDetails?.templateType?.title) ?
-                                <Space align='center'>
+                                <Space wrap align='center'>
                                     <Text>{stepDetails.selectedTitle} :</Text>
                                     <Title level={5} style={{ margin: 0 }} type='success'> {templateDetails?.templateType?.title}</Title>
                                 </Space>
@@ -127,33 +143,45 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
                                     <Title level={5} style={{ margin: 0 }} type='success'> {templateDetails?.pages.map((page, i) => <Fragment key={page.key}>{page.title} {i != templateDetails?.pages.length - 1 && ", "}</Fragment>)}</Title>
                                 </Space>
                                 :
-                                <Text>{STEPS_LIST[1].tooltip}</Text>}
-                        </> : <>
+                                <Text>{STEPS_LIST[stepDetails.stepId].tooltip}</Text>}
+                        </> : stepDetails.stepId == 2 ? <>
                             {templateDetails?.sections.length != 0 ?
                                 <Space align='center' wrap>
                                     <Text>{stepDetails.selectedTitle} :</Text>
                                     <Title level={5} style={{ margin: 0 }} type='success'> {templateDetails?.sections.map((section, i) => <Fragment key={section.key}>{section.title} {i != templateDetails?.sections.length - 1 && ", "}</Fragment>)}</Title>
                                 </Space>
                                 :
-                                <Text>{STEPS_LIST[2].tooltip}</Text>}
+                                <Text>{STEPS_LIST[stepDetails.stepId].tooltip}</Text>}
+                        </> : <>
+                            <Text>{STEPS_LIST[stepDetails.stepId].tooltip}</Text>
                         </>}
                     </Space>}
                     bodyStyle={{ padding: "unset" }}
-                    extra={<Button className={styles.actionButton} icon={<MdOutlineNavigateNext />} type='text' size='large' style={{ transform: `rotate(${activeStep.stepId == stepDetails.stepId ? 90 : 0}deg)` }} />}
+                    extra={<Button className={styles.actionButton} icon={<MdOutlineNavigateNext />} type='text' size='large' style={{ transform: `rotate(${activeStep?.stepId == stepDetails.stepId ? 90 : 0}deg)` }} />}
                 >
-                    {activeStep.stepId == stepDetails.stepId && <Space direction='vertical' align='end' style={{ width: "100%", padding: 20 }}>
-                        <Space wrap style={{ width: "100%" }}>
+                    {activeStep?.stepId == stepDetails.stepId && <Space direction='vertical' align='end' style={{ width: "100%", padding: 20 }}>
+                        {stepDetails.list.length != 0 && <Space wrap style={{ width: "100%" }}>
                             {stepDetails.list.map((typeDetails: TEMPLATES_PROPS_TYPE) => {
                                 return <Fragment key={typeDetails.key}>
-                                    {stepDetails.stepId == 0 && <Button shape='round' type={templateDetails?.templateType?.key == typeDetails.key ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig(typeDetails)}>{typeDetails.title}</Button>}
-                                    {stepDetails.stepId == 1 && <Button shape='round' type={templateDetails?.pages.find(type => typeDetails.key == type.key) ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig({ key: typeDetails.key, title: typeDetails.title })}>{typeDetails.title}</Button>}
-                                    {stepDetails.stepId == 2 && <Button shape='round' type={templateDetails?.sections.find(type => typeDetails.key == type.key) ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig({ key: typeDetails.key, title: typeDetails.title })}>{typeDetails.title}</Button>}
+                                    {stepDetails.stepId == 0 && <Button shape='round' type={templateDetails?.templateType?.key == typeDetails.key ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig(typeDetails)} >{typeDetails.title}</Button>}
+                                    {stepDetails.stepId == 1 && <Button shape='round' type={Boolean(templateDetails?.pages.find(type => typeDetails.key == type.key)) ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig({ key: typeDetails.key, title: typeDetails.title })} disabled={typeDetails.key == 1}>{typeDetails.title}</Button>}
+                                    {stepDetails.stepId == 2 && <Button shape='round' type={Boolean(templateDetails?.sections.find(type => typeDetails.key == type.key)) ? "primary" : "dashed"} size='middle' onClick={() => onSelectConfig({ key: typeDetails.key, title: typeDetails.title })}>{typeDetails.title}</Button>}
                                 </Fragment>
                             })}
-                        </Space>
+                            {stepDetails.stepId == 3 && <>
+                                <TextArea
+                                    allowClear
+                                    size="large"
+                                    value={templateDetails.description}
+                                    placeholder="Enter short min 120 letters description"
+                                    // style={{ minHeight: 'auto' }}
+                                    onChange={(e) => setTemplateDetails({ ...templateDetails, description: e.target.value })}
+                                />
+                            </>}
+                        </Space>}
                         <Space align='end' style={{ width: "100%" }} >
                             {stepDetails.stepId > 0 && <Button icon={<LuMoveLeft />} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId - 1])} />}
-                            {stepDetails.stepId < 2 && <Button icon={<LuMoveRight />} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId + 1])} />}
+                            {stepDetails.stepId < STEPS_LIST.length - 1 && <Button icon={<LuMoveRight />} onClick={() => navigateToStep(STEPS_LIST[stepDetails.stepId + 1])} />}
                         </Space>
                     </Space>
                     }
@@ -161,6 +189,10 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
                 color: isActive ? "green" : "gray"
             }
         })
+    }
+
+    const siteCreationProgress = () => {
+
     }
 
     return (
@@ -171,15 +203,15 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
             onCancel={() => handleModalResponse()}
             styles={{
                 mask: { backdropFilter: 'blur(6px)' },
-                body: { maxWidth: '80vh', minWidth: 360 }
+                body: { maxWidth: '80vh' }
             }}
             footer={<Space direction='vertical' style={{ width: "100%" }}>
                 <Saperator />
                 <Space>
                     <Button onClick={() => handleModalResponse()} size='large' icon={<LuX />}>Cancel</Button>
-                    {activeStep.stepId == 0 ? <Button size='large' type='primary' onClick={onSubmit} icon={<LuBookCopy />}>Select Pages</Button> :
-                        activeStep.stepId == 1 ? <Button size='large' type='primary' onClick={onSubmit} icon={<LuBook />}>Select Sections</Button> :
-                            <Button size='large' type='primary' onClick={onSubmit} icon={<LuBookOpenCheck />}>Create Site</Button>
+                    {activeStep?.stepId == 0 ? <Button size='large' type='primary' onClick={onSubmit} icon={<LuBookCopy />}>Select Pages</Button> :
+                        activeStep?.stepId == 1 ? <Button size='large' type='primary' onClick={onSubmit} icon={<LuBook />}>Select Sections</Button> :
+                            <Button size='large' type='primary' onClick={onSubmit} icon={<LuBookOpenCheck />} loading={isLoading}>Create Site</Button>
                     }
                 </Space>
             </Space>}
