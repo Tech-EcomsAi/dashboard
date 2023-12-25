@@ -1,8 +1,11 @@
+import WithLayoutProvider from '@providers/withLayoutProvider'
 import React from 'react'
 
 function UsersReport() {
     return (
-        <div style={{ color: "pink" }}>UsersReport</div>
+        <WithLayoutProvider>
+            <div style={{ color: "pink" }}>UsersReport</div>
+        </WithLayoutProvider>
     )
 }
 

@@ -1,8 +1,11 @@
+import WithLayoutProvider from '@providers/withLayoutProvider'
 import React from 'react'
 
 function ReportsSummary() {
     return (
-        <div style={{ color: "yellow" }}>ReportsSummary</div>
+        <WithLayoutProvider>
+            <div style={{ color: "yellow" }}>ReportsSummary</div>
+        </WithLayoutProvider>
     )
 }
 

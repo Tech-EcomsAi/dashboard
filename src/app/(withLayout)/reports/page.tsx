@@ -1,8 +1,11 @@
+import WithLayoutProvider from '@providers/withLayoutProvider'
 import React from 'react'
 
 function ReportsPage() {
     return (
-        <div>ReportsPage</div>
+        <WithLayoutProvider>
+            <div>ReportsPage</div>
+        </WithLayoutProvider>
     )
 }
 

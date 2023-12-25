@@ -1,8 +1,11 @@
+import WithLayoutProvider from '@providers/withLayoutProvider'
 import React from 'react'
 
 function AnalyticsReports() {
     return (
-        <div style={{ color: "green" }}>AnalyticsReports</div>
+        <WithLayoutProvider>
+            <div style={{ color: "green" }}>AnalyticsReports</div>
+        </WithLayoutProvider>
     )
 }
 
