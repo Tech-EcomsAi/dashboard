@@ -1,49 +1,54 @@
 'use client'
-import React, { Fragment, useState } from 'react'
-import { Layout, theme } from 'antd';
-import AntdThemeProvider from '@providers/antdThemeProvider';
-import AlertNotification from '@organisms/alert';
-import Toast from '@organisms/toast';
-import HeadMetaTags from '@organisms/headMetaTags';
-import SidebarComponent from '@organisms/sidebar';
-import styles from './layoutWrapper.module.scss'
-import { useServerInsertedHTML } from 'next/navigation';
-import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs';
+import { StyleProvider, createCache } from '@ant-design/cssinjs';
 import { useAppSelector } from '@hook/useAppSelector';
-import { getDarkModeState, getRTLDirectionState, getSidebarState } from '@reduxSlices/clientThemeConfig';
+import HeadMetaTags from '@organisms/headMetaTags';
 import HeaderComponent from '@organisms/headerComponent';
-import AppSettingsPanel from '@organisms/sidebar/appSettingsPanel';
-import NoSSRProvider from '@providers/noSSRProvider';
+import SidebarComponent from '@organisms/sidebar';
+import Toast from '@organisms/toast';
+import AntdThemeProvider from '@providers/antdThemeProvider';
+import { getAppSettingsPanelStatus, getDarkModeState, getRTLDirectionState, getSidebarState } from '@reduxSlices/clientThemeConfig';
+import { Layout, theme } from 'antd';
+import React, { Fragment } from 'react';
+import styles from './layoutWrapper.module.scss';
+// import AppSettingsPanel from '@organisms/sidebar/appSettingsPanel';
 import type Entity from '@ant-design/cssinjs/es/Cache';
+import NoSSRProvider from '@providers/noSSRProvider';
 
+
+import Loader from '@organisms/loader';
+import dynamic from 'next/dynamic';
 const { Content } = Layout;
+
+const AppSettingsPanel = dynamic(() => import('@organisms/sidebar/appSettingsPanel'), { ssr: false });
 
 export default function AntdLayoutWrapper(props: any) {
     const cache = React.useMemo<Entity>(() => createCache(), []);
     const isCollapsed = useAppSelector(getSidebarState);
     const isDarkMode = useAppSelector(getDarkModeState);
     const isRTLDirection = useAppSelector(getRTLDirectionState)
+    const openSettingPanel = useAppSelector(getAppSettingsPanelStatus)
     const { token } = theme.useToken();
     return (
         <NoSSRProvider>
-            <Layout className={`${styles.layoutWrapper}`} dir={isRTLDirection ? "rtl" : "ltr"} >
-                <StyleProvider cache={cache}>
-                    <HeadMetaTags title={undefined} description={undefined} image={undefined} siteName={undefined} storeData={undefined} />
-                    <AntdThemeProvider>
+            <AntdThemeProvider>
+                <Layout className={`${styles.layoutWrapper}`} dir={isRTLDirection ? "rtl" : "ltr"} >
+                    <StyleProvider cache={cache}>
+                        <HeadMetaTags title={undefined} description={undefined} image={undefined} siteName={undefined} storeData={undefined} />
                         <Fragment>
                             <Toast />
+                            <Loader />
                             <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
                                 <HeaderComponent />
                                 <SidebarComponent />
-                                <AppSettingsPanel />
+                                {openSettingPanel && <AppSettingsPanel />}
                                 <Content className={styles.mainContentWraper} style={{ background: isDarkMode ? token.colorFillContent : token.colorBgLayout }}>
                                     {props.children}
                                 </Content>
                             </Layout>
                         </Fragment>
-                    </AntdThemeProvider>
-                </StyleProvider>
-            </Layout>
+                    </StyleProvider>
+                </Layout>
+            </AntdThemeProvider>
         </NoSSRProvider>
     )
 }

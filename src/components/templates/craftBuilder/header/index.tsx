@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import { fabric } from "fabric";
-import styles from './header.module.scss'
-import { LuCheck, LuImage, LuShare2 } from 'react-icons/lu'
-import { activeObjectsState } from '../types';
-import { Button, theme, Tooltip, Modal, Checkbox, Input, Popconfirm, Dropdown, MenuProps } from 'antd';
-import defaultCraftBuilderConfig from 'src/data/defaultCraftBuilderConfig';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import { showErrorToast } from '@reduxSlices/toast';
-import { PiFileSvg, PiFileJpg, PiFilePng, PiCrownFill } from 'react-icons/pi';
-import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
-import { TbDownload, TbEdit, TbResize } from 'react-icons/tb';
-import { useAppSelector } from '@hook/useAppSelector';
-import { MdDarkMode, MdCleaningServices, MdSave } from 'react-icons/md'
-import { v4 as uuid } from 'uuid';
-import { BiSolidHomeSmile } from 'react-icons/bi';
-import { checkNonRestrictedObject, getCustomObjectType } from '@util/craftBuilderUtils';
-import { BsFillSunFill } from 'react-icons/bs';
-import CRAFT_SIZES from '@constant/craftSizes';
-import SocialIcon from '@assets/Icons/social/SocialIcon';
-import { IoSave } from 'react-icons/io5';
-import { GiSave } from 'react-icons/gi';
-import { AiOutlineClose } from 'react-icons/ai';
-import { ImDownload } from 'react-icons/im';
-const { Search } = Input;
 import { DownOutlined } from '@ant-design/icons';
-import { showSuccessAlert } from '@reduxSlices/alert';
-import { OBJECT_TYPES, SHARE_CRAFT_TYPES } from '@constant/craftBuilder';
-import GlobalCss from '@craftBuilder/craftBuilder.module.scss'
+import SocialIcon from '@assets/Icons/social/SocialIcon';
 import ProUserIcon from '@atoms/proUserIcon';
+import { OBJECT_TYPES, SHARE_CRAFT_TYPES } from '@constant/craftBuilder';
+import CRAFT_SIZES from '@constant/craftSizes';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import { useAppSelector } from '@hook/useAppSelector';
+import { showSuccessAlert } from '@reduxSlices/alert';
+import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
+import { toggleLoader } from '@reduxSlices/loader';
+import { showErrorToast } from '@reduxSlices/toast';
+import { checkNonRestrictedObject, getCustomObjectType } from '@util/craftBuilderUtils';
+import { Button, Checkbox, Dropdown, Input, MenuProps, Modal, Popconfirm, Tooltip, theme } from 'antd';
+import { fabric } from "fabric";
+import React, { useEffect, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { BiSolidHomeSmile } from 'react-icons/bi';
+import { BsFillSunFill } from 'react-icons/bs';
+import { GiSave } from 'react-icons/gi';
+import { ImDownload } from 'react-icons/im';
+import { IoSave } from 'react-icons/io5';
+import { LuCheck, LuImage, LuShare2 } from 'react-icons/lu';
+import { MdCleaningServices, MdDarkMode, MdSave } from 'react-icons/md';
+import { PiCrownFill, PiFileJpg, PiFilePng, PiFileSvg } from 'react-icons/pi';
+import { TbDownload, TbEdit, TbResize } from 'react-icons/tb';
+import defaultCraftBuilderConfig from 'src/data/defaultCraftBuilderConfig';
+import { v4 as uuid } from 'uuid';
+import { activeObjectsState } from '../types';
+import styles from './header.module.scss';
+const { Search } = Input;
 const { TextArea } = Input;
 
 type pageProps = {
@@ -157,7 +157,7 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
     }
 
     const onChnageOptions = (option, value) => {
-        setIsLoading(false);
+        dispatch(toggleLoader(false))
         switch (option) {
             case DOWNLOAD_OPTIONS.REMOVE_BG:
                 if (defaultCraftBuilderConfig.isPro || !value) {
@@ -180,7 +180,7 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
     }
 
     const onClickDownload = () => {
-        setIsLoading(true);
+        dispatch(toggleLoader(true))
         setTimeout(() => {
             if (downloadOptions.type == DOWNLOAD_OPTIONS.PNG || downloadOptions.type == DOWNLOAD_OPTIONS.JPEG) {
                 const dataUrl = getImgUrl(downloadOptions.type);
@@ -203,7 +203,7 @@ function Header({ updateWorkspaceSize, setAutoSizing, updateLocalCanvas, canvas,
         document.body.appendChild(anchorEl); // required for firefox
         anchorEl.click();
         anchorEl.remove();
-        setIsLoading(false);
+        dispatch(toggleLoader(false))
     }
 
     const onClickClear = () => {

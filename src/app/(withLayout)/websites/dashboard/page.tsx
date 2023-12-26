@@ -1,4 +1,4 @@
-import WithLayoutProvider from '@providers/withLayoutProvider'
+import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 import WebsiteBuilderDashboard from '@template/websiteBuilderDashboard'
 import React, { Suspense } from 'react'
 import Loading from 'src/app/loading'
@@ -7,9 +7,9 @@ function page() {
     return (
         <React.Fragment>
             <Suspense fallback={<Loading page="Builder Dashboard" />}>
-                <WithLayoutProvider>
+                <AntdLayoutWrapper>
                     <WebsiteBuilderDashboard />
-                </WithLayoutProvider>
+                </AntdLayoutWrapper>
             </Suspense>
         </React.Fragment>
     )

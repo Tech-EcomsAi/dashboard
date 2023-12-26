@@ -1,5 +1,4 @@
 import { Tooltip } from 'antd'
-import React from 'react'
 import { PiCrownFill } from 'react-icons/pi'
 import styles from './proUserIcon.module.scss'
 

@@ -1,8 +1,6 @@
 'use client'
-import React from 'react'
 import styles from "@organismsCSS/staticPages/staticPages.module.scss";
 import { Button, Result } from 'antd';
-import Image from 'next/image'
 import { useRouter } from 'next/navigation';
 
 function Unauthorised() {

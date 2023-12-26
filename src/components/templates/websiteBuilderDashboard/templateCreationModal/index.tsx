@@ -1,17 +1,16 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import styles from './templateCreationModal.module.scss';
-import { Button, Card, Input, Modal, Space, Timeline, Typography, theme } from 'antd';
-import { LuArrowLeft, LuBook, LuBookCopy, LuBookLock, LuBookOpenCheck, LuBookTemplate, LuMoveLeft, LuMoveRight, LuPanelRight, LuPaperclip, LuX } from 'react-icons/lu';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import { showErrorAlert } from '@reduxSlices/alert';
-import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
-import Loader from '@organisms/loader';
-import { TEMPLATES_PROPS_TYPE, TEMPLATE_PAGES_LIST, TEMPLATE_SECTIONS_LIST, TEMPLATE_TYPES_LIST } from '@constant/templates';
 import Saperator from '@atoms/Saperator';
-import { MdOutlineNavigateNext } from 'react-icons/md';
-import { AnimatePresence, motion } from 'framer-motion';
-import { addClientTemplate, getClientTemplate } from '@database/collections/websiteTemplates/clientTemplates';
+import { TEMPLATES_PROPS_TYPE, TEMPLATE_PAGES_LIST, TEMPLATE_SECTIONS_LIST, TEMPLATE_TYPES_LIST } from '@constant/templates';
+import { getClientTemplate } from '@database/collections/websiteTemplates/clientTemplates';
 import { addPlatformTemplate } from '@database/collections/websiteTemplates/platformTemplates';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import { toggleLoader } from '@reduxSlices/loader';
+import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
+import { Button, Card, Input, Modal, Space, Timeline, Typography, theme } from 'antd';
+import { AnimatePresence } from 'framer-motion';
+import { Fragment, useState } from 'react';
+import { LuBook, LuBookCopy, LuBookOpenCheck, LuMoveLeft, LuMoveRight, LuX } from 'react-icons/lu';
+import { MdOutlineNavigateNext } from 'react-icons/md';
+import styles from './templateCreationModal.module.scss';
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 
@@ -26,10 +25,10 @@ const STEPS_LIST: STEP_DETAILS_PROPS[] = [
     // { stepId: 3, list: [], selectedTitle: "Site Short description", title: "Enter short description of your site ", tooltip: "Enter short description of your site" },
 ]
 
-function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleModalResponse }) {
+function TemplateCreationModal({ showModal, handleModalResponse }) {
     const [activeStep, setActiveStep] = useState(STEPS_LIST[0]);
     const dispatch = useAppDispatch();
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
     const { token } = theme.useToken();
     const [siteCreationActive, setSiteCreationActive] = useState(false)
     const [templateDetails, setTemplateDetails] = useState({
@@ -39,22 +38,20 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
         description: ""
     })
 
-
-
     const createTemplate = () => {
-        setIsLoading(true)
+        dispatch(toggleLoader(true))
         const templateData = { ...templateDetails };
         setSiteCreationActive(true)
         addPlatformTemplate(templateData)
             .then((templateId) => {
                 console.log("templateId", templateId)
-                setIsLoading(false)
+                dispatch(toggleLoader(false))
                 dispatch(showSuccessToast("Website Created Successfully"))
             })
             .catch((error) => {
                 console.log("error", error)
                 setSiteCreationActive(false)
-                setIsLoading(false)
+                dispatch(toggleLoader(false))
                 dispatch(showErrorToast("Template creation failed"))
             })
     }
@@ -88,7 +85,7 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
         //type
         if (activeStep.stepId == 0) {
             setTemplateDetails({ ...templateDetails, templateType: value, sections: [] })
-            setActiveStep(STEPS_LIST[1])
+            // setActiveStep(STEPS_LIST[1])
             //pages
         } else if (activeStep.stepId == 1) {
             const previndex = templateDetails.pages.findIndex((p) => p.key == value.key)
@@ -196,12 +193,9 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
         })
     }
 
-    const siteCreationProgress = () => {
-
-    }
-
     return (
         <Modal
+            maskClosable={false}
             destroyOnClose
             title="Let’s create new website"
             open={showModal}
@@ -230,7 +224,6 @@ function TemplateCreationModal({ setShowViewAllTemplateModal, showModal, handleM
                     items={[...renderStepsCard()]}
                 />
             </AnimatePresence>
-            {isLoading && <Loader />}
         </Modal>
     )
 }

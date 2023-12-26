@@ -1,6 +1,5 @@
-import React from 'react'
-import styles from './page.module.css'
 import AnimatedVerticalLogo from '@atoms/animatedVerticalLogo'
+import styles from './page.module.css'
 
 function Loading({ page }) {
 

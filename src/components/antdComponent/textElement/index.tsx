@@ -1,5 +1,4 @@
 import { Typography, theme } from 'antd';
-import React from 'react'
 
 type TextSize = "small" | "medium" | "large";
 

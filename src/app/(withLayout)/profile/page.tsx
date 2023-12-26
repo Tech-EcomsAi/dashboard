@@ -1,12 +1,11 @@
-import WithLayoutProvider from '@providers/withLayoutProvider'
+import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 import LoggedInUserProfile from '@template/loggedInUserProfile'
-import React from 'react'
 
 function page() {
     return (
-        <WithLayoutProvider>
+        <AntdLayoutWrapper>
             <LoggedInUserProfile />
-        </WithLayoutProvider>
+        </AntdLayoutWrapper>
     )
 }
 

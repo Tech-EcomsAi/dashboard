@@ -1,7 +1,7 @@
 import { DB_COLLECTIONS } from "@constant/database";
-import { collection, getDocs, query, where } from "@firebase/firestore";
+import { collection, getDocs } from "@firebase/firestore";
 import { firebaseClient } from "@lib/firebase/firebaseClient";
-import { addDoc, doc, getDoc } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 
 const COLLECTION = DB_COLLECTIONS.WEBSITE_PLATFORM_TEMPLATES;
 

@@ -1,5 +1,5 @@
 import GenericDashboard from '@template/genericDashboard'
-import React, { Suspense } from 'react'
+import { Suspense } from 'react'
 import Loading from '../loading'
 
 function page() {

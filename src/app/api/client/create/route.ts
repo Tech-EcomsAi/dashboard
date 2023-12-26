@@ -4,10 +4,10 @@
 // 
 
 
-import { NextResponse } from "next/server";
-import { firebaseApp } from "@lib/firebase/firebaseClient";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addUser, getUserByEmail } from "@database/users";
+import { firebaseApp } from "@lib/firebase/firebaseClient";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
     try {

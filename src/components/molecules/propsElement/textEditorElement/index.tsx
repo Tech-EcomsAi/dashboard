@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import styles from './textElement.module.scss';
-import { Input, theme } from 'antd';
-import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import TextElement from '@antdComponent/textElement';
 import Saperator from '@atoms/Saperator';
+import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import { Input, theme } from 'antd';
+import { useState } from 'react';
 
 const { TextArea } = Input;
 

@@ -1,5 +1,4 @@
 import { Slider, theme } from 'antd'
-import React from 'react'
 import styles from './sliderElement.module.scss'
 
 type SliderComponentPropsType = {

@@ -1,19 +1,19 @@
-import React, { Fragment, useEffect } from 'react';
-import { Button, Drawer, Select, Space, theme } from 'antd';
-import { IoClose } from 'react-icons/io5';
+import CheckboxElement from '@antdComponent/checkboxElement';
 import IconButton from '@antdComponent/iconButton';
-import styles from '@organismsCSS/sidebarComponent/appSettingsPanel.module.scss'
 import TextElement from '@antdComponent/textElement';
 import Saperator from '@atoms/Saperator';
-import { useAppSelector } from '@hook/useAppSelector';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import { convertRGBtoOBJ, hexToRgbA } from '@util/utils';
-import { getAppLanguageState, getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getFullscreenModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getRTLDirectionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleFullscreenMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleRTLDirection, toggleShowDateInHeader, toggleShowUserDetailsInHeader, toggleSidbar, updateAppLanguage, updateDarkThemeColor, updateLightThemeColor } from '@reduxSlices/clientThemeConfig';
-import { LIGHT_COLORS, DARK_COLORS, AVAILABLE_LANGUAGES } from '@constant/common';
 import SelectedItemCheck from '@atoms/selectedItemCheck';
-import CheckboxElement from '@antdComponent/checkboxElement';
-import { LuArrowRight, LuArrowUpRight, LuExternalLink, LuLanguages } from 'react-icons/lu';
+import { AVAILABLE_LANGUAGES, DARK_COLORS, LIGHT_COLORS } from '@constant/common';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import { useAppSelector } from '@hook/useAppSelector';
+import styles from '@organismsCSS/sidebarComponent/appSettingsPanel.module.scss';
+import { getAppLanguageState, getAppSettingsPanelStatus, getDarkColorState, getDarkModeState, getFullscreenModeState, getHeaderBgBlurState, getHeaderPositionState, getLightColorState, getRTLDirectionState, getShowDateInHeaderState, getShowUserDetailsInHeaderState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleFullscreenMode, toggleHeaderBgBlur, toggleHeaderPosition, toggleRTLDirection, toggleShowDateInHeader, toggleShowUserDetailsInHeader, toggleSidbar, updateAppLanguage, updateDarkThemeColor, updateLightThemeColor } from '@reduxSlices/clientThemeConfig';
 import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
+import { convertRGBtoOBJ, hexToRgbA } from '@util/utils';
+import { Button, Drawer, Select, Space, theme } from 'antd';
+import { Fragment, useEffect } from 'react';
+import { IoClose } from 'react-icons/io5';
+import { LuExternalLink } from 'react-icons/lu';
 
 const colorsList = {
   light: LIGHT_COLORS,

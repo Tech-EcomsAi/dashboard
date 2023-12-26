@@ -1,11 +1,12 @@
-import { Select, Spin, theme } from 'antd'
-import React, { useState } from 'react'
-import styles from './fontFamily.module.scss'
-import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import FontFaceObserver from 'fontfaceobserver';
-import { IMAGE_EDITOR_PAGE } from '@constant/common';
 import TextElement from '@antdComponent/textElement';
+import { IMAGE_EDITOR_PAGE } from '@constant/common';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import { toggleLoader } from '@reduxSlices/loader';
+import { Select, Spin, theme } from 'antd';
+import FontFaceObserver from 'fontfaceobserver';
+import { useState } from 'react';
+import styles from './fontFamily.module.scss';
 const { Option } = Select;
 
 export default function FontFamily({ size = 'middle', currentPage = '', showLabel = true, value, onChange, style = {} }) {
@@ -42,15 +43,15 @@ export default function FontFamily({ size = 'middle', currentPage = '', showLabe
 
     const changeFontFamily = (fontName) => {
         if (!fontName) return;
-        setIsLoading(true)
+        dispatch(toggleLoader(true))
         // font loading for canvas
         const font = new FontFaceObserver(fontName);
         font.load(null, 150000).then(() => {
             onChange('fontFamily', fontName)
-            setIsLoading(false)
+            dispatch(toggleLoader(false))
         }).catch((err) => {
             console.log(err);
-            setIsLoading(false)
+            dispatch(toggleLoader(false))
         });
     }
 

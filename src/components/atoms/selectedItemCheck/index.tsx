@@ -1,12 +1,7 @@
-import React from 'react'
-import styles from './selectedItemCheck.module.scss'
 import { theme } from 'antd';
-import { LuCheck, LuCheckCircle, LuCheckCircle2 } from 'react-icons/lu';
 import { AnimatePresence, motion } from 'framer-motion';
-import { TbSquareRoundedCheck, TbSquareRoundedCheckFilled } from 'react-icons/tb';
-import { BiCheckDouble } from 'react-icons/bi';
-import { BsCheck2Circle } from 'react-icons/bs';
 import { GiCheckMark } from 'react-icons/gi';
+import styles from './selectedItemCheck.module.scss';
 
 function SelectedItemCheck({ active }) {
     const { token } = theme.useToken();

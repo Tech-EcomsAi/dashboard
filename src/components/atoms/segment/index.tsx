@@ -1,7 +1,6 @@
-import { Segmented, Slider, theme, Tooltip } from 'antd'
-import React from 'react'
-import styles from './segmentComponent.module.scss';
 import TextElement from '@antdComponent/textElement';
+import { Segmented, theme, Tooltip } from 'antd';
+import styles from './segmentComponent.module.scss';
 
 export const SEGMENT_OPTIONS_TYPES = {
     ARRAY: 'ARRAY',

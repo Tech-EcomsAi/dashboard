@@ -1,5 +1,4 @@
-import { Tooltip, theme } from 'antd'
-import React, { ReactNode } from 'react'
+import { Tooltip } from 'antd'
 
 type TooltipPropsType = {
     title: string,

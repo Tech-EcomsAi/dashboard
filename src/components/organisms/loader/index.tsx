@@ -1,25 +1,22 @@
-import React from 'react'
+import AnimatedVerticalLogo from '@atoms/animatedVerticalLogo';
 import { useAppSelector } from '@hook/useAppSelector';
-import Style from '@styles/components/organisms/loader/loader.module.scss';
-import { Spin, Alert } from 'antd';
 import { getLoaderState } from '@reduxSlices/loader';
+import { theme } from 'antd';
+import { useEffect } from 'react';
+import Style from './loader.module.scss';
+
 function Loader() {
+    const { token } = theme.useToken();
     const loading = useAppSelector(getLoaderState);
+
+    useEffect(() => {
+        console.log("loading", loading)
+    }, [loading])
+
     return (
         <>
-            {loading ? <div className={Style.loaderbody}>
-                {/* <Spin tip="Loading...">
-                    <Alert
-                        message="Alert message title"
-                        description="Further details about the context of this alert."
-                        type="info"
-                    />
-                </Spin> */}
-                <div className={Style.spinner}>
-                    <div className={Style.bounce1}></div>
-                    <div className={Style.bounce2}></div>
-                    <div className={Style.bounce3}></div>
-                </div>
+            {loading ? <div className={Style.loaderbody} style={{ background: token.colorBgMask }}>
+                <AnimatedVerticalLogo showLabel={false} />
             </div> : null}
         </>
     )

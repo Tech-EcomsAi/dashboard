@@ -1,19 +1,19 @@
 'use client'
-import { useAppDispatch } from "src/hooks/useAppDispatch";
-import React, { useEffect, useState } from "react";
-import { Button, Divider, Form, Input, Space, theme } from "antd";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { EMPTY_ERROR, LOGO_SMALL } from "@constant/common";
-import { showErrorToast, showSuccessToast } from "@reduxSlices/toast";
-import { signIn, useSession } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
-import { redirect } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from "@constant/navigations";
-import { LuSun } from "react-icons/lu";
 import { useAppSelector } from "@hook/useAppSelector";
 import { getDarkModeState, toggleDarkMode } from "@reduxSlices/clientThemeConfig";
-import { useRouter } from 'next/navigation'
-import styles from './loginPage.module.scss'
+import { toggleLoader } from "@reduxSlices/loader";
+import { showErrorToast, showSuccessToast } from "@reduxSlices/toast";
+import { Button, Divider, Form, Input, Space, theme } from "antd";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { FcGoogle } from "react-icons/fc";
+import { LuSun } from "react-icons/lu";
+import { useAppDispatch } from "src/hooks/useAppDispatch";
+import styles from './loginPage.module.scss';
 
 const LOGIN_ERRORS = {
   "INVALID_CREAD": "invalid-login-credentials",
@@ -38,7 +38,7 @@ function LoginPage() {
 
 
   const signInWithCredentials = async (values: any) => {
-    setIsLoading(true)
+    dispatch(toggleLoader(true))
     signIn('credentials', { email: values.email, password: values.password, redirect: false })
       // getUserByCredentials(values)
       .then((response) => {
@@ -60,10 +60,10 @@ function LoginPage() {
           dispatch(showSuccessToast("Perfect! You're signed in successfuly."))
           router.push(HOME_ROUTING)
         }
-        setIsLoading(false)
+        dispatch(toggleLoader(false))
       })
       .catch((err) => {
-        setIsLoading(false)
+        dispatch(toggleLoader(false))
         dispatch(showErrorToast(err.message))
         setError(err)
       });
@@ -90,11 +90,11 @@ function LoginPage() {
           router.push(HOME_ROUTING)
         }
         debugger
-        setIsLoading(false)
+        dispatch(toggleLoader(false))
       })
       .catch((err) => {
         debugger
-        setIsLoading(false)
+        dispatch(toggleLoader(false))
         dispatch(showErrorToast(err.message))
         setError(err)
       });

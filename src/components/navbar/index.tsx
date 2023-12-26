@@ -1,14 +1,14 @@
 'use client';
-import React, { useEffect, useState } from 'react'
-import styles from './navbar.module.scss'
-import Link from 'next/link'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import Image from 'next/image';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { useAppSelector } from '@hook/useAppSelector';
-import { Button, theme } from 'antd';
-import { showSuccessToast } from '@reduxSlices/toast';
 import { getDarkModeState, toggleDarkMode } from '@reduxSlices/clientThemeConfig';
+import { showSuccessToast } from '@reduxSlices/toast';
+import { Button, theme } from 'antd';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import styles from './navbar.module.scss';
 
 function Navbar() {
     const { data: session } = useSession()

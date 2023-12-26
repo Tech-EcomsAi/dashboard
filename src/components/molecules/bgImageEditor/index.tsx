@@ -1,7 +1,6 @@
-import { PATTERN_PAGE } from '@constant/common';
-import { Button, theme, Image, Tooltip } from 'antd';
-import React, { useState } from 'react'
-import { BiCheck, BiShow } from 'react-icons/bi';
+import { Button, Image, Tooltip, theme } from 'antd';
+import { useState } from 'react';
+import { BiShow } from 'react-icons/bi';
 import styles from './bgImageEditor.module.scss';
 
 function BgImageEditor({ currentPage = '', active, imageData, onSelect, styleProps }: any) {

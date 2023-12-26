@@ -1,6 +1,5 @@
 import { Button, Space, Tooltip } from 'antd'
-import React, { ReactNode } from 'react'
-import styles from './iconButton.module.scss'
+import { ReactNode } from 'react'
 
 const circle = 'circle' // must be const, no annotation. let or var will not work
 const round = 'round'

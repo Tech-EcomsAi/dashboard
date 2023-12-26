@@ -1,4 +1,3 @@
-import React from 'react'
 
 function EcomsHorizontalLogo({ color = "#000" }) {
     return (

@@ -1,7 +1,8 @@
 'use client'
+import { reduxStore } from "@reduxStore/index";
+import React from "react";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
-import React from "react"; import { reduxStore } from "@reduxStore/index";
 
 persistStore(reduxStore); // persist the store
 

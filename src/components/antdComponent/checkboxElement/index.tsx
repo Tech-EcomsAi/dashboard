@@ -1,6 +1,4 @@
-import TextElement from '@antdComponent/textElement'
 import { Checkbox } from 'antd'
-import React from 'react'
 
 type CheckboxElementPropsType = {
     active: boolean,

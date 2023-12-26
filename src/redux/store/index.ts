@@ -1,7 +1,7 @@
-import { configureStore, combineReducers, ThunkAction, Action } from "@reduxjs/toolkit";
+import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
-import storage from "./customStorage";
 import rootReducer from "../slices";
+import storage from "./customStorage";
 
 const persistConfig = {
   key: "nextjs",
@@ -13,7 +13,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const reduxStore: any = configureStore({
   reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== "production",
+  // devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
   // .concat(logger),
 });

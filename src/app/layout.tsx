@@ -1,20 +1,19 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { getServerSession } from 'next-auth'
 import { authOptions } from '@lib/auth'
-import SessionProvider from '@providers/sessionProvider'
-import { ReduxStoreProvider } from '@providers/reduxProvider'
 import ErrorBoundaryProvider from '@providers/errorBoundaryProvider'
-import "@styles/app.scss";
+import { ReduxStoreProvider } from '@providers/reduxProvider'
+import SessionProvider from '@providers/sessionProvider'
+import "@styles/app.scss"
+import type { Metadata } from 'next'
+import { getServerSession } from 'next-auth'
+import { Inter } from 'next/font/google'
 import { Suspense } from 'react'
+import './globals.css'
 import Loading from './loading'
-import { Poppins } from 'next/font/google'
 
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: '100'
-})
+// const poppins = Poppins({
+//   subsets: ['latin'],
+//   weight: '100'
+// })
 
 const INTER_FONT = Inter({
   subsets: ['latin'],

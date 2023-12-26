@@ -1,19 +1,19 @@
 'use client'
-import { useAppDispatch } from "src/hooks/useAppDispatch";
-import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Space, theme } from "antd";
 import { UserOutlined } from '@ant-design/icons';
 import { EMPTY_ERROR } from "@constant/common";
-import { showErrorToast, showSuccessToast } from "@reduxSlices/toast";
-import { useSession } from "next-auth/react";
-import { redirect } from 'next/navigation'
 import { HOME_ROUTING, NAVIGARIONS_ROUTINGS } from "@constant/navigations";
-import { LuArrowLeft, LuSun } from "react-icons/lu";
 import { useAppSelector } from "@hook/useAppSelector";
-import { getDarkModeState, toggleDarkMode } from "@reduxSlices/clientThemeConfig";
-import { useRouter } from 'next/navigation'
 import { firebaseAuth } from "@lib/firebase/firebaseClient";
+import { getDarkModeState, toggleDarkMode } from "@reduxSlices/clientThemeConfig";
+import { toggleLoader } from "@reduxSlices/loader";
+import { showErrorToast, showSuccessToast } from "@reduxSlices/toast";
+import { Button, Form, Input, Space, theme } from "antd";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { LuArrowLeft, LuSun } from "react-icons/lu";
+import { useAppDispatch } from "src/hooks/useAppDispatch";
 import styles from '../loginPage/loginPage.module.scss';
 
 const LOGIN_ERRORS = {
@@ -40,14 +40,14 @@ function ForgotPasswordPage() {
     }, [])
 
     const forgotPassword = async (values: any) => {
-        setIsLoading(true)
+        dispatch(toggleLoader(true))
         sendPasswordResetEmail(firebaseAuth, values.email)
             .then(() => {
-                setIsLoading(false)
+                dispatch(toggleLoader(false))
                 dispatch(showSuccessToast("Password reset email sent !"))
             })
             .catch((error) => {
-                setIsLoading(false)
+                dispatch(toggleLoader(false))
                 if (error.code.includes(LOGIN_ERRORS.INVALID_EMAIL)) {
                     dispatch(showErrorToast("Invalid email"))
                     setError({ id: "cread", message: "Invalid email" })

@@ -1,13 +1,10 @@
 'use client'
-import React, { Suspense } from 'react'
-import styles from "./notfound.module.css";
-import { Button, Result } from 'antd';
-import Image from 'next/image'
-import { useRouter } from 'next/navigation';
-import { HOME_ROUTING } from '@constant/navigations';
-import { LOGO_LARGE } from '@constant/common';
-import AnimatedLogo from '@atoms/animatedLogo';
 import AnimatedVerticalLogo from '@atoms/animatedVerticalLogo';
+import { HOME_ROUTING } from '@constant/navigations';
+import { Button } from 'antd';
+import { useRouter } from 'next/navigation';
+import { Suspense } from 'react';
+import styles from "./notfound.module.css";
 
 function NotFound() {
     const router = useRouter()
@@ -15,7 +12,7 @@ function NotFound() {
         <div className={styles.pageWrap}>
             <div className={styles.logoWrap}>
                 <Suspense fallback={<div>Loading</div>}>
-                    <AnimatedVerticalLogo color='#dee1ec' />
+                    <AnimatedVerticalLogo />
                 </Suspense>
             </div>
             <div className={styles.hWrap}>

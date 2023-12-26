@@ -1,5 +1,4 @@
 import { Select } from 'antd'
-import React from 'react'
 
 function SelectElement({ value, styles = {}, onChange, options, isBordered = true }) {
     return (

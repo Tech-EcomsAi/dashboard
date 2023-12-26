@@ -69,8 +69,7 @@ const HeaderComponent = () => {
             <div className={styles.rightActionsWrap}>
                 <div className={styles.actionsWrap}>
                     <Button type="text" icon={<LuSearch />} onClick={() => setShowSearchModal(!showSearchModal)} />
-                    <AppSearchModal onClose={() => setShowSearchModal(!showSearchModal)} isModalOpen={showSearchModal}>
-                    </AppSearchModal>
+                    <AppSearchModal onClose={() => setShowSearchModal(!showSearchModal)} isModalOpen={showSearchModal} />
 
                     {/* Quick app actions */}
                     <AppActionsModal>
@@ -120,9 +119,8 @@ const HeaderComponent = () => {
                         <Button type="text" icon={<LuUser />} onClick={() => signIn('google', { callbackUrl: 'http://localhost:3000/builder' })} />
                     }
                 </div>
-
             </div>
-        </div >
+        </div>
     )
 }
 

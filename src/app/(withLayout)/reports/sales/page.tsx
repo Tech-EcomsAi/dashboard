@@ -1,12 +1,11 @@
-import WithLayoutProvider from '@providers/withLayoutProvider'
+import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 import SalesReport from '@template/reports/salesReport'
-import React from 'react'
 
 function SalesReportPage() {
     return (
-        <WithLayoutProvider>
+        <AntdLayoutWrapper>
             <SalesReport />
-        </WithLayoutProvider>
+        </AntdLayoutWrapper>
     )
 }
 

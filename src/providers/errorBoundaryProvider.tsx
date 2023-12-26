@@ -1,5 +1,5 @@
 'use client'
-import { Component } from "react"
+import { Component } from "react";
 
 type ErrorState = {
     hasError: boolean

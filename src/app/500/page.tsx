@@ -1,10 +1,8 @@
 'use client'
-import React from 'react'
+import { HOME_ROUTING } from '@constant/navigations';
 import styles from "@organismsCSS/staticPages/staticPages.module.scss";
 import { Button, Result } from 'antd';
-import Image from 'next/image'
 import { useRouter } from 'next/navigation';
-import { HOME_ROUTING } from '@constant/navigations';
 
 function NotFound() {
     const router = useRouter()

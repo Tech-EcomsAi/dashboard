@@ -9,7 +9,7 @@ import { SEARCHES_LIST } from '@constant/navigations'
 
 const { Search } = Input;
 
-function AppSearchModal({ isModalOpen, onClose, children }) {
+function AppSearchModal({ isModalOpen, onClose }) {
     const { token } = theme.useToken();
     const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('')

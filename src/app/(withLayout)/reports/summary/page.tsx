@@ -1,11 +1,10 @@
-import WithLayoutProvider from '@providers/withLayoutProvider'
-import React from 'react'
+import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 
 function ReportsSummary() {
     return (
-        <WithLayoutProvider>
+        <AntdLayoutWrapper>
             <div style={{ color: "yellow" }}>ReportsSummary</div>
-        </WithLayoutProvider>
+        </AntdLayoutWrapper>
     )
 }
 
