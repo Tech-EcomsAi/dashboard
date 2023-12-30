@@ -48,7 +48,7 @@ function TemplateCreationModal({ showModal, handleModalResponse }) {
             .then((templateId) => {
                 console.log("templateId", templateId)
                 setIsLoading(true)
-                getTemplates(templateId);
+                // getTemplates(templateId);
                 // dispatch(toggleLoader(false))
                 dispatch(showSuccessToast("Website Created Successfully"))
             })
