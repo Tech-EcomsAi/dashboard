@@ -1,15 +1,15 @@
 import Saperator from '@atoms/Saperator';
 import { TEMPLATES_PROPS_TYPE, TEMPLATE_PAGES_LIST, TEMPLATE_SECTIONS_LIST, TEMPLATE_TYPES_LIST } from '@constant/templates';
-import { getClientTemplate } from '@database/collections/websiteTemplates/clientTemplates';
-import { addPlatformTemplate } from '@database/collections/websiteTemplates/platformTemplates';
+import { getTemplateConfigById } from '@database/collections/websiteTemplateConfig';
+import { addTemplate, getTemplateById } from '@database/collections/websiteTemplates';
 import { useAppDispatch } from '@hook/useAppDispatch';
-import { toggleLoader } from '@reduxSlices/loader';
 import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
 import { Button, Card, Input, Modal, Space, Timeline, Typography, theme } from 'antd';
 import { AnimatePresence } from 'framer-motion';
 import { Fragment, useState } from 'react';
 import { LuBook, LuBookCopy, LuBookOpenCheck, LuMoveLeft, LuMoveRight, LuX } from 'react-icons/lu';
 import { MdOutlineNavigateNext } from 'react-icons/md';
+import { TEMPLATE_DETAILS_TYPE } from '../templateConstants';
 import styles from './templateCreationModal.module.scss';
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -28,9 +28,10 @@ const STEPS_LIST: STEP_DETAILS_PROPS[] = [
 function TemplateCreationModal({ showModal, handleModalResponse }) {
     const [activeStep, setActiveStep] = useState(STEPS_LIST[0]);
     const dispatch = useAppDispatch();
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     const { token } = theme.useToken();
     const [siteCreationActive, setSiteCreationActive] = useState(false)
+
     const [templateDetails, setTemplateDetails] = useState({
         templateType: { key: "", title: "" },
         pages: [HOME_PAGE_TYPE],
@@ -39,31 +40,39 @@ function TemplateCreationModal({ showModal, handleModalResponse }) {
     })
 
     const createTemplate = () => {
-        dispatch(toggleLoader(true))
+        // dispatch(toggleLoader(true))
+        setIsLoading(true)
         const templateData = { ...templateDetails };
         setSiteCreationActive(true)
-        addPlatformTemplate(templateData)
+        addTemplate(templateData)
             .then((templateId) => {
                 console.log("templateId", templateId)
-                dispatch(toggleLoader(false))
+                setIsLoading(true)
+                getTemplates(templateId);
+                // dispatch(toggleLoader(false))
                 dispatch(showSuccessToast("Website Created Successfully"))
             })
             .catch((error) => {
                 console.log("error", error)
+                setIsLoading(true)
                 setSiteCreationActive(false)
-                dispatch(toggleLoader(false))
+                // dispatch(toggleLoader(false))
                 dispatch(showErrorToast("Template creation failed"))
             })
     }
 
-    const getTemplates = () => {
-        getClientTemplate().then((res) => {
+    const getTemplates = (templateId) => {
+        getTemplateById(templateId).then((res: TEMPLATE_DETAILS_TYPE[]) => {
             console.log("res", res)
+            getTemplateConfigById(templateId).then((templateConfigRes) => {
+                console.log("templateConfigRes", templateConfigRes)
+            }).catch((error) => {
+                console.log("config fetching error", error)
+            })
         })
     }
 
     const onSubmit = () => {
-        getTemplates();
         if (activeStep.stepId == 0) {
             if (templateDetails.templateType.key) {
                 setActiveStep(STEPS_LIST[1])

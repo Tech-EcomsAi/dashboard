@@ -1,3 +1,10 @@
+export type TEMPLATE_OR_ENITITY_TYPE = "platform" | "client";
+
+export const TEMPLATE_TYPES = {
+    PLATFORM: "platform",
+    CLIENT: "client",
+}
+
 
 export const WEBSITE_PAGES_LIST: any = [
     { key: '1', label: 'Home Page' },

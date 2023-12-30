@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
-import { ConfigProvider } from "antd";
-import { theme } from 'antd';
 import { useAppSelector } from "@hook/useAppSelector";
 import { getDarkColorState, getDarkModeState, getLightColorState } from '@reduxSlices/clientThemeConfig';
+import { ConfigProvider, theme } from "antd";
+import ar_EG from 'antd/locale/ar_EG';
 import { Inter } from "next/font/google";
 
 export const INTER_FONT = Inter({
@@ -26,6 +25,7 @@ const AntdClient = ({ children }: any) => {
         <>
             <ConfigProvider
                 // direction="rtl"
+                locale={ar_EG}
                 theme={{
                     algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                     token: {

@@ -1,13 +1,12 @@
-import { DefaultSession, NextAuthOptions, getServerSession } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
 import { FirestoreAdapter } from "@auth/firebase-adapter";
-import { cert } from "firebase-admin/app";
-import { Adapter } from "next-auth/adapters";
-import { useSession } from "next-auth/react";
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { firebaseAuth } from "@lib/firebase/firebaseClient";
 import { getUserByEmail } from "@database/users";
+import { firebaseAuth } from "@lib/firebase/firebaseClient";
+import { cert } from "firebase-admin/app";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { DefaultSession, NextAuthOptions, getServerSession } from "next-auth";
+import { Adapter } from "next-auth/adapters";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 declare module "next-auth" {
     interface Session extends DefaultSession {
