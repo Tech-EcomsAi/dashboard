@@ -1,17 +1,17 @@
-import React, { Fragment, useCallback, useRef } from 'react'
-import { Button, Card, Modal, Space, Tag, Typography } from 'antd'
-import { LuAccessibility, LuArrowLeft, LuArrowLeftCircle, LuArrowRight, LuArrowRightCircle, LuExternalLink, LuNetwork, LuPenSquare, LuX } from 'react-icons/lu'
-import { TEMPLATE_DETAILS_TYPE } from '../templateConstants'
+import { NAVIGARIONS_ROUTINGS } from '@constant/navigations'
+import { Button, Card, Carousel, Modal, Space, Tag, Typography } from 'antd'
+import { useRouter } from 'next/navigation'
+import { Fragment, useCallback, useRef } from 'react'
+import { LuArrowLeft, LuArrowRight, LuExternalLink, LuPenSquare, LuX } from 'react-icons/lu'
+import { TEMPLATE_TYPE } from '../templateConstants'
 import styles from './templatePreviewModal.module.scss'
 const { Text, Title } = Typography
 const { Meta } = Card;
-import { Carousel } from 'antd';
-import { AnimatePresence, motion } from 'framer-motion'
 
-function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse }: { templateDetails: TEMPLATE_DETAILS_TYPE, showModal: boolean, handleModalResponse: any }) {
+function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse }: { templateDetails: TEMPLATE_TYPE, showModal: boolean, handleModalResponse: any }) {
 
     const crouselRef = useRef<any>();
-
+    const router = useRouter();
     const tagsList = useCallback(
         () => {
             const tags = [];
@@ -54,6 +54,7 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
 
     const openBuilder = () => {
         console.log("openBuilder called")
+        router.push(`/${NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_EDITOR}/${templateDetails.id}`)
         handleModalResponse();
     }
 

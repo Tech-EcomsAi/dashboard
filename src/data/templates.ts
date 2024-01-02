@@ -1,4 +1,4 @@
-import { TEMPLATE_CATEGORY, TEMPLATE_DETAILS_TYPE } from "@template/websiteBuilderDashboard/templateConstants";
+import { TEMPLATE_CATEGORY, TEMPLATE_TYPE } from "@template/websiteBuilderDashboard/templateConstants";
 
 export const TEMPLATE_CATEGORIES: TEMPLATE_CATEGORY[] = [
     { id: 'all', title: "All", icon: "", active: true },
@@ -9,9 +9,9 @@ export const TEMPLATE_CATEGORIES: TEMPLATE_CATEGORY[] = [
     { id: '5', title: "Personal Brand", icon: "", active: true },
 ]
 
-const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
+const TempTemplateList: TEMPLATE_TYPE[] = [
     {
-        id: '1',
+        id: "tC8Zyb1x1C2663AmAQgA",
         title: "Valaam",
         categoryId: '1',
         tagline: "AI Website",
@@ -36,7 +36,7 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
         isPlatformTemplate: false,
     },
     {
-        id: '2',
+        id: "tC8Zyb1x1C2663AmAQgA",
         title: "Atomic",
         categoryId: '2',
         tagline: 'Creative Professional Website',
@@ -60,7 +60,7 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
         isPlatformTemplate: true,
     },
     {
-        id: '3',
+        id: "tC8Zyb1x1C2663AmAQgA",
         title: "Axels",
         categoryId: '1',
         tagline: 'Jewelry e-commerce Website',
@@ -84,7 +84,7 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
         isPlatformTemplate: true,
     },
     {
-        id: '4',
+        id: "tC8Zyb1x1C2663AmAQgA",
         title: "Meteora",
         categoryId: '3',
         tagline: "Agency Website",
@@ -108,7 +108,7 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
         isPlatformTemplate: true,
     },
     {
-        id: '5',
+        id: "tC8Zyb1x1C2663AmAQgA",
         title: "iBook",
         categoryId: '3',
         tagline: "Premium Template for Authors And Writers",
@@ -132,7 +132,7 @@ const TempTemplateList: TEMPLATE_DETAILS_TYPE[] = [
         isPlatformTemplate: true,
     },
     {
-        id: '6',
+        id: "tC8Zyb1x1C2663AmAQgA",
         title: "Naru",
         categoryId: '2',
         tagline: "E-commerce Website",

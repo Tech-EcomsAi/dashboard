@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { useControls } from "react-zoom-pan-pinch";
-import styles from '@templatesCSS/websiteBuilder/builderWrapper.module.scss'
+import { useAppDispatch } from '@hook/useAppDispatch';
+import { useAppSelector } from '@hook/useAppSelector';
+import { BuilderContextType, getBuilderContext, updateBuilderContext } from "@reduxSlices/siteBuilderState";
+import styles from '@templatesCSS/websiteBuilder/builderWrapper.module.scss';
 import { Button, Segmented, Tooltip, theme } from 'antd';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 import { FiHelpCircle, FiMaximize, FiZoomIn, FiZoomOut } from 'react-icons/fi';
-import { TbFocusCentered } from 'react-icons/tb';
 import { IoHandLeftOutline } from 'react-icons/io5';
 import { LuMousePointer } from 'react-icons/lu';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useAppSelector } from '@hook/useAppSelector';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import { BuilderContextType, getBuilderContext, getBuilderState, updateBuilderContext } from "@reduxSlices/siteBuilderState";
+import { TbFocusCentered } from 'react-icons/tb';
+import { useControls } from "react-zoom-pan-pinch";
 
 function BuilderComponentControls() {
     const { token } = theme.useToken();
@@ -18,7 +18,6 @@ function BuilderComponentControls() {
     const dispatch = useAppDispatch()
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
     const [activeHandlerMOde, setActiveHandlerMOde] = useState(builderContext.editorMode ? HANDLER_MODES[0] : HANDLER_MODES[1])
-    const builderState = useAppSelector(getBuilderState);
 
     const getSegmentOptions = () => {
         return HANDLER_MODES.map((option) => {

@@ -1,15 +1,15 @@
 'use client'
-import React, { Fragment, useState } from 'react'
-import styles from './websiteBuilderDashboard.module.scss';
-import { Button, Card, Space, Typography, message, theme } from 'antd';
-import { LuFileStack, LuFileText, LuFileVideo2, LuFlower2, LuFootprints, LuPlus } from 'react-icons/lu';
-import { hexToRgbA } from '@util/utils';
-import TemplateRenderer from './templateRenderer';
 import ActionIconButton from '@antdComponent/iconButton/actionIconButton';
-import { TEMPLATE_DETAILS_TYPE, TEMPLATE_SECTION } from './templateConstants';
-import TemplateCreationModal from './templateCreationModal';
-import ViewAllTemplatesModal from './viewAllTemplatesModal';
+import { hexToRgbA } from '@util/utils';
+import { Button, Card, Space, Typography, message, theme } from 'antd';
+import { Fragment, useState } from 'react';
+import { LuFileStack, LuFileText, LuFileVideo2, LuFlower2, LuFootprints, LuPlus } from 'react-icons/lu';
 import TempTemplateList from 'src/data/templates';
+import { TEMPLATE_SECTION, TEMPLATE_TYPE } from './templateConstants';
+import TemplateCreationModal from './templateCreationModal';
+import TemplateRenderer from './templateRenderer';
+import ViewAllTemplatesModal from './viewAllTemplatesModal';
+import styles from './websiteBuilderDashboard.module.scss';
 const { Meta } = Card;
 const { Title } = Typography;
 const CARD_HEADING_LEVEL = 3;
@@ -53,7 +53,7 @@ function WebsiteBuilderDashboard() {
     const templateSectionRenderer = (sectionDetails: TEMPLATE_SECTION) => {
         return <Card key={sectionDetails.key} className={styles.templatesGroup} title={<Title level={CARD_HEADING_LEVEL}> {sectionDetails.title}</Title>} extra={<Button onClick={() => setShowViewAllTemplateModal(true)}>View All</Button>}>
             <Space className={styles.templatesList} align='start' size={20}>
-                {sectionDetails.templatesList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
+                {sectionDetails.templatesList.map((templateDetails: TEMPLATE_TYPE) => {
                     return <Fragment key={templateDetails.id}><TemplateRenderer templateDetails={templateDetails} /></Fragment>
                 })}
             </Space>
@@ -111,7 +111,7 @@ function WebsiteBuilderDashboard() {
                             description="Create your own design using our predesigned templates"
                         /> */}
                     </Card>
-                    {TempTemplateList.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
+                    {TempTemplateList.map((templateDetails: TEMPLATE_TYPE) => {
                         return <Fragment key={templateDetails.id}><TemplateRenderer templateDetails={templateDetails} /></Fragment>
                     })}
                 </Space>
@@ -123,7 +123,7 @@ function WebsiteBuilderDashboard() {
             })}
 
             {/* template creation modal */}
-            {showCreationModal && <TemplateCreationModal setShowViewAllTemplateModal={setShowViewAllTemplateModal} showModal={showCreationModal} handleModalResponse={handleModalResponse} />}
+            {showCreationModal && <TemplateCreationModal showModal={showCreationModal} handleModalResponse={handleModalResponse} />}
             {/* template list modal */}
             <ViewAllTemplatesModal templateList={TempTemplateList} showModal={showViewAllTemplateModal} handleModalResponse={() => setShowViewAllTemplateModal(false)} />
 

@@ -1,14 +1,13 @@
-import Meta from 'antd/es/card/Meta'
-import React, { Fragment, useCallback, useState } from 'react'
-import { Badge, Button, Card, Space, Tag, Tooltip, theme } from 'antd';
-import { LuEye, LuPenSquare, LuMoreHorizontal } from 'react-icons/lu';
-import templateActions from './templateActions';
-import styles from '../websiteBuilderDashboard.module.scss'
-import { TEMPLATE_DETAILS_TYPE } from '../templateConstants';
+import { Badge, Card, Space, Tag, theme } from 'antd';
+import Meta from 'antd/es/card/Meta';
+import { Fragment, useCallback, useState } from 'react';
+import { TEMPLATE_TYPE } from '../templateConstants';
 import TemplatePreviewModal from '../templatePreviewModal';
+import styles from '../websiteBuilderDashboard.module.scss';
+import templateActions from './templateActions';
 
 
-const cardCoverRenderer = (templateDetails: TEMPLATE_DETAILS_TYPE) => {
+const cardCoverRenderer = (templateDetails: TEMPLATE_TYPE) => {
 
     const coverContentRenderer = () => {
         return <div className={styles.cardCoverWrap}>
@@ -27,7 +26,7 @@ const cardCoverRenderer = (templateDetails: TEMPLATE_DETAILS_TYPE) => {
     </Fragment >
 }
 
-function TemplateRenderer({ templateDetails }: { templateDetails: TEMPLATE_DETAILS_TYPE }) {
+function TemplateRenderer({ templateDetails }: { templateDetails: TEMPLATE_TYPE }) {
     const { token } = theme.useToken();
     const [showTemplatePreviewModal, setShowTemplatePreviewModal] = useState({ active: false, template: null })
 

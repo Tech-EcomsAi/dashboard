@@ -8,6 +8,16 @@ import { Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
+export type SESSION_TYPE = {
+    user: {
+        id: string;
+        credits: number;
+        accessToken: any;
+    },
+    tId: number,
+    sId: number
+}
+
 declare module "next-auth" {
     interface Session extends DefaultSession {
         user: {
@@ -50,7 +60,12 @@ export const authOptions: NextAuthOptions = {
             // console.log('*** jwt end ***')
 
             if (Boolean(token && token?.email)) {
-                const dbUser: any = await getUserByEmail(token.email)
+                const dbUser: any = {}
+
+                //uncomment this for prod
+                // const dbUser: any = await getUserByEmail(token.email)
+                //uncomment this for prod
+
                 // console.log('User found.', user);
                 if (dbUser.id) {
                     token.dbUser = dbUser
@@ -62,7 +77,9 @@ export const authOptions: NextAuthOptions = {
         },
         session: ({ session, token }: any) => {
             if (Boolean(token && token?.email)) {
-                session.user = { ...session.user, ...token.dbUser }
+                session.user = { ...session.user, ...token.dbUser };
+                session.tId = 0;
+                session.sId = 0;
             }
             // console.log("session { token, session, user }", { token, session })
             return session;
@@ -113,5 +130,9 @@ export const authOptions: NextAuthOptions = {
 }
 
 export const getServerSideSessionUser = async () => {
-    return await getServerSession(authOptions);
+    if (typeof window === 'undefined') {
+        return await getServerSession(authOptions);
+    } else {
+        return await null;
+    }
 }

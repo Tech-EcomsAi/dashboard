@@ -1,22 +1,19 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
-import { AppState } from "../store";
+import { createSlice } from "@reduxjs/toolkit";
+import { TEMPLATE_TYPE } from "@template/websiteBuilderDashboard/templateConstants";
 import defaultSiteConfig from "src/data/defaultSiteConfig";
+import { AppState } from "../store";
 // import { HYDRATE } from "next-redux-wrapper";
 // const HYDRATE_ACTION = createAction(HYDRATE)
 
-type ContextStateType = {
-    "previousScale": number,
-    "scale": number,
-    "positionX": number,
-    "positionY": number,
-}
-
-type DeviceType = "All" | "Mobile" | "Desktop";
-
 export type BuilderContextType = {
     editorMode: boolean,
-    state: ContextStateType,
-    deviceType: DeviceType
+    state: {
+        "previousScale": number,
+        "scale": number,
+        "positionX": number,
+        "positionY": number,
+    },
+    deviceType: "All" | "Mobile" | "Desktop";
 }
 
 export type ActiveTemplateConfigType = {
@@ -41,40 +38,47 @@ export type ActiveTemplateConfigType = {
 }
 
 export interface BuilderStateType {
-    builderState: any;
     builderContext: BuilderContextType;
+    activeTemplate: TEMPLATE_TYPE;
     activeTemplateConfig: ActiveTemplateConfigType;
+    builderState: any;
 }
 
 const initialState: BuilderStateType = {
-    builderState: null,
     builderContext: {
         editorMode: true,
         deviceType: "All",
         state: { positionX: 0, positionY: 0, previousScale: 0, scale: 0 }
     },
-    activeTemplateConfig: defaultSiteConfig
+    activeTemplate: null,
+    activeTemplateConfig: defaultSiteConfig,
+    builderState: { ["default"]: [] },
 };
 
 export const builderState = createSlice({
     name: "builderState",
     initialState,
     reducers: {
-        updateBuilderState(state, action) {
-            state.builderState = action.payload;
-        },
         updateBuilderContext(state, action) {
             state.builderContext = action.payload;
+        },
+        updateActiveTemplate(state, action) {
+            state.activeTemplate = action.payload;
         },
         updateActiveTemplateConfig(state, action) {
             state.activeTemplateConfig = action.payload;
         },
+        updateBuilderState(state, action) {
+            state.builderState = action.payload;
+        },
     },
 });
 
-const { updateBuilderState, updateBuilderContext, updateActiveTemplateConfig } = builderState.actions;
+const { updateBuilderState, updateBuilderContext, updateActiveTemplateConfig, updateActiveTemplate } = builderState.actions;
 
-const getBuilderState = (state: AppState) => state.builderState?.builderState || initialState.builderState;
 const getBuilderContext = (state: AppState) => state.builderState?.builderContext || initialState.builderContext;
+const getActiveTemplate = (state: AppState) => state.builderState?.activeTemplate || initialState.activeTemplate;
 const getActiveTemplateConfig = (state: AppState) => state.builderState?.activeTemplateConfig || initialState.activeTemplateConfig;
-export { updateBuilderState, updateBuilderContext, updateActiveTemplateConfig, getBuilderState, getBuilderContext, getActiveTemplateConfig };
+const getBuilderState = (state: AppState) => state.builderState?.builderState || initialState.builderState;
+export { getActiveTemplate, getActiveTemplateConfig, getBuilderContext, getBuilderState, updateActiveTemplate, updateActiveTemplateConfig, updateBuilderContext, updateBuilderState };
+

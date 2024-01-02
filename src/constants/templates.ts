@@ -1,3 +1,4 @@
+
 export type TEMPLATE_OR_ENITITY_TYPE = "platform" | "client";
 
 export const TEMPLATE_TYPES = {

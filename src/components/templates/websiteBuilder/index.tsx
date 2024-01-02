@@ -1,31 +1,33 @@
 'use client'
-import styles from '@templatesCSS/websiteBuilder/websiteBuilder.module.scss'
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, theme, Typography } from 'antd';
-import { getAppLanguageState, getDarkModeState } from '@reduxSlices/clientThemeConfig';
 import { useAppSelector } from '@hook/useAppSelector';
-import { BsLaptop, BsPhone, BsArrowCounterclockwise } from 'react-icons/bs';
+import { getAppLanguageState, getDarkModeState } from '@reduxSlices/clientThemeConfig';
+import styles from '@templatesCSS/websiteBuilder/websiteBuilder.module.scss';
+import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, Tooltip, Typography, theme } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { BsArrowCounterclockwise, BsLaptop, BsPhone } from 'react-icons/bs';
 import { v4 as uuid } from 'uuid';
 import SectionsContainer from './sectionsContainer';
 // import { DragDropContext } from '@hello-pangea/dnd';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import { BuilderContextType, getBuilderContext, getBuilderState, updateBuilderContext, updateBuilderState } from "@reduxSlices/siteBuilderState";
-import ComponentEditor from '@organisms/componentEditor';
-import { getActiveEditorComponent, initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
-import ComponentConfigs from '@organisms/sections/configsList';
-import { copy, move, reorder } from '@util/dndHelpers';
-import { showSuccessToast } from '@reduxSlices/toast';
-import GlobalContainer from './globalContainer';
-import dynamic from 'next/dynamic';
 import IconButton from '@antdComponent/iconButton';
 import TextElement from '@antdComponent/textElement';
 import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
-import { LuSettings } from 'react-icons/lu';
+import { updateTemplateConfig } from '@database/collections/websiteTemplateConfig';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import ComponentEditor from '@organisms/componentEditor';
+import ComponentConfigs from '@organisms/sections/configsList';
+import { getActiveEditorComponent, initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
+import { BuilderContextType, getActiveTemplateConfig, getBuilderContext, getBuilderState, updateBuilderContext, updateBuilderState } from "@reduxSlices/siteBuilderState";
+import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
+import { copy, move, reorder } from '@util/dndHelpers';
+import { isSameObjects } from '@util/utils';
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
+import { translator } from 'public/dictionaries';
+import { LuEye, LuSettings, LuUploadCloud } from 'react-icons/lu';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 import { TbChevronDown, TbComponents, TbDevices, TbEdit } from 'react-icons/tb';
 import BuilderWrapper from './builderWrapper';
-import { translator } from 'public/dictionaries';
-// import { WEBSITE_PAGES_LIST } from '@constant/builder';
+import GlobalContainer from './globalContainer';
 
 const DragDropContext = dynamic(() => import('@hello-pangea/dnd').then(mod => { return mod.DragDropContext; }), { ssr: false },);
 
@@ -49,18 +51,34 @@ const SEGMENT_OPTIONS = [
     { key: 'Site', value: 'Global', icon: <LuSettings /> },
 ]
 
-function WebsiteBuilder() {
+function WebsiteBuilder({ templateState }) {
     const { token } = theme.useToken();
+    const { data: session }: any = useSession()
     const isDarkMode = useAppSelector(getDarkModeState)
     const [activeOptionTab, setActiveOptionTab] = useState('Sections');
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
     const dispatch = useAppDispatch();
     const builderState = useAppSelector(getBuilderState) || { [uuid()]: [] };
     const activeComponent = useAppSelector(getActiveEditorComponent);
-    const [originalDesignState, setOriginalDesignState] = useState({ [uuid()]: [] });
+    const [originalTemplateState, setOriginalTemplateState] = useState(templateState || { [uuid()]: [] });
     const [collapsedSectionsContainer, setCollapsedSectionsContainer] = useState(false)
     const [activePage, setActivePage] = useState(activePaesList[0])
+    const [isChangesAvailable, setIsChangesAvailable] = useState({ active: false, isLoading: false })
+    const activeTemplateConfig = useAppSelector(getActiveTemplateConfig);
     const t = translator(useAppSelector(getAppLanguageState));
+    console.log(builderState)
+
+    useEffect(() => {
+        if (builderState) {
+            const isSameObj = isSameObjects(templateState, builderState)
+            if (!isSameObj) {
+                console.log("diff", isSameObj)
+                setIsChangesAvailable({ active: true, isLoading: false })
+            } else {
+                setIsChangesAvailable({ active: false, isLoading: false })
+            }
+        }
+    }, [builderState])
 
     useEffect(() => {
         if (Boolean(activeComponent.uid)) {
@@ -100,20 +118,38 @@ function WebsiteBuilder() {
         }
     };
 
-    const onClickRevert = () => {
-        dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
-        dispatch(updateBuilderState(originalDesignState));
-        dispatch(showSuccessToast('Changes reverted successfully'));
-    }
-
     const onOutsideEditorClick = () => {
         dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
     }
 
-    const handlePageClick: any = (e) => {
+    const onSelectPage: any = (e) => {
         console.log('click', e);
         setActivePage(activePaesList.find((page: any) => page.key === e.key))
     };
+
+    const onClickRevert = () => {
+        dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
+        dispatch(updateBuilderState(originalTemplateState));
+        dispatch(showSuccessToast('Changes reverted successfully'));
+        setIsChangesAvailable({ active: false, isLoading: false })
+    }
+
+    const saveChanges = () => {
+        debugger
+        setIsChangesAvailable({ active: true, isLoading: true })
+        updateTemplateConfig(session, { ...activeTemplateConfig, templateState: builderState }, activeTemplateConfig.id)
+            .then((response: any) => {
+                console.log('response', response)
+                setOriginalTemplateState(builderState)
+                setIsChangesAvailable({ active: false, isLoading: false })
+                dispatch(showSuccessToast('Changes saved successfully'));
+            })
+            .catch((error: any) => {
+                setIsChangesAvailable({ active: true, isLoading: false })
+                dispatch(showErrorToast('Something wents wrong'));
+                console.log('error', error)
+            })
+    }
 
     return (
         <Layout className={styles.websiteBuilderWrap} style={{ gap: collapsedSectionsContainer ? "0px" : "10px" }}>
@@ -122,23 +158,11 @@ function WebsiteBuilder() {
                     <Header className={`${styles.headerWrap}`}
                         style={{ background: token.colorBgBase, border: `1px solid ${token.colorBorderBg}`, boxShadow: `${token.colorBorder} 1px 1px 8px -4px` }}>
                         <Row>
-                            {/* <Col className={`${styles.headingWrap}`} span={6}>
-                                <Space>
-                                    <IconButton
-                                        icon={<BiHome />}
-                                        active={false}
-                                        onClickButton={() => { }}
-                                        type={'circle'}
-                                        tooltip="Back to dashboard"
-                                    />
-                                    <TextElement color={token.colorPrimary} text={`${LOGO_TEXT} Website Builder`} />
-                                </Space>
-                            </Col> */}
-                            <Col className={`${styles.headingWrap}`} span={18}>
+                            <Col className={`${styles.headingWrap}`} span={12}>
                                 <Space>
                                     <Space>
                                         <TextElement color={token.colorText} text={`${t.currentPageLabel} :`} />
-                                        <Dropdown menu={{ items: activePaesList, onClick: handlePageClick }}>
+                                        <Dropdown menu={{ items: activePaesList, onClick: onSelectPage }}>
                                             <Button type='default'>
                                                 <Space>
                                                     {activePage.label}
@@ -150,36 +174,47 @@ function WebsiteBuilder() {
                                     </Space>
                                 </Space>
                             </Col>
-                            <Col className={styles.actionsWrap} span={6}>
-                                <Popconfirm
-                                    title="Revert Changes"
-                                    description="Are you sure you want revert?"
-                                    onConfirm={onClickRevert}
-                                >
-                                    <Button
-                                        shape='circle'
-                                        icon={<BsArrowCounterclockwise />}
-                                    />
-                                </Popconfirm>
+                            <Col className={styles.actionsWrap} span={12}>
+                                {<Tooltip title={isChangesAvailable.active ? "Save current changes" : "Changes already saved !"}>
+                                    <Button loading={isChangesAvailable.isLoading} icon={<LuUploadCloud />} disabled={!isChangesAvailable.active} type={"primary"} onClick={saveChanges}>
+                                        {isChangesAvailable.active ? "Save Changes" : "Changes saved"}
+                                    </Button>
+                                </Tooltip>}
+
+                                <Tooltip title="Preview in new tab">
+                                    <Button icon={<LuEye />} type='default'>Preview</Button>
+                                </Tooltip>
+
+                                {isChangesAvailable.active && <Tooltip title="Revert changes">
+                                    <Popconfirm
+                                        title="Revert Changes"
+                                        description="Are you sure you want revert?"
+                                        onConfirm={onClickRevert}
+                                    >
+                                        <Button type='default' disabled={!isChangesAvailable.active} icon={<BsArrowCounterclockwise />} />
+                                    </Popconfirm>
+                                </Tooltip>}
 
                                 {DEVICE_TYPES.map((device: any, i: number) => {
                                     return <React.Fragment key={i}>
-                                        <IconButton
-                                            icon={device.icon}
-                                            active={builderContext.deviceType == device.title}
-                                            onClickButton={() => dispatch(updateBuilderContext({ ...builderContext, deviceType: device.title }))}
-                                            type={'circle'}
-                                            tooltip={`${device.title} View`}
-                                        />
+                                        <Tooltip title={`${device.title} View`}>
+                                            <Button
+                                                shape={'circle'}
+                                                type={builderContext.deviceType == device.title ? "primary" : "default"}
+                                                onClick={() => dispatch(updateBuilderContext({ ...builderContext, deviceType: device.title }))}
+                                                icon={device.icon} />
+                                        </Tooltip>
                                     </React.Fragment>
                                 })}
-                                <IconButton
-                                    icon={collapsedSectionsContainer ? <RiMenuFoldLine /> : <RiMenuUnfoldLine />}
-                                    active={false}
-                                    onClickButton={() => setCollapsedSectionsContainer(!collapsedSectionsContainer)}
-                                    type={'circle'}
-                                    tooltip={collapsedSectionsContainer ? "Expand Sections" : "Collapse Sections"}
-                                />
+
+                                <Tooltip title={collapsedSectionsContainer ? "Expand Sections" : "Collapse Sections"}>
+                                    <Button
+                                        icon={collapsedSectionsContainer ? <RiMenuFoldLine /> : <RiMenuUnfoldLine />}
+                                        onClick={() => setCollapsedSectionsContainer(!collapsedSectionsContainer)}
+                                        shape={'circle'}
+                                    />
+                                </Tooltip>
+
                             </Col>
                         </Row>
                     </Header>

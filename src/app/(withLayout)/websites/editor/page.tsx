@@ -1,12 +1,18 @@
+import AntdLayoutWrapper from '@antdComponent/layoutWrapper'
 import WebsiteBuilder from '@template/websiteBuilder'
 import React, { Suspense } from 'react'
 import Loading from 'src/app/loading'
 
-function page() {
+function page({ props }) {
+    console.log("editor props:", props)
     return (
-        <Suspense fallback={<Loading page="Builder page" />}>
-            <WebsiteBuilder />
-        </Suspense>
+        <React.Fragment>
+            <Suspense fallback={<Loading page="Website builder" />}>
+                <AntdLayoutWrapper>
+                    <WebsiteBuilder templateState={{ ["editorRootPage"]: [] }} />
+                </AntdLayoutWrapper>
+            </Suspense>
+        </React.Fragment>
     )
 }
 

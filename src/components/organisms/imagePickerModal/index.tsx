@@ -1,17 +1,16 @@
-import styles from './imagePickerModal.module.scss'
-import React, { useEffect, useState } from 'react'
-import { Button, Drawer, theme, Space } from 'antd';
-import { BsImages, } from 'react-icons/bs'
-import { MdOutlineImageSearch } from 'react-icons/md'
-import { RiImageAddFill, RiImageEditFill } from 'react-icons/ri'
-import { Tabs } from 'antd';
+import { BACKGROUND_IMAGES_TYPES } from '@constant/common';
 import type { TabsProps } from 'antd';
+import { Button, Drawer, Space, Tabs, theme } from 'antd';
+import { useEffect, useState } from 'react';
+import { BsImages, } from 'react-icons/bs';
+import { MdOutlineImageSearch } from 'react-icons/md';
+import { RiImageAddFill, RiImageEditFill } from 'react-icons/ri';
+import BgGalleryImages from './bgGalleryImages';
+import EditImages from './editImages';
 import GalleryImages from './galleryImages';
+import styles from './imagePickerModal.module.scss';
 import SearchImage from './searchImage';
 import UploadImage from './uploadImage';
-import EditImages from './editImages';
-import { BACKGROUND_IMAGES_TYPES } from '@constant/common';
-import BgGalleryImages from './bgGalleryImages';
 
 const TAB_TYPES = {
     GALLERY: 'Gallery',
@@ -82,6 +81,11 @@ function ImagePickerModal({ component, open = false, value, onSave, onCancel }) 
                 destroyOnClose
                 onClose={handleCancel}
                 className={styles.imagePickerModalWrap}
+                styles={{
+                    footer: {
+                        display: 'flex', justifyContent: "flex-end"
+                    }
+                }}
                 maskStyle={{
                     background: 'unset'
                 }}
@@ -95,7 +99,6 @@ function ImagePickerModal({ component, open = false, value, onSave, onCancel }) 
                         <Button type="primary" onClick={() => handleSave(selectedImage, false)}>Update</Button>
                     </Space>
                 }
-                footerStyle={{ display: 'flex', justifyContent: "flex-end" }}
             >
                 <div className={styles.modalContentWrap}>
                     <Tabs

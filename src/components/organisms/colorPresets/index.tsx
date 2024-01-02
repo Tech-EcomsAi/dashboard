@@ -1,11 +1,10 @@
-import React from 'react'
-import styles from './colorPresets.module.scss'
-import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import TextElement from '@antdComponent/textElement';
 import ColorPickerComponent from '@molecules/styleElement/colorPicker';
-import { MdOutlineClose, MdAdd } from 'react-icons/md'
+import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
 import { removeObjRef } from '@util/utils';
 import { theme } from 'antd';
-import TextElement from '@antdComponent/textElement';
+import { MdAdd, MdOutlineClose } from 'react-icons/md';
+import styles from './colorPresets.module.scss';
 
 function ColorPresets({ config, onConfigUpdate }) {
     const { token } = theme.useToken();
@@ -32,7 +31,7 @@ function ColorPresets({ config, onConfigUpdate }) {
         <div className={`${styleElementCSS.styleWrap} ${styles.colorPresetsWrap}`}>
             <TextElement text={'Saved Colors'} color={token.colorTextBase} size={"medium"} />
             <div className={`${styleElementCSS.elementWrap}`}>
-                {config.map((colorGroup: any, groupIndex: number) => {
+                {config?.map((colorGroup: any, groupIndex: number) => {
                     return <div className={styles.colorGroupWrap} key={groupIndex + 1}>
                         <div className={styles.heading}>{colorGroup.label}</div>
                         <div className={styles.colorsWrap}>

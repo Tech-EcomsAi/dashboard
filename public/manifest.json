@@ -1,26 +1,29 @@
 {
-  "theme_color": "#5271FF",
-  "background_color": "#30C4B8",
+  "theme_color": "#386aff",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "EcomsAI",
-  "short_name": "EcomsAI",
   "description": "Everything App",
+  "dir": "auto",
+  "lang": "en-US",
+  "id": "https://ecoms.ai",
+  "name": "ecomsai",
+  "short_name": "ecomsai",
   "icons": [
+    {
+      "src": "icons/icon512maskable.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon512rounded.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
     {
       "src": "icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-384x384.png",
-      "sizes": "384x384",
       "type": "image/png"
     },
     {

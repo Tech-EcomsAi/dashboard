@@ -1,6 +1,5 @@
-import { LOGO_ANIMATED, LOGO_LARGE, LOGO_SMALL } from "@constant/common";
 
-export type TEMPLATE_DETAILS_TYPE = {
+export type TEMPLATE_TYPE = {
     id: string,
     categoryId: string,
     title: string,
@@ -27,7 +26,7 @@ export type TEMPLATE_SECTION = {
     title: string;
     icon: React.JSX.Element;
     description: string;
-    templatesList: TEMPLATE_DETAILS_TYPE[];
+    templatesList: TEMPLATE_TYPE[];
 }
 
 export type TEMPLATE_CATEGORY = {

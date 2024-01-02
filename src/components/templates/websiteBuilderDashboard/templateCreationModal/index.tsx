@@ -6,10 +6,11 @@ import { useAppDispatch } from '@hook/useAppDispatch';
 import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
 import { Button, Card, Input, Modal, Space, Timeline, Typography, theme } from 'antd';
 import { AnimatePresence } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 import { Fragment, useState } from 'react';
 import { LuBook, LuBookCopy, LuBookOpenCheck, LuMoveLeft, LuMoveRight, LuX } from 'react-icons/lu';
 import { MdOutlineNavigateNext } from 'react-icons/md';
-import { TEMPLATE_DETAILS_TYPE } from '../templateConstants';
+import { TEMPLATE_TYPE } from '../templateConstants';
 import styles from './templateCreationModal.module.scss';
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -26,6 +27,7 @@ const STEPS_LIST: STEP_DETAILS_PROPS[] = [
 ]
 
 function TemplateCreationModal({ showModal, handleModalResponse }) {
+    const { data: session }: any = useSession()
     const [activeStep, setActiveStep] = useState(STEPS_LIST[0]);
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false)
@@ -44,7 +46,7 @@ function TemplateCreationModal({ showModal, handleModalResponse }) {
         setIsLoading(true)
         const templateData = { ...templateDetails };
         setSiteCreationActive(true)
-        addTemplate(templateData)
+        addTemplate(session, templateData)
             .then((templateId) => {
                 console.log("templateId", templateId)
                 setIsLoading(true)
@@ -62,10 +64,9 @@ function TemplateCreationModal({ showModal, handleModalResponse }) {
     }
 
     const getTemplates = (templateId) => {
-        getTemplateById(templateId).then((res: TEMPLATE_DETAILS_TYPE[]) => {
+        getTemplateById(session, templateId).then((res: TEMPLATE_TYPE[]) => {
             console.log("res", res)
-            getTemplateConfigById(templateId).then((templateConfigRes) => {
-                console.log("templateConfigRes", templateConfigRes)
+            getTemplateConfigById(session, templateId).then((templateConfigRes) => {
             }).catch((error) => {
                 console.log("config fetching error", error)
             })

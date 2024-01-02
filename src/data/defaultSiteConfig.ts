@@ -30,6 +30,7 @@ export default {
         colorParagraph: "green",
         colorButton: "#0f3832",
         colorOutlineButton: "#0f3832",
-    }
+    },
+    builderState: null
     //site ref https://colorhunt.co/palettes/neon
 };

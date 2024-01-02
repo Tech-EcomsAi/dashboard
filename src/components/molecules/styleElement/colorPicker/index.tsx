@@ -1,15 +1,14 @@
-import { BUILDER_DEFAULT_COLORS } from '@constant/builder';
+import TextElement from '@antdComponent/textElement';
+import { BACKGROUND_TYPES, NO_COLOR_VALUE } from '@constant/common';
+import { useAppSelector } from '@hook/useAppSelector';
+import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import { ActiveTemplateConfigType, getActiveTemplateConfig } from '@reduxSlices/siteBuilderState';
+import { removeObjRef } from '@util/utils';
 import { Button, ColorPicker, theme, Tooltip } from 'antd';
 import type { Color, ColorPickerProps } from 'antd/es/color-picker';
 import React, { useEffect, useMemo, useState } from 'react';
-import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
-import styles from './colorPicker.module.scss'
-import { BACKGROUND_TYPES, NO_COLOR_VALUE } from '@constant/common';
-import { useAppSelector } from '@hook/useAppSelector';
-import { removeObjRef } from '@util/utils';
 import { RxTransparencyGrid } from 'react-icons/rx';
-import { ActiveTemplateConfigType, getActiveTemplateConfig } from '@reduxSlices/siteBuilderState';
-import TextElement from '@antdComponent/textElement';
+import styles from './colorPicker.module.scss';
 
 const valueSample = [{ color: '#000', format: 'hex' }];
 
@@ -70,7 +69,7 @@ function ColorPickerComponent({ page = '', hideColorString = false, hidePresets 
             <div className={styles.elementWrap}>
                 <ColorPicker
                     trigger="hover"
-                    presets={!hidePresets ? [...colorPresets] : []}
+                    presets={!hidePresets && Boolean(colorPresets) ? [...colorPresets] : []}
                     format={activeColorFormat}
                     onChange={onChangeColor}
                     placement="bottom"

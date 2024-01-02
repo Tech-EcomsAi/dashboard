@@ -1,14 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import styles from './viewAllTemplatesModal.module.scss'
-import { Button, Card, Empty, FloatButton, Input, Modal, Segmented, Space, Tooltip, Typography, theme } from 'antd'
-import { LuFootprints, LuX } from 'react-icons/lu'
-import { TEMPLATE_CATEGORY, TEMPLATE_DETAILS_TYPE } from '../templateConstants'
+import { Button, Empty, Input, Modal, Segmented, Space, Tooltip, Typography, theme } from 'antd'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Fragment, useEffect, useState } from 'react'
+import { LuX } from 'react-icons/lu'
+import { TEMPLATE_CATEGORIES } from 'src/data/templates'
+import { TEMPLATE_CATEGORY, TEMPLATE_TYPE } from '../templateConstants'
 import TemplateRenderer from '../templateRenderer'
 import WrapperStyles from '../websiteBuilderDashboard.module.scss'
-import ActionIconButton from '@antdComponent/iconButton/actionIconButton'
-import { TEMPLATE_CATEGORIES } from 'src/data/templates'
-import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment'
-import { AnimatePresence, motion } from 'framer-motion'
+import styles from './viewAllTemplatesModal.module.scss'
 const { Search } = Input;
 const { Title } = Typography;
 
@@ -20,23 +18,23 @@ const FILTER_TYPES = [
 ]
 function ViewAllTemplatesModal({ templateList, showModal, handleModalResponse, filterType = "all" }) {
     const [activeCategory, setActiveCategory] = useState<TEMPLATE_CATEGORY>(TEMPLATE_CATEGORIES[0]);
-    const [filteredTemplates, setFilteredTemplates] = useState<TEMPLATE_DETAILS_TYPE[]>([]);
+    const [filteredTemplates, setFilteredTemplates] = useState<TEMPLATE_TYPE[]>([]);
     const [searchQuery, setSearchQuery] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [activeFilter, setActiveFilter] = useState(FILTER_TYPES[0])
     const { token } = theme.useToken();
 
     useEffect(() => {
-        let filteredTemplate: TEMPLATE_DETAILS_TYPE[] = [];
+        let filteredTemplate: TEMPLATE_TYPE[] = [];
 
         //filter by active top filter
-        filteredTemplate = templateList.filter((t: TEMPLATE_DETAILS_TYPE) => activeFilter.value == "all" || t[activeFilter.value])
+        filteredTemplate = templateList.filter((t: TEMPLATE_TYPE) => activeFilter.value == "all" || t[activeFilter.value])
 
         //filter by category
-        filteredTemplate = filteredTemplate.filter((t: TEMPLATE_DETAILS_TYPE) => activeCategory.id == "all" || t.categoryId == activeCategory.id)
+        filteredTemplate = filteredTemplate.filter((t: TEMPLATE_TYPE) => activeCategory.id == "all" || t.categoryId == activeCategory.id)
 
         //filter by search query
-        filteredTemplate = filteredTemplate.filter((t: TEMPLATE_DETAILS_TYPE) =>
+        filteredTemplate = filteredTemplate.filter((t: TEMPLATE_TYPE) =>
             t.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
             t.description.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
             t.tagline.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase()) ||
@@ -142,7 +140,7 @@ function ViewAllTemplatesModal({ templateList, showModal, handleModalResponse, f
                 <AnimatePresence>
                     <Space className={WrapperStyles.templatesList} align='start' wrap size={20}>
                         {filteredTemplates.length != 0 ? <>
-                            {filteredTemplates.map((templateDetails: TEMPLATE_DETAILS_TYPE) => {
+                            {filteredTemplates.map((templateDetails: TEMPLATE_TYPE) => {
                                 return <motion.div key={templateDetails.id}
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: 'auto', opacity: 1 }}

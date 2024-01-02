@@ -426,7 +426,37 @@ export const uid = () => String(Date.now().toString(32) + Math.random().toString
 
 export const isContainerElement = (config) => config.section ? true : false;
 
-export const removeObjRef = (obj) => JSON.parse(JSON.stringify(obj || {}));
+export const removeObjRef = (obj) => {
+  return cloneObject(obj);
+  // JSON.parse(JSON.stringify(obj || {}));
+}
+
+function cloneObject(source, deep = true) {
+  var o, prop, type;
+
+  if (typeof source != 'object' || source === null) {
+    // What do to with functions, throw an error?
+    o = source;
+    return o;
+  }
+
+  o = new source.constructor();
+
+  for (prop in source) {
+
+    if (source.hasOwnProperty(prop)) {
+      type = typeof source[prop];
+
+      if (deep && type == 'object' && source[prop] !== null) {
+        o[prop] = cloneObject(source[prop]);
+
+      } else {
+        o[prop] = source[prop];
+      }
+    }
+  }
+  return o;
+}
 
 export function isSameObjects(value, other) {
   // Get the value type
@@ -477,3 +507,48 @@ export function isSameObjects(value, other) {
   return true;
 
 };
+
+export function compareObjects(obj1, obj2) {
+  const deepCompare = (value1, value2) => {
+    if (typeof value1 === 'object' && typeof value2 === 'object') {
+      return compareObjects(value1, value2);
+    }
+    return value1 === value2;
+  };
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  const addedKeys = keys2.filter(key => !keys1.includes(key));
+  const removedKeys = keys1.filter(key => !keys2.includes(key));
+  const modifiedValues = keys1.filter(key => !deepCompare(obj1[key], obj2[key])).reduce((result, key) => {
+    result[key] = {
+      old: obj1[key],
+      new: obj2[key],
+    };
+    return result;
+  }, {});
+  const sharedKeys = keys1.filter(key => keys2.includes(key));
+  const nestedDifferences = sharedKeys.reduce((result, key) => {
+    const value1 = obj1[key];
+    const value2 = obj2[key];
+    if (typeof value1 === 'object' && typeof value2 === 'object') {
+      const nestedDiff = compareObjects(value1, value2);
+      if (Object.keys(nestedDiff).length > 0) {
+        result[key] = nestedDiff;
+      }
+    } else if (Array.isArray(value1) && Array.isArray(value2)) {
+      if (!isSameObjects(value1, value2)) {
+        result[key] = {
+          old: value1,
+          new: value2,
+        };
+      }
+    }
+    return result;
+  }, {});
+  return {
+    added: addedKeys,
+    removed: removedKeys,
+    modified: modifiedValues,
+    nested: nestedDifferences,
+  };
+}
