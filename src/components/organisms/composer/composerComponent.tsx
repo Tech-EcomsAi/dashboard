@@ -1,23 +1,21 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import styles from '@organismsCSS/composer/composer.module.scss'
 import { BACKGROUND_TYPES, BUILDER_PAGE } from '@constant/common';
-import { isContainerElement } from '@util/utils';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import { useAppSelector } from '@hook/useAppSelector';
-import { getBuilderState } from "@reduxSlices/siteBuilderState";
+import styles from '@organismsCSS/composer/composer.module.scss';
 import { getActiveEditorComponent, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
+import { getBuilderState } from "@reduxSlices/siteBuilderState";
 import getBackground from '@util/getBackgroundStyle';
-import { theme } from 'antd';
 import { getColourValue } from '@util/getColorsValue';
+import { isContainerElement } from '@util/utils';
+import { theme } from 'antd';
+import React, { useState } from 'react';
 
 type pageProps = {
     config: any,
     currentPage: string,
     parentId: any
 }
-
-
 
 function ComposerComponent({ config, currentPage, parentId }: pageProps) {
     const componentConfig = { ...config };

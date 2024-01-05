@@ -16,3 +16,19 @@ export const BUILDER_DEFAULT_COLORS = [
         colors: ['#C4DFDF', '#F5F0BB', '#ACB1D6', '#DDFFBB', '#B9F3E4'],
     },
 ]
+
+export const PAGES_LIST = {
+    HOME_PAGE: "Home Page"
+}
+
+export const SECTIONS_LIST = {
+    NAVIGATION: "Navigation"
+}
+
+export type ConfigType = {
+    id: any,
+    pageId: any,
+    secionId: any,
+    componentId: any,
+    uid: any
+}

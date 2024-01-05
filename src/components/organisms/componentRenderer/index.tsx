@@ -1,17 +1,26 @@
-import React, { useCallback, useState } from 'react'
+import { ConfigType, PAGES_LIST } from '@constant/builder';
+import HomePageSectionsList from '@organisms/sections/homePage';
 import styles from '@organismsCSS/componentRenderer/componentRenderer.module.scss';
+import { useCallback } from 'react';
 import ComponentWrapper from './componentWrapper';
-import ComponentsList from '@organisms/sections';
 
 function ComponentRenderer(props) {
-    const getComponent = useCallback((componentConfig) => {
-        if (typeof ComponentsList[componentConfig.uid] !== "undefined") {
-            return React.createElement(ComponentsList[componentConfig.uid], {
-                key: componentConfig.uid,
-                config: componentConfig,
-                currentPage: props.currentPage,
-                parentId: props.parentId
-            });
+
+    const getComponent = useCallback((componentConfig: ConfigType) => {
+        let Component: any = null;
+        if (componentConfig.pageId == PAGES_LIST.HOME_PAGE) {
+            const section = HomePageSectionsList.find((s) => s.name == componentConfig.secionId);
+            Component = section?.sectionComponentsList[componentConfig.uid.split("||")[0]];
+        }
+
+        // console.log("componentConfig", componentConfig)
+        if (Boolean(Component)) {
+            return <Component
+                key={componentConfig.uid}
+                config={componentConfig}
+                currentPage={props.currentPage}
+                parentId={props.parentId}
+            />
         }
         return null;
     }, [])

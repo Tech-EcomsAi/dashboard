@@ -1,19 +1,18 @@
-import { Popconfirm, Popover, Segmented, theme, Tooltip } from 'antd';
-import React, { useEffect, useState } from 'react'
-import styles from './layers.module.scss'
-import GlobalCss from '@craftBuilder/craftBuilder.module.scss'
-import { BsLayers, BsLayersHalf } from 'react-icons/bs'
-import { getCustomObjectType, getObjectType } from '@util/craftBuilderUtils';
-import { RiBringForward, RiBringToFront, RiSendBackward, RiSendToBack, RiDeleteBin6Fill, RiLockFill, RiLockUnlockFill } from 'react-icons/ri'
-import { FaClone } from 'react-icons/fa'
-import { fabric } from "fabric";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { RxDragHandleDots2 } from 'react-icons/rx';
-import { activeObjectsState } from '@template/craftBuilder/types';
-import { v4 as uuid } from 'uuid';
-import { workspace } from '@template/craftBuilder';
-import { lockObject, unlockObject } from '@template/craftBuilder/objectPropertiesEditor/lock';
 import { CUSTOME_ATTRIBUTES, OBJECT_TYPES } from '@constant/craftBuilder';
+import GlobalCss from '@craftBuilder/craftBuilder.module.scss';
+import { lockObject, unlockObject } from '@template/craftBuilder/objectPropertiesEditor/lock';
+import { activeObjectsState } from '@template/craftBuilder/types';
+import { getCustomObjectType, getObjectType } from '@util/craftBuilderUtils';
+import { Popconfirm, Popover, Segmented, theme, Tooltip } from 'antd';
+import { fabric } from "fabric";
+import React, { useEffect, useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { BsLayers, BsLayersHalf } from 'react-icons/bs';
+import { FaClone } from 'react-icons/fa';
+import { RiBringForward, RiBringToFront, RiDeleteBin6Fill, RiLockFill, RiLockUnlockFill, RiSendBackward, RiSendToBack } from 'react-icons/ri';
+import { RxDragHandleDots2 } from 'react-icons/rx';
+import { v4 as uuid } from 'uuid';
+import styles from './layers.module.scss';
 
 const TAB_TYPES = {
     ALL_LAYERS: 'All',

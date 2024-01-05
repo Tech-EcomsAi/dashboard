@@ -72,7 +72,6 @@ function LoginPage() {
   const signInWithGoogle = () => {
     signIn('google')
       .then((response) => {
-        debugger
         console.log("inside  signIn('google')")
         if (response?.error) {
           //failure
@@ -85,15 +84,12 @@ function LoginPage() {
           }
         } else {
           //success
-          debugger
           dispatch(showSuccessToast("Perfect! You're signed in successfuly."))
           router.push(HOME_ROUTING)
         }
-        debugger
         dispatch(toggleLoader(false))
       })
       .catch((err) => {
-        debugger
         dispatch(toggleLoader(false))
         dispatch(showErrorToast(err.message))
         setError(err)

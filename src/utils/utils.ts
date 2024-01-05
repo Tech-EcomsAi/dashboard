@@ -424,7 +424,7 @@ export function convertOBJtoRgb(obj) {
 
 export const uid = () => String(Date.now().toString(32) + Math.random().toString(16)).replace(/\./g, '');
 
-export const isContainerElement = (config) => config.section ? true : false;
+export const isContainerElement = (config) => Boolean(config.secionId) ? true : false;
 
 export const removeObjRef = (obj) => {
   return cloneObject(obj);

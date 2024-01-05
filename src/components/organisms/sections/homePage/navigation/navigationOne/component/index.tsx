@@ -1,4 +1,3 @@
-'use client'
 import ComposerComponent from '@organisms/composer/composerComponent';
 
 type pageProps = {
@@ -6,10 +5,10 @@ type pageProps = {
     currentPage: string,
     parentId: any
 }
-function Foo(props: pageProps) {
+function NavigationOneComponent(props: pageProps) {
     return (
         <ComposerComponent {...props} />
     )
 }
 
-export default Foo;
+export default NavigationOneComponent

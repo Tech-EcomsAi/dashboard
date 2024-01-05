@@ -14,7 +14,6 @@ import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
 import { updateTemplateConfig } from '@database/collections/websiteTemplateConfig';
 import { useAppDispatch } from '@hook/useAppDispatch';
 import ComponentEditor from '@organisms/componentEditor';
-import ComponentConfigs from '@organisms/sections/configsList';
 import { getActiveEditorComponent, initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import { BuilderContextType, getActiveTemplateConfig, getBuilderContext, getBuilderState, updateBuilderContext, updateBuilderState } from "@reduxSlices/siteBuilderState";
 import { showErrorToast, showSuccessToast } from '@reduxSlices/toast';
@@ -93,7 +92,7 @@ function WebsiteBuilder({ templateState }) {
     }
 
     const onDragEnd = result => {
-        const { source, destination } = result;
+        const { source, destination, draggableId } = result;
         // dropped outside the list
         if (!destination) {
             return;
@@ -107,7 +106,7 @@ function WebsiteBuilder({ templateState }) {
                 break;
             case 'ECOMAI_BUILDER':
                 dispatch(updateBuilderState({
-                    [destination.droppableId]: copy(ComponentConfigs, builderState[destination.droppableId], source, destination)
+                    [destination.droppableId]: copy(builderState[destination.droppableId], source, destination)
                 }));
                 break;
             default:
@@ -135,20 +134,21 @@ function WebsiteBuilder({ templateState }) {
     }
 
     const saveChanges = () => {
-        debugger
-        setIsChangesAvailable({ active: true, isLoading: true })
-        updateTemplateConfig(session, { ...activeTemplateConfig, templateState: builderState }, activeTemplateConfig.id)
-            .then((response: any) => {
-                console.log('response', response)
-                setOriginalTemplateState(builderState)
-                setIsChangesAvailable({ active: false, isLoading: false })
-                dispatch(showSuccessToast('Changes saved successfully'));
-            })
-            .catch((error: any) => {
-                setIsChangesAvailable({ active: true, isLoading: false })
-                dispatch(showErrorToast('Something wents wrong'));
-                console.log('error', error)
-            })
+        if (Boolean(activeTemplateConfig?.id)) {
+            setIsChangesAvailable({ active: true, isLoading: true })
+            updateTemplateConfig(session, { ...activeTemplateConfig, templateState: builderState }, activeTemplateConfig.id)
+                .then((response: any) => {
+                    console.log('response', response)
+                    setOriginalTemplateState(builderState)
+                    setIsChangesAvailable({ active: false, isLoading: false })
+                    dispatch(showSuccessToast('Changes saved successfully'));
+                })
+                .catch((error: any) => {
+                    setIsChangesAvailable({ active: true, isLoading: false })
+                    dispatch(showErrorToast('Something wents wrong'));
+                    console.log('error', error)
+                })
+        }
     }
 
     return (
@@ -250,7 +250,7 @@ function WebsiteBuilder({ templateState }) {
                                 <div className={styles.note} style={{ color: token.colorPrimary }}>
                                     {t.sectionHeader}
                                 </div>
-                                <SectionsContainer ComponentConfigs={ComponentConfigs} />
+                                <SectionsContainer />
                             </div>}
                             {activeOptionTab == SEGMENT_OPTIONS[1].key && <div className={styles.sidebarContentWrap}>
                                 <div className={styles.note} style={{ color: token.colorPrimary }}>

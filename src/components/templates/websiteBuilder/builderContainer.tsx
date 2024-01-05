@@ -1,23 +1,24 @@
 'use client'
-import React, { Fragment } from 'react'
-import { Droppable, Draggable } from '@hello-pangea/dnd';
-import styles from '@templatesCSS/websiteBuilder/builderContainer.module.scss'
-import ComponentRenderer from '@organisms/componentRenderer/index';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import { getActiveEditorComponent, initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import { BACKGROUND_TYPES, BUILDER_PAGE } from '@constant/common';
+import { Draggable, Droppable } from '@hello-pangea/dnd';
+import { useAppDispatch } from '@hook/useAppDispatch';
 import { useAppSelector } from '@hook/useAppSelector';
+import ComponentRenderer from '@organisms/componentRenderer/index';
+import { initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
+import { ActiveTemplateConfigType, BuilderContextType, getActiveTemplateConfig, getBuilderContext } from "@reduxSlices/siteBuilderState";
+import styles from '@templatesCSS/websiteBuilder/builderContainer.module.scss';
 import getBackground from '@util/getBackgroundStyle';
 import { theme } from 'antd';
-import { _debounce } from '@hook/useDebounce';
-import { ActiveTemplateConfigType, BuilderContextType, getActiveTemplateConfig, getBuilderContext } from "@reduxSlices/siteBuilderState";
 import { AnimatePresence, motion } from 'framer-motion';
+import React, { Fragment } from 'react';
 
 function BuilderContainer({ builderState }) {
     const dispatch = useAppDispatch();
     const activeTemplateConfig: ActiveTemplateConfigType = useAppSelector(getActiveTemplateConfig);
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
     const { token } = theme.useToken();
+
+    console.log("builderState", builderState)
 
     const onClickComponent = (event: any, index: any, uid: number) => {
         if (!builderContext.editorMode) return;
@@ -86,16 +87,7 @@ function BuilderContainer({ builderState }) {
                                                 >
                                                     {Boolean(builderState[list].length) && builderState[list].map((item, index) => {
                                                         return <Fragment key={index}>
-                                                            {/* item.id: {item.id}
-                                                        <br />
-                                                        snapshot.draggingOverWith: {snapshot.draggingOverWith}
-                                                        <br />
-                                                        snapshot.draggingFromThisWith: {snapshot.draggingFromThisWith}
-                                                        <br /> */}
-                                                            {/* {snapshot.isUsingPlaceholder && <div style={{ color: "red", fontSize: "40px" }}>isUsingPlaceholder :Drop items here</div>}
-                                                        {snapshot.isDraggingOver && <div style={{ color: "red", fontSize: "40px" }}> isDraggingOver : Drop items here</div>} */}
-
-                                                            <Draggable isDragDisabled={!builderContext.editorMode} key={index} draggableId={item?.id} index={index}>
+                                                            <Draggable isDragDisabled={!builderContext.editorMode} key={item?.id} draggableId={item?.id} index={index}>
                                                                 {(provided: any, snapshot) => {
                                                                     return <React.Fragment>
                                                                         <div className={`${styles.draggComponentWrap} ${snapshot.isDragging ? styles.sortingInProgress : ''}`}

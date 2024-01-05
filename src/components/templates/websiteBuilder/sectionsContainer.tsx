@@ -1,13 +1,14 @@
-import React from 'react'
-import { Droppable, Draggable } from '@hello-pangea/dnd';
-import styles from '@templatesCSS/websiteBuilder/sectionsContainer.module.scss'
-import ComponentRenderer from '@organisms/componentRenderer';
-import SectionsList from '@organisms/sections/sectionsList';
-import { Collapse, CollapseProps, theme } from 'antd';
 import { SECTION_PAGE } from '@constant/common';
+import { Draggable, Droppable } from '@hello-pangea/dnd';
+import ComponentRenderer from '@organisms/componentRenderer';
+import ComponentConfigs from '@organisms/sections/configsList';
+import HomePageSectionsList from '@organisms/sections/homePage';
+import styles from '@templatesCSS/websiteBuilder/sectionsContainer.module.scss';
+import { Collapse, CollapseProps, theme } from 'antd';
+import React from 'react';
 const { Panel } = Collapse;
 
-function SectionsContainer({ ComponentConfigs }) {
+function SectionsContainer() {
     const { token } = theme.useToken();
     const onChange = (key: string | string[]) => {
         // console.log(key);
@@ -19,15 +20,15 @@ function SectionsContainer({ ComponentConfigs }) {
             {(provided, snapshot) => (
                 <div className={`${styles.sectionsContainer} ${snapshot.isDraggingOver ? styles.isDraggingOver : ''}`} ref={provided.innerRef}>
                     <>
-                        {SectionsList.map((section, i) => {
+                        {HomePageSectionsList.map((section, i) => {
                             const items: CollapseProps['items'] = [
                                 {
-                                    key: section,
-                                    label: section,
+                                    key: section.name,
+                                    label: section.name,
                                     children: <>
-                                        {ComponentConfigs.map((item, index) => {
+                                        {section.sectionConfigsList.map((item: any, index) => {
                                             return <React.Fragment key={index}>
-                                                {item.section == section && <Draggable key={item.id} draggableId={item.id} index={index}>
+                                                <Draggable key={item.unid} draggableId={item.uid} index={item.unid}>
                                                     {(provided, snapshot) => (
                                                         <React.Fragment>
                                                             <div className={`${styles.componentWrap} ${snapshot.isDragging ? styles.draggingInProgress : ''}`}
@@ -60,7 +61,7 @@ function SectionsContainer({ ComponentConfigs }) {
                                                             )}
                                                         </React.Fragment>
                                                     )}
-                                                </Draggable>}
+                                                </Draggable>
                                             </React.Fragment>
                                         })}
                                     </>,
@@ -70,7 +71,7 @@ function SectionsContainer({ ComponentConfigs }) {
                             return <Collapse key={i}
                                 // bordered={false}
                                 expandIconPosition='end'
-                                defaultActiveKey={[section]}
+                                defaultActiveKey={[section.name]}
                                 onChange={onChange}
                                 size="small"
                                 className={styles.sectionConatiner}
