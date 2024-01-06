@@ -40,7 +40,7 @@ export default function AntdLayoutWrapper(props: any) {
                             <Layout style={{ paddingLeft: isCollapsed ? "62px" : "200px" }}>
                                 <HeaderComponent />
                                 <SidebarComponent />
-                                {openSettingPanel && <AppSettingsPanel />}
+                                <AppSettingsPanel />
                                 <Content className={styles.mainContentWraper} style={{ background: isDarkMode ? token.colorFillContent : token.colorBgLayout }}>
                                     {props.children}
                                 </Content>

@@ -38,11 +38,7 @@ const AppSettingsPanel = () => {
 
   useEffect(() => {
     dispatch(toggleFullscreenMode(false))
-    // addEventListener("fullscreenchange", () => {
-
-    // });
   }, [])
-
 
   const toggleDarkModeTheme = (from: string) => {
     if (from == 'light') {

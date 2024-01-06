@@ -1,19 +1,17 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { theme } from 'antd';
-import { getDarkModeState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleSidbar } from '@reduxSlices/clientThemeConfig';
-import styles from '@organismsCSS/sidebarComponent/sidebarComponent.module.scss';
-import { useAppDispatch } from '@hook/useAppDispatch';
-import { TbPhoneCalling } from 'react-icons/tb';
-import { MdDarkMode, MdLightMode, MdOutlineNavigateNext, MdOutlineSettingsSuggest } from 'react-icons/md';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useAppSelector } from '@hook/useAppSelector';
-import { usePathname, useRouter } from 'next/navigation';
-import ClientOnlyProvider from '@providers/clientOnlyProvider';
-import { NAVIGARIONS_ROUTINGS, NavItemType, SIDEBAR_NAV_MENUS } from '@constant/navigations';
-import { LOGO, LOGO_LARGE, LOGO_SMALL } from '@constant/common';
 import EcomsIconLogo from '@atoms/ecomsLogo';
-import EcomsVerticalLogo from '@atoms/ecomsLogo/ecomsVerticalLogo';
 import EcomsHorizontalLogo from '@atoms/ecomsLogo/ecomsHorizontalLogo';
+import { NAVIGARIONS_ROUTINGS, NavItemType, SIDEBAR_NAV_MENUS } from '@constant/navigations';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import { useAppSelector } from '@hook/useAppSelector';
+import styles from '@organismsCSS/sidebarComponent/sidebarComponent.module.scss';
+import ClientOnlyProvider from '@providers/clientOnlyProvider';
+import { getDarkModeState, getSidebarState, toggleAppSettingsPanel, toggleDarkMode, toggleSidbar } from '@reduxSlices/clientThemeConfig';
+import { theme } from 'antd';
+import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname, useRouter } from 'next/navigation';
+import { Fragment, useEffect, useMemo, useState } from 'react';
+import { MdDarkMode, MdLightMode, MdOutlineNavigateNext, MdOutlineSettingsSuggest } from 'react-icons/md';
+import { TbPhoneCalling } from 'react-icons/tb';
 
 const SidebarComponent = () => {
     const dispatch = useAppDispatch();
@@ -24,7 +22,7 @@ const SidebarComponent = () => {
     const [hoverId, setHoverId] = useState(null);
     const [activeParentNav, setActiveParentNav] = useState<NavItemType>({ label: '', route: '', icon: '', isChild: false })
     const [activeNav, setActiveNav] = useState<NavItemType>({ label: 'Builder', route: 'builder', icon: 'builder', isChild: false });
-    const [isHover, setIsHover] = useState(true);
+    const [isHover, setIsHover] = useState(false);
     const [sidebarMenusList, setSidebarMenusList] = useState(SIDEBAR_NAV_MENUS);
     const pathname = usePathname()
 
@@ -74,6 +72,12 @@ const SidebarComponent = () => {
         setSidebarMenusList(menuCopy)
     }, [pathname])
 
+    // useEffect(() => {
+    //     console.log("ishover", isHover)
+    //     console.log("isCollapsed", isCollapsed)
+    // }, [isCollapsed, isHover])
+
+    const showExpandedSidebar = useMemo(() => Boolean(!isCollapsed || isHover), [isCollapsed, isHover])
 
     const onClickNav = (navItem: NavItemType, menuLevel: number, navIndex: number, subNavIndex: number = -1) => {
 
@@ -114,10 +118,10 @@ const SidebarComponent = () => {
                     className={styles.sidebarContainer}
                     onMouseEnter={() => setIsHover(true)}
                     onMouseLeave={() => setIsHover(false)}
-                    animate={{ width: (!isCollapsed || isHover) ? '200px' : "62px" }}
+                    animate={{ width: showExpandedSidebar ? '200px' : "62px" }}
                     style={{ backgroundColor: token.colorBgBase, color: token.colorTextBase, borderRight: `1px solid ${token.colorBorder}` }}>
 
-                    <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: (!isCollapsed || isHover) ? "20px" : "2px" }}>
+                    <div className={styles.logoWrap} style={{ borderBottom: `1px solid ${token.colorBorder}`, padding: showExpandedSidebar ? "20px" : "2px" }}>
                         <div className={styles.logo}>
                             {isHover || !isCollapsed ? <EcomsHorizontalLogo color="#dee1ec" /> : <EcomsIconLogo />}
                         </div>
@@ -145,8 +149,8 @@ const SidebarComponent = () => {
                                             }}>
                                                 <NAV_ICON />
                                             </div>
-                                            {(!isCollapsed || isHover) && <motion.div
-                                                initial={{ width: "max-content", opacity: 0 }}
+                                            {showExpandedSidebar && <motion.div
+                                                initial={{ width: "0", opacity: 0 }}
                                                 animate={{ width: 'max-content', opacity: 1 }}
                                                 exit={{ width: "0", opacity: 0 }}
                                                 className={styles.label}
@@ -178,7 +182,7 @@ const SidebarComponent = () => {
                                     </AnimatePresence>
                                 </div>
                                 <AnimatePresence>
-                                    {Boolean(nav.showSubNav && (!isCollapsed || isHover)) && <>
+                                    {Boolean(nav.showSubNav && (showExpandedSidebar)) && <>
                                         <motion.div
                                             style={{ width: "100%" }}
                                             initial={{ height: 0, opacity: 0 }}
@@ -255,7 +259,7 @@ const SidebarComponent = () => {
 
                                             </>
 
-                                            {(!isCollapsed || isHover) && <motion.div
+                                            {showExpandedSidebar && <motion.div
                                                 initial={{ width: "max-content", opacity: 0 }}
                                                 animate={{ width: 'max-content', opacity: 1 }}
                                                 exit={{ width: "0", opacity: 0 }}

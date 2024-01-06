@@ -9,9 +9,9 @@ import Loading from 'src/app/loading'
 
 export default async function Page({ params }: { params: { templateId: string } }) {
     const session: any = await getServerSideSessionUser();
-    console.log("getServerSideSessionUser", session)
+    // console.log("getServerSideSessionUser", session)
     const templateDetails: any = await getTemplateWithConfigById(session, params.templateId)
-    console.log("templateDetails inside /(withLayout)/websites/editor/[templateId]/page : ", templateDetails)
+    // console.log("templateDetails inside /(withLayout)/websites/editor/[templateId]/page : ", templateDetails)
 
     const mutationData: mutationDataType[] = [];
     let templateState = { [params.templateId]: [] };

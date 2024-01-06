@@ -1,16 +1,16 @@
-import React, { Fragment, useState } from 'react'
-import { Avatar, Badge, Button, Card, Popconfirm, Space, theme } from 'antd'
 import TextElement from '@antdComponent/textElement'
-import { LuHelpCircle, LuLogOut, LuSettings, LuSettings2, LuUser } from 'react-icons/lu'
-import { useRouter } from 'next/navigation'
-import styles from './profileActionsModal.module.scss'
+import Saperator from '@atoms/Saperator'
+import { NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import { useAppDispatch } from '@hook/useAppDispatch'
 import { toggleAppSettingsPanel } from '@reduxSlices/clientThemeConfig'
-import Image from 'next/image';
-import Saperator from '@atoms/Saperator'
-import { signOut } from 'next-auth/react'
 import { showSuccessToast } from '@reduxSlices/toast'
-import { NAVIGARIONS_ROUTINGS } from '@constant/navigations'
+import { Avatar, Badge, Button, Card, Popconfirm, Space, theme } from 'antd'
+import { signOut } from 'next-auth/react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { Fragment, useState } from 'react'
+import { LuHelpCircle, LuLogOut, LuSettings, LuSettings2, LuUser } from 'react-icons/lu'
+import styles from './profileActionsModal.module.scss'
 
 function ProfileActionsModal({ children, userData = { name: "", email: "", image: "" } }) {
     const [isLoading, setIsLoading] = useState(false)
@@ -78,7 +78,7 @@ function ProfileActionsModal({ children, userData = { name: "", email: "", image
                         >
                             <Space align='center' size={0}>
                                 <Button icon={action.icon} size='large' type='link' style={{ color: action.title == hoverId ? token.colorPrimary : token.colorTextLabel, fontSize: "16px" }} />
-                                <TextElement text={action.title} color={action.title == hoverId ? token.colorPrimary : token.colorTextLabel} />
+                                <TextElement text={action.title} color={action.title == hoverId ? token.colorPrimary : token.colorTextLabel} size={"medium"} />
                             </Space>
                         </Card>
                     })}

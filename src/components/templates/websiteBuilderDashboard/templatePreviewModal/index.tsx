@@ -1,7 +1,8 @@
 import { NAVIGARIONS_ROUTINGS } from '@constant/navigations'
+import Loader from '@organisms/loader'
 import { Button, Card, Carousel, Modal, Space, Tag, Typography } from 'antd'
 import { useRouter } from 'next/navigation'
-import { Fragment, useCallback, useRef } from 'react'
+import { Fragment, useCallback, useRef, useState } from 'react'
 import { LuArrowLeft, LuArrowRight, LuExternalLink, LuPenSquare, LuX } from 'react-icons/lu'
 import { TEMPLATE_TYPE } from '../templateConstants'
 import styles from './templatePreviewModal.module.scss'
@@ -12,6 +13,8 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
 
     const crouselRef = useRef<any>();
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false)
+
     const tagsList = useCallback(
         () => {
             const tags = [];
@@ -54,8 +57,9 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
 
     const openBuilder = () => {
         console.log("openBuilder called")
+        // handleModalResponse();
         router.push(`/${NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_EDITOR}/${templateDetails.id}`)
-        handleModalResponse();
+        setIsLoading(true);
     }
 
     const openPreviewInNewTab = () => {
@@ -136,6 +140,7 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
                 </Card>
 
             </div>
+            <Loader />
         </Modal>
     )
 }

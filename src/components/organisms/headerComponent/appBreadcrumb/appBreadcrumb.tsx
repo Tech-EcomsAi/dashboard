@@ -1,16 +1,12 @@
-import { BreadcrumbSubpathsType, BreadcrumbType, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
-import { removeObjRef } from '@util/utils';
-import { Button, Divider, Dropdown, MenuProps, Space, Tooltip, Typography, theme } from 'antd';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import React, { Fragment, useCallback } from 'react'
-import { TbChevronRight, TbCornerDownLeft, TbSlash } from 'react-icons/tb';
-import styles from '../headerComponent.module.scss'
-import { useAppSelector } from '@hook/useAppSelector';
-import { LuPanelLeftOpen, LuPanelLeftClose, LuHome, LuChevronDown } from 'react-icons/lu';
-import { useAppDispatch } from '@hook/useAppDispatch';
 import { NAVIGARIONS_ROUTINGS, NavItemType, SIDEBAR_NAV_MENUS } from '@constant/navigations';
-import { RxSlash } from 'react-icons/rx';
+import { useAppDispatch } from '@hook/useAppDispatch';
+import { useAppSelector } from '@hook/useAppSelector';
+import { BreadcrumbSubpathsType, BreadcrumbType, getSidebarState, toggleSidbar } from '@reduxSlices/clientThemeConfig';
+import { Button, Divider, Dropdown, Space, Tooltip, Typography, theme } from 'antd';
+import { usePathname, useRouter } from 'next/navigation';
+import { Fragment, useCallback } from 'react';
+import { LuChevronDown, LuHome, LuPanelLeftClose, LuPanelLeftOpen } from 'react-icons/lu';
+import styles from '../headerComponent.module.scss';
 const { Text } = Typography;
 
 function AppBreadcrumb() {
@@ -21,50 +17,67 @@ function AppBreadcrumb() {
     const dispatch = useAppDispatch();
     const { token } = theme.useToken();
 
-    const onClickBreadCrumb = (selectedKey, parentNav: any) => {
-        const newNav: NavItemType = parentNav.subNav.find((nav: NavItemType) => nav.key == selectedKey.key);
-        router.replace(`/${newNav.route}`)
+    const onClickBreadCrumb = (selectedKey, parentNav: any, isParent: boolean = false) => {
+        if (isParent) {
+            if (Boolean(parentNav?.key?.includes("websites"))) {
+                Boolean(parentNav.route) && router.replace(`/${parentNav.route}`)
+            }
+        } else {
+            const newNav: NavItemType = parentNav.subNav.find((nav: NavItemType) => nav.key == selectedKey.key);
+            router.replace(`/${newNav.route}`)
+        }
     }
 
 
     const getBredcrumbs = (pathname) => {
         let breadcrumbArray: any = [];
         const navCopy = [...SIDEBAR_NAV_MENUS]
-        let activeParentNavIndex = -1;
-        navCopy.map((navItem: NavItemType, pIndex: number) => {
-            if (navItem.subNav) {
-                navItem.subNav.map((subNavItem: any, sIndex) => {
-                    subNavItem.key = `${pIndex}${sIndex}`
-                    if (pathname == `/${subNavItem.route}`) {
-                        subNavItem.active = true;
-                        activeParentNavIndex = pIndex;
-                    } else subNavItem.active = false;
-                })
-            } else {
-                if (pathname == `/${navItem.route}`) {
-                    activeParentNavIndex = pIndex;
-                }
-            }
-        })
-        if (activeParentNavIndex != -1) {
-            let activeParentNav: NavItemType = navCopy[activeParentNavIndex];
+        if (pathname.includes("websites")) {
+            const websiteNav = navCopy.find((n: any) => n.label == 'Website');
             const subNavEle = [];
-            if (activeParentNav.subNav) {
-                const subNavCopy = [...activeParentNav.subNav]
-                subNavCopy.map((nav) => {
-                    subNavEle.push({
-                        key: nav.key,
-                        // active: nav.active,
-                        label: nav.label,
-                        icon: <nav.icon style={{ fontSize: 15 }} />,
-                        route: nav.route,
-                    })
-                    //if subnav selected then subnav key set to parents key for displaying on dropdown label
-                    if (nav.active) activeParentNav.key = nav.key;
-                })
+            if (pathname.includes(`/${NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_EDITOR}`)) {
+                subNavEle.push({ key: "editor", label: "Editor", icon: null, route: null })
+                breadcrumbArray.push({ key: 'websites', icon: websiteNav.icon, route: websiteNav.route, label: 'Website Dashboard', subNav: subNavEle.length ? subNavEle : [] })
+            } else {
+                breadcrumbArray.push({ key: 'websites', icon: websiteNav.icon, route: null, label: "Website Dashboard", subNav: [] })
             }
-            breadcrumbArray.push({ key: activeParentNav.key, icon: activeParentNav.icon, route: activeParentNav.route, label: activeParentNav.label, subNav: subNavEle.length ? subNavEle : [] })
-        } // else 404 page
+        } else {
+            let activeParentNavIndex = -1;
+            navCopy.map((navItem: NavItemType, pIndex: number) => {
+                if (navItem.subNav) {
+                    navItem.subNav.map((subNavItem: any, sIndex) => {
+                        subNavItem.key = `${pIndex}${sIndex}`
+                        if (pathname == `/${subNavItem.route}`) {
+                            subNavItem.active = true;
+                            activeParentNavIndex = pIndex;
+                        } else subNavItem.active = false;
+                    })
+                } else {
+                    if (pathname == `/${navItem.route}`) {
+                        activeParentNavIndex = pIndex;
+                    }
+                }
+            })
+            if (activeParentNavIndex != -1) {
+                let activeParentNav: NavItemType = navCopy[activeParentNavIndex];
+                const subNavEle = [];
+                if (activeParentNav.subNav) {
+                    const subNavCopy = [...activeParentNav.subNav]
+                    subNavCopy.map((nav) => {
+                        subNavEle.push({
+                            key: nav.key,
+                            // active: nav.active,
+                            label: nav.label,
+                            icon: <nav.icon style={{ fontSize: 15 }} />,
+                            route: nav.route,
+                        })
+                        //if subnav selected then subnav key set to parents key for displaying on dropdown label
+                        if (nav.active) activeParentNav.key = nav.key;
+                    })
+                }
+                breadcrumbArray.push({ key: activeParentNav.key, icon: activeParentNav.icon, route: activeParentNav.route, label: activeParentNav.label, subNav: subNavEle.length ? subNavEle : [] })
+            }
+        }
         return [...breadcrumbArray];
     }
 
@@ -92,16 +105,16 @@ function AppBreadcrumb() {
                             const activeSubNav = breadcrumb.subNav ? breadcrumb.subNav.find((subBreadcrumb: BreadcrumbSubpathsType) => breadcrumb.key == subBreadcrumb.key) : null;
                             return <Fragment key={i}>
                                 <Tooltip title={`Currently you're on ${breadcrumb.label} page`}>
-                                    <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorFillContent }}>
+                                    <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorFillContent }} onClick={() => onClickBreadCrumb(null, breadcrumb, true)}>
                                         <breadcrumb.icon />
                                         {breadcrumb.label}
                                     </Text>
                                 </Tooltip>
                                 {breadcrumb.subNav.length != 0 && <>
                                     <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorBgBase, padding: "0 5px" }}>/</Text>
-                                    <Dropdown menu={{
+                                    {breadcrumb.subNav.length > 1 ? <Dropdown menu={{
                                         items: breadcrumb.subNav,
-                                        onClick: (selectedKey) => onClickBreadCrumb(selectedKey, breadcrumb),
+                                        onClick: (selectedKey) => onClickBreadCrumb(selectedKey, breadcrumb, false),
                                         selectable: true,
                                         defaultSelectedKeys: [`${breadcrumb.key.toString()}`],
                                     }}>
@@ -109,7 +122,11 @@ function AppBreadcrumb() {
                                             {/* {activeSubNav.icon}  */}
                                             {activeSubNav?.label || ''} <LuChevronDown />
                                         </Text>
-                                    </Dropdown>
+                                    </Dropdown> : <>
+                                        <Text className={styles.bradcrumbLabel} style={{ color: token.colorTextBase, background: token.colorFillContent, cursor: "pointer" }}>
+                                            {breadcrumb.subNav[0]?.label || ''}
+                                        </Text>
+                                    </>}
                                 </>}
                             </Fragment>
                         })}

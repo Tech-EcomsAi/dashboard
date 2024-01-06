@@ -1,11 +1,11 @@
 
-import { LuCalendarCheck, LuHeadphones, LuHelpingHand, LuLayoutDashboard, LuLineChart, LuListOrdered, LuListTodo, LuMail, LuMessageSquare, LuNewspaper, LuSettings, LuShoppingCart, LuUsers } from 'react-icons/lu';
-import { TbBug, TbChartPie, TbDeviceMobileShare, TbWorldBolt, TbHelpCircle, TbMessageChatbot, TbMoneybag, TbUsers } from 'react-icons/tb';
-import { MdOutlineCampaign } from 'react-icons/md';
-import { RxDashboard } from 'react-icons/rx';
 import { BsPeople } from 'react-icons/bs';
 import { IoAnalyticsSharp } from 'react-icons/io5';
+import { LuCalendarCheck, LuHeadphones, LuHelpingHand, LuLineChart, LuListOrdered, LuListTodo, LuMail, LuMessageSquare, LuNewspaper, LuSettings, LuShoppingCart, LuUsers } from 'react-icons/lu';
+import { MdOutlineCampaign } from 'react-icons/md';
 import { RiAccountPinCircleLine, RiAppsLine, RiArticleLine } from 'react-icons/ri';
+import { RxDashboard } from 'react-icons/rx';
+import { TbBug, TbChartPie, TbDeviceMobileShare, TbHelpCircle, TbMessageChatbot, TbMoneybag, TbUsers, TbWorldBolt } from 'react-icons/tb';
 
 export const NAVIGARIONS_ROUTINGS = {
     //generic dashboard or home 
@@ -92,9 +92,7 @@ export const APPS_MENU: NavItemType[] = [
 
 export const SIDEBAR_NAV_MENUS: NavItemType[] = [
     ...DASHBOARD_MENU,
-    {
-        label: 'Website', route: NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD, icon: TbWorldBolt
-    },
+    { label: 'Website', route: NAVIGARIONS_ROUTINGS.WEBSITE_BUILDER_DASHBOARD, icon: TbWorldBolt },
     ...REPORTS_MENU,
     ...APPS_MENU,
     { label: 'Profile', route: NAVIGARIONS_ROUTINGS.LOGGEDIN_PROFILE, icon: RiAccountPinCircleLine },
