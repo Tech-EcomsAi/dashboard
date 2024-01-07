@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { BiShow } from 'react-icons/bi';
 import styles from './bgImageEditor.module.scss';
 
-function BgImageEditor({ currentPage = '', active, imageData, onSelect, styleProps }: any) {
+function BgImageEditor({ active, imageData, onSelect, styleProps }: any) {
     const { token } = theme.useToken();
     const [showPreview, setShowPreview] = useState(false);
 

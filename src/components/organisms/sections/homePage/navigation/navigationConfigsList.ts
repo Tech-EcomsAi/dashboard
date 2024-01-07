@@ -1,4 +1,4 @@
-import NavigationOneConfg from "./navigationOne/NavigationOneConfg";
+import NavigationOneConfg from "./navigationOne/config";
 
 const NavigationConfigsList = [
     NavigationOneConfg

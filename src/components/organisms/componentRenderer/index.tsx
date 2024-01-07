@@ -1,5 +1,6 @@
 import { ConfigType, PAGES_LIST } from '@constant/builder';
 import HomePageSectionsList from '@organisms/sections/homePage';
+import { SECTION_UID_SEPARATOR } from '@organisms/sections/homePage/navigation/constants';
 import styles from '@organismsCSS/componentRenderer/componentRenderer.module.scss';
 import { useCallback } from 'react';
 import ComponentWrapper from './componentWrapper';
@@ -10,7 +11,7 @@ function ComponentRenderer(props) {
         let Component: any = null;
         if (componentConfig.pageId == PAGES_LIST.HOME_PAGE) {
             const section = HomePageSectionsList.find((s) => s.name == componentConfig.secionId);
-            Component = section?.sectionComponentsList[componentConfig.uid.split("||")[0]];
+            Component = section?.sectionComponentsList[componentConfig.uid.split(SECTION_UID_SEPARATOR)[0]];
         }
 
         // console.log("componentConfig", componentConfig)

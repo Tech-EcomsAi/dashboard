@@ -130,7 +130,6 @@ function WebsiteBuilder({ templateState }) {
 
     const onClickRevert = () => {
         dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
-        debugger
         dispatch(updateBuilderState(originalTemplateState));
         dispatch(showSuccessToast('Changes reverted successfully'));
         setIsChangesAvailable({ active: false, isLoading: false })

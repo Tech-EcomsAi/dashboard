@@ -1,9 +1,10 @@
 import ImageRenderer from '@atoms/imageRenderer';
+import { SECTION_PAGE } from '@constant/common';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
+import ComponentRenderer from '@organisms/componentRenderer';
 import HomePageSectionsList from '@organisms/sections/homePage';
 import styles from '@templatesCSS/websiteBuilder/sectionsContainer.module.scss';
 import { Collapse, CollapseProps, theme } from 'antd';
-import Image from 'next/image';
 import React from 'react';
 const { Panel } = Collapse;
 
@@ -13,6 +14,16 @@ function SectionsContainer() {
         // console.log(key);
     };
 
+    const renderComponent = (item, index) => {
+        if (item.thumbnail) return <ImageRenderer src={item.thumbnail} />
+        else return <ComponentRenderer
+            uid={item.uid}
+            index={index}
+            id={item.id}
+            currentPage={SECTION_PAGE}
+            componentConfig={item}
+        />
+    }
 
     return (
         <Droppable droppableId="ECOMAI_BUILDER" isDropDisabled={true}>
@@ -35,29 +46,13 @@ function SectionsContainer() {
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
                                                                 style={provided.draggableProps.style}>
-                                                                <ImageRenderer src={item.thumbnail} />
-                                                                {/* <ComponentRenderer
-                                                                    uid={item.uid}
-                                                                    componentsList={ComponentConfigs}
-                                                                    index={index}
-                                                                    id={item.id}
-                                                                    currentPage={SECTION_PAGE}
-                                                                    componentConfig={item}
-                                                                /> */}
+                                                                {renderComponent(item, index)}
                                                             </div>
 
                                                             {/* component picked for dragging */}
                                                             {snapshot.isDragging && (
                                                                 <div className={`${styles.componentWrap} ${styles.draggingItem} ${styles.draggingInProgress}`}>
-                                                                    <Image src={item.thumbnail} alt="me" width="300" height="300" />
-                                                                    {/* <ComponentRenderer
-                                                                        uid={item.uid}
-                                                                        componentsList={ComponentConfigs}
-                                                                        index={index}
-                                                                        id={item.id}
-                                                                        currentPage={SECTION_PAGE}
-                                                                        componentConfig={item}
-                                                                    /> */}
+                                                                    {renderComponent(item, index)}
                                                                 </div>
                                                             )}
                                                         </React.Fragment>

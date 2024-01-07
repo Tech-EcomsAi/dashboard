@@ -1,4 +1,3 @@
-import { BUILDER_PAGE } from '@constant/common';
 import { useAppSelector } from '@hook/useAppSelector';
 import styles from '@organismsCSS/componentRenderer/componentRenderer.module.scss';
 import { getActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
@@ -32,7 +31,7 @@ function ComponentWrapper({ deviceType, builderState, lastChild, index, uid, cur
                 borderRadius: activeComponent.id === id ? `5px` : "inherit",
             }}>
             <AnimatePresence>
-                {currentPage == BUILDER_PAGE && (activeComponent.id === id || hoverId === id) && <ComponentActions
+                {(activeComponent.id === id || hoverId === id) && <ComponentActions
                     deviceType={deviceType}
                     builderState={builderState}
                     index={index}

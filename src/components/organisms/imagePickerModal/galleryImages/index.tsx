@@ -1,9 +1,8 @@
-import { PATTERN_PAGE } from '@constant/common';
 import BgImageEditor from '@molecules/bgImageEditor';
 import { theme } from 'antd';
-import React, { Fragment, useState } from 'react'
-import { imagesList, imagesTypes } from 'src/data/backgroundImages'
-import styles from './galleryImages.module.scss'
+import { Fragment, useState } from 'react';
+import { imagesList, imagesTypes } from 'src/data/backgroundImages';
+import styles from './galleryImages.module.scss';
 
 const configSample = {
     type: 'small'
@@ -37,7 +36,6 @@ function GalleryImages({ currentPage = "", config, setSelectedImage, selectedIma
                 {imagesList[config.type][activeCategory].map((imageData, i) => {
                     return <Fragment key={i}>
                         <BgImageEditor
-                            currentPage={currentPage}
                             active={selectedImage?.src == imageData}
                             imageData={{ src: imageData }}
                             onSelect={(image) => setSelectedImage(image)}

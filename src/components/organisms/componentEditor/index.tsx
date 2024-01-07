@@ -1,6 +1,7 @@
 import { PAGES_LIST } from '@constant/builder';
 import { useAppSelector } from '@hook/useAppSelector';
 import HomePageSectionsList from '@organisms/sections/homePage';
+import { SECTION_UID_SEPARATOR } from '@organisms/sections/homePage/navigation/constants';
 import { getActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import { getBuilderState } from '@reduxSlices/siteBuilderState';
 import { removeObjRef } from '@util/utils';
@@ -22,7 +23,7 @@ function ComponentEditor({ activeComponent }) {
         let Component: any = null;
         if (componentConfig.pageId == PAGES_LIST.HOME_PAGE) {
             const section = HomePageSectionsList.find((s) => s.name == componentConfig.secionId);
-            Component = section?.sectionEditorComponentsList[componentConfig.uid.split("||")[0]];
+            Component = section?.sectionEditorComponentsList[componentConfig.uid.split(SECTION_UID_SEPARATOR)[0]];
         }
 
         // console.log("componentConfig", componentConfig)

@@ -35,7 +35,6 @@ function TextStyles({ config, onChange }) {
     ]
 
     const onClickAction = (style) => {
-        debugger
         if (style.property == "textAlign") {
             onChange(style.property, style.value)
         } else {

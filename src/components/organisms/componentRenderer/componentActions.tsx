@@ -17,10 +17,10 @@ type pageProps = {
     builderState: any,
     index: any,
     uid: any,
-    parentId: any,
+    id: any,
     deviceType: string
 }
-function ComponentActions({ firstChild, lastChild, builderState, index, uid, parentId, deviceType }: pageProps) {
+function ComponentActions({ firstChild, lastChild, builderState, index, uid, id, deviceType }: pageProps) {
     const dispatch = useAppDispatch();
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
     const { token } = theme.useToken();
@@ -44,9 +44,8 @@ function ComponentActions({ firstChild, lastChild, builderState, index, uid, par
             default:
                 break;
         }
-        debugger
         dispatch(updateBuilderState(removeObjRef(builderStateCopy)));
-        dispatch(updateActiveEditorComponent(action == 'EDIT' ? { parentId, uid, originalState: builderState[Object.keys(builderState)[0]][index] } : initialState.activeEditorComponent));
+        dispatch(updateActiveEditorComponent(action == 'EDIT' ? { id, uid, originalState: builderState[Object.keys(builderState)[0]][index] } : initialState.activeEditorComponent));
         event.stopPropagation();
     }
 

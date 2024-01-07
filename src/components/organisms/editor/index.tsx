@@ -23,7 +23,6 @@ function Editor({ config }) {
         const index = components.findIndex(i => i.id == activeComponent.id);
         components[index] = updatedConfig;
         builderStateCopy[listKey] = components;
-        debugger
         dispatch(updateBuilderState(builderStateCopy));
     };
 
