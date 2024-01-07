@@ -1,6 +1,6 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
-import { AppState } from "../store";
+import { createSlice } from "@reduxjs/toolkit";
 import { removeObjRef } from "@util/utils";
+import { AppState } from "../store";
 // import { HYDRATE } from "next-redux-wrapper";
 // const HYDRATE_ACTION = createAction(HYDRATE)
 
@@ -9,7 +9,7 @@ export interface ActiveEditorComponent {
 }
 
 export const initialState: ActiveEditorComponent = {
-    activeEditorComponent: { parentId: '', uid: '', originalState: null, childId: '' },
+    activeEditorComponent: { id: '', uid: '', originalState: null, childId: '' },
 };
 
 export const activeEditorComponent = createSlice({

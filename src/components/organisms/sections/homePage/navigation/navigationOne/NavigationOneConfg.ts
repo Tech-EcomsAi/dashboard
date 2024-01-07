@@ -8,6 +8,7 @@ export default {
     pageId: PAGES_LIST.HOME_PAGE,
     secionId: SECTIONS_LIST.NAVIGATION,
     componentId: NAVIGATION_COMPONENTS_LIST.NAVIGATION_ONE,
+    thumbnail: "https://firebasestorage.googleapis.com/v0/b/ecomsai.appspot.com/o/sections%2Fhomepage%2Fnavigation%2FTwitter%20post%20-%202.jpg?alt=media&token=ada5c811-9f9f-4a8b-95da-0bc8ed0bf46c",
     unid: 111,//this parameter use for drag and drop component( here 1: Home page 1: Navigation 1: navigation one => 111)
     uid: `${SECTIONS_LIST.NAVIGATION}#${NAVIGATION_COMPONENTS_LIST.NAVIGATION_ONE}||${uuid()}`,//uniqe id used for internal identifications => secionId + "#" + componentId
     "className": "componentWrap",
@@ -48,17 +49,17 @@ export default {
                 "fontSize": "30px"
             }
         },
-        {
-            "uid": `${NAVIGATION_COMPONENTS_LIST.NAVIGATION_ONE}#${uuid()}`,
-            "component": "p",
-            "props": {
-                "text": "Navigation one component details!"
-            },
-            "editable": { label: 'Subheading', style: [TEXT_STYLES], props: ['text'] },
-            "style": {
-                "color": "blue",
-                "fontSize": "18px"
-            }
-        }
+        // {
+        //     "uid": `${NAVIGATION_COMPONENTS_LIST.NAVIGATION_ONE}#${uuid()}`,
+        //     "component": "p",
+        //     "props": {
+        //         "text": "Navigation one component details!"
+        //     },
+        //     "editable": { label: 'Subheading', style: [TEXT_STYLES], props: ['text'] },
+        //     "style": {
+        //         "color": "blue",
+        //         "fontSize": "18px"
+        //     }
+        // }
     ]
 }

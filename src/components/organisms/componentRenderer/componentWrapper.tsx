@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import styles from '@organismsCSS/componentRenderer/componentRenderer.module.scss';
-import { theme } from 'antd';
-import { getActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
-import { useAppSelector } from '@hook/useAppSelector';
-import ComponentActions from './componentActions';
 import { BUILDER_PAGE } from '@constant/common';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useAppSelector } from '@hook/useAppSelector';
+import styles from '@organismsCSS/componentRenderer/componentRenderer.module.scss';
+import { getActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
+import { theme } from 'antd';
+import { AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import ComponentActions from './componentActions';
 
 type pageProps = {
     builderState: any,
@@ -13,31 +13,31 @@ type pageProps = {
     index: any,
     uid: any,
     currentPage: any,
-    parentId: any,
+    id: any,
     children: any,
     deviceType: string
 }
-function ComponentWrapper({ deviceType, builderState, lastChild, index, uid, currentPage, parentId, children }: pageProps) {
+function ComponentWrapper({ deviceType, builderState, lastChild, index, uid, currentPage, id, children }: pageProps) {
     const activeComponent = useAppSelector(getActiveEditorComponent);
     const { token } = theme.useToken();
     const [hoverId, setHoverId] = useState(null)
 
     return (
         <div
-            onMouseEnter={() => setHoverId(parentId)}
+            onMouseEnter={() => setHoverId(id)}
             onMouseLeave={() => setHoverId('')}
-            className={`componentContentWrap ${styles.componentContentWrap} ${activeComponent.parentId === parentId ? styles.active : ''} ${lastChild ? styles.lastChild : ''} ${index == 0 ? styles.firstChild : ''}`}
+            className={`componentContentWrap ${styles.componentContentWrap} ${activeComponent.id === id ? styles.active : ''} ${lastChild ? styles.lastChild : ''} ${index == 0 ? styles.firstChild : ''}`}
             style={{
-                outline: activeComponent.parentId === parentId ? `4px dashed ${token.colorPrimary}` : "unset",
-                borderRadius: activeComponent.parentId === parentId ? `5px` : "inherit",
+                outline: activeComponent.id === id ? `4px dashed ${token.colorPrimary}` : "unset",
+                borderRadius: activeComponent.id === id ? `5px` : "inherit",
             }}>
             <AnimatePresence>
-                {currentPage == BUILDER_PAGE && (activeComponent.parentId === parentId || hoverId === parentId) && <ComponentActions
+                {currentPage == BUILDER_PAGE && (activeComponent.id === id || hoverId === id) && <ComponentActions
                     deviceType={deviceType}
                     builderState={builderState}
                     index={index}
                     uid={uid}
-                    parentId={parentId}
+                    id={id}
                     firstChild={index == 0}
                     lastChild={lastChild}
                 />}

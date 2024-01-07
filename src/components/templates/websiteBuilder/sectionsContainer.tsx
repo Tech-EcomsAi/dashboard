@@ -1,10 +1,9 @@
-import { SECTION_PAGE } from '@constant/common';
+import ImageRenderer from '@atoms/imageRenderer';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
-import ComponentRenderer from '@organisms/componentRenderer';
-import ComponentConfigs from '@organisms/sections/configsList';
 import HomePageSectionsList from '@organisms/sections/homePage';
 import styles from '@templatesCSS/websiteBuilder/sectionsContainer.module.scss';
 import { Collapse, CollapseProps, theme } from 'antd';
+import Image from 'next/image';
 import React from 'react';
 const { Panel } = Collapse;
 
@@ -36,27 +35,29 @@ function SectionsContainer() {
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
                                                                 style={provided.draggableProps.style}>
-                                                                <ComponentRenderer
+                                                                <ImageRenderer src={item.thumbnail} />
+                                                                {/* <ComponentRenderer
                                                                     uid={item.uid}
                                                                     componentsList={ComponentConfigs}
                                                                     index={index}
-                                                                    parentId={item.id}
+                                                                    id={item.id}
                                                                     currentPage={SECTION_PAGE}
                                                                     componentConfig={item}
-                                                                />
+                                                                /> */}
                                                             </div>
 
                                                             {/* component picked for dragging */}
                                                             {snapshot.isDragging && (
                                                                 <div className={`${styles.componentWrap} ${styles.draggingItem} ${styles.draggingInProgress}`}>
-                                                                    <ComponentRenderer
+                                                                    <Image src={item.thumbnail} alt="me" width="300" height="300" />
+                                                                    {/* <ComponentRenderer
                                                                         uid={item.uid}
                                                                         componentsList={ComponentConfigs}
                                                                         index={index}
-                                                                        parentId={item.id}
+                                                                        id={item.id}
                                                                         currentPage={SECTION_PAGE}
                                                                         componentConfig={item}
-                                                                    />
+                                                                    /> */}
                                                                 </div>
                                                             )}
                                                         </React.Fragment>

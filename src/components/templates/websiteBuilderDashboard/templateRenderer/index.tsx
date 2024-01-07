@@ -1,3 +1,4 @@
+import ImageRenderer from '@atoms/imageRenderer';
 import { Badge, Card, Space, Tag, theme } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { Fragment, useCallback, useState } from 'react';
@@ -11,7 +12,8 @@ const cardCoverRenderer = (templateDetails: TEMPLATE_TYPE) => {
 
     const coverContentRenderer = () => {
         return <div className={styles.cardCoverWrap}>
-            <img alt={templateDetails.title} src={templateDetails.thumbnail} />
+            <ImageRenderer src={templateDetails.thumbnail} />
+            {/* <img alt={templateDetails.title} src={templateDetails.thumbnail} /> */}
         </div>
     }
 

@@ -1,13 +1,11 @@
+import { useAppSelector } from "@hook/useAppSelector";
+import styles from '@organismsCSS/editor/editorComponent.module.scss';
+import { getActiveEditorComponent } from "@reduxSlices/activeEditorComponent";
+import { removeObjRef } from "@util/utils";
+import { Collapse, CollapseProps, theme } from "antd";
 import React, { useEffect, useState } from "react";
 import PropsEditor from "./propsEditor";
 import StylesEditor from "./stylesEditor";
-import styles from '@organismsCSS/editor/editorComponent.module.scss';
-import { Collapse, CollapseProps, theme } from "antd";
-import { useAppSelector } from "@hook/useAppSelector";
-import { getActiveEditorComponent } from "@reduxSlices/activeEditorComponent";
-import BackgroundEditor from "./backgroundEditor";
-import { removeObjRef } from "@util/utils";
-const { Panel } = Collapse;
 
 const EditorComponent = ({ index, config, onConfigUpdate }) => {
     const { token } = theme.useToken();
@@ -39,7 +37,6 @@ const EditorComponent = ({ index, config, onConfigUpdate }) => {
             </>,
         }
     ];
-
 
     return (
         <div className={styles.editorComponent}>

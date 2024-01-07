@@ -18,11 +18,9 @@ function BuilderContainer({ builderState }) {
     const builderContext: BuilderContextType = useAppSelector(getBuilderContext);
     const { token } = theme.useToken();
 
-    console.log("builderState", builderState)
-
     const onClickComponent = (event: any, index: any, uid: number) => {
         if (!builderContext.editorMode) return;
-        if (uid) dispatch(updateActiveEditorComponent({ parentId: builderState[Object.keys(builderState)[0]][index]?.id, uid, originalState: builderState[Object.keys(builderState)[0]][index] }))
+        if (uid) dispatch(updateActiveEditorComponent({ id: builderState[Object.keys(builderState)[0]][index]?.id, uid, originalState: builderState[Object.keys(builderState)[0]][index] }))
         else dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
         event.stopPropagation()
     }
@@ -71,9 +69,12 @@ function BuilderContainer({ builderState }) {
                                     {deviceType} Devices
                                 </div>
                             </div>
-                            {Object.keys(builderState).map((list, i) => {
+                            {Object.keys(builderState).map((stateId, i) => {
                                 return (
-                                    <Droppable key={i} droppableId={list} >
+                                    <Droppable
+                                        isCombineEnabled={true}
+                                        key={i}
+                                        droppableId={deviceType} >
                                         {(provided, snapshot) => (
                                             <Fragment>
                                                 <div className={`builderBody ${styles.bodyFrame} ${snapshot.isDraggingOver ? styles.isDraggingOver : ''}`}
@@ -85,7 +86,7 @@ function BuilderContainer({ builderState }) {
                                                         background: snapshot.isDraggingOver ? token.colorPrimaryBgHover : { ...getBackground(activeTemplateConfig?.background) }
                                                     }}
                                                 >
-                                                    {Boolean(builderState[list].length) && builderState[list].map((item, index) => {
+                                                    {Boolean(builderState[stateId].length) && builderState[stateId].map((item, index) => {
                                                         return <Fragment key={index}>
                                                             <Draggable isDragDisabled={!builderContext.editorMode} key={item?.id} draggableId={item?.id} index={index}>
                                                                 {(provided: any, snapshot) => {
@@ -106,9 +107,9 @@ function BuilderContainer({ builderState }) {
                                                                         >
                                                                             <ComponentRenderer
                                                                                 builderState={builderState}
-                                                                                lastChild={builderState[list].length - 1 == index}
+                                                                                lastChild={builderState[stateId].length - 1 == index}
                                                                                 index={index}
-                                                                                parentId={item?.id}
+                                                                                id={item?.id}
                                                                                 uid={item?.uid}
                                                                                 currentPage={BUILDER_PAGE}
                                                                                 componentConfig={item}

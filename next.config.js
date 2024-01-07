@@ -12,21 +12,28 @@ const nextConfig = {
         ignoreBuildErrors: false,
     },
     images: {
-        disableStaticImages: true,
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'lh3.googleusercontent.com',
-                port: '',
-                pathname: '/a/**',
-            },
-            {
-                protocol: 'https',
-                hostname: 'firebasestorage.googleapis.com',
-                port: '',
-                pathname: '/**/ecomsai.appspot.com/**',
-            }
-        ],
+        domains: ['lh3.googleusercontent.com', 'framerusercontent.com', 'firebasestorage.googleapis.com']
+        // disableStaticImages: true,
+        // remotePatterns: [
+        //     {
+        //         protocol: 'https',
+        //         hostname: 'lh3.googleusercontent.com',
+        //         port: '',
+        //         pathname: '/a/**',
+        //     },
+        //     {
+        //         protocol: 'https',
+        //         hostname: 'https://framerusercontent.com/',
+        //         port: '',
+        //         pathname: '**',
+        //     },
+        //     {
+        //         protocol: 'https',
+        //         hostname: 'firebasestorage.googleapis.com',
+        //         port: '',
+        //         pathname: '/**/ecomsai.appspot.com/**',
+        //     }
+        // ],
     },
     webpack(config) {
         config.externals.push({ sharp: 'commonjs sharp', canvas: 'commonjs canvas' });

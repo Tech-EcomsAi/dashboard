@@ -3,7 +3,7 @@ import { useAppSelector } from '@hook/useAppSelector';
 import { getAppLanguageState, getDarkModeState } from '@reduxSlices/clientThemeConfig';
 import styles from '@templatesCSS/websiteBuilder/websiteBuilder.module.scss';
 import { Button, Col, Dropdown, Layout, Popconfirm, Row, Space, Tooltip, Typography, theme } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BsArrowCounterclockwise, BsLaptop, BsPhone } from 'react-icons/bs';
 import { v4 as uuid } from 'uuid';
 import SectionsContainer from './sectionsContainer';
@@ -65,13 +65,15 @@ function WebsiteBuilder({ templateState }) {
     const [isChangesAvailable, setIsChangesAvailable] = useState({ active: false, isLoading: false })
     const activeTemplateConfig = useAppSelector(getActiveTemplateConfig);
     const t = translator(useAppSelector(getAppLanguageState));
-    console.log(builderState)
+
+    const stateId = useMemo(() => Object.keys(builderState)[0], [builderState]);
+
+    console.log("builderState", builderState)
 
     useEffect(() => {
         if (builderState) {
             const isSameObj = isSameObjects(templateState, builderState)
             if (!isSameObj) {
-                console.log("diff", isSameObj)
                 setIsChangesAvailable({ active: true, isLoading: false })
             } else {
                 setIsChangesAvailable({ active: false, isLoading: false })
@@ -101,17 +103,17 @@ function WebsiteBuilder({ templateState }) {
         switch (source.droppableId) {
             case destination.droppableId:
                 dispatch(updateBuilderState({
-                    [destination.droppableId]: reorder(builderState[source.droppableId], source.index, destination.index)
+                    [destination.droppableId]: reorder(builderState[stateId], source.index, destination.index)
                 }));
                 break;
             case 'ECOMAI_BUILDER':
                 dispatch(updateBuilderState({
-                    [destination.droppableId]: copy(builderState[destination.droppableId], source, destination)
+                    [destination.droppableId]: copy(builderState[stateId], source, destination)
                 }));
                 break;
             default:
                 dispatch(updateBuilderState(
-                    move(builderState[source.droppableId], builderState[destination.droppableId], source, destination)
+                    move(builderState[source.droppableId], builderState[stateId], source, destination)
                 ));
                 break;
         }
@@ -128,6 +130,7 @@ function WebsiteBuilder({ templateState }) {
 
     const onClickRevert = () => {
         dispatch(updateActiveEditorComponent(initialState.activeEditorComponent));
+        debugger
         dispatch(updateBuilderState(originalTemplateState));
         dispatch(showSuccessToast('Changes reverted successfully'));
         setIsChangesAvailable({ active: false, isLoading: false })
@@ -136,7 +139,7 @@ function WebsiteBuilder({ templateState }) {
     const saveChanges = () => {
         if (Boolean(activeTemplateConfig?.id)) {
             setIsChangesAvailable({ active: true, isLoading: true })
-            updateTemplateConfig(session, { ...activeTemplateConfig, templateState: builderState }, activeTemplateConfig.id)
+            updateTemplateConfig(session, { ...activeTemplateConfig, templateState: { [activeTemplateConfig.id]: builderState[stateId] } }, activeTemplateConfig.id)
                 .then((response: any) => {
                     console.log('response', response)
                     setOriginalTemplateState(builderState)
@@ -256,7 +259,7 @@ function WebsiteBuilder({ templateState }) {
                                 <div className={styles.note} style={{ color: token.colorPrimary }}>
                                     {Boolean(activeComponent.uid) ? 'Edit content of selected section' : 'You have no component selected'}
                                 </div>
-                                {Boolean(activeComponent.uid) && <ComponentEditor activeComponent={activeComponent} builderState={builderState} />}
+                                {Boolean(activeComponent.uid) && <ComponentEditor activeComponent={activeComponent} />}
                             </div>}
                             {activeOptionTab == SEGMENT_OPTIONS[2].key && <div className={styles.sidebarContentWrap}>
                                 <div className={styles.note} style={{ color: token.colorPrimary }}>

@@ -19,7 +19,7 @@ function ComponentRenderer(props) {
                 key={componentConfig.uid}
                 config={componentConfig}
                 currentPage={props.currentPage}
-                parentId={props.parentId}
+                id={props.id}
             />
         }
         return null;

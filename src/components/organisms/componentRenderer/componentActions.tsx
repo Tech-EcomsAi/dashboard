@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react'
-import { FiArrowUp, FiArrowDown, FiTrash2, FiEdit2 } from 'react-icons/fi';
-import { Button, Popconfirm, Tooltip, theme } from 'antd';
 import { useAppDispatch } from '@hook/useAppDispatch';
-import { move, toArray } from '@util/moveItem';
-import { initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
-import { removeObjRef } from '@util/utils';
-import styles from '@organismsCSS/componentRenderer/componentActionsWrap.module.scss';
-import { MdDragIndicator } from 'react-icons/md';
-import { motion } from 'framer-motion';
 import { useAppSelector } from '@hook/useAppSelector';
+import styles from '@organismsCSS/componentRenderer/componentActionsWrap.module.scss';
+import { initialState, updateActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import { BuilderContextType, getBuilderContext, updateBuilderState } from '@reduxSlices/siteBuilderState';
+import { move, toArray } from '@util/moveItem';
+import { removeObjRef } from '@util/utils';
+import { Button, Popconfirm, Tooltip, theme } from 'antd';
+import { motion } from 'framer-motion';
+import { useCallback } from 'react';
+import { FiArrowDown, FiArrowUp, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { MdDragIndicator } from 'react-icons/md';
 
 type pageProps = {
     firstChild: boolean,
@@ -44,6 +44,7 @@ function ComponentActions({ firstChild, lastChild, builderState, index, uid, par
             default:
                 break;
         }
+        debugger
         dispatch(updateBuilderState(removeObjRef(builderStateCopy)));
         dispatch(updateActiveEditorComponent(action == 'EDIT' ? { parentId, uid, originalState: builderState[Object.keys(builderState)[0]][index] } : initialState.activeEditorComponent));
         event.stopPropagation();

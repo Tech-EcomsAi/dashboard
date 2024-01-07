@@ -14,10 +14,10 @@ import React, { useState } from 'react';
 type pageProps = {
     config: any,
     currentPage: string,
-    parentId: any
+    id: any
 }
 
-function ComposerComponent({ config, currentPage, parentId }: pageProps) {
+function ComposerComponent({ config, currentPage, id }: pageProps) {
     const componentConfig = { ...config };
     const { component: ComponentType, props, children } = componentConfig;
     const dispatch = useAppDispatch();
@@ -30,8 +30,8 @@ function ComposerComponent({ config, currentPage, parentId }: pageProps) {
         if ((Boolean(currentPage == BUILDER_PAGE) && !isContainerElement(componentConfig))) {
             switch (action) {
                 case 'EDIT':
-                    const parentConfig = builderState[Object.keys(builderState)[0]].find(i => i.id == parentId);
-                    dispatch(updateActiveEditorComponent({ parentId: parentId, uid: parentConfig.uid, originalState: parentConfig, childId: componentConfig.uid }))
+                    const parentConfig = builderState[Object.keys(builderState)[0]].find(i => i.id == id);
+                    dispatch(updateActiveEditorComponent({ id: id, uid: parentConfig.uid, originalState: (parentConfig), childId: componentConfig.uid }))
                     break;
                 default:
                     break;
@@ -71,13 +71,13 @@ function ComposerComponent({ config, currentPage, parentId }: pageProps) {
                     outline: (hoverId && activeComponent.childId == hoverId) ? `2px solid ${token.colorPrimary}` : ""
                 }}
                 id={componentConfig.uid}
-                className={`composerWrap ${styles.composerWrap}  ${(activeComponent.parentId === parentId && activeComponent.childId === componentConfig.uid) ? styles.active : ''} ${currentPage == BUILDER_PAGE ? styles.hoverOutline : ''}`}
+                className={`composerWrap ${styles.composerWrap}  ${(activeComponent.id === id && activeComponent.childId === componentConfig.uid) ? styles.active : ''} ${currentPage == BUILDER_PAGE ? styles.hoverOutline : ''}`}
                 onClick={(e) => onClickAction(e, 'EDIT')}
             >
                 {props?.text && props.text}
                 {children ? children?.map((childConfig, index) => {
                     return <React.Fragment key={index}>
-                        <ComposerComponent config={childConfig} currentPage={currentPage} parentId={parentId} />
+                        <ComposerComponent config={childConfig} currentPage={currentPage} id={id} />
                     </React.Fragment>
                 }) : null}
             </ComponentType>

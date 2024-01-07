@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '@hook/useAppSelector';
-import { getBuilderState, updateBuilderState } from "@reduxSlices/siteBuilderState";
-import { getActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
 import { useAppDispatch } from '@hook/useAppDispatch';
-import EditorComponent from './editorComponent';
+import { useAppSelector } from '@hook/useAppSelector';
 import styles from '@organismsCSS/editor/editorContainer.module.scss';
+import { getActiveEditorComponent } from '@reduxSlices/activeEditorComponent';
+import { getBuilderState, updateBuilderState } from "@reduxSlices/siteBuilderState";
 import { removeObjRef } from '@util/utils';
+import { useEffect, useState } from 'react';
+import EditorComponent from './editorComponent';
 
 function Editor({ config }) {
     const dispatch = useAppDispatch();
@@ -18,11 +18,12 @@ function Editor({ config }) {
     const handleConfigUpdate = (updatedConfig) => {
         setComponentConfig(updatedConfig);
         const listKey = Object.keys(builderState)[0];
-        const builderStateCopy: any = { ...builderState };
-        const components = [...builderStateCopy[listKey]];
-        const index = components.findIndex(i => i.id == activeComponent.parentId);
+        const builderStateCopy: any = removeObjRef(builderState);
+        const components = removeObjRef(builderStateCopy[listKey]);
+        const index = components.findIndex(i => i.id == activeComponent.id);
         components[index] = updatedConfig;
         builderStateCopy[listKey] = components;
+        debugger
         dispatch(updateBuilderState(builderStateCopy));
     };
 

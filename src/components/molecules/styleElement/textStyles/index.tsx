@@ -1,17 +1,17 @@
-import React from 'react'
+import IconButton from '@antdComponent/iconButton';
+import TextElement from '@antdComponent/textElement';
+import Saperator from '@atoms/Saperator';
+import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
+import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
+import { theme } from 'antd';
+import React from 'react';
+import { TbAlignCenter, TbAlignLeft, TbAlignRight, TbBold, TbItalic, TbLetterCase, TbUnderline } from 'react-icons/tb';
 import ColorPickerComponent from '../colorPicker';
 import FontFamily from '../fontFamily';
 import FontSize from '../fontSize';
-import styles from './textStyles.module.scss';
-import { TbAlignCenter, TbAlignLeft, TbAlignRight, TbBold, TbUnderline, TbItalic, TbLetterA } from 'react-icons/tb';
-import { Button, theme } from 'antd';
 import LetterSpacing from '../letterSpacing';
 import LineHeight from '../lineHeight';
-import styleElementCSS from '@moleculesCSS/styleElement/styleElement.module.scss';
-import TextElement from '@antdComponent/textElement';
-import Saperator from '@atoms/Saperator';
-import IconButton from '@antdComponent/iconButton';
-import SegmentComponent, { SEGMENT_OPTIONS_TYPES } from '@atoms/segment';
+import styles from './textStyles.module.scss';
 
 function TextStyles({ config, onChange }) {
 
@@ -24,7 +24,7 @@ function TextStyles({ config, onChange }) {
         { value: 'bold', key: 'Bold', icon: <TbBold />, property: 'fontWeight' },
         { value: 'italic', key: 'Italic', icon: <TbItalic />, property: 'fontStyle' },
         { value: 'underline', key: 'Underline', icon: <TbUnderline />, property: 'textDecoration' },
-        { value: 'uppercase', key: 'Uppercase', icon: <TbLetterA />, property: 'textTransform' },
+        { value: 'uppercase', key: 'Uppercase', icon: <TbLetterCase />, property: 'textTransform' },
     ]
 
 
@@ -35,6 +35,7 @@ function TextStyles({ config, onChange }) {
     ]
 
     const onClickAction = (style) => {
+        debugger
         if (style.property == "textAlign") {
             onChange(style.property, style.value)
         } else {
@@ -51,8 +52,8 @@ function TextStyles({ config, onChange }) {
                     <FontSize value={config.fontSize} onChange={onChange} />
                 </div>
                 <div className={styles.propertyWrapper}>
-                    <LetterSpacing value={config.fontSize} onChange={onChange} />
-                    <LineHeight value={config.fontFamily} onChange={onChange} />
+                    <LetterSpacing value={config.letterSpacing} onChange={onChange} />
+                    <LineHeight value={config.lineHeight} onChange={onChange} />
                 </div>
                 <div className={styles.propertyWrapper}>
                     <div className={styles.segmentWrap}>

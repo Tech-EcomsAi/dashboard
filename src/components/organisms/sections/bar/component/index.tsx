@@ -1,10 +1,9 @@
 import ComposerComponent from '@organisms/composer/composerComponent';
-import React from 'react'
 
 type pageProps = {
     config: any,
     currentPage: string,
-    parentId: any
+    id: any
 }
 function Bar(props: pageProps) {
     return (

@@ -1,3 +1,4 @@
+import ImageRenderer from '@atoms/imageRenderer'
 import { NAVIGARIONS_ROUTINGS } from '@constant/navigations'
 import Loader from '@organisms/loader'
 import { Button, Card, Carousel, Modal, Space, Tag, Typography } from 'antd'
@@ -48,7 +49,9 @@ function TemplatePreviewModal({ templateDetails, showModal, handleModalResponse 
                     autoplaySpeed={4000}
                 >
                     {templateDetails.images.map((image) => {
-                        return <img key={image} alt={templateDetails.title} src={image} />
+                        return <ImageRenderer src={image} key={image} />
+
+                        // return <img key={image} alt={templateDetails.title} src={image} />
                     })}
                 </Carousel>
             </div>

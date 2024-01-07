@@ -69,6 +69,7 @@ export const builderState = createSlice({
             state.activeTemplateConfig = action.payload;
         },
         updateBuilderState(state, action) {
+            debugger
             state.builderState = action.payload;
         },
     },

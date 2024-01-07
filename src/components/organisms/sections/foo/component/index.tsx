@@ -4,7 +4,7 @@ import ComposerComponent from '@organisms/composer/composerComponent';
 type pageProps = {
     config: any,
     currentPage: string,
-    parentId: any
+    id: any
 }
 function Foo(props: pageProps) {
     return (

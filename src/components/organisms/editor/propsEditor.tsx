@@ -1,7 +1,7 @@
-import React from 'react'
-import styles from '@organismsCSS/editor/propsEditor.module.scss';
 import TextEditorElement from '@molecules/propsElement/textEditorElement';
+import styles from '@organismsCSS/editor/propsEditor.module.scss';
 import { removeObjRef } from '@util/utils';
+import React from 'react';
 
 function PropsEditor({ config, onConfigUpdate }) {
 
